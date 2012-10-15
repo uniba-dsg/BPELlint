@@ -89,14 +89,14 @@ public class XmlFileLoader {
 				.toAbsolutePath().toString();
 	}
 
-	private void loadBpelImports() throws ValidityException, ParsingException,
+	private void loadBpelImports() throws ParsingException,
 			IOException {
 		Nodes imports = getImportLocations(bpel.getDocument());
 		loadDirectImports(imports);
 	}
 
 	private void loadDirectImports(Nodes imports) throws ParsingException,
-			ValidityException, IOException {
+			IOException {
 		for (int i = 0; i < imports.size(); i++) {
 			Node node = imports.get(i);
 			DocumentEntry entry = createImportDocumentEntry(node);
@@ -115,7 +115,7 @@ public class XmlFileLoader {
 		}
 	}
 
-	private void addWsdlXsd(DocumentEntry entry) throws ValidityException,
+	private void addWsdlXsd(DocumentEntry entry) throws
 			ParsingException, IOException {
 		Nodes typesNodes = entry.getDocument().query("//wsdl:types/*", CONTEXT);
 
@@ -131,7 +131,7 @@ public class XmlFileLoader {
 		}
 	}
 
-	private void addXsdImports(Node schemaNode) throws ValidityException,
+	private void addXsdImports(Node schemaNode) throws
 			ParsingException, IOException {
 		DocumentEntry xsdEntry;
 		Nodes schemaChildren = schemaNode.query("child::*", CONTEXT);
@@ -172,7 +172,7 @@ public class XmlFileLoader {
 	}
 
 	private DocumentEntry createImportDocumentEntry(Node importNode)
-			throws ParsingException, ValidityException, IOException {
+			throws ParsingException, IOException {
 		String locationPath = Paths.get(getNodeDirectory(importNode),
 				getImportPath(importNode)).toString();
 		File importFile = new File(locationPath);

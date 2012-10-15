@@ -11,10 +11,6 @@ public class IsabelViolationCollector implements ViolationCollector {
 		violations.add(violation);
 	}
 
-	public void add(String bpelFileName, int ruleNumber, int type, int lineNumber, int columnNumber) {
-		violations.add(new Violation(bpelFileName, ruleNumber, type, lineNumber, columnNumber));
-	}
-
 	@Override
 	public List<Violation> getResults() {
 		Collections.sort(violations);
