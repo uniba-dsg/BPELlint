@@ -10,8 +10,6 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
 
 public class SA00020Validator extends Validator {
 
-	private String filePath;
-
 	public SA00020Validator(BpelProcessFiles files,
 			ViolationCollector violationCollector) {
 		super(files, violationCollector);
@@ -20,7 +18,7 @@ public class SA00020Validator extends Validator {
 	@Override
 	public boolean validate() {
 		for (DocumentEntry documentEntry : fileHandler.getAllWsdls()) {
-			filePath = documentEntry.getFilePath();
+			String filePath = documentEntry.getFilePath();
 			for (Node propertyAlias : getPropertyAliases(documentEntry)) {
 				boolean messageTypeAndPart = messageTypeExists(propertyAlias)
 						&& partExists(propertyAlias)

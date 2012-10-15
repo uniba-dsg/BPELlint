@@ -14,8 +14,6 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
 
 public class SA00010Validator extends Validator {
 
-	private String filePath;
-
 	public SA00010Validator(BpelProcessFiles files,
 			ViolationCollector violationCollector) {
 		super(files, violationCollector);
@@ -23,7 +21,7 @@ public class SA00010Validator extends Validator {
 
 	@Override
 	public boolean validate() {
-		filePath = fileHandler.getBpel().getFilePath();
+		String filePath = fileHandler.getBpel().getFilePath();
 
 		for (Node node : allBpelNodes()) {
 			if (!typeDefinitionExists(node)) {

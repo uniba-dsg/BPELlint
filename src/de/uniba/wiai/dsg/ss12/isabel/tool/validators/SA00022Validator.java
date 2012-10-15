@@ -12,8 +12,6 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
 
 public class SA00022Validator extends Validator {
 
-	private String fileName;
-
 	public SA00022Validator(BpelProcessFiles files,
 			ViolationCollector violationCollector) {
 		super(files, violationCollector);
@@ -26,7 +24,7 @@ public class SA00022Validator extends Validator {
 
 		for (DocumentEntry documentEntry : wsdls) {
 
-			fileName = documentEntry.getFilePath();
+			String fileName = documentEntry.getFilePath();
 
 			Nodes propertyAliases = documentEntry.getDocument().query(
 					"//*[name()='vprop:propertyAlias']", CONTEXT);

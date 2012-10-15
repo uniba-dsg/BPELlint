@@ -13,8 +13,6 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
 
 public class SA00002Validator extends Validator {
 
-	private String filePath;
-
 	public SA00002Validator(BpelProcessFiles files,
 			ViolationCollector violationCollector) {
 		super(files, violationCollector);
@@ -23,7 +21,7 @@ public class SA00002Validator extends Validator {
 	@Override
 	public boolean validate() {
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
-			filePath = wsdlEntry.getFilePath();
+			String filePath = wsdlEntry.getFilePath();
 
 			Nodes portTypes = getPortTypes(wsdlEntry);
 			for (int i = 0; i < portTypes.size(); i++) {

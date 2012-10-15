@@ -8,8 +8,6 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
 
 public class SA00006Validator extends Validator {
 
-	private String filePath;
-
 	public SA00006Validator(BpelProcessFiles files,
 			ViolationCollector violationCollector) {
 		super(files, violationCollector);
@@ -17,7 +15,7 @@ public class SA00006Validator extends Validator {
 
 	@Override
 	public boolean validate() {
-		filePath = fileHandler.getBpel().getFilePath();
+		String filePath = fileHandler.getBpel().getFilePath();
 		Nodes rethrows = fileHandler.getBpel().getDocument()
 				.query("//bpel:rethrow", CONTEXT);
 
