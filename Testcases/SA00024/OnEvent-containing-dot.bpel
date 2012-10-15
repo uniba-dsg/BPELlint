@@ -22,7 +22,7 @@
     <eventHandlers>
 		<onEvent variable="Variable.Name.To.Check" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType">
 		<scope>
-		<empty></empty>
+		<empty/>
 		</scope>
 		</onEvent>
     </eventHandlers>
