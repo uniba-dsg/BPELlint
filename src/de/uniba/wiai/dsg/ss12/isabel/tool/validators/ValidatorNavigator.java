@@ -29,11 +29,11 @@ public class ValidatorNavigator {
 		if (operation == null)
 			return null;
 
-		Nodes operationChilds = operation.query("child::*", CONTEXT);
+		Nodes operationChildren = operation.query("child::*", CONTEXT);
 		HashMap<String, Node> messages = null;
-		if (operationChilds.size() > 0)
+		if (operationChildren.size() > 0)
 			messages = new HashMap<String, Node>();
-		for (Node child : operationChilds) {
+		for (Node child : operationChildren) {
 
 			String messageQName = getAttributeValue(child.query("@message"));
 			String childName = getLocalName(child);
@@ -58,8 +58,7 @@ public class ValidatorNavigator {
 		for (DocumentEntry wsdlEntry : wsdlImports) {
 			String targetNamespace = wsdlEntry.getTargetNamespace();
 			if (targetNamespace.equals(namespaceURI)) {
-				Nodes messageNodes = null;
-				messageNodes = wsdlEntry.getDocument().query(
+				Nodes messageNodes = wsdlEntry.getDocument().query(
 						"//wsdl:message[@name='" + messageName + "']", CONTEXT);
 
 				if (messageNodes.size() > 0) {
@@ -229,12 +228,12 @@ public class ValidatorNavigator {
 		Nodes inputNodes = operation.query("child::wsdl:input/@message",
 				CONTEXT);
 
-		String messageQName = null;
-		if (inputNodes.size() > 0) {
-			messageQName = inputNodes.get(0).getValue();
-		} else {
+
+		if (inputNodes.size() <= 0) {
 			return null;
 		}
+
+		String messageQName = inputNodes.get(0).getValue();
 		String qNamePrefix = getPrefix(messageQName);
 		String messageName = prefixFree(messageQName);
 		String messageNamespaceURI = getPrefixNamespaceURI(
@@ -244,8 +243,7 @@ public class ValidatorNavigator {
 		for (DocumentEntry wsdlEntry : wsdlImports) {
 			String targetNamespace = wsdlEntry.getTargetNamespace();
 			if (targetNamespace.equals(messageNamespaceURI)) {
-				Nodes messageNodes = null;
-				messageNodes = wsdlEntry.getDocument().query(
+				Nodes messageNodes = wsdlEntry.getDocument().query(
 						"//wsdl:message[@name='" + messageName + "']", CONTEXT);
 
 				if (messageNodes.size() > 0) {
@@ -407,7 +405,7 @@ public class ValidatorNavigator {
 		if (attributes.size() > 0) {
 			attribute = attributes.get(0);
 			if (attribute instanceof Attribute) {
-				return ((Attribute) attribute).getValue();
+				return attribute.getValue();
 			}
 		}
 		return "";

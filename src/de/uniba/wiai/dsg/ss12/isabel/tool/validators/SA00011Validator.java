@@ -56,7 +56,7 @@ public class SA00011Validator extends Validator {
 
 			String location = getAttributeValue(node
 					.query("@location", CONTEXT));
-			File path = new File(fileHandler.getAbsolutBpelFilePath() + "/"
+			File path = new File(fileHandler.getAbsoluteBpelFilePath() + "/"
 					+ location);
 
 			if (documentEntry.getFilePath().equals(path.getAbsolutePath())) {

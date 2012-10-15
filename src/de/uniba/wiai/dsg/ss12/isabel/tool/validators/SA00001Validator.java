@@ -61,15 +61,15 @@ public class SA00001Validator extends Validator {
 	}
 
 	private boolean hasOutput(Node currentOperation) {
-		boolean outputExsist = currentOperation.query("child::wsdl:output",
+		boolean outputExists = currentOperation.query("child::wsdl:output",
 				CONTEXT).size() > 0;
-		return outputExsist;
+		return outputExists;
 	}
 
 	private boolean hasInput(Node currentOperation) {
-		boolean inputExsist = currentOperation.query("child::wsdl:input",
+		boolean inputExists = currentOperation.query("child::wsdl:input",
 				CONTEXT).size() > 0;
-		return inputExsist;
+		return inputExists;
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class BpelProcessFiles {
 		this.absoluteBpelFilePath = absoluteBpelFilePath;
 	}
 
-	public String getAbsolutBpelFilePath() {
+	public String getAbsoluteBpelFilePath() {
 		return absoluteBpelFilePath;
 	}
 

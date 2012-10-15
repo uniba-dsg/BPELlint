@@ -34,18 +34,18 @@ public class SA00053Validator extends Validator {
 		Nodes incomingOperations = fileHandler.getBpel().getDocument()
 				.query(xPathOutgoingOperation, CONTEXT);
 
-		for (Node incommingOperation : incomingOperations) {
+		for (Node incomingOperation : incomingOperations) {
 			try {
 				Node message;
 				if ("invoke".equals(prefixFree(xPathOutgoingOperation))) {
 					message = navigator
-							.getCorrespondingOutgoingMessage(incommingOperation);
+							.getCorrespondingOutgoingMessage(incomingOperation);
 				} else {
 					message = navigator
-							.getCorrespondingIncomingMessage(incommingOperation);
+							.getCorrespondingIncomingMessage(incomingOperation);
 				}
 
-				Nodes fromParts = incommingOperation.query(
+				Nodes fromParts = incomingOperation.query(
 						"bpel:fromParts/bpel:fromPart", CONTEXT);
 
 				if (fromParts.size() > 0) {

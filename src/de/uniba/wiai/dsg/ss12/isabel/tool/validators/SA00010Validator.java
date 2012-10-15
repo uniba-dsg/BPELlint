@@ -116,9 +116,9 @@ public class SA00010Validator extends Validator {
 	}
 
 	private String getType(Node node, String definitionType) {
-		String arttributeValue = getAttributeValue(node.query("@"
+		String attributeValue = getAttributeValue(node.query("@"
 				+ definitionType, CONTEXT));
-		return prefixFree(arttributeValue);
+		return prefixFree(attributeValue);
 	}
 
 	private boolean isInAnyWsdl(String definitionType, String type) {
@@ -128,11 +128,11 @@ public class SA00010Validator extends Validator {
 	private boolean inAnyFile(String definitionType, String type,
 			List<DocumentEntry> files) {
 		for (DocumentEntry domEntry : files) {
-			Nodes rigthNamedElements = domEntry.getDocument().query(
+			Nodes rightNamedElements = domEntry.getDocument().query(
 					"//*[@name=\"" + type + "\"]", CONTEXT);
 
-			for (Node rigthElement : rigthNamedElements) {
-				String definitionElement = toElement(rigthElement)
+			for (Node rightElement : rightNamedElements) {
+				String definitionElement = toElement(rightElement)
 						.getQualifiedName();
 
 				if (definitionType.equals(prefixFree(definitionElement))) {
@@ -145,11 +145,11 @@ public class SA00010Validator extends Validator {
 
 	private boolean isInAnyXsd(String definitionType, String type) {
 		for (Node domEntry : fileHandler.getXsdSchema()) {
-			Nodes rigthNamedElements = domEntry.getDocument().query(
+			Nodes rightNamedElements = domEntry.getDocument().query(
 					"//*[@name=\"" + type + "\"]", CONTEXT);
 
-			for (Node rigthElement : rigthNamedElements) {
-				String definitionElement = toElement(rigthElement)
+			for (Node rightElement : rightNamedElements) {
+				String definitionElement = toElement(rightElement)
 						.getQualifiedName();
 
 				if (definitionType.equals(prefixFree(definitionElement))) {

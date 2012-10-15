@@ -136,7 +136,7 @@ public class ValidationResultPrinter {
 		if (errorDocument == null) {
 			return;
 		}
-		String shortDescription = "";
+		String shortDescription;
 		Nodes nodes = errorDocument.query("//err:rule[@name='" + SANumber
 				+ "']/err:shorts/err:type[err:number=" + type + "]/err:content", MSG_CONTEXT);
 		try {
@@ -151,7 +151,7 @@ public class ValidationResultPrinter {
 		if (errorDocument == null) {
 			return;
 		}
-		String longDescription = "";
+		String longDescription;
 		Nodes nodes = errorDocument.query("//err:rule[@name='" + SANumber + "']/err:long",
 				MSG_CONTEXT);
 		try {

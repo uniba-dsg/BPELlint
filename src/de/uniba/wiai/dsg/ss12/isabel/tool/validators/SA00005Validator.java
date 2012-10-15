@@ -23,8 +23,8 @@ public class SA00005Validator extends Validator {
 		filePath = fileHandler.getBpel().getFilePath();
 		Document bpelDom = fileHandler.getBpel().getDocument();
 
-		Nodes recieves = bpelDom.query("//bpel:receive", CONTEXT);
-		checkPortTypeCorrectness(recieves);
+		Nodes receives = bpelDom.query("//bpel:receive", CONTEXT);
+		checkPortTypeCorrectness(receives);
 
 		Nodes replies = bpelDom.query("//bpel:reply", CONTEXT);
 		checkPortTypeCorrectness(replies);

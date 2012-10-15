@@ -9,7 +9,7 @@ public class OperationHelper {
 
 	public OperationHelper(Node operation) {
 		super();
-		if (operation instanceof Node)
+		if (operation != null)
 			this.operation = operation;
 	}
 

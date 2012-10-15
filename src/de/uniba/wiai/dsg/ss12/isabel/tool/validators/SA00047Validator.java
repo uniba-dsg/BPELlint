@@ -59,13 +59,13 @@ public class SA00047Validator extends Validator {
 		if (new OperationHelper(operation).isOneWay()
 				&& !hasInputVariableORtoPart(messageActivity)) {
 			reportViolation(messageActivity, 4);
-		} else if (isRequestReponseOperation(operation)
+		} else if (isRequestResponseOperation(operation)
 				&& (!hasInputVariableORtoPart(messageActivity) || !hasOutputVariableORfromPart(messageActivity))) {
 			reportViolation(messageActivity, 5);
 		}
 	}
 
-	private boolean isRequestReponseOperation(Node operation) {
+	private boolean isRequestResponseOperation(Node operation) {
 		return new OperationHelper(operation).isRequestResponse();
 	}
 

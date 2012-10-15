@@ -74,7 +74,7 @@ public class SA00003Validator extends Validator {
 	}
 
 	private boolean hasCatchedStandardFault(Node currentScope) {
-		if (catchesStandardFaultDireckly(currentScope))
+		if (catchesStandardFaultDirectly(currentScope))
 			return true;
 		boolean foundStandardFault = false;
 		for (Node scope : currentScope.query("bpel:scope", CONTEXT)) {
@@ -85,7 +85,7 @@ public class SA00003Validator extends Validator {
 		return foundStandardFault;
 	}
 
-	private boolean catchesStandardFaultDireckly(Node currentScope) {
+	private boolean catchesStandardFaultDirectly(Node currentScope) {
 		Nodes catches = currentScope.query("bpel:faultHandlers/bpel:catch",
 				CONTEXT);
 		for (Node catchNode : catches) {

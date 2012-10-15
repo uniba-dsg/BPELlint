@@ -48,7 +48,7 @@ public class XmlFileLoader {
 					"parameter bpelFilePath must not be null"));
 		}
 		try {
-			setAbsolutBpelFilePath(bpelFilePath);
+			setAbsoluteBpelFilePath(bpelFilePath);
 			Document bpelDom = builder.build(new File(bpelFilePath));
 			String qName = navigator.getTargetNamespace(bpelDom);
 			bpel = new DocumentEntry(bpelFilePath, qName, bpelDom);
@@ -71,7 +71,7 @@ public class XmlFileLoader {
 			throw new ValidationException(e,
 					"Loading failed: Not a valid BPEL-File");
 		} catch (ParsingException e) {
-			throw new ValidationException(e, "Loading failed: Not Parseable");
+			throw new ValidationException(e, "Loading failed: Not Parsable");
 		} catch (FileNotFoundException e) {
 			throw new ValidationException(e,
 					"Loading failed: File was not found");
@@ -84,7 +84,7 @@ public class XmlFileLoader {
 				absoluteBpelFilePath);
 	}
 
-	private void setAbsolutBpelFilePath(String bpelFilePath) {
+	private void setAbsoluteBpelFilePath(String bpelFilePath) {
 		absoluteBpelFilePath = Paths.get(bpelFilePath).getParent()
 				.toAbsolutePath().toString();
 	}
@@ -134,8 +134,8 @@ public class XmlFileLoader {
 	private void addXsdImports(Node schemaNode) throws ValidityException,
 			ParsingException, IOException {
 		DocumentEntry xsdEntry;
-		Nodes schemaChilds = schemaNode.query("child::*", CONTEXT);
-		for (Node node : schemaChilds) {
+		Nodes schemaChildren = schemaNode.query("child::*", CONTEXT);
+		for (Node node : schemaChildren) {
 			if (isXsdNode(node)
 					&& navigator.getLocalName(node).equals("import")) {
 				xsdEntry = createImportDocumentEntry(node);
