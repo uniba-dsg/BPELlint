@@ -15,7 +15,7 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorsHandler;
 public class Isabel {
 
 	private String bpelFilePath;
-	private XmlFileLoader fileLoader = new XmlFileLoader();
+	private final XmlFileLoader fileLoader = new XmlFileLoader();
 	private ValidatorsHandler validators;
 	private final ViolationCollector violationCollector = new IsabelViolationCollector();
 	private BpelProcessFiles bpelProcessFiles;

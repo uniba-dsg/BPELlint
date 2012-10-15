@@ -5,7 +5,7 @@ import java.io.FilenameFilter;
 
 public class FileFilenameFilter implements FilenameFilter {
 
-	private String fileEnding;
+	private final String fileEnding;
 
 	public FileFilenameFilter(String fileEnding) {
 		this.fileEnding = fileEnding.toLowerCase();

@@ -12,7 +12,7 @@ public abstract class Validator {
 	protected final BpelProcessFiles fileHandler;
 	private final ViolationCollector violationCollector;
 	protected boolean valid = true;
-	protected ValidatorNavigator navigator;
+	protected final ValidatorNavigator navigator;
 
 	public Validator(BpelProcessFiles files,
 			ViolationCollector violationCollector) {

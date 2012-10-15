@@ -10,7 +10,7 @@ public class Standards {
 	public static final String PLINK_NAMESPACE = "http://docs.oasis-open.org/wsbpel/2.0/plnktype";
 	public static final String VPROP_NAMESPACE = "http://docs.oasis-open.org/wsbpel/2.0/varprop";
 
-	public static XPathContext CONTEXT = new XPathContext();
+	public static final XPathContext CONTEXT = new XPathContext();
 
 	static {
 		CONTEXT.addNamespace("bpel", BPEL_NAMESPACE);

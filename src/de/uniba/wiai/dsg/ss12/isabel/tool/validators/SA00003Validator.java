@@ -14,7 +14,7 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
 public class SA00003Validator extends Validator {
 
 	private String filePath;
-	private List<String> faultList;
+	private final List<String> faultList;
 
 	public SA00003Validator(BpelProcessFiles files,
 			ViolationCollector violationCollector) {

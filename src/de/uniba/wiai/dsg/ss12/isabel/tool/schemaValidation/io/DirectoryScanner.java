@@ -6,8 +6,8 @@ import java.util.List;
 
 public class DirectoryScanner {
 
-	private File dir;
-	private String fileEnding;
+	private final File dir;
+	private final String fileEnding;
 	private List<File> files = new ArrayList<>();
 
 	public DirectoryScanner(File dir, String fileEnding) {

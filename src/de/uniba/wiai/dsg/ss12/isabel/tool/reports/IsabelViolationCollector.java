@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class IsabelViolationCollector implements ViolationCollector {
-	private List<Violation>	violations	= new ArrayList<>();
+	private final List<Violation>	violations	= new ArrayList<>();
 
 	public void add(Violation violation) {
 		violations.add(violation);
