@@ -30,9 +30,7 @@ public class ValidatorNavigator {
 			return null;
 
 		Nodes operationChildren = operation.query("child::*", CONTEXT);
-		HashMap<String, Node> messages = null;
-		if (operationChildren.size() > 0)
-			messages = new HashMap<>();
+		HashMap<String, Node> messages = new HashMap<>();
 		for (Node child : operationChildren) {
 
 			String messageQName = getAttributeValue(child.query("@message"));
@@ -46,7 +44,7 @@ public class ValidatorNavigator {
 				messages.put(childName, message);
 		}
 
-		if (messages == null)
+		if (messages.isEmpty())
 			throw new NavigationException("Messages are not defined.");
 
 		return messages;
@@ -83,10 +81,11 @@ public class ValidatorNavigator {
 
 	public static String prefixFree(String localAttribute) {
 		if (localAttribute.contains(":")) {
-			localAttribute = localAttribute.substring(localAttribute
+			return localAttribute.substring(localAttribute
 					.indexOf(":") + 1);
+		} else {
+			return localAttribute;
 		}
-		return localAttribute;
 	}
 
 	public String getPrefix(String value) {

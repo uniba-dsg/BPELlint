@@ -1,9 +1,9 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 
+import nu.xom.Node;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import nu.xom.Node;
 
 public class BpelProcessFiles {
 
@@ -14,8 +14,14 @@ public class BpelProcessFiles {
 	private final String absoluteBpelFilePath;
 
 	public BpelProcessFiles(DocumentEntry bpel, List<DocumentEntry> wsdlList,
-			List<DocumentEntry> xsdList, List<Node> xsdSchemaList,
-			String absoluteBpelFilePath) {
+	                        List<DocumentEntry> xsdList, List<Node> xsdSchemaList,
+	                        String absoluteBpelFilePath) {
+
+		if (bpel == null) {
+			throw new IllegalStateException("The BPEL DOM must be initialized "
+					+ "before calling this method.");
+		}
+
 		this.bpel = bpel;
 		this.wsdlList = wsdlList;
 		this.xsdList = xsdList;
@@ -28,10 +34,6 @@ public class BpelProcessFiles {
 	}
 
 	public DocumentEntry getBpel() {
-		if (bpel == null) {
-			throw new IllegalStateException("The BPEL DOM must be initialized "
-					+ "before calling this method.");
-		}
 		return bpel;
 	}
 

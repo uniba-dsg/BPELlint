@@ -34,8 +34,7 @@ public abstract class ValidatorTests {
 		fileLoader = new XmlFileLoader();
 	}
 
-	protected void assertionEqualsCorrespondingTo(boolean isFileOfThisValidator)
-			throws ValidationException {
+	protected void assertionEqualsCorrespondingTo(boolean isFileOfThisValidator) {
 		if (isFileOfThisValidator) {
 			assertFalse(getValidator().validate());
 		} else {

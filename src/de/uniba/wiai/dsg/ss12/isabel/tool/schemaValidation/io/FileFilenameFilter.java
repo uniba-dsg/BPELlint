@@ -3,7 +3,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.schemaValidation.io;
 import java.io.File;
 import java.io.FilenameFilter;
 
-public class FileFilenameFilter implements FilenameFilter {
+class FileFilenameFilter implements FilenameFilter {
 
 	private final String fileEnding;
 
