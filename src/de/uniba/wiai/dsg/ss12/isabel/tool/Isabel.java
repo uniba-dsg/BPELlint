@@ -14,11 +14,8 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorsHandler;
  */
 public class Isabel {
 
-	private String bpelFilePath;
 	private final XmlFileLoader fileLoader = new XmlFileLoader();
-	private ValidatorsHandler validators;
 	private final ViolationCollector violationCollector = new IsabelViolationCollector();
-	private BpelProcessFiles bpelProcessFiles;
 
 	/**
 	 * @param bpelPath
@@ -31,35 +28,15 @@ public class Isabel {
 	 */
 	public ViolationCollector validate(String bpelPath)
 			throws ValidationException {
-		if (!isCallArgBpelFile(bpelPath)) {
+		if (bpelPath == null) {
 			throw new ValidationException("Path is no BPEL file");
 		}
 
-		loadAllProcessFiles();
-		createValidators();
-		validate();
+		BpelProcessFiles bpelProcessFiles = fileLoader.loadAllProcessFiles(bpelPath);
+		ValidatorsHandler validators = new ValidatorsHandler(bpelProcessFiles, violationCollector);
+		validators.validate();
 
 		return violationCollector;
 	}
 
-	private boolean isCallArgBpelFile(String path) {
-		if (path == null) {
-			return false;
-		}
-
-		bpelFilePath = path;
-		return true;
-	}
-
-	private void loadAllProcessFiles() throws ValidationException {
-		bpelProcessFiles = fileLoader.loadAllProcessFiles(bpelFilePath);
-	}
-
-	private void createValidators() {
-		validators = new ValidatorsHandler(bpelProcessFiles, violationCollector);
-	}
-
-	private void validate() {
-		validators.validate();
-	}
 }
