@@ -116,12 +116,11 @@ public class SA00048Validator extends Validator {
 		String variableTypeNamespaceURI = variable.getDocument().getRootElement()
 				.getNamespaceURI(navigator.getPrefix(typeQName));
 		String xsdTypeName = prefixFree(typeQName);
-		Nodes xsdTypes = null;
 		Node xsdType = null;
 
 		for (Node node : fileHandler.getXsdSchema()) {
 			if (navigator.getTargetNamespace(node).equals(variableTypeNamespaceURI)) {
-				xsdTypes = node.getDocument().query("//*[@name='" + xsdTypeName + "']", CONTEXT);
+				Nodes xsdTypes = node.getDocument().query("//*[@name='" + xsdTypeName + "']", CONTEXT);
 				if (xsdTypes.size() > 0) {
 					xsdType = xsdTypes.get(0);
 					break;
@@ -150,10 +149,9 @@ public class SA00048Validator extends Validator {
 		String namespaceURI = variable.getDocument().getRootElement()
 				.getNamespaceURI(navigator.getPrefix(messageTypeQName));
 		String messageName = prefixFree(messageTypeQName);
-		Node variableMessage = navigator.getMessage(messageName, namespaceURI,
-				fileHandler.getAllWsdls());
 
-		return variableMessage;
+		return navigator.getMessage(messageName, namespaceURI,
+				fileHandler.getAllWsdls());
 	}
 
 	private Node correspondingVariable(Node invokeActivity, String variableName) {

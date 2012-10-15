@@ -34,8 +34,7 @@ public abstract class Validator {
 	private int getLineNumber(Node node) {
 		if (node instanceof Element) {
 			Element element = (Element) node;
-			Integer lineNumber = (Integer) element.getUserData("lineNumber");
-			return lineNumber;
+			return (Integer) element.getUserData("lineNumber");
 		} else if (node instanceof Attribute) {
 			return getLineNumber(node.getParent());
 		} else {
@@ -47,9 +46,8 @@ public abstract class Validator {
 	private int getColumnNumber(Node node) {
 		if (node instanceof Element) {
 			Element element = (Element) node;
-			Integer columnNumber = (Integer) element
+			return (Integer) element
 					.getUserData("columnNumber");
-			return columnNumber;
 		} else if (node instanceof Attribute) {
 			return getColumnNumber(node.getParent());
 		} else {

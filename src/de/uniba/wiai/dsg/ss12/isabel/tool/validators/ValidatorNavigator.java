@@ -118,9 +118,8 @@ public class ValidatorNavigator {
 				partnertLinkName);
 
 		Node portType = partnerLinkToPortType(partnerLink);
-		Node operation = portTypeToOperation(portType, operationName);
 
-		return operation;
+		return portTypeToOperation(portType, operationName);
 	}
 
 	public Node getPartnerLink(Document document, String partnertLink)

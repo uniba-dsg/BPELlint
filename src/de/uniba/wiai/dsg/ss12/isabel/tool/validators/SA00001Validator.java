@@ -55,21 +55,18 @@ public class SA00001Validator extends Validator {
 	}
 
 	private Nodes getOperations(DocumentEntry wsdlEntry) {
-		Nodes operations = wsdlEntry.getDocument().query(
+		return wsdlEntry.getDocument().query(
 				"//wsdl:portType/wsdl:operation", CONTEXT);
-		return operations;
 	}
 
 	private boolean hasOutput(Node currentOperation) {
-		boolean outputExists = currentOperation.query("child::wsdl:output",
+		return currentOperation.query("child::wsdl:output",
 				CONTEXT).size() > 0;
-		return outputExists;
 	}
 
 	private boolean hasInput(Node currentOperation) {
-		boolean inputExists = currentOperation.query("child::wsdl:input",
+		return currentOperation.query("child::wsdl:input",
 				CONTEXT).size() > 0;
-		return inputExists;
 	}
 
 	@Override

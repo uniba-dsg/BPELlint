@@ -48,9 +48,8 @@ public class SA00002Validator extends Validator {
 	}
 
 	private Nodes getPortTypes(DocumentEntry wsdlEntry) {
-		Nodes portTypes = wsdlEntry.getDocument().query("//wsdl:portType",
+		return wsdlEntry.getDocument().query("//wsdl:portType",
 				CONTEXT);
-		return portTypes;
 	}
 
 	@Override

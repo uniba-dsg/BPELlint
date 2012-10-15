@@ -38,14 +38,11 @@ public class SA00013Validator extends Validator {
 	}
 
 	private boolean hasCorrectType(Node fileImport) {
-		boolean validType = false;
 
-		validType = isImportTypedWithinThisFiles(fileImport,
+		return isImportTypedWithinThisFiles(fileImport,
 				fileHandler.getAllWsdls())
 				|| isImportTypedWithinThisFiles(fileImport,
 						fileHandler.getAllXsds());
-
-		return validType;
 	}
 
 	private boolean isImportTypedWithinThisFiles(Node fileImport,
