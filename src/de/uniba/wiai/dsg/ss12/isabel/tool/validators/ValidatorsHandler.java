@@ -27,15 +27,12 @@ public class ValidatorsHandler {
 		}
 	}
 
-	public boolean validate() {
-		boolean valid = true;
+	public void validate() {
 		List<Validator> validators = createValidators();
 
 		for (Validator validator : validators) {
-			valid &= validator.validate();
+			validator.validate();
 		}
-
-		return valid;
 	}
 
 	private List<Validator> createValidators() {

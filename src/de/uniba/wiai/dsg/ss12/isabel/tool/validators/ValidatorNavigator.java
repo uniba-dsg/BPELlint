@@ -32,7 +32,7 @@ public class ValidatorNavigator {
 		Nodes operationChildren = operation.query("child::*", CONTEXT);
 		HashMap<String, Node> messages = null;
 		if (operationChildren.size() > 0)
-			messages = new HashMap<String, Node>();
+			messages = new HashMap<>();
 		for (Node child : operationChildren) {
 
 			String messageQName = getAttributeValue(child.query("@message"));

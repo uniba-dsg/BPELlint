@@ -14,19 +14,18 @@ public class CommandLineInterpreter {
 		VerbosityLevel verbosityLevel = VerbosityLevel.NORMAL;
 		String bpel_file = "";
 
-		for (int i = 0; i < args.length; i++) {
-			String string = args[i];
+		for (String string : args) {
 			switch (string) {
-			case "--verbose":
-			case "-v":
-				verbosityLevel = VerbosityLevel.VERBOSE;
-				break;
-			case "--full":
-			case "-f":
-				verbosityLevel = VerbosityLevel.FULL;
-				break;
-			default:
-				bpel_file = string;
+				case "--verbose":
+				case "-v":
+					verbosityLevel = VerbosityLevel.VERBOSE;
+					break;
+				case "--full":
+				case "-f":
+					verbosityLevel = VerbosityLevel.FULL;
+					break;
+				default:
+					bpel_file = string;
 			}
 		}
 

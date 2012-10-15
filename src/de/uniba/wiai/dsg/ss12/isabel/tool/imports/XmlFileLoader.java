@@ -26,15 +26,15 @@ public class XmlFileLoader {
 	private DocumentEntry bpel;
 	private List<DocumentEntry> wsdlList;
 	private List<DocumentEntry> xsdList;
-	private List<Node> xsdSchemaList = new ArrayList<Node>();
+	private List<Node> xsdSchemaList = new ArrayList<>();
 	private String absoluteBpelFilePath;
 
 	private final Builder builder;
 	private ValidatorNavigator navigator;
 
 	public XmlFileLoader() {
-		wsdlList = new ArrayList<DocumentEntry>();
-		xsdList = new ArrayList<DocumentEntry>();
+		wsdlList = new ArrayList<>();
+		xsdList = new ArrayList<>();
 		builder = new Builder(new LocationAwareNodeFactory());
 
 		navigator = new ValidatorNavigator(new BpelProcessFiles(null, null,

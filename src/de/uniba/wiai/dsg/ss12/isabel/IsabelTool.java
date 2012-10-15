@@ -31,10 +31,8 @@ public class IsabelTool {
 			ViolationCollector validationResults = new Isabel().validate(input.bpel_file);
 
 			validationResultPrinter.printResults(input.verbosityLevel, validationResults);
-		} catch (ValidationException e) {
+		} catch (ValidationException | IllegalArgumentException e) {
 			validationResultPrinter.printStartUpError(e);
-		} catch (IllegalArgumentException f) {
-			validationResultPrinter.printStartUpError(f);
 		}
 	}
 }

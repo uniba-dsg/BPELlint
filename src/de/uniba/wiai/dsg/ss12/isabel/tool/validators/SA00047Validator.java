@@ -116,7 +116,7 @@ public class SA00047Validator extends Validator {
 	}
 
 	private List<Nodes> getMessageActivities() {
-		List<Nodes> messageActivities = new ArrayList<Nodes>();
+		List<Nodes> messageActivities = new ArrayList<>();
 		Nodes invokeNodes = fileHandler.getBpel().getDocument()
 				.query("//bpel:invoke", CONTEXT);
 		Nodes replyNodes = fileHandler.getBpel().getDocument()

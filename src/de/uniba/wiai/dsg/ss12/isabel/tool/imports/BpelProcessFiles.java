@@ -36,15 +36,15 @@ public class BpelProcessFiles {
 	}
 
 	public List<DocumentEntry> getAllWsdls() {
-		return new ArrayList<DocumentEntry>(wsdlList);
+		return new ArrayList<>(wsdlList);
 	}
 
 	public List<DocumentEntry> getAllXsds() {
-		return new ArrayList<DocumentEntry>(xsdList);
+		return new ArrayList<>(xsdList);
 	}
 
 	public List<Node> getXsdSchema() {
-		List<Node> xsdSchema = new ArrayList<Node>(xsdSchemaList);
+		List<Node> xsdSchema = new ArrayList<>(xsdSchemaList);
 		for (DocumentEntry xsdNode : getAllXsds()) {
 			xsdSchema.add(xsdNode.getDocument().getChild(0));
 		}
