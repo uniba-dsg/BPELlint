@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+An activity MAY declare itself to be the target of one or more links by including one or more <target> elements. Each <target> element associated with a given activity MUST use a link name distinct from all other <target> elements at that activity.

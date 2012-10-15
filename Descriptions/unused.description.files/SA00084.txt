@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+The partnerLink reference of <onEvent> MUST resolve to a partner link declared in the process in the following order: the associated scope first and then the ancestor scopes.

@@ -1,0 +1,21 @@
+two <propertyAlias> with same @propertyName and @type
+two <propertyAlias> with same @propertyName and @element
+two <propertyAlias> with same @propertyName and @messageType
+@@@
+A WS-BPEL process definition MUST NOT be accepted for processing if it defines two or more propertyAliases for the same property name and WS-BPEL variable type.
+@@@
+FOREACH <propertyAlias>
+	FAIL IF DUPLICATE (@propertyName, @type)
+	FAIL IF DUPLICATE (@propertyName, @element)
+	FAIL IF DUPLICATE (@propertyName, @messageType)
+@@@
+Duplicate-propertyAliasElement.bpel, Duplicate-propertyAliasElement.wsdl:
+Duplicate-propertyAliasElement.wsdl file has two \texttt{<propertyAlias>} entries, where \texttt{@propertyName='tns:correlationId'} and \texttt{@element='tns:executeProcessSyncRequest'} are the same.
+Duplicate-propertyAliasMessageType.bpel,\\ Duplicate-propertyAliasMessageType.wsdl:
+Duplicate-propertyAliasMessageType.wsdl file has two \texttt{<propertyAlias>} entries, where \texttt{@propertyName='tns:correlationId'} and \texttt{@messageType='tns:executeProcessSyncRequest'} are the same.
+Duplicate-propertyAliasType.bpel, Duplicate-propertyAliasType.wsdl:
+Duplicate-propertyAliasType.wsdl file has two \texttt{<propertyAlias>} entries, where \texttt{@propertyName='tns:correlationId'} and \texttt{@type='xsd:string'} are the same.
+@@@
+According to SA00022, BPEL files containing at least one pair of \texttt{<propertyAlias>} elements containing the same \texttt{propertyName} and one of these three other attributes: \texttt{type}, \texttt{element} or \texttt{messageType}.
+
+Rule validation is ensured by a simple duplicate check.

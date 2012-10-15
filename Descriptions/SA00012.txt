@@ -1,0 +1,12 @@
+imported targetNamespace was not expected
+@@@
+If no namespace is specified then the imported definitions MUST NOT contain a targetNamespace specification.
+@@@
+FOREACH <import>
+	FAIL IF @namespace IS_MISSING AND <import>@location:ROOT@targetNamespace EXISTS
+@@@
+Import-NoNameSpace.bpel:
+\texttt{<import>} has no namespace-attribute, but imported TestInterface.wsdl has \\\texttt{targetNamespace='http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface'}.
+@@@
+This SA is included by SA00010.
+Nonetheless the algorithm checks through each \texttt{<import>} without a \texttt{namespace} attribute, that the \texttt{targetNamespace} is not set as well.

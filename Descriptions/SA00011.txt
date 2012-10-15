@@ -1,0 +1,13 @@
+imported targetNamespace differs from expected namespace
+@@@
+If a namespace attribute is specified on an <import> then the imported definitions MUST be in that namespace.
+@@@
+FOREACH <import>@namespace
+	FAIL UNLESS @namespace EQUALS <import>@location:ROOT@targetNamespace
+@@@
+Import-WrongNameSpace.bpel:
+\texttt{@namespace='NamespaceDifferingFromOriginTargetNameSpace/testinterface'} of the TestInterface.wsdl \texttt{<import>} is differing from \texttt{targetNamespace} being \\\texttt{'http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface'}.
+@@@
+The \texttt{namespace} attribute of each \texttt{<import>} must equal the \texttt{targetNamespace} of the imported file.
+
+Otherwise the validation fails.

@@ -1,0 +1,136 @@
+XML or WSDL not imported
+@@@
+A WS-BPEL process definition MUST import all XML Schema and WSDL definitions it uses. This includes all XML Schema type and element definitions, all WSDL port types and message types as well as property and property alias definitions used by the process.
+@@@
+FOREACH <*>
+	SET $elementType TO getTypeOf(<*>)
+	FAIL UNLESS typeDefinitionExists($elementType)
+
+
+
+getTypeOf: <*> -> QName
+	IF <*> EQUALS <partnerLink>
+		RETURN <partnerLink>@partnerLinkType
+	IF <*> EQUALS <variable>
+		IF @messageType EXISTS
+			RETURN <variable>@messageType
+		IF @type EXISTS
+			RETURN <variable>@type
+		IF @element EXISTS
+			RETURN <variable>@element
+	IF <*> EQUALS <correlationSet>
+		RETURN <correlationSet>@properties
+	IF <*> EQUALS <reply>
+		RETURN <reply>@portType
+	IF <*> EQUALS <catch>
+		IF <catch>@faultMessageType EXISTS
+			RETURN <catch>@faultMessageType
+		IF <catch>@faultElement EXISTS
+			RETURN <catch>@faultElement
+	IF <*> EQUALS <receive>
+		RETURN <receive>@portType
+	IF <*> EQUALS <invoke>
+		RETURN <invoke>@portType
+	IF <*> EQUALS <onMessage>
+		RETURN <onMessage>@portType
+	IF <*> EQUALS <onEvent>
+		RETURN <onEvent>@portType
+	IF <*> EQUALS <to>
+		RETURN <to>@property
+	IF <*> EQUALS <from>
+		RETURN <from>@property
+
+typeDefinitionExists: $elementType -> boolean
+	IF $elementType EQUALS <partnerLink>@partnerLinkType
+		RETURN searchAllWsdl($elementType, <partnerLinkType>)
+	IF $elementType EQUALS <variable>@messageType
+		RETURN searchAllWsdl($elementType, <message>)
+	IF $elementType EQUALS <variable>@type
+		RETURN (searchAllXsd($elementType, <simpleType>) OR searchAllXsd($elementType, <complexType>))
+	IF $elementType EQUALS <variable>@element
+		RETURN searchAllXsd($elementType, <element>)
+	IF $elementType EQUALS <correlationSet>@properties
+		RETURN searchAllWsdl($elementType, <property>)
+	IF $elementType EQUALS <reply>@portType
+		RETURN searchAllWsdl($elementType, <portType>)
+	IF $elementType EQUALS <catch>@faultMessageType
+		RETURN searchAllWsdl($elementType, <message>)
+	IF $elementType EQUALS <catch>@faultElement
+		RETURN searchAllXsd($elementType, <element>)
+	IF $elementType EQUALS <receive>@portType
+		RETURN searchAllWsdl($elementType, <portType>)
+	IF $elementType EQUALS <invoke>@portType
+		RETURN searchAllWsdl($elementType, <portType>)
+	IF $elementType EQUALS <onMessage>@portType
+		RETURN searchAllWsdl($elementType, <portType>)
+	IF $elementType EQUALS <onEvent>@portType
+		RETURN searchAllWsdl($elementType, <portType>)
+	IF $elementType EQUALS <to>@property
+		RETURN searchAllWsdl($elementType, <property>)
+	IF $elementType EQUALS <from>@property
+		RETURN searchAllWsdl($elementType, <property>)
+
+searchAllWsdl: $elementType, $node -> boolean
+	FOREACH wsdl:
+		FOREACH $node
+			IF $node@name EQUALS $elementType
+				RETURN 'true'
+	RETURN 'false'
+
+searchAllXsd: $elementType, $node -> boolean
+	FOREACH xsd:
+		FOREACH $node
+			IF $node@name EQUALS $elementType
+				RETURN 'true'
+	RETURN 'false'
+@@@
+UndefinedType-Catch-FaultElement.bpel:
+A BPEL-file with a \texttt{<catch>@faultElement} which has no definition in corresponding Schema (http://www.w3.org/2001/XMLSchema).
+UndefinedType-Catch-FaultMessageType.bpel:
+A BPEL-file with a \texttt{<catch>@faultMessageType} which has no definition in corresponding TestInterface.wsdl.
+UndefinedType-CorrelationSet.bpel:
+A BPEL-file with a \texttt{<correlationSet>@properties} which has no definition in corresponding TestInterface.wsdl.
+UndefinedType-From.bpel:
+A BPEL-file with a \texttt{<from>@property} which has no definition in corresponding TestInterface.wsdl.
+UndefinedType-Invoke.bpel:
+A BPEL-file with a \texttt{<invoke>@portType} which has no definition in corresponding TestInterface.wsdl.
+UndefinedType-OnEvent.bpel:
+A BPEL-file with a \texttt{<onEvent>@portType} which has no definition in corresponding TestInterface.wsdl.
+UndefinedType-OnMessage.bpel:
+A BPEL-file with a \texttt{<onMessage>@portType} which has no definition in corresponding TestInterface.wsdl.
+UndefinedType-PartnerLink.bpel:
+A BPEL-file with a \texttt{<partnerLink>@partnerLinkType} which has no definition in corresponding TestInterface.wsdl.
+UndefinedType-Receive.bpel:
+A BPEL-file with a \texttt{<receive>@portType} which has no definition in corresponding TestInterface.wsdl.
+UndefinedType-Reply.bpel:
+A BPEL-file with a \texttt{<reply>@portType} which has no definition in corresponding TestInterface.wsdl.
+UndefinedType-To.bpel:
+A BPEL-file with a \texttt{<to>@property} which has no definition in corresponding TestInterface.wsdl.
+UndefinedType-Variable-Element.bpel:
+A BPEL-file with a \texttt{<variable>@element} which has no definition in corresponding Schema (http://www.w3.org/2001/XMLSchema).
+UndefinedType-Variable-MessageType.bpel:
+A BPEL-file with a \texttt{<variable>@messageType} which has no definition in corresponding TestInterface.wsdl.
+UndefinedType-Variable-Type.bpel:
+A BPEL-file with a \texttt{<variable>@type} which has no definition in corresponding Schema (http://www.w3.org/2001/XMLSchema).
+@@@
+For all following element-attribute pairs on the left, defined in the BPEL, there must be a corresponding definition in the WSDL. \\
+If there are several possible attributes specified, only one must be present. 
+
+The WSDL's definitions shown on the right are matched via their \texttt{name} attribute:
+\begin{itemize}
+\item \texttt{<partnerLink>}, \texttt{partnerLinkType} $\longrightarrow$ \texttt{<partnerLinkType>}
+\item \texttt{<variable>}, \texttt{messageType} $\longrightarrow$ \texttt{<message>}
+\item \texttt{<variable>}, \texttt{type} $\longrightarrow$ \texttt{<complexType>} or \texttt{<simpleType>}
+\item \texttt{<variable>}, \texttt{element} $\longrightarrow$ \texttt{<element>}
+\item \texttt{<correlationSet>}, \texttt{properties} $\longrightarrow$ \texttt{<property>}
+\item \texttt{<reply>}, \texttt{portType} $\longrightarrow$ \texttt{<portType>}
+\item \texttt{<catch>}, \texttt{faultMessageType} $\longrightarrow$ \texttt{<messageType>}
+\item \texttt{<catch>}, \texttt{faultElement} $\longrightarrow$ \texttt{<element>}
+\item \texttt{<receive>}, \texttt{portType} $\longrightarrow$ \texttt{<portType>}
+\item \texttt{<invoke>}, \texttt{portType} $\longrightarrow$ \texttt{<portType>}
+\item \texttt{<onMessage>}, \texttt{portType} $\longrightarrow$ \texttt{<portType>}
+\item \texttt{<onEvent>}, \texttt{portType} $\longrightarrow$ \texttt{<portType>}
+\item \texttt{<to>}, \texttt{property} $\longrightarrow$ \texttt{<property>}
+\item \texttt{<from>}, \texttt{property} $\longrightarrow$ \texttt{<property>}
+\end{itemize}
+All corresponding elements are found in the WSDL, except for when a \texttt{<variable>} has a \texttt{type} or a \texttt{element} attribute.

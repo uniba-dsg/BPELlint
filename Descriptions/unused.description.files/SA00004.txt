@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+If any referenced queryLanguage or expressionLanguage is unsupported by the WS-BPEL processor then the processor MUST reject the submitted WS-BPEL process definition. 

@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+The peer-scope dependency relation MUST NOT include cycles.  In other words, WS-BPEL forbids a process in which there are peer scopes S1 and S2 such that S1 has a peer-scope dependency on S2 and S2 has a peer-scope dependency on S1.

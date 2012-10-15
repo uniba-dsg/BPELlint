@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+For <onEvent>, the type of the variable (as specified by the messageType attribute) MUST  be the same as the type of the input message defined by operation referenced by the operation attribute. Optionally the messageType attribute may be omitted and instead the element attribute substituted if the message to be received has a single part and that part is defined with an element type. That element type MUST be an exact match of the element type referenced by the element attribute.

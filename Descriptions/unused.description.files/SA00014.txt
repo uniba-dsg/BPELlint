@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+A WS-BPEL process definition MUST be rejected if the imported documents contain conflicting definitions of a component used by the importing process definition (as could be caused, for example, when the XSD redefinition mechanism is used).

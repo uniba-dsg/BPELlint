@@ -1,0 +1,117 @@
+@inputVariable messageType or type QName differs from the <operation>'s input <message> QName used in <invoke>
+@outputVariable messageType or type QName differs from the <operation>'s output  <message> QName used in <invoke>
+@@@
+When the optional inputVariable and outputVariable attributes are being used in an <invoke> activity, the variables referenced by inputVariable and outputVariable MUST be messageType variables whose QName matches the QName of the input and output message type used in the operation, respectively, except as follows: if the WSDL operation used in an <invoke> activity uses a message containing exactly one part which itself is defined using an element, then a variable of the same element type as used to define the part MAY be referenced by the inputVariable and outputVariable attributes respectively.
+@@@
+
+
+
+FOREACH <invoke> 
+	IF @inputVariable EXISTS
+		SET $message TO correspondingMessages(<invoke>, 'input')
+		SET $variable TO correspondingVariable(<invoke>, <invoke>@inputVariable)
+		FAIL_inputVar UNLESS hasEqualMessageType($variable, $message)
+		
+	IF @outputVariable EXISTS
+		SET $message TO correspondingMessages(<invoke>, 'output')
+		SET $variable TO correspondingVariable(<invoke>, <invoke>@outputVariable)
+		FAIL_outputVar UNLESS hasEqualMessageType($variable, $message)
+
+
+
+correspondingMessage: $messageActivity, $messageForm -> wsdl:<message>
+	correspondingOperation($messageActivity) |=>
+		IF correspondingOperation($messageActivity)$messageForm@message EQUALS wsdl:<message>@name
+	RETURN wsdl:<message>
+		
+correspondingVariable: <invoke>, $variableName -> <variable>@messageType
+	FOR EARCH NEAREST <variables> OF <invoke>
+		IF $variableName EQUALS $variables<variable>@name
+			RETURN <variable>
+			
+hasEqualMessageType: $variable, $message -> 'boolean'
+	IF $variable@messageType EXISTS
+		SET variableMessage TO getVariableMessage($variable@messageType)
+		IF equalsMessage(variableMessage, $message)
+			RETRUN 'true'
+			
+	IF $variable@type EXISTS AND  $message<part> COUNT EQUALS '1' AND $message<part>@element EXISTS
+		SET $messagePartType TO xsdElementType($message<part>@element)
+		SET $variableType TO xsdType($variable@type)
+		IF $messagePartType EQUALS $varibaleType AND equalsTargetNamespace($messagePartType, $varibaleType)
+			RETURN 'true'
+
+	RETURN 'false'
+
+equalsMessage: $variableMessage, $message -> 'boolean'
+	RETURN equalsTargetNamespace($variableMessage, $message) AND ($message@name EQUALS variableMessage@name)
+
+getVariableMessage: $QName
+	IF wsdl:<message>@name EQUALS $QName QNAME_LOCALPART
+		RETURN <message>
+
+equalsTargetNamespace: $node1, $node2 -> 'boolean'
+	IF $node1 ROOT@targetNamespace EUQALS $node2 ROOT@targetNamespace
+
+correspondingOperation: $messageActivity -> wsdl:<portType><operation>
+	SET $partnerLink TO correspondingPartnerlink($messageActivity)
+	=>| RETURN correspondingPortTypeOperation($partnerLink, $messageActivity@operation)
+
+correspondingPartnerlink: $messageActivity -> <partnerLinks><partnerLink>
+	FOREACH <partnerLinks>
+		IF <partnerLinks><partnerLink>@name EQUALS $messageActivity@partnerLink                
+			 RETURN <partnerLinks><partnerLink>  
+
+correspondingPortTypeOperation(<partnerLink>, $messageActivity@operation) -> wsdl:<portType><operation>
+	<partnerLink>	|=>
+		IF wsdl:<partnerLinkType>@name EQUALS <partnerLink>@partnerLinkType	
+    => wsdl:<partnerLinkType>
+		IF wsdl:<partnerLinkType><role> EQUALS <partnerLink>@partnerRole
+	=> wsdl:<partnerLinkType><role>
+		IF wsdl:<partnerLinkType><role>@portType EQUALS wsdl:<portType>@name
+    => wsdl:<portType>
+		IF wsdl:<portType><operation> EQUALS $messageActivity@operation
+	=>| RETURN wsdl:<portType><operation>	
+	
+xsdType: $typeQName -> <simpleType>|<complexType>
+  FOREACH xsd FILE
+  	IF <simpleType>@name EQUALS $typeQName QNAME_LOCALPART
+  		RETURN <simpleType>
+  	IF <complexType>@name EQUALS $typeQName QNAME_LOCALPART
+  		 REURN <complexType>
+
+xsdElementType: $elementQName -> <simpleType>|<complexType>
+  FOREACH xsd FILE
+  	IF <element>@name AND <element>@type EXISTS
+  		RETURN xsdType(<element>@type)
+@@@ 
+InputVariable-MessageType-Message-NotFound.bpel: 
+The messageType \texttt{variable} used in \texttt{invoke @inputVariable} does not correspond to the input \texttt{message} that is used in the \texttt{operation} specified in \texttt{invoke}
+InputVariable-Type-MessageOnePart-NotFound.bpel: 
+The <invoke> @inputVariable references a type <variable> that has not the same element type as the corresponding single <part> <message> that is used in the <operation> specified in <invoke>.
+InputVariable-Type-MessageManyParts.bpel: 
+The <invoke> @inputVariable references a type <variable> corresponds to an input <message> used in the <operation> specified in <invoke>. But the <message> has more than one <part>.
+OutputVariable-MessageType-Message-NotFound.bpel:
+The messageType \texttt{variable} used in \texttt{invoke @outputVariable} does not correspond to the output \texttt{message} that is used in the \texttt{operation} specified in \texttt{invoke}.
+OutputVariable-Type-MessageOnePart-NotFound.bpel:
+The <invoke> @outputVariable references a type <variable> that has not the same element type as the corresponding single <part> <message> that is used in the <operation> specified in <invoke>.
+OutputVariable-Type-MessageManyParts.bpel:
+The <invoke> @outputVariable references a type <variable> corresponds to an output <message> used in the <operation> specified in <invoke>. But the <message> has more than one <part>.
+InputOutputVariable-Message-NotFound.bpel:
+The messageType \texttt{variable} used in \texttt{invoke @outputVariable} and @outputVariable does not correspond to the input \texttt{message} that is used in the \texttt{operation} specified in \texttt{invoke}
+@@@
+The rule SA00048 ensures that the \texttt{inputVariable} and \texttt{outputVariable} within an \texttt{<invoke>} activity correctly correspond to their WSDL messages, i.e. the \texttt{<variable>} \texttt{messageType} \textit{QName} matches the \textit{QName} of the WSDL \texttt{<message>}.
+
+In case of having only one WSDL \texttt{<message>} \texttt{<part>}, the \texttt{<variable>}, that is used by the \texttt{inputVariable} or \texttt{outputVariable}, can have a type attribute that must correspond to the element type associated with the \texttt{<message>} \texttt{<part>}. 
+
+If the \texttt{inputVariable} or \texttt{outputVariable} are being used, the regarding WSDL \texttt{<message>} must be an \textit{input message} or an \textit{output message}, respectively. The message used in the WSDL \texttt{<operation>} \texttt{<input>} is called \textit{input message} and accordingly the \textit{output message} is used in the \texttt{<operation>} \texttt{<output>}.
+
+First of all, the algorithm searches for the corresponding WSDL \textit{input} and/or \texttt{output} \textit{<message>} in each \texttt{invoke} activity with an \texttt{inputVariable} and/or an \texttt{outputVariable} by finding the corresponding WSDL \texttt{<operation>} used in the \texttt{<invoke>} activity.
+This is done by navigating to the \texttt{<partnerLink>} used in the \texttt{<invoke>} activity, and to the corresponding WSDL \texttt{<partnerLinkType><role>}, and to the \texttt{<portType>} and finally to the searched \texttt{<operation>}. (Line 55 and 73)
+
+Next, the algorithm searches for the \texttt{<variable>}. that is used in the \texttt{inputVariable} or \texttt{outputVariable} and that is nearest to the \texttt{<invoke>}, i.e is within the same \textit{scope}.
+
+If the \texttt{<variable>} has a \texttt{messageType} attribute then the algorithm ensures that one of the corresponding WSDL \texttt{<message>} elements found previously equal the \texttt{<message>} element used by this \texttt{messageType}. This is done by matching the \texttt{<message>} name and \texttt{messageType} \textit{QName} \textit{LocalPart} and the \textit{targetNamespace} of both root elements.
+
+Otherwise, if the \texttt{<variable>} uses a type attribute then the algorithm ensures that one of the corresponding WSDL messages has only one \texttt{<part>}, that has an attribute element which refers to an XML Schema Definition (XSD) \texttt{<element>}. 
+The type of this XSD \texttt{<element>} equals the \texttt{<variable>} type attribute. Similar to the previous case the comparison is done by matching the \texttt{targetNamespace} of both element types. 

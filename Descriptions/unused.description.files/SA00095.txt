@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+For <onEvent>, the variable references are resolved to the associated scope only and MUST NOT be resolved to the ancestor scopes.

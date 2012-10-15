@@ -1,0 +1,12 @@
+overloaded operation name in <portType>
+@@@
+A WS-BPEL processor MUST reject any WSDL portType definition that includes overloaded operation names. 
+@@@
+FOREACH wsdl:<portType>
+	FAIL IF DUPLICATE <operation>@name
+@@@
+OverloadedOperationNames.bpel, OverloadedOperationNames.wsdl:
+\texttt{<portType>} has two \texttt{<operation>} named the same with different messages.
+@@@
+The \texttt{name} attribute of all \texttt{<operation>}'s' in a \texttt{<portType>} are inspected.
+The validation fails, if any name occurs twice or more often.

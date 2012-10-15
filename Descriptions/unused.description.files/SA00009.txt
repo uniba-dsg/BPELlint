@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+In the case of mandatory extensions declared in the <extensions> element not supported by a WS-BPEL implementation, the process definition MUST be rejected.

@@ -1,0 +1,62 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin: "application"
+
+mainClassName = "de.uniba.wiai.dsg.ss12.isabel.IsabelTool"
+
+
+repositories {
+    mavenCentral()
+}
+
+// customization of folder structure (not maven project structure)
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }	
+    }
+    test {
+        java {
+            srcDir 'test/'
+        }
+    }
+}
+
+dependencies {
+    compile files("lib/xom-1.2.7.jar")
+    testCompile "junit:junit:4.10"
+}
+
+
+run {
+	// pass arguments to Main class
+    if(project.hasProperty('args')){
+        args project.args.split('\\s+')
+    }
+	copy {
+		from ('src'){
+			exclude 'de/'
+		}
+		into 'build/classes/main'
+	}
+
+}
+
+
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.2'
+}
+
+
+jar {
+    dependsOn configurations.runtime
+    from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+	from ('src'){
+		exclude 'de/'
+	}
+
+    manifest { attributes 'Main-Class': 'de.uniba.wiai.dsg.ss12.isabel.IsabelTool' }
+}

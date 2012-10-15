@@ -1,0 +1,93 @@
+<propertyAlias> not defined in any *.wsdl
+@@@
+Static analysis MUST detect property usages where propertyAliases for the associated variable's type are not found in any WSDL definitions directly imported by the WS-BPEL process.
+@@@
+$fromTo = <from> | <to>
+$scopes = <process> | <scope> 
+
+
+
+FOREACH <correlationSet>@properties 
+	FAIL IF hasNoCorrespondingProperty(<correlationSet>@properties)
+FOREACH $fromTo@property
+	SET $variableType TO correspondingVariableType($fromTo)
+	FAIL IF hasNoCorrespondingPropertyAlias($variableType, $fromTo@property)
+
+
+
+hasNoCorrespondingProperty: <correlationSet>@properties -> boolean
+	FOREACH wsdl:
+		FOREACH wsdl:<property>
+			IF wsdl:<property>@name EQUALS <correlationSet>@properties 
+				RETURN 'false'
+	RETURN 'true'
+
+correspondingVariableType: $fromToVar -> $variableType
+	SET $scopeVariable to getScopeVariable($fromToVar, $fromToVar@variable)
+	IF ($scopeVariable EQUALS <onEvent>)
+        RETURN getOnEventVariableType($scopeVariable)
+	ELSE 
+		RETURN getEnclosingScopeVariableType($scopeVariable)
+				
+getScopeVariable: $node, $variableName -> $scope
+	IF (PARENT $node EQUALS <onEvent>)
+		IF (<onEvent>@variable EQUALS $variableName)
+			RETURN <onEvent>
+	IF (PARENT $node EQUALS $scopes)
+		FOREACH $node<variable>
+			IF $node<variable>@name EQUALS $fromTo@variable
+				RETURN $node<variable>
+	ELSE getScopeVariable(PARENT $node, $variableName)
+	
+getOnEventVariableType: <onEvent> -> $type
+	IF (<onEvent>@messageType EXISTS)
+		RETURN <onEvent>@messageType
+	IF (<onEvent>@element EXISTS)
+		RETURN	<onEvent>@element
+	ELSE getScopeVariable(PARENT <onEvent>
+	
+getEnclosingScopeVariableType: <variable> -> $type
+	IF (<variable>@messageType EXISTS)
+		RETURN <variable>@messageType
+	IF (<variable>@type EXISTS)
+		RETURN <variable>@type
+	IF (<variable>@element EXISTS)
+		RETURN <variable>@element
+	fixme: onEvent (?) implicit variable definitions not checked...
+
+hasNoCorrespondingPropertyAlias: $variableType, $fromToProperty  -> boolean
+	FOREACH wsdl:<propertyAlias>
+		IF (wsdl:<propertyAlias>@name EQUALS $fromToProperty@name)
+			IF (<propertyAlias>@messageType EQUALS $variableType OR
+				<propertyAlias>@type EQUALS $variableType OR
+				<propertyAlias>@element EQUALS $variableType)
+					RETURN 'false'
+	RETURN 'true'
+@@@
+CorrelationSet-Properties-Undefined.bpel:
+Contains \texttt{<correlationSet>@properties} which is not defined in any WSDL definitions.
+From-Properties-Undefined.bpel:
+Contains \texttt{<from>@property} which is not defined in any WSDL definitions.
+OnEvent-Properties-Undefined.bpel, OnEvent-Properties-Undefined.wsdl:
+Contains \texttt{<eventHandlers><onEvent>@variable} which is not defined in any WSDL definitions
+To-Properties-Undefined.bpel:
+Contains \texttt{<to>@property} which is not defined in any WSDL definitions.
+@@@
+SA00021 basically consists of two contentual parts:\\
+\begin{enumerate}
+\item First, all \texttt{<correlationSet>}'s are checked to have corresponding \texttt{<property>} definitions in the WSDL, by matching the \texttt{properties} attribute with the \texttt{name}.\\
+\item Second, all present \texttt{<from>}'s and \texttt{<to>}'s are checked to have corresponding \texttt{<propertyAlias}'es.
+\end{enumerate}
+The second part needs an intermediate step, matching the declared variable in use.
+
+The variable declaration can be found through three different ways, depending on the type of the enclosing scope:
+\begin{itemize}
+\begin{itemize}
+	\item If the enclosing scope is \texttt{<onEvent>} and has either a \texttt{messageType} or \texttt{element} attribute, the declaration is implicit, the matching works via the \texttt{variable}.
+	\item If the enclosing scope is \texttt{<onEvent>} and has neither a \texttt{messageType} nor a \texttt{element} attribute, the declaration is explicit, and the corresponding \texttt{<variable>@name} has to be found. This is done through recursive searching further up the tree for the next scope containing variable declaration, being implicit or explicit.
+	\item If the enclosing scope is either a \texttt{<scope>} or the \texttt{<process>} itself, the corresponding \texttt{<variable>} with matching \texttt{name} has to be found.
+\end{itemize}
+\end{itemize}
+When the corresponding variable type is found, from the corresponding WSDL file the matching \texttt{<propertyAlias>} is searched by its \texttt{name}. Comparison is made to the \texttt{name} of the \texttt{<to>} or \texttt{<from>}.
+
+If either the \texttt{type}, \texttt{messageType} or \texttt{element} attribute of the \texttt{<propertyAlias>} matches the found variable type, the BPEL process is valid according to SA00021.

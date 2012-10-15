@@ -1,0 +1,13 @@
+<receive> contains both @variable attribute and <fromPart> element
+@@@
+For <receive>, if <fromPart> elements are used on a <receive> activity then the variable attribute MUST NOT be used on the same activity.
+@@@
+FOREACH <receive>
+	FAIL IF ((<fromParts> EXISTS) AND (@variable EXISTS))
+@@@
+Receive-WithFromPartElementAndVariableAttribute.bpel:
+BPEL-file with a <receive> containing a <fromParts> and @variable.
+@@@
+According to SA00055, a BPEL file is not valid if it contains \texttt{<receive>} element with a \texttt{<fromParts>} child element as well as a \texttt{variable} attribute.
+
+The algorithm checks for the mere existence of the element and the attribute.

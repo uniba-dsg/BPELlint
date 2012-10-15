@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+When XPath 1.0 is used as an expression language in WS-BPEL there is no context node available. Therefore the legal values of the XPath Expr (http://www.w3.org/TR/xpath#NT-Expr) production must be restricted in order to prevent access to the context node. Specifically, the 'LocationPath' (http://www.w3.org/TR/xpath#NT-LocationPath) production rule of 'PathExpr' (http://www.w3.org/TR/xpath#NT-PathExpr) production rule MUST NOT be used when XPath is used as an expression language. 

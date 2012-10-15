@@ -1,0 +1,13 @@
+<invoke> contains both @outputVariable and <fromPart> element 
+@@@
+The outputVariable attribute MUST NOT be used on an <invoke> activity that contains a <fromPart> element. 
+@@@
+FOREACH <invoke>
+	FAIL IF <fromParts> EXISTS AND @outputVariable EXISTS
+@@@
+Invoke-FromPartsAndOutputVariable.bpel:
+BPEL-file with a <invoke> containing a <fromParts> as well as an @outputVariable
+@@@
+According to SA00052, a BPEL file is not valid if it contains an \texttt{<invoke>} element with a \texttt{<fromPart>} child element as well as a \texttt{outputVariable} attribute.
+
+The algorithm checks for the mere existence of the element and the attribute.

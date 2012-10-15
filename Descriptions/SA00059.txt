@@ -1,0 +1,13 @@
+<reply> contains both @variable attribute and <fromPart> element
+@@@
+For <reply>, if <toPart> elements are used on a <reply> activity then the variable attribute MUST NOT be used on the same activity.
+@@@
+FOREACH <reply>
+	FAIL IF <toParts> EXISTS AND @variable EXISTS
+@@@
+Reply-WithToPartElementAndVariableAttribute.bpel
+BPEL-file with a \texttt{<reply>} containing a \texttt{<toParts>} and an \texttt{@variable}.
+@@@
+According to SA00059, a BPEL file is not valid if it contains \texttt{<reply>} element with a \texttt{<toParts>} child element as well as a \texttt{variable} attribute.
+
+The algorithm checks for the mere existence of the element and the attribute.

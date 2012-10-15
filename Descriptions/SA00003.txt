@@ -1,0 +1,59 @@
+exitOnStandardFault='yes' in <scope> or <process>, but catches standard fault
+@@@
+If the value of exitOnStandardFault of a <scope> or <process> is set to 'yes', then a fault handler that explicitly targets the WS-BPEL standard faults MUST NOT be used in that scope. 
+@@@
+$enclosingScope = <process> | <scope>
+$standartFault =	{'ambiguousReceive',
+					'completionConditionFailure',
+					'conflictingReceive',
+					'conflictingRequest',
+					'correlationViolation',
+					'invalidBranchCondition ',
+					'invalidExpressionValue',
+					'invalidVariables',
+					'mismatchedAssignmentFailure',
+					'missingReply',
+					'missingRequest ',
+					'scopeInitializationFailure',
+					'selectionFailure ',
+					'subLanguageExecutionFault',
+					'uninitializedPartnerRole',
+					'uninitializedVariable',
+					'unsupportedReference',
+					'xsltInvalidSource',
+					'xsltStylesheetNotFound' }
+
+
+
+FOREACH $enclosingScope
+	IF $enclosingScope@exitOnStandardFault EQUALS 'yes'
+		FAIL IF catchesStandardFault($enclosingScope)
+
+
+
+catchesStandardFault: $currentScope -> boolean
+	IF catchesStandardFaultDireckly($currentScope)
+		RETURN 'true'
+	FOREACH $currentScope<scope>
+		UNLESS $currentScope<scope>@exitOnStandardFault EQUALS 'no'
+			RETURN catchesStandardFault($currentScope<scope>)
+	RETURN 'false'
+
+catchesStandardFaultDirectly: $currentScope -> boolean
+FOREACH $currentScope<faultHandlers><catch>
+	RETURN (<catch>@faultName EQUALS ANY $standartFault)
+@@@
+ExitOnStandartFaultButCatchingStandardFaultInDirectFaultHandlers.bpel:
+\texttt{<scope>} with \texttt{@exitOnStandartFault='yes'} catches the BPEL standard-fault 'completionConditionFailure'.
+ExitOnStandartFaultButCatchingStandardFaultInDirectFaultHandlersInProcess.bpel:
+\texttt{<process>} with \texttt{@exitOnStandartFault='yes'} catches the BPEL standard-fault 'completionConditionFailure'.
+ExitOnStandartFaultButCatchingStandardFaultInIndirectFaultHandlers.bpel:
+A \texttt{<scope>}, inheriting @exitOnStandartFault='yes' from its parent <process>, catches the BPEL standard-fault 'completionConditionFailure'.
+ExitOnStandartFaultButCatchingStandardFaultInNestedFaultHandlers.bpel:
+A \texttt{<scope>}, with \texttt{@exitOnStandartFault='yes'} and a parent \texttt{<scope>} with \texttt{@exitOnStandartFault='no'}, catches the BPEL standard-fault 'completionConditionFailure'.
+ExitOnStandartFaultButCatchingStandardFaultInIndirectNestedFaultHandlers.bpel:
+A \texttt{<scope>}, inheriting \texttt{@exitOnStandartFault='yes'} from its parent \texttt{<scope>} catches the BPEL standard-fault 'completionConditionFailure'.
+@@@
+The algorithm searches in \texttt{<process>} and every \texttt{<scope>} for the value of the \texttt{exitOnStandartFault} attribute.
+If it equals 'yes', then the validation fails on every standard fault except 'joinFailure' as attribute \texttt{faultName} of a \texttt{<catch>}.
+It is important to check every descendant \texttt{<scope>}, unless one contains the \texttt{exitOnStandartFault} attribute with value 'no', because this attribute is inherited.

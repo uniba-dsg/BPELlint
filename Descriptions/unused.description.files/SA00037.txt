@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+In the to-spec of the partnerLink variant of assign only partnerLinks are permitted which specify the attribute partnerRole.

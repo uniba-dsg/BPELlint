@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+WS-BPEL functions MUST NOT be used in joinConditions.

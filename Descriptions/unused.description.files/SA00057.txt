@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+If a process has multiple start activities with correlation sets then all such activities MUST share at least one common correlationSet and all common correlationSets defined on all the activities MUST have the value of the initiate attribute be set to 'join'.

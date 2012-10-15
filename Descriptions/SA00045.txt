@@ -1,0 +1,23 @@
+<correlationSet>@properties is not a XML <simpleType>
+@@@
+Properties used in a <correlationSet> MUST be defined using XML Schema simple types.
+@@@
+FOREACH <correlationSet>
+	SET $property TO getPropertyFromCorrelationSet(<correlationSet>)
+	FAIL UNLESS $property@type EQUALS xsd:<simpleType>@name
+
+
+	
+getPropertyFromCorrelationSet: <correlationSet> -> wsdl:<property>
+	<correlationSet> |=>
+		IF <correlationSet>@properties EQUALS wsdl:<property>@name
+	=>| RETURN wsdl:<property>
+@@@
+Property-TypeMissing.wsdl, Property-TypeMissing.bpel:
+The \texttt{type} attribute in the WSDL \texttt{<property>} definition, which is used in the BPEL \texttt{<correlationSet>} is omitted.
+Property-TypeComplexType.wsdl, Property-TypeComplexType.bpel:
+The \texttt{type} attribute in the WSDL \texttt{<property>} definition, which is used in BPEL \texttt{<correlationSet>} is defined using \texttt{<complexType>}.
+@@@
+SA00045 states that all \texttt{@properties} from a \texttt{<correlationSet>} must have a corresponding definition in the referenced XSD through a \texttt{<simpleType>}.
+
+To navigate into the XML a detour through the WSDL over the corresponding \texttt{<property>} by its \texttt{type} attribute is needed.

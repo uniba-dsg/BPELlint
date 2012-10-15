@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+Variable initialization logic contained in scopes that contain or whose children contain a start activity MUST only use idempotent functions in the from-spec. 

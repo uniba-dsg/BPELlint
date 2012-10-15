@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+For <copy>, when the keepSrcElementName attribute is set to “yes” and the destination element is the Document EII of an element-based variable or an element-based part of a WSDL message-type-based variable, the name of the source element MUST belong to the substitutionGroup of the destination element. This checking MAY be enforced through static analysis of the expression/query language.

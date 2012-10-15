@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+For the <forEach> activity, <branches> is an integer value expression. Static analysis MAY be used to detect if the integer value is larger than the number of directly enclosed activities of <forEach> at design time when possible (for example, when the branches expression is a constant).

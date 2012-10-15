@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+Identical <catch> constructs MUST NOT exist within a <faultHandlers> element.

@@ -1,0 +1,17 @@
+imported type differs from expected type
+@@@
+The value of the importType attribute of element <import> MUST be set to 
+\\http://www.w3.org/2001/XMLSchema when importing XML Schema 1.0 documents, and to http://schemas.xmlsoap.org/wsdl/ when importing WSDL 1.1 documents. 
+@@@
+FOREACH	<import>
+	FAIL UNLESS <import>@importType EQUALS <import>@location:ROOT@namespace
+@@@
+Import-WrongImportType.bpel:
+TestInterface.wsdl \texttt{<import>} has \texttt{importType='wrongImportType'} differing from the default \texttt{namespace='http://schemas.xmlsoap.org/wsdl/'}.
+@@@
+We were not able to get the type of an \texttt{<import>}, for each document, the same way.
+Only files with default \texttt{namespace} as type definition can pass validation.
+Apart from this the validator is more abstract, than required.
+
+It compares the \texttt{importType} with the default \texttt{namespace} of the root element, for each \texttt{<import>}.
+The requirement for XML Schema 1.0 and WSDL 1.1 Documents are complied, because the algorithm includes them.

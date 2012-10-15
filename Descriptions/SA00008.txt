@@ -1,0 +1,16 @@
+<compensate> used outside of FCT-Handler
+@@@
+The <compensate> activity MUST only be used from within a faultHandler, another compensationHandler, or a terminationHandler.
+@@@
+FOREACH <compensate>
+	SET $isFaultParent TO <faultHandlers> EQUALS PARENT <compensate>
+	SET $isCompensationParent TO <compensationHandler> EQUALS PARENT <compensate>
+	SET $isTerminationParent TO <terminationHandler> EQUALS PARENT <compensate>
+	FAIL UNLESS ($isFaultParent OR $isCompensationParent OR $isTerminationParent)
+@@@
+CompensateOutsideFaultHandlers.bpel:
+The activity \texttt{<compensate>} is a direct child of \texttt{<process>}.
+@@@
+A \texttt{<compensate>} needs to have a parent being either a \texttt{<faultHandlers>}, a \texttt{<compensationHandler>} or a \texttt{<terminationHandler>}.
+
+Otherwise the validation fails.

@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+If the variable attribute is used in the <onEvent> element, either the messageType or the element attribute MUST be provided in the <onEvent> element.

@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+The literal from-spec variant returns values as if it were a from-spec that selects the children of the <literal> element in the WS-BPEL source code. The return value MUST be a single EII or Text Information Item (TII) only. 

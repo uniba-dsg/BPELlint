@@ -1,0 +1,50 @@
+There is no attribute 'pattern' in <correlation> within <invoke>
+Attribute 'pattern' in <correlation> within <invoke> is not allowed
+@@@
+The pattern attribute used in <correlation> within <invoke> is required for request-response operations, and disallowed when a one-way operation is invoked.
+@@@
+FOREACH <invoke><correlation>
+	SET $operation TO correspondingOperation(<invoke>)
+	FAIL_noPatternInCorrelation IF (isRequestResponse($operation) AND (@pattern IS_MISSING))
+	FAIL_patternDisallowed IF (isOneWay($operation) AND (@pattern EXISTS))
+
+isRequestResponse: wsdl:<operation> -> boolean
+	RETURN ((wsdl:<operation><input> EXISTS) AND (wsdl:<operation><input> BEFORE wsdl:<operation><output>))
+
+isOneWay: wsdl:<operation> -> boolean
+	RETURN ((<input> EXISTS) AND (<output> EXISTS NOT))
+
+correspondingOperation: <invoke> -> wsdl:<portType><operation>
+	SET $partnerLink TO correspondingPartnerlink(<invoke>)
+	RETURN correspondingPortTypeOperation($partnerLink, <invoke>@operation)
+
+correspondingPartnerlink: <invoke> -> <partnerLinks><partnerLink>
+	FOREACH <partnerLinks>
+		IF <partnerLinks><partnerLink>@name EQUALS <invoke>@partnerLink
+			RETURN <partnerLinks><partnerLink>
+
+correspondingPortTypeOperation(<partnerLink>, <invoke>@operation) -> wsdl:<portType><operation>
+	<partnerLink>	|=>
+		IF wsdl:<partnerLinkType>@name EQUALS <partnerLink>@partnerLinkType
+	=> wsdl:<partnerLinkType>
+		IF wsdl:<partnerLinkType><role> EQUALS <partnerLink>@partnerRole
+	=> wsdl:<partnerLinkType><role>
+		IF wsdl:<partnerLinkType><role>@portType EQUALS wsdl:<portType>@name
+	=> wsdl:<portType>
+		IF wsdl:<portType><operation> EQUALS <invoke>@operation
+	=>| RETURN wsdl:<portType><operation>
+@@@
+Invoke-RequestResponse-Correlation-PatternMissing.bpel:
+contains an <invoke> that uses a request-response operation but has no pattern attribute in the <correlation> specification
+Invoke-OneWay-Correlation-Pattern.bpel:
+contains an <invoke> that uses an one-way operation and a request-response pattern in the <correlation> specification
+@@@
+The rule SA00046 ensures that the \texttt{<correlation>} attribute pattern is used correctly depending on the  WSDL \textit{message exchange pattern} being used in the invoke \texttt{<activity>}.
+
+The \textit{request-response message exchange pattern} is specified by a WSDL \texttt{<operation>} that contains first an \texttt{<input>} and then an \texttt{<output>} element. A WSDL \texttt{<operation>} with only an \texttt{<input>} element is stated as an \textit{one-way message exchange pattern}.
+
+The algorithm searches for all \texttt{<correlation>} elements within an \texttt{<invoke>} activity and detects whether the corresponding WSDL \texttt{<operation>} of \texttt{<invoke>} uses a \textit{request-response} or an \textit{one-way message pattern}.
+
+In case of the \textit{request-response pattern} the algorithm ensures that the \texttt{<correlation>} \texttt{pattern} attribute is not omitted and in the other case the algorithm ensures that the \texttt{<correlation>} \texttt{pattern} is omitted.
+
+Finding the corresponding WSDL \texttt{<operation>} used in the \texttt{<invoke>} activity is done by navigating to the \texttt{<partnerLink>} used in the <invoke> activity, then to the corresponding WSDL \texttt{<partnerLinkType><role>}, and to the \texttt{<portType>} and finally to the searched \texttt{<operation>}.

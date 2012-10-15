@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+In the XPath 1.0 extension function bpel:doXslTransform(string, node-set, (string, object)*) the optional parameters after the second parameter MUST appear in pairs. An odd number of parameters is not valid. 

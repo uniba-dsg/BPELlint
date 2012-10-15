@@ -1,0 +1,66 @@
+Corresponding wsdl:<message><part> of <fromPart>@part is missing
+@@@
+For all <fromPart> elements the part attribute MUST reference a valid message part in the WSDL message for the operation. 
+@@@
+$messageAcivity = <invoke> | <receive> | <onMessage> | <onEvent>
+
+
+
+FOREACH $messageAcivity<fromParts><fromPart>
+	SET	$operation TO correspondingOperation($messageActivity)
+    SET $message TO correspondingMessage($operation, 'input')
+    FAIL UNLESS (ANY $message<part>@name EQUALS <fromPart>@name)
+
+
+correspondingMessage: $operation, $messageForm -> wsdl:<message>
+	$operation |=>
+		IF $operation$messageForm@message EQUALS wsdl:<message>@name
+	RETURN wsdl:<message>	
+
+correspondingOperation: $messageActivity -> wsdl:<portType><operation>
+	SET $partnerLink TO correspondingPartnerlink($messageActivity)
+	=>| RETURN correspondingPortTypeOperation($partnerLink, $messageActivity@operation)
+
+correspondingPartnerlink: $messageActivity -> <partnerLinks><partnerLink>
+	FOREACH <partnerLinks>
+		IF <partnerLinks><partnerLink>@name EQUALS $messageActivity@partnerLink                
+			 RETURN <partnerLinks><partnerLink>  
+
+correspondingPortTypeOperation(<partnerLink>, $messageActivity@operation) -> wsdl:<portType><operation>
+	<partnerLink>	|=>
+		IF wsdl:<partnerLinkType>@name EQUALS <partnerLink>@partnerLinkType	
+    => wsdl:<partnerLinkType>
+		IF wsdl:<partnerLinkType><role> EQUALS <partnerLink>@partnerRole
+	=> wsdl:<partnerLinkType><role>
+		IF wsdl:<partnerLinkType><role>@portType EQUALS wsdl:<portType>@name
+    => wsdl:<portType>
+		IF wsdl:<portType><operation> EQUALS $messageActivity@operation
+	=>| RETURN wsdl:<portType><operation>
+@@@
+Invoke-FromPartDifferingFromMessageDefinition.bpel:
+BPEL-file with different <invoke><fromParts><fromPart> as the required\\ wsdl:<message><part> should be.
+OnEvent-FromPartDifferingFromMessageDefinition.bpel:
+BPEL-file with different <eventHandlers><onEvent><fromParts><fromPart> as the required wsdl:<message><part> should be.
+OnMessage-FromPartDifferingFromMessageDefinition.bpel:
+BPEL-file with different <pick><onMessage><fromParts><fromPart> as the required wsdl:<message><part> should be.
+Receive-FromPartDifferingFromMessageDefinition.bpel:
+BPEL-file with different <receive><fromParts><fromPart> as the required\\ wsdl:<message><part> should be.
+@@@
+SA00053 requires all \texttt{part}'s of all message activities' (\texttt{<invoke>}, \texttt{<reply>}, \texttt{<onMessage>}, \texttt{<onEvent>}) \texttt{<toParts><toPart>} elements in the bpel file to reference valid definitions in the wsdl file.
+
+To ensure this, the algorithm tries to match the \texttt{name}'s of \texttt{<message><part>} elements in the WSDL with all \texttt{name}'s of the \texttt{<toParts><toPart>}'s. (Line 7)
+
+The \texttt{<message>} element in the WSDL is found through matching its \texttt{name} with the corresponding \texttt{message} of \texttt{<portType><operation>} in the same file. (Line 11 to 18)\\
+This is achieved utilizing the \texttt{<partnerLink>}.
+
+The \texttt{<partnerLink>} is found via matching the \texttt{partnerLink} of \texttt{<invoke>} or \texttt{<reply>} with each existing \texttt{name} of \texttt{<partnerLinks><partnerLink>}. (Line 20 to 23)
+
+The \texttt{<portType><operation>} itself in the WSDL is found through several steps:
+	\begin{enumerate}
+		\item match \texttt{<partnerLink>} from the BPEL by \texttt{partnerLinkType} attribute with \texttt{<partnerlinkType>} from the WSDL by \texttt{name}
+		\item match \texttt{<partnerLink>} by \texttt{partnerRole} with \texttt{<partnerLinkType><role>}
+		\item get \texttt{<role>} from found \texttt{<partnerLink>}
+		\item in the WSDL match \texttt{<partnerLink><role>} by \texttt{portType} with \texttt{<portType>} by \texttt{name}
+		\item match \texttt{<portType><operation>} from the WSDL by \texttt{name} with \texttt{<invoke>} by \texttt{operation} from the BPEL
+	\end{enumerate}
+	(Line 25 to 34)

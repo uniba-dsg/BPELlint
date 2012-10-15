@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+There MUST be at least one <catch> or <catchAll> element within a <faultHandlers> element.

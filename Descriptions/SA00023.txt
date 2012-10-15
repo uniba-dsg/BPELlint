@@ -1,0 +1,21 @@
+variable@name must be unique in <process>
+variable@name must be unique in <scope>
+@@@
+The name of a variable MUST be unique among the names of all variables defined within the same immediately enclosing scope.
+@@@
+FOREACH <process><variables><variable>
+	FAIL IF DUPLICATE <variable>@name
+FOREACH <scope>
+	FOREACH <variables><variable>
+		FAIL IF DUPLICATE <variable>@name
+@@@
+Process-Duplicated-Variables.bpel:
+Contains two \texttt{<variable>}'s with duplicated \texttt{@name='ReplyData'} within the \texttt{<process>}.
+Scope-Duplicated-Variables.bpel:
+Contains two \texttt{<variable>}'s with duplicated \texttt{@name='ReplyData'} within a \texttt{<scope>}.
+Scope-Scope-Duplicated-Variables.bpel:
+Contains two \texttt{<variable>}'s with duplicated \texttt{@name='replyData'} within an inner \texttt{<scope>}.
+@@@
+SA Rule 00023 implies that every scope (being either \texttt{<process>} itself or a sub \texttt{<scope>}) containing \texttt{<variable>}'s must have a set of them.
+
+This is ensured through checking for duplicate \texttt{name} attributes withing each \texttt{<variable>} set.

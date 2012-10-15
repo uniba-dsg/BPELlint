@@ -1,0 +1,199 @@
+#
+#	Description of Pseudocode Notation used for Algorithm specification
+#
+
+
+
+The pseudocode notation used for the algorithm specification of the .bpel file 
+validation consists of of three parts:
+	
+	- Definition of global variables to shorten things later or to mark edge cases.
+	- The algorithm specification itself, not containing newlines.
+	- Definition of subroutines used in the algorithm specification.
+	  -- Several subroutines each separated by single newline.
+	
+All three main parts are separated by three newlines.
+
+
+
+####   START OF PSEUDOCODE NOTATION SPEC   ####
+
+
+
+
+ "KEYWORDS" 
+
+		written with CAPS LOCK.
+		represent the control structures and logical operators in the algorithm description.
+			
+			_control structures_:
+				IF
+				ELSE
+				UNLESS (same as IF NOT)
+				FOREACH
+				RETURN
+				FILE ... (load the file via the reference written right of the keyword)
+			_terminators_:
+				FAIL (indicates definite SA rule violation)
+				ERROR (variable reference across several files could not be resolved)
+					
+			_general operators_:
+				EQUALS
+				GREATER_THAN
+				LESS_THAN
+			_dom tree operators_:
+				... ROOT (gets root element of file currently working in)
+				... EXISTS (indicates element to the left being present)
+				PARENT (get <parentblock> of the <block> being currently in)
+				... ANCESTOR_OF ... (checks if an element is the ancestor (a parent or a parent of a parent and so on) of another element)
+				... IS_MISSING (same as NOT EXISTS)
+				DUPLICATE ... (returns true if trailing element/attribute is found at least twice) 
+			_list operations_:
+				FOREACH iterator IN list (to operate on list)
+				ADD element TO list
+				REMOVE element FROM list 
+				COUNT (returns count of elements present left of it, wildcards are possible)
+				EMPTY_LIST (represents empty list, i.e. used like 'SET $variable TO EMPTY_LIST')
+				CONTAINS
+				ANY list _general operator_ ... (basically the same as FOREACH)
+				
+			_logical operators_:
+				NOT
+				AND
+				OR
+				XOR
+				
+			_ordering_: (of <blocks> ocurring)
+				BEFORE
+				AFTER
+
+
+
+
+ "$variables"
+
+		used within the algorithm specification declare variables, that are substituted.
+		this is to save space and to slim down the final spec body.
+		$variables stand for a block.
+		there are two use cases:
+			- define 'global' variables at the head of the specification, describing element sets
+			- to save local results of methods(...) via SET $result TO ... for later use
+		they exist solely for the purpose of shortening the algorithm specification.
+		i.e.
+			$global = <receive> | <response>
+		i.e.	
+			SET $local TO correspondingPartnerlink(<receive>@partnerLink)
+			IF $partnerLink EXISTS ...
+
+
+
+
+ "<blocks>" 
+ 
+		represent the elements used, are written with <tag> notation.
+		special case: '<*>'
+			represents any element of of the set of all possible elements.
+		special case: '<ROOT>'
+			represents root element of the current filetype
+			i.e. for .bpel files:
+				(FILE ...):<ROOT> gets the element '<process>'. The file loaded through '(FILE ...):' is equal to 'bpel:'
+		i.e.
+			<*>
+			<process>
+			<part>
+
+
+
+
+ "@attributes"
+
+		specify an attribute present in a <block>, appended to it.
+		special case: '@*'
+			represents any @attribute present.
+		i.e. 
+			<block>@attribute
+
+
+
+
+ "filetype:" 
+
+	 	specifies a file.
+	 	can be used alone or to show where a <block> is located in.
+	 	prepended to a <block>.
+	 	available are:
+			file: general designator representing any filetype
+	 		wsdl:
+	 		xsd:
+	 		bpel: (default value, if no filetype is specified)
+	   	i.e. 
+	   		wsdl:<block>@attribute
+
+
+
+
+ "subroutine(...)"
+
+		represent subroutines, used within the algorithm body.
+		outsource smaller operations or operations needed often.
+		help making a simpler and higher level specification possible.
+		i.e.
+			correspondingPorttype: <partnerLink> -> wsdl:<portType>
+
+
+
+
+ "'value'"
+		
+		any actual value representation of any primitive filetype, like boolean, integers or strings
+		i.e.
+			'this represents a string'
+			'6654'
+			'true'
+
+
+
+
+ "methodDefinitions: <block>@attribute -> <block>@attribute"
+	.
+	.
+	.
+		
+		"... -> ..." 
+			defines inputs and outputs in method signature spec in first line.
+			can take <block>@attribute parts as well as input or output.
+		'|=>'
+			for navigation step specification.
+			classifies first step.
+		'=>' 
+			for navigation step specification.
+			classifies intermediate steps.
+		'=>|'
+			for step navigation specification.
+			classifies last step, prepended to the return statement on the last line.
+		methodDefinitions: ... -> ...  are separated with newlines from algorithm spec above.
+			.
+			.
+			.
+		i.e.
+		correspondingPartnerlink: <activity>@partnerLink -> <partnerLink> ?:
+		FOREACH <partnerLinks>
+			IF <partnerLinks><partnerLink>@name EQUALS <activity>@partnerLink
+			RETURN <partnerLinks><partnerLink>
+		i.e.
+		correspondingPorttype: <partnerLink> -> wsdl:<portType>
+			<partnerLink>	|=>
+			=> wsdl:<partnerLinkType>
+				IF wsdl:<partnerLinkType>@name EQUALS <partnerLink>@partnerLinkType 
+				AND 
+				IF wsdl:<partnerLinkType>@name EQUALS <partnerLink>@partnerLinkType
+			=> wsdl:<partnerLinkType><role>
+				IF wsdl:<partnerLinkType><role> EQUALS <partnerLink>@partnerRole
+			=> wsdl:<portType>
+				IF wsdl:<partnerLinkType><role>@portType EQUALS wsdl:<portType>@name
+			=>| RETURN wsdl:<portType>
+
+
+
+
+####   END OF PSEUDOCODE NOTATION SPEC   ####

@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+The name used in the optional messageExchange attribute MUST resolve to a messageExchange declared in a scope (where the process is considered the root scope) which encloses the <reply> activity and its corresponding IMA.

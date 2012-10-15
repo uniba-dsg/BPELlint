@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+For <copy> the optional keepSrcElementName attribute is provided to further refine the behavior. It is only applicable when the results of both from-spec and to-spec are EIIs, and MUST NOT be explicitly set in other cases.

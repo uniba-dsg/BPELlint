@@ -1,0 +1,14 @@
+<onMessage> contains both @variable attribute and <fromPart> element
+@@@
+The semantics of the <onMessage> event are identical to a <receive> activity regarding the optional nature of the variable attribute or <fromPart> elements, if <fromPart>elements on an activity then the variable attribute MUST NOT be used on the same activity (see SA00055).
+@@@
+FOREACH <onMessage>
+    FAIL IF <fromParts> EXISTS AND @variable EXISTS
+@@@
+OnMessage-With-FromPartAndAttributeVariable.bpel:
+BPEL-file with a \texttt{<onMessage>} Event containing a \texttt{<fromParts>} and \texttt{@variable}.
+@@@
+According to SA00063, a BPEL file is not valid if it contains \texttt{<onMessage>} 
+element with a \texttt{<fromParts>} child element as well as a \texttt{variable} attribute.
+
+The algorithm checks for the mere existence of the element and the attribute.

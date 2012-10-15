@@ -1,0 +1,27 @@
+notification operation forbidden
+solicit-response operation forbidden
+@@@
+A WS-BPEL processor MUST reject a WS-BPEL that refers to solicit-response or notification operations portTypes.
+@@@
+FOREACH wsdl:
+	FOREACH <operation>
+		FAIL_Notification IF isNotification(<operation>)
+		FAIL_solicitResponse IF isSolicitResponse(<operation>)
+
+
+
+isNotification: <operation> -> boolean
+	RETURN (<output> EXISTS AND <input> IS_MISSING)
+
+isSolicitResponse: <operation> -> boolean    
+	RETURN ((<output> EXISTS AND <input> EXISTS) AND (<output> BEFORE <input>))
+@@@
+Notification.bpel, Notification.wsdl:
+One .wsdl with a \texttt{<operation name='notification'>} just containing an \texttt{<output>} in a separate PortType.
+SolicitResponse.bpel, SolicitResponse.wsdl:
+A .wsdl with a \texttt{<operation name='solicitResponse'>} containing an \texttt{<output>} followed by \texttt{<input>} in a separate PortType.
+@@@
+The rule SA00001 forbids the message exchange patterns solicit-response and notification for WSDL \texttt{<operation>}'s.
+These patterns differ from the allowed one-way and request-response pattern by having the \texttt{<output>} element stated first.
+
+The algorithm detects the message exchange pattern of a WSDL \texttt{<operation>} by looking at the children elements \texttt{<input>} and \texttt{<output>}.

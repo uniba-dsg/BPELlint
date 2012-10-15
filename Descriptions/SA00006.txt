@@ -1,0 +1,12 @@
+<rethrow> used outside of <catch> or <catchAll>
+@@@
+The <rethrow> activity MUST only be used within a faultHandler (i.e. <catch> and <catchAll> elements).
+@@@
+FOREACH <rethrow>
+	FAIL UNLESS <faultHandlers> ANCESTOR_OF <rethrow>
+@@@
+RethrowOutsideFaultHandlers.bpel:
+BPEL-file with a \texttt{<rethrow>} placed in a \texttt{<sequence>} as a direct child of \texttt{<process>}, outside of a \texttt{<faultHandlers>}. (Therefore outside a \texttt{<catch>} or \texttt{<catchAll>}.)
+@@@
+Each faultHandler is within a \texttt{<faultHandlers>} block.
+Therefore the algorithm checks if any \texttt{<rethrow>} element has no \texttt{<faultHandlers>} element in its line of parents.

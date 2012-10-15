@@ -1,0 +1,13 @@
+<invoke> contains both @inputVariable and <toPart> element 
+@@@
+The inputVariable attribute MUST NOT be used on an invoke activity that contains <toPart> elements. 
+@@@
+FOREACH <invoke>
+	FAIL IF <toParts> EXISTS AND @inputVariable EXISTS
+@@@
+Invoke-ToPartsAndInputVariable.bpel:
+BPEL-file with a <invoke> containing a <toParts> as well as an @inputVariable
+@@@
+According to SA00052, a BPEL file is not valid if it contains an \texttt{<invoke>} element with a \texttt{<toPart>} child element as well as a \texttt{inputVariable} attribute.
+
+The algorithm checks for the mere existence of the element and the attribute.

@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+The second argument of the XPath 1.0 extension function bpel:getVariableProperty(string, string) MUST be a string literal conforming to the definition of QName in [XML Namespaces] section 3. 

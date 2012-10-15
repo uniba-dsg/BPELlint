@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+The expression for a join condition MUST be constructed using only Boolean operators and the activity's incoming links' status values.

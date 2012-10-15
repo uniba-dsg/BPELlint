@@ -1,0 +1,17 @@
+<variable>@name or <onEvent>@variable contains illegal character '.'
+@@@
+Variable names are BPELVariableNames, that is, NCNames (as defined in XML Schema specification) but in addition they MUST NOT contain the '.' character.
+@@@
+FOREACH <onEvent>
+	FAIL IF @variable CONTAINS '.'
+FOREACH <variable>
+	FAIL IF @name CONTAINS '.'
+@@@
+Variable-containing-dot.bpel:
+Has \texttt{<variable>} where the value of \texttt{@name} has a dot within the string. 
+OnEvent-containing-dot.bpel:
+Has \texttt{<onEvent>} where the value of \texttt{@name} has a dot within the string. 
+@@@
+NCNames must not contain dots according to SA00024. This is checked by getting the values of each \texttt{variable} attribute from all present \texttt{<onEvent>} elements as well as all \texttt{name} attributes from all \texttt{<variable>} elements. 
+
+These are tested for occurences of at least one dot.

@@ -1,0 +1,35 @@
+@messageType or @type or @element in <variable> missing
+@messageType and @type in <variable>
+@messageType and @element in <variable>
+@type and @element in <variable>
+@messageType and @type and @element in <variable>
+@@@
+The messageType, type or element attributes are used to specify the type of a variable. Exactly one of these attributes MUST be used.
+@@@
+FOREACH <variable>
+	IF (@messageType NOT EXISTS AND @type NOT EXISTS AND @element NOT EXISTS)
+		FAIL TYPE 1
+	IF (@messageType EXISTS AND @type EXISTS AND @element NOT EXISTS)
+		FAIL TYPE 2
+	IF (@messageType EXISTS AND @type NOT EXISTS AND @element EXISTS)
+		FAIL TYPE 3
+	IF (@messageType NOT EXISTS AND @type EXISTS AND @element EXISTS)
+		FAIL TYPE 4
+	IF (@messageType EXISTS AND @type EXISTS AND @element EXISTS)
+		FAIL TYPE 5
+@@@
+Variable-havingMessageTypeAndElement.bpel:
+\texttt{<variable name='ReplyData'>} entry has \texttt{@messageType='ti:executeProcessSyncResponse'} and \texttt{@element='xs:attribute'}
+Variable-havingTypeAndElement.bpel:
+\texttt{<variable name='ReplyData'>} entry has \texttt{@type='xs:int'} and \texttt{@element='xs:attribute'}
+Variable-havingTypeAndMessageType.bpel:
+\texttt{<variable name='ReplyData'>} entry has \texttt{@messageType='ti:executeProcessSyncResponse'} and \texttt{@type='xs:int'}
+Variable-havingTypeAndMessageTypeAndElement.bpel:
+\texttt{<variable name='ReplyData'>} entry has \texttt{@messageType='ti:executeProcessSyncResponse'}, \texttt{@type='xs:int'} and \texttt{@element='xs:attribute'}
+Variable-missingMessageTypeAndTypeAndElement.bpel:
+\texttt{<variable name='ReplyData'/>} missing \texttt{@messageType}, \texttt{@type} and \texttt{@element}
+@@@
+SA00025 says that each \texttt{<variable>} must contain exactly one of these:\\
+\texttt{messageType}, \texttt{type}, or \texttt{element}.
+
+This is made sure through checks for occurences of two of the afore mentioned attributes all three, or the lack of all three.

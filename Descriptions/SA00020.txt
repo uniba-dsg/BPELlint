@@ -1,0 +1,41 @@
+<propertyAlias> uses wrong combination of attributes
+@@@
+A <vprop:propertyAlias> element MUST use one of the three following combinations of attributes: messageType and part, type or element
+@@@
+FOREACH wsdl:
+	FOREACH <propertyAlias>
+		SET $messageTypeAndPart TO (@messageType EXISTS AND @part EXISTS AND @type='xsd:string' NOT EXISTS AND @element='tns:testElementSyncRequest' NOT EXISTS)
+		SET $type TO (@messageType NOT EXISTS AND @part NOT EXISTS AND @type='xsd:string' EXISTS AND @element='tns:testElementSyncRequest' NOT EXISTS)
+		SET $element TO (@messageType NOT EXISTS AND @part NOT EXISTS AND @type='xsd:string' NOT EXISTS AND @element='tns:testElementSyncRequest' EXISTS)
+		FAIL UNLESS ($messageTypeAndPart OR $type OR $element)
+@@@
+PropertyAlias-AllOptionalAttributes.bpel,\\ PropertyAlias-AllOptionalAttributes.wsdl:
+\texttt{<propertyAlias>} with \texttt{@messageType='tns:executeProcessSyncRequest'}, \texttt{@part='inputPart'}, \texttt{@type='xsd:string'} and \texttt{@element='tns:testElementSyncRequest'}.
+PropertyAlias-MessageTypeAttribute.bpel,\\ PropertyAlias-MessageTypeAttribute.wsdl:
+\texttt{<propertyAlias>} with \texttt{@messageType='tns:executeProcessSyncRequest'} but no attribute out of \texttt{@part='inputPart'}, \texttt{@type}, \texttt{@element}.
+PropertyAlias-MessageTypeElementAttributes.bpel,\\ PropertyAlias-MessageTypeElementAttributes.wsdl:
+\texttt{<propertyAlias>} with \texttt{@messageType='tns:executeProcessSyncRequest'} and \\\texttt{@element='tns:testElementSyncRequest'} but no attribute out of \texttt{@part}, \texttt{@type}.
+PropertyAlias-MessageTypePartElementAttributes.bpel,\\ PropertyAlias-MessageTypePartElementAttributes.wsdl:
+\texttt{<propertyAlias>} with \texttt{@messageType='tns:executeProcessSyncRequest'}, \texttt{@part='inputPart'} and \texttt{@element='tns:testElementSyncRequest'} but no attribute \texttt{@type}.
+PropertyAlias-MessageTypePartTypeAttributes.bpel,\\ PropertyAlias-MessageTypePartTypeAttributes.wsdl:
+\texttt{<propertyAlias>} with \texttt{@part='inputPart'}, \texttt{@messageType='tns:executeProcessSyncRequest'} and \texttt{@type='xsd:string'} but no attribute \texttt{@element}.
+PropertyAlias-MessageTypeTypeAttributes.bpel,\\ PropertyAlias-MessageTypeTypeAttributes.wsdl:
+\texttt{<propertyAlias>} with \texttt{@messageType='tns:executeProcessSyncRequest'} and \texttt{@type='xsd:string'} but no attribute out of \texttt{@part}, \texttt{@element}.
+PropertyAlias-MessageTypeTypeElementAttributes.bpel,\\ PropertyAlias-MessageTypeTypeElementAttributes.wsdl:
+\texttt{<propertyAlias>} with \texttt{@messageType='tns:executeProcessSyncRequest'}, \\\texttt{@element='tns:testElementSyncRequest'} and \texttt{@type='xsd:string'} but no attribute \texttt{@part}.
+PropertyAlias-NoOptionalAttributes.bpel,\\ PropertyAlias-NoOptionalAttributes.wsdl:
+\texttt{<propertyAlias>} with no attribute out of \texttt{@messageType}, \texttt{@part}, \texttt{@type}, \texttt{@element}.
+PropertyAlias-PartAttribute.bpel,\\ PropertyAlias-PartAttribute.wsdl:
+\texttt{<propertyAlias>} with \texttt{@part='inputPart'} but no attribute out of \\\texttt{@messageType='tns:executeProcessSyncRequest'}, \texttt{@type='xsd:string'}, \texttt{@element}.
+PropertyAlias-PartElementAttributes.bpel,\\ PropertyAlias-PartElementAttributes.wsdl:
+\texttt{<propertyAlias>} with \texttt{@part='inputPart'} and \texttt{@element='tns:testElementSyncRequest'} but no attribute out of \texttt{@messageType}, \texttt{@type}.
+PropertyAlias-PartTypeAttributes.bpel,\\ PropertyAlias-PartTypeAttributes.wsdl: 
+\texttt{<propertyAlias>} with \texttt{@part='inputPart'} and \texttt{@type='xsd:string'} but no attribute out of \texttt{@messageType='tns:executeProcessSyncRequest'}, \texttt{@element}.
+PropertyAlias-PartTypeElementAttributes.bpel,\\ PropertyAlias-PartTypeElementAttributes.wsdl:
+\texttt{<propertyAlias>} with \texttt{@part='inputPart'}, \texttt{@type='xsd:string'} and \\\texttt{@element='tns:testElementSyncRequest'} but no attribute \texttt{@messageType}.
+PropertyAlias-TypeElementAttributes.bpel,\\ PropertyAlias-TypeElementAttributes.wsdl:
+\texttt{<propertyAlias>} with \texttt{@type='xsd:string'} and \texttt{@element='tns:testElementSyncRequest'} but no attribute out of \texttt{@messageType}, \texttt{@part}.
+@@@
+SA00020 defines a BPEL file only to be valid if each \texttt{<vprop:propertyAlias>} element uses either a combination of a \texttt{messageType} and a \texttt{part} attribute, or only a \texttt{type} attribute, or only a \texttt{element} attribute.
+
+Each \texttt{<propertyAlias>} element is simply checked to have valid occurences of these attributes.

@@ -1,0 +1,3 @@
+Place Short Description Here.
+@@@
+For a copy operation to be valid, the data referred to by the from-spec and the to-spec MUST be of compatible types. The following situations are considered type incompatible:  •     the selection results of both the from-spec and the to-spec are variables of a WSDL message type, and the two variables are not of the same WSDL message type (two WSDL message types are the same if their QNames are equal).  •     the selection result of the from-spec is a variable of a WSDL message type and that of the to-spec is not, or vice versa (parts of variables, selections of variable parts, or endpoint references cannot be assigned to/from variables of WSDL message types directly).

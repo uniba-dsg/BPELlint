@@ -1,0 +1,16 @@
+<compensateScope> not within FCT-Handler
+@@@
+The <compensateScope> activity MUST only be used from within a faultHandler, another compensationHandler, or a terminationHandler.
+@@@
+FOREACH <compensateScope>
+	SET $isFaultParent TO <faultHandlers> EQUALS PARENT <compensateScope>
+	SET $isCompensationParent TO <compensationHandler> EQUALS PARENT <compensateScope>
+	SET $isTerminationParent TO <terminationHandler> EQUALS PARENT <compensateScope>
+	FAIL UNLESS ($isFaultParent OR $isCompensationParent OR $isTerminationParent)
+@@@
+CompensateScopeOutsideFaultHandlers.bpel:
+The activity \texttt{<compensateScope>} is a direct child of \texttt{<process>}.
+@@@
+A \texttt{<compensateScope>} needs to have a parent being either a \texttt{<faultHandlers>}, a \texttt{<compensationHandler>} or a \texttt{<terminationHandler>}.
+
+Otherwise the validation fails.
