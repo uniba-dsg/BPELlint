@@ -1,6 +1,5 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 
-import de.uniba.wiai.dsg.ss12.isabel.IsabelTool;
 import de.uniba.wiai.dsg.ss12.isabel.tool.Standards;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator;
@@ -48,7 +47,7 @@ public class XmlFileLoader {
 			bpel = new DocumentEntry(bpelFilePath, qName, bpelDom);
 
 			String xmlSchemaFilePath = "/XMLSchema.xsd";
-			InputStream stream = IsabelTool.class.getResourceAsStream(xmlSchemaFilePath);
+			InputStream stream = XmlFileLoader.class.getResourceAsStream(xmlSchemaFilePath);
 			if (stream == null) {
 				throw new ValidationException("Could not load" + xmlSchemaFilePath);
 			}

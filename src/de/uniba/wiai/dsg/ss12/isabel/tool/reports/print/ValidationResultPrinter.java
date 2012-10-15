@@ -1,6 +1,5 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.reports.print;
 
-import de.uniba.wiai.dsg.ss12.isabel.IsabelTool;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.VerbosityLevel;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
@@ -45,7 +44,7 @@ public class ValidationResultPrinter {
 		Builder parser = new Builder();
 		try {
 
-			InputStream errorMessageStream = IsabelTool.class.getResourceAsStream("/errormessages.xml");
+			InputStream errorMessageStream = ValidationResultPrinter.class.getResourceAsStream("/errormessages.xml");
 			if (errorMessageStream == null) {
 				throw new ValidationException("Unable to load errormessages.xml, "
 						+ "the file was not found");
