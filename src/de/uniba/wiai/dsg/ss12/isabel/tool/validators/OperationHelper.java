@@ -18,11 +18,8 @@ public class OperationHelper {
 		if (operation == null)
 			return false;
 
-		if (operation.query("child::wsdl:input", CONTEXT).size() == 1
-				&& operation.query("child::wsdl:output", CONTEXT).size() == 0) {
-			return true;
-		}
-		return false;
+		return operation.query("child::wsdl:input", CONTEXT).size() == 1
+				&& operation.query("child::wsdl:output", CONTEXT).size() == 0;
 	}
 
 	public boolean isRequestResponse() {
@@ -32,11 +29,8 @@ public class OperationHelper {
 
 		String firstNodeInputChildQuery = "child::*[position()=1][self::wsdl:input]";
 		String secondNodeOutputChildQuery = "child::*[position()=2][self::wsdl:output]";
-		if (operation.query(firstNodeInputChildQuery, CONTEXT).size() == 1
-				&& operation.query(secondNodeOutputChildQuery, CONTEXT).size() == 1) {
-			return true;
-		}
-		return false;
+		return operation.query(firstNodeInputChildQuery, CONTEXT).size() == 1
+				&& operation.query(secondNodeOutputChildQuery, CONTEXT).size() == 1;
 	}
 
 }

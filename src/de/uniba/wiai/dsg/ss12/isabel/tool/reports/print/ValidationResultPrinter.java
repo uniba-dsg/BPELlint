@@ -125,7 +125,7 @@ public class ValidationResultPrinter {
 	}
 
 	private void printLineRowSA(Violation violation, String saNumber, String previousSourceFile) {
-		if (violation.fileName.equals(previousSourceFile) == false)
+		if (!violation.fileName.equals(previousSourceFile))
 			System.out.println(violation.fileName + ":");
 
 		System.out.println("\tLine " + violation.row + ", Column " + violation.column + ", "

@@ -43,10 +43,10 @@ public class SA00047Validator extends Validator {
 	private void validateMessagePartConstraint(Node messageActivity)
 			throws NavigationException {
 		if (isReceiveOnMessageOnEvent(messageActivity)
-				&& hasVariableORfromPart(messageActivity) == false) {
+				&& !hasVariableORfromPart(messageActivity)) {
 			reportViolation(messageActivity, 2);
 		} else if (isReply(messageActivity)
-				&& hasVariableORtoPart(messageActivity) == false) {
+				&& !hasVariableORtoPart(messageActivity)) {
 			reportViolation(messageActivity, 3);
 		} else if (isInvoke(messageActivity)) {
 			validateInvokeMessagePartConstraint(messageActivity);
@@ -111,11 +111,8 @@ public class SA00047Validator extends Validator {
 
 	private boolean isReceiveOnMessageOnEvent(Node messageActivity) {
 		String localName = navigator.getLocalName(messageActivity);
-		if (localName.equals("receive") || localName.equals("onMessage")
-				|| localName.equals("onEvent")) {
-			return true;
-		}
-		return false;
+		return localName.equals("receive") || localName.equals("onMessage")
+				|| localName.equals("onEvent");
 	}
 
 	private List<Nodes> getMessageActivities() {
@@ -150,26 +147,17 @@ public class SA00047Validator extends Validator {
 
 	private boolean hasToPart(Node messageActivity) {
 		Nodes toPart = messageActivity.query("child::bpel:toParts", CONTEXT);
-		if (toPart.size() > 0)
-			return true;
-		else
-			return false;
+		return toPart.size() > 0;
 	}
 
 	private boolean hasFromPart(Node msgActivity) {
 		Nodes fromPart = msgActivity.query("child::bpel:fromParts", CONTEXT);
-		if (fromPart.size() > 0)
-			return true;
-		else
-			return false;
+		return fromPart.size() > 0;
 	}
 
 	private boolean hasVariable(Node msgActivity) {
 		Nodes variable = msgActivity.query("attribute::variable", CONTEXT);
-		if (variable.size() > 0)
-			return true;
-		else
-			return false;
+		return variable.size() > 0;
 	}
 
 	private boolean hasVariableORfromPart(Node messageActivity) {
