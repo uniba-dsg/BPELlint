@@ -5,6 +5,7 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -82,7 +83,7 @@ public class SA00047Validator extends Validator {
 					"WARNING: could not found an associated operation "
 							+ getBpelFileName());
 
-		HashMap<String, Node> messages = navigator.getOperationMessages(
+		Map<String, Node> messages = navigator.getOperationMessages(
 				fileHandler.getAllWsdls(), operation);
 		if (messages == null || messages.size() < 1)
 			throw new NavigationException(
