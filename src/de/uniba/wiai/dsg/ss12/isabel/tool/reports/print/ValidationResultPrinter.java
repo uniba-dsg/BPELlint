@@ -1,25 +1,23 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.reports.print;
 
-import java.io.*;
-import java.util.List;
-
 import de.uniba.wiai.dsg.ss12.isabel.IsabelTool;
-import nu.xom.Builder;
-import nu.xom.Document;
-import nu.xom.Nodes;
-import nu.xom.ParsingException;
-import nu.xom.ValidityException;
-import nu.xom.XPathContext;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.VerbosityLevel;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import nu.xom.*;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
 
 public class ValidationResultPrinter {
 
-	private Document			errorDocument	= null;
-	private final XPathContext	MSG_CONTEXT		= new XPathContext("err",
-														"http://lspi.wiai.uni-bamberg.de/ed-12-ss-proj-bpelval/schema/errormessages");
+	private Document errorDocument = null;
+	private final XPathContext MSG_CONTEXT = new XPathContext("err",
+			"http://lspi.wiai.uni-bamberg.de/ed-12-ss-proj-bpelval/schema/errormessages");
 
 	public ValidationResultPrinter() {
 		try {
@@ -31,15 +29,15 @@ public class ValidationResultPrinter {
 
 	public void printResults(VerbosityLevel verbosityLevel, ViolationCollector violationCollector) {
 		switch (verbosityLevel) {
-		case NORMAL:
-			printResults(violationCollector);
-			break;
-		case VERBOSE:
-			printResultsVerbose(violationCollector);
-			break;
-		case FULL:
-			printResultsFull(violationCollector);
-			break;
+			case NORMAL:
+				printResults(violationCollector);
+				break;
+			case VERBOSE:
+				printResultsVerbose(violationCollector);
+				break;
+			case FULL:
+				printResultsFull(violationCollector);
+				break;
 		}
 	}
 
@@ -47,13 +45,15 @@ public class ValidationResultPrinter {
 		Builder parser = new Builder();
 		try {
 
-            InputStream errorMessageStream = IsabelTool.class.getResourceAsStream("/errormessages.xml");
-            if(errorMessageStream == null) {
-                throw new ValidationException("Unable to load errormessages.xml, "
-                        + "the file was not found");
-            }
-            InputStreamReader reader = new InputStreamReader(errorMessageStream);
-			return parser.build(reader);
+			InputStream errorMessageStream = IsabelTool.class.getResourceAsStream("/errormessages.xml");
+			if (errorMessageStream == null) {
+				throw new ValidationException("Unable to load errormessages.xml, "
+						+ "the file was not found");
+			}
+
+			try (InputStreamReader reader = new InputStreamReader(errorMessageStream)) {
+				return parser.build(reader);
+			}
 		} catch (ValidityException e) {
 			throw new ValidationException(e, "Unable to load errormessages.xml, "
 					+ "this file is invalid");

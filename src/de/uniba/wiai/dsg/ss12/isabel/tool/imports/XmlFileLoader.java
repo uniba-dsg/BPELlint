@@ -1,7 +1,10 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
+import de.uniba.wiai.dsg.ss12.isabel.IsabelTool;
+import de.uniba.wiai.dsg.ss12.isabel.tool.Standards;
+import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator;
+import nu.xom.*;
 
 import java.io.*;
 import java.net.URI;
@@ -9,17 +12,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.uniba.wiai.dsg.ss12.isabel.IsabelTool;
-import nu.xom.Builder;
-import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Node;
-import nu.xom.Nodes;
-import nu.xom.ParsingException;
-import nu.xom.ValidityException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.Standards;
-import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
 
 public class XmlFileLoader {
 
@@ -53,19 +47,19 @@ public class XmlFileLoader {
 			String qName = navigator.getTargetNamespace(bpelDom);
 			bpel = new DocumentEntry(bpelFilePath, qName, bpelDom);
 
-            String xmlSchemaFilePath = "/XMLSchema.xsd";
-            InputStream stream = IsabelTool.class.getResourceAsStream(xmlSchemaFilePath);
-            if(stream == null) {
-                throw new ValidationException("Could not load" + xmlSchemaFilePath);
-            }
-            InputStreamReader schemaFile = new InputStreamReader(stream);
+			String xmlSchemaFilePath = "/XMLSchema.xsd";
+			InputStream stream = IsabelTool.class.getResourceAsStream(xmlSchemaFilePath);
+			if (stream == null) {
+				throw new ValidationException("Could not load" + xmlSchemaFilePath);
+			}
+			try (InputStreamReader schemaFile = new InputStreamReader(stream)) {
+				Document xmlSchemaDom = builder.build(schemaFile);
+				DocumentEntry xmlSchemaEntry = new DocumentEntry(xmlSchemaFilePath,
+						"http://www.w3.org/2001/XMLSchema", xmlSchemaDom);
+				xsdList.add(xmlSchemaEntry);
 
-			Document xmlSchemaDom = builder.build(schemaFile);
-			DocumentEntry xmlSchemaEntry = new DocumentEntry(xmlSchemaFilePath,
-					"http://www.w3.org/2001/XMLSchema", xmlSchemaDom);
-			xsdList.add(xmlSchemaEntry);
-
-			loadBpelImports();
+				loadBpelImports();
+			}
 
 		} catch (ValidityException e) {
 			throw new ValidationException(e,
