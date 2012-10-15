@@ -38,7 +38,7 @@ public abstract class ValidatorTests {
 		if (isFileOfThisValidator) {
 			assertFalse(getValidator().validate());
 		} else {
-			assertTrue(getValidator().validate());
+			assertTrue("validator for rule " + getValidator().getSaNumber() + " failed unexpectedly for file " + getValidator().getBpelFileName(), getValidator().validate());
 		}
 	}
 

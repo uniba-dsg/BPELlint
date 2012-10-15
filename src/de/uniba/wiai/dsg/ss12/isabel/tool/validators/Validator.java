@@ -65,7 +65,7 @@ public abstract class Validator {
 		return (Element) element;
 	}
 
-	protected String getBpelFileName() {
+	public String getBpelFileName() {
 		return fileHandler.getBpel().getFilePath();
 	}
 
