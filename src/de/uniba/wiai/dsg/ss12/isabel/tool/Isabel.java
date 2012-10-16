@@ -1,6 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.CollectionBasedValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.SimpleValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.XmlFileLoader;
 import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorsHandler;
@@ -29,7 +29,7 @@ public class Isabel {
 		}
 
 		BpelProcessFiles bpelProcessFiles = new XmlFileLoader().loadAllProcessFiles(bpelPath);
-		CollectionBasedValidationResult validationResult = new CollectionBasedValidationResult();
+		SimpleValidationResult validationResult = new SimpleValidationResult();
 		ValidatorsHandler validators = new ValidatorsHandler(bpelProcessFiles, validationResult);
 		validators.validate();
 
