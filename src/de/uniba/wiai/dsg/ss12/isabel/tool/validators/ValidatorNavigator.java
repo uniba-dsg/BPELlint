@@ -32,8 +32,8 @@ public class ValidatorNavigator {
 			String messageQName = getAttributeValue(child.query("@message"));
 			String childName = new NodeHelper(child).getLocalName();
 			String namespaceURI = operation.getDocument().getRootElement()
-					.getNamespaceURI(getPrefix(messageQName));
-			String messageName = prefixFree(messageQName);
+					.getNamespaceURI(PrefixHelper.getPrefix(messageQName));
+			String messageName = PrefixHelper.removePrefix(messageQName);
 
 			Node message = getMessage(messageName, namespaceURI, wsdlImports);
 			if (message != null)
@@ -63,24 +63,6 @@ public class ValidatorNavigator {
 		}
 
 		return message;
-	}
-
-	public static String prefixFree(String localAttribute) {
-		if (localAttribute.contains(":")) {
-			return localAttribute.substring(localAttribute
-					.indexOf(":") + 1);
-		} else {
-			return localAttribute;
-		}
-	}
-
-	public String getPrefix(String value) {
-		String[] qName = value.split(":");
-		if (qName.length > 1) {
-			return qName[0];
-		} else {
-			return "";
-		}
 	}
 
 	public String getPrefixNamespaceURI(Document document,
@@ -126,11 +108,11 @@ public class ValidatorNavigator {
 		String partnerLinkTypeAttribute = partnerLink
 				.getAttributeValue("partnerLinkType");
 		String wsdlImportNamespace = getPrefixNamespaceURI(
-				partnerLink.getDocument(), getPrefix(partnerLinkTypeAttribute));
+				partnerLink.getDocument(), PrefixHelper.getPrefix(partnerLinkTypeAttribute));
 		Document correspondingWsdlDom = searchedTargetNamespaceToWsdlDocument(wsdlImportNamespace);
 
 		if (correspondingWsdlDom != null) {
-			String partnerLinkTypeName = prefixFree(partnerLinkTypeAttribute);
+			String partnerLinkTypeName = PrefixHelper.removePrefix(partnerLinkTypeAttribute);
 			String partnerRoleName = partnerLink
 					.getAttributeValue("partnerRole");
 			String myRoleName = partnerLink.getAttributeValue("myRole");
@@ -143,7 +125,7 @@ public class ValidatorNavigator {
 			if (partnerRolePortType.size() > 0) {
 				String portTypeQName = partnerRolePortType.get(0).getValue();
 				String portTypeNamespaceURI = getPrefixNamespaceURI(
-						correspondingWsdlDom, getPrefix(portTypeQName));
+						correspondingWsdlDom, PrefixHelper.getPrefix(portTypeQName));
 				return getPortType(portTypeQName, portTypeNamespaceURI);
 			} else {
 				Nodes myRolePortType = correspondingWsdlDom.query(
@@ -153,7 +135,7 @@ public class ValidatorNavigator {
 				if (myRolePortType.size() > 0) {
 					String portTypeQName = myRolePortType.get(0).getValue();
 					String portTypeNamespaceURI = getPrefixNamespaceURI(
-							correspondingWsdlDom, getPrefix(portTypeQName));
+							correspondingWsdlDom, PrefixHelper.getPrefix(portTypeQName));
 					return getPortType(portTypeQName, portTypeNamespaceURI);
 				}
 			}
@@ -187,7 +169,7 @@ public class ValidatorNavigator {
 
 	public Node getPortType(String portTypeQName, String portTypeNamespaceURI)
 			throws NavigationException {
-		String portTypeName = prefixFree(portTypeQName);
+		String portTypeName = PrefixHelper.removePrefix(portTypeQName);
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
 			String targetNamespace = wsdlEntry.getTargetNamespace();
 			if (targetNamespace.equals(portTypeNamespaceURI)) {
@@ -218,8 +200,8 @@ public class ValidatorNavigator {
 		}
 
 		String messageQName = inputNodes.get(0).getValue();
-		String qNamePrefix = getPrefix(messageQName);
-		String messageName = prefixFree(messageQName);
+		String qNamePrefix = PrefixHelper.getPrefix(messageQName);
+		String messageName = PrefixHelper.removePrefix(messageQName);
 		String messageNamespaceURI = getPrefixNamespaceURI(
 				operation.getDocument(), qNamePrefix);
 
@@ -252,7 +234,7 @@ public class ValidatorNavigator {
 		for (Node message : messages) {
 			String messageName = getAttributeValue(message.query("@name",
 					CONTEXT));
-			if (messageName.equals(prefixFree(messageAttribute))) {
+			if (messageName.equals(PrefixHelper.removePrefix(messageAttribute))) {
 				return message;
 			}
 		}
@@ -270,7 +252,7 @@ public class ValidatorNavigator {
 		for (Node message : messages) {
 			String messageName = getAttributeValue(message.query("@name",
 					CONTEXT));
-			if (messageName.equals(prefixFree(messageAttribute))) {
+			if (messageName.equals(PrefixHelper.removePrefix(messageAttribute))) {
 				return message;
 			}
 		}
@@ -307,7 +289,7 @@ public class ValidatorNavigator {
 
 		String propertyAliasName = getAttributeValue(correlationSet.query(
 				"@properties", CONTEXT));
-		String namespacePrefix = getPrefix(propertyAliasName);
+		String namespacePrefix = PrefixHelper.getPrefix(propertyAliasName);
 
 		if (namespacePrefix != null) {
 			return namespacePrefix;
@@ -335,7 +317,7 @@ public class ValidatorNavigator {
 			Document wsdlFile) throws NavigationException {
 		Nodes propertyAliases = wsdlFile
 				.query("//vprop:propertyAlias", CONTEXT);
-		String propertyAliasAttribute = prefixFree(getAttributeValue(correlationSet
+		String propertyAliasAttribute = PrefixHelper.removePrefix(getAttributeValue(correlationSet
 				.query("@properties", CONTEXT)));
 
 		return navigateFromPropertyAliasNameToPropertyAlias(propertyAliases,
@@ -345,7 +327,7 @@ public class ValidatorNavigator {
 	public Node navigateFromPropertyAliasNameToPropertyAlias(Nodes aliases,
 			String propertyAliasAttribute) throws NavigationException {
 		for (Node propertyAlias : aliases) {
-			String propertyAliasName = prefixFree(getAttributeValue(propertyAlias
+			String propertyAliasName = PrefixHelper.removePrefix(getAttributeValue(propertyAlias
 					.query("@propertyName", CONTEXT)));
 
 			if (propertyAliasName.equals(propertyAliasAttribute)) {
@@ -367,7 +349,7 @@ public class ValidatorNavigator {
 			String propertyName = getAttributeValue(property.query("@name",
 					CONTEXT));
 
-			if (propertyName.equals(prefixFree(propertyAttribute))) {
+			if (propertyName.equals(PrefixHelper.removePrefix(propertyAttribute))) {
 				return property;
 			}
 		}

@@ -12,7 +12,6 @@ import java.util.Map;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.prefixFree;
 
 public class SA00048Validator extends Validator {
 	public SA00048Validator(BpelProcessFiles files, ValidationResult violationCollector) {
@@ -113,8 +112,8 @@ public class SA00048Validator extends Validator {
 
 	private Node findXsdType(String typeQName, Node variable) {
 		String variableTypeNamespaceURI = variable.getDocument().getRootElement()
-				.getNamespaceURI(navigator.getPrefix(typeQName));
-		String xsdTypeName = prefixFree(typeQName);
+				.getNamespaceURI(PrefixHelper.getPrefix(typeQName));
+		String xsdTypeName = PrefixHelper.removePrefix(typeQName);
 		Node xsdType = null;
 
 		for (Node node : fileHandler.getXsdSchema()) {
@@ -145,8 +144,8 @@ public class SA00048Validator extends Validator {
 
 	private Node getVariableMessage(String messageTypeQName, Node variable) {
 		String namespaceURI = variable.getDocument().getRootElement()
-				.getNamespaceURI(navigator.getPrefix(messageTypeQName));
-		String messageName = prefixFree(messageTypeQName);
+				.getNamespaceURI(PrefixHelper.getPrefix(messageTypeQName));
+		String messageName = PrefixHelper.removePrefix(messageTypeQName);
 
 		return navigator.getMessage(messageName, namespaceURI,
 				fileHandler.getAllWsdls());

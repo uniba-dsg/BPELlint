@@ -11,7 +11,6 @@ import nu.xom.Nodes;
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.XSD_NAMESPACE;
 import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.prefixFree;
 
 public class SA00045Validator extends Validator {
 	private String filePath;
@@ -49,7 +48,7 @@ public class SA00045Validator extends Validator {
 
 		String propertyType = getAttributeValue(property
 				.query("@type", CONTEXT));
-		String namespacePrefix = navigator.getPrefix(propertyType);
+		String namespacePrefix = PrefixHelper.getPrefix(propertyType);
 		String propertyTypeTargetNamespace = navigator.getImportNamespace(
 				property, namespacePrefix);
 
@@ -60,7 +59,7 @@ public class SA00045Validator extends Validator {
 				String simpleTypeName = getAttributeValue(simpleType.query(
 						"@name", CONTEXT));
 
-				if (prefixFree(propertyType).equals(simpleTypeName)) {
+				if (PrefixHelper.removePrefix(propertyType).equals(simpleTypeName)) {
 					return true;
 				}
 			}

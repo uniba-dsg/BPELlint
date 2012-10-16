@@ -22,10 +22,11 @@ public class SA00001Validator extends Validator {
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
 			filePath = wsdlEntry.getFilePath();
 			for (Node currentOperation : getOperations(wsdlEntry)) {
-				if (new OperationHelper(currentOperation).isNotification()) {
+				OperationHelper operationHelper = new OperationHelper(currentOperation);
+				if (operationHelper.isNotification()) {
 					addViolation(filePath, currentOperation, 1);
 				}
-				if (new OperationHelper(currentOperation).isSolicitResponse()) {
+				if (operationHelper.isSolicitResponse()) {
 					addViolation(filePath, currentOperation, 2);
 				}
 			}

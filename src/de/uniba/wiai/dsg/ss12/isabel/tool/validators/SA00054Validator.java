@@ -8,7 +8,6 @@ import nu.xom.Nodes;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.prefixFree;
 
 public class SA00054Validator extends Validator {
 
@@ -34,7 +33,7 @@ public class SA00054Validator extends Validator {
 		for (Node outgoingOperation : outgoingOperations) {
 			try {
 				Node message;
-				if ("invoke".equals(prefixFree(xPathOutgoingOperation))) {
+				if ("invoke".equals(PrefixHelper.removePrefix(xPathOutgoingOperation))) {
 					message = navigator
 							.getCorrespondingIncomingMessage(outgoingOperation);
 				} else {

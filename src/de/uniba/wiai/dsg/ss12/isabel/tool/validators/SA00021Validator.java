@@ -10,7 +10,6 @@ import nu.xom.Nodes;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.prefixFree;
 
 public class SA00021Validator extends Validator {
 
@@ -101,10 +100,10 @@ public class SA00021Validator extends Validator {
 			Nodes wsdlPropertyAliasSet = wsdl.query("//vprop:propertyAlias",
 					CONTEXT);
 			for (Node propertyAlias : wsdlPropertyAliasSet) {
-				String propertyName = prefixFree(getAttributeValue(propertyAlias
+				String propertyName = PrefixHelper.removePrefix(getAttributeValue(propertyAlias
 						.query("@propertyName", CONTEXT)));
 
-				if (prefixFree(property).equals(propertyName)) {
+				if (PrefixHelper.removePrefix(property).equals(propertyName)) {
 					if (!isOfThisMessageType(type, propertyAlias, partHolder)
 							&& !isOfThisType(type, propertyAlias)
 							&& !isOfThisElement(type, propertyAlias)) {
@@ -119,29 +118,29 @@ public class SA00021Validator extends Validator {
 
 	private boolean isOfThisElement(String type, Node propertyAlias) {
 		return getAttributeValue(propertyAlias.query("@element")).equals(
-				prefixFree(type));
+				PrefixHelper.removePrefix(type));
 	}
 
 	private boolean isOfThisType(String type, Node propertyAlias) {
 		return getAttributeValue(propertyAlias.query("@type")).equals(
-				prefixFree(type));
+				PrefixHelper.removePrefix(type));
 	}
 
 	private boolean isOfThisMessageType(String type, Node propertyAlias,
 			Node partHolder) {
 		boolean isMessageType = getAttributeValue(
-				propertyAlias.query("@messageType")).equals(prefixFree(type));
+				propertyAlias.query("@messageType")).equals(PrefixHelper.removePrefix(type));
 
 		return isMessageType
 				&& getAttributeValue(propertyAlias.query("@part"))
-						.equals(prefixFree(getAttributeValue(partHolder
+						.equals(PrefixHelper.removePrefix(getAttributeValue(partHolder
 								.query("@part"))));
 	}
 
 	private Document getCorrespondingWsdl(String property, Node node)
 			throws NavigationException {
 		String targetNamespace = navigator.getPrefixNamespaceURI(
-				node.getDocument(), navigator.getPrefix(property));
+				node.getDocument(), PrefixHelper.getPrefix(property));
 		return navigator.searchedTargetNamespaceToWsdlDocument(targetNamespace);
 	}
 
