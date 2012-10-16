@@ -1,15 +1,16 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import nu.xom.Node;
-import nu.xom.Nodes;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import nu.xom.Node;
+import nu.xom.Nodes;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
 
 public class SA00003Validator extends Validator {
 
@@ -17,28 +18,9 @@ public class SA00003Validator extends Validator {
 	private final List<String> faultList;
 
 	public SA00003Validator(BpelProcessFiles files,
-			ViolationCollector violationCollector) {
+	                        ViolationCollector violationCollector) {
 		super(files, violationCollector);
-		faultList = new ArrayList<>();
-		faultList.add("bpel:ambiguousReceive");
-		faultList.add("bpel:completionConditionFailure");
-		faultList.add("bpel:conflictingReceive");
-		faultList.add("bpel:conflictingRequest");
-		faultList.add("bpel:correlationViolation");
-		faultList.add("bpel:invalidBranchCondition ");
-		faultList.add("bpel:invalidExpressionValue");
-		faultList.add("bpel:invalidVariables");
-		faultList.add("bpel:mismatchedAssignmentFailure");
-		faultList.add("bpel:missingReply");
-		faultList.add("bpel:missingRequest ");
-		faultList.add("bpel:scopeInitializationFailure");
-		faultList.add("bpel:selectionFailure ");
-		faultList.add("bpel:subLanguageExecutionFault");
-		faultList.add("bpel:uninitializedPartnerRole");
-		faultList.add("bpel:uninitializedVariable");
-		faultList.add("bpel:unsupportedReference");
-		faultList.add("bpel:xsltInvalidSource");
-		faultList.add("bpel:xsltStylesheetNotFound");
+		faultList = Arrays.asList(BPELFaults.VALUES);
 	}
 
 	@Override
