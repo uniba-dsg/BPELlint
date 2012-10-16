@@ -27,8 +27,7 @@ public class SA00044Validator extends Validator {
 		String fileName = fileHandler.getBpel().getFilePath();
 
 		Set<String> occurringNames = new HashSet<>();
-		for (int i = 0; i < correlationSetNames.size(); i++) {
-			Node currentNode = correlationSetNames.get(i);
+		for (Node currentNode : correlationSetNames) {
 			if (!occurringNames.add(currentNode.toXML())) {
 				addViolation(fileName, currentNode, 1);
 			}

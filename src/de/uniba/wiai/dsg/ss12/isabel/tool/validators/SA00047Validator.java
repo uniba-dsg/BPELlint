@@ -58,14 +58,10 @@ public class SA00047Validator extends Validator {
 		if (new OperationHelper(operation).isOneWay()
 				&& !hasInputVariableOrToPart(messageActivity)) {
 			reportViolation(messageActivity, 4);
-		} else if (isRequestResponseOperation(operation)
+		} else if (new OperationHelper(operation).isRequestResponse()
 				&& (!hasInputVariableOrToPart(messageActivity) || !hasOutputVariableOrFromPart(messageActivity))) {
 			reportViolation(messageActivity, 5);
 		}
-	}
-
-	private boolean isRequestResponseOperation(Node operation) {
-		return new OperationHelper(operation).isRequestResponse();
 	}
 
 	private void validateNoMessagePartConstraint(Node messageActivity) {

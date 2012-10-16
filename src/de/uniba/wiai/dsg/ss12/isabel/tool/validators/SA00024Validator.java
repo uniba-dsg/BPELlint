@@ -21,15 +21,15 @@ public class SA00024Validator extends Validator {
 		Nodes onEvents = fileHandler.getBpel().getDocument()
 				.query("//bpel:onEvent/@variable", CONTEXT);
 
-		for (Node node : variables) {
-			if (node.getValue().contains(".")) {
-				addViolation(fileName, node, 1);
+		for (Node variable : variables) {
+			if (variable.getValue().contains(".")) {
+				addViolation(fileName, variable, 1);
 			}
 		}
 
-		for (Node node : onEvents) {
-			if (node.getValue().contains(".")) {
-				addViolation(fileName, node, 1);
+		for (Node onEvent : onEvents) {
+			if (onEvent.getValue().contains(".")) {
+				addViolation(fileName, onEvent, 1);
 			}
 		}
 	}

@@ -23,13 +23,9 @@ public class SA00002Validator extends Validator {
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
 			String filePath = wsdlEntry.getFilePath();
 
-			Nodes portTypes = getPortTypes(wsdlEntry);
-			for (int i = 0; i < portTypes.size(); i++) {
-				Nodes operationNames = getOperationNames(portTypes.get(i));
-
+			for (Node portType : getPortTypes(wsdlEntry)) {
 				Set<String> nameSet = new HashSet<>();
-				for (int j = 0; j < operationNames.size(); j++) {
-					Node nameAttribute = operationNames.get(j);
+				for (Node nameAttribute : getOperationNames(portType)) {
 					String currentName = nameAttribute.toXML();
 
 					if (nameSet.contains(currentName)) {

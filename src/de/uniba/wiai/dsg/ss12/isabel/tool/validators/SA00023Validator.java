@@ -29,8 +29,8 @@ public class SA00023Validator extends Validator {
 
 		Nodes scopes = fileHandler.getBpel().getDocument()
 				.query("//bpel:scope", CONTEXT);
-		for (Node node : scopes) {
-			Nodes variableNames = node.query(
+		for (Node scope : scopes) {
+			Nodes variableNames = scope.query(
 					"bpel:variables/bpel:variable/@name", CONTEXT);
 			checkForDuplicates(variableNames, 2);
 		}

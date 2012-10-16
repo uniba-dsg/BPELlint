@@ -21,10 +21,7 @@ public class SA00001Validator extends Validator {
 	public void validate() {
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
 			filePath = wsdlEntry.getFilePath();
-			Nodes operations = getOperations(wsdlEntry);
-			for (int i = 0; i < operations.size(); i++) {
-				Node currentOperation = operations.get(i);
-
+			for (Node currentOperation : getOperations(wsdlEntry)) {
 				if (new OperationHelper(currentOperation).isNotification()) {
 					addViolation(filePath, currentOperation, 1);
 				}

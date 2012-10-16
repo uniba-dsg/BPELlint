@@ -20,12 +20,12 @@ public class SA00051Validator extends Validator {
 		Nodes invokes = fileHandler.getBpel().getDocument()
 				.query("//bpel:invoke", CONTEXT);
 
-		for (Node node : invokes) {
+		for (Node invoke : invokes) {
 
-			Nodes toPartsSet = node.query("bpel:toParts", CONTEXT);
-			Nodes inputVariableSet = node.query("@inputVariable", CONTEXT);
+			Nodes toPartsSet = invoke.query("bpel:toParts", CONTEXT);
+			Nodes inputVariableSet = invoke.query("@inputVariable", CONTEXT);
 			if ((toPartsSet.size() > 0) && (inputVariableSet.size() > 0)) {
-				addViolation(fileName, node, 1);
+				addViolation(fileName, invoke, 1);
 			}
 		}
 	}

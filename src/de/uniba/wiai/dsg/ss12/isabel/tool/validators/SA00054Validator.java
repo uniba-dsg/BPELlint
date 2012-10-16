@@ -26,7 +26,7 @@ public class SA00054Validator extends Validator {
 		hasPartForEveryToPart("//bpel:reply");
 	}
 
-	private boolean hasPartForEveryToPart(String xPathOutgoingOperation) {
+	private void hasPartForEveryToPart(String xPathOutgoingOperation) {
 		Nodes outgoingOperations = fileHandler.getBpel().getDocument()
 				.query(xPathOutgoingOperation, CONTEXT);
 
@@ -57,7 +57,6 @@ public class SA00054Validator extends Validator {
 			}
 
 		}
-		return true;
 	}
 
 	private boolean hasToPartCorrespondingMessagePart(Node toPart, Node message) {

@@ -23,11 +23,11 @@ public class SA00008Validator extends Validator {
 			Nodes ancestors = compensate.query("ancestor::*", CONTEXT);
 
 			boolean foundCorrespondingFTCHandler = false;
-			for (Node node : ancestors) {
-				Nodes faultHandlers = node.query("bpel:faultHandlers", CONTEXT);
-				Nodes compensationHandlers = node.query(
+			for (Node ancestor : ancestors) {
+				Nodes faultHandlers = ancestor.query("bpel:faultHandlers", CONTEXT);
+				Nodes compensationHandlers = ancestor.query(
 						"bpel:compensationHandler", CONTEXT);
-				Nodes terminationHandlers = node.query(
+				Nodes terminationHandlers = ancestor.query(
 						"bpel:terminationHandlers", CONTEXT);
 
 				if (faultHandlers.size() > 0 || compensationHandlers.size() > 0

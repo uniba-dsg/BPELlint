@@ -6,6 +6,7 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.p
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -21,21 +22,21 @@ public class SA00048Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes invokeNodes = fileHandler.getBpel().getDocument().query("//bpel:invoke", CONTEXT);
-		for (Node invokeActivity : invokeNodes) {
+		Nodes invokes = fileHandler.getBpel().getDocument().query("//bpel:invoke", CONTEXT);
+		for (Node invoke : invokes) {
 			try {
-				HashMap<String, Node> messages = getCorrespondingMessages(invokeActivity);
-				Node variableForInput = getInputVariable(invokeActivity);
-				Node variableForOutput = getOutputVariable(invokeActivity);
+				Map<String, Node> messages = getCorrespondingMessages(invoke);
+				Node variableForInput = getInputVariable(invoke);
+				Node variableForOutput = getOutputVariable(invoke);
 
 				if (variableForInput != null) {
 					if (!hasCorrespondingMessage(variableForInput, messages.get("input")))
-						reportViolation(invokeActivity, 1);
+						reportViolation(invoke, 1);
 				}
 
 				if (variableForOutput != null) {
 					if (!hasCorrespondingMessage(variableForOutput, messages.get("output"))) {
-						reportViolation(invokeActivity, 2);
+						reportViolation(invoke, 2);
 					}
 				}
 			} catch (NavigationException e) {
@@ -54,7 +55,7 @@ public class SA00048Validator extends Validator {
 		return correspondingVariable(invokeActivity, outputVariableName);
 	}
 
-	private HashMap<String, Node> getCorrespondingMessages(Node invokeActivity)
+	private Map<String, Node> getCorrespondingMessages(Node invokeActivity)
 			throws NavigationException {
 		List<DocumentEntry> wsdlImports = fileHandler.getAllWsdls();
 		Node operation;
