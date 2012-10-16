@@ -18,9 +18,7 @@ package de.uniba.wiai.dsg.ss12.isabel;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.Isabel;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.CommandLineInterpreter;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.print.ValidationResultPrinter;
 
 public class IsabelTool {
 

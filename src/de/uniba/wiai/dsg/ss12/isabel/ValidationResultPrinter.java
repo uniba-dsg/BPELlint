@@ -1,7 +1,7 @@
-package de.uniba.wiai.dsg.ss12.isabel.tool.reports.print;
+package de.uniba.wiai.dsg.ss12.isabel;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.VerbosityLevel;
+import de.uniba.wiai.dsg.ss12.isabel.VerbosityLevel;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
 import nu.xom.*;
