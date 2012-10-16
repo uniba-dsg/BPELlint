@@ -1,9 +1,13 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
+import nu.xom.Document;
 import nu.xom.Node;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.XSD_NAMESPACE;
 
 public class BpelProcessFiles {
 
@@ -53,5 +57,27 @@ public class BpelProcessFiles {
 			xsdSchema.add(xsdNode.getDocument().getChild(0));
 		}
 		return xsdSchema;
+	}
+
+	public Document getXmlSchema() throws NavigationException {
+		for (DocumentEntry documentEntry : getAllXsds()) {
+			if (XSD_NAMESPACE.equals(documentEntry.getTargetNamespace())) {
+				return documentEntry.getDocument();
+			}
+		}
+		throw new NavigationException(
+				"XMLSchema should have been imported, but haven't.");
+	}
+
+	public Document searchedTargetNamespaceToWsdlDocument(
+			String searchedTargetNamespace) throws NavigationException {
+		for (DocumentEntry wsdlEntry : getAllWsdls()) {
+			String targetNamespace = wsdlEntry.getTargetNamespace();
+			if (targetNamespace.equals(searchedTargetNamespace)) {
+				return wsdlEntry.getDocument();
+			}
+		}
+
+		throw new NavigationException("Document does not exist");
 	}
 }

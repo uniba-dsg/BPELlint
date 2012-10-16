@@ -141,7 +141,7 @@ public class SA00021Validator extends Validator {
 			throws NavigationException {
 		String targetNamespace = navigator.getPrefixNamespaceURI(
 				node.getDocument(), PrefixHelper.getPrefix(property));
-		return navigator.searchedTargetNamespaceToWsdlDocument(targetNamespace);
+		return navigator.fileHandler.searchedTargetNamespaceToWsdlDocument(targetNamespace);
 	}
 
 	private void hasEachCorrelationSetExistingProperty() {

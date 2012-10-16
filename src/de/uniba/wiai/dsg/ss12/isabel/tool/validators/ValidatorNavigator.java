@@ -9,10 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.XSD_NAMESPACE;
 
 public class ValidatorNavigator {
-	private final BpelProcessFiles fileHandler;
+	final BpelProcessFiles fileHandler;
 
 	public ValidatorNavigator(BpelProcessFiles fileHandler) {
 		this.fileHandler = fileHandler;
@@ -109,7 +108,7 @@ public class ValidatorNavigator {
 				.getAttributeValue("partnerLinkType");
 		String wsdlImportNamespace = getPrefixNamespaceURI(
 				partnerLink.getDocument(), PrefixHelper.getPrefix(partnerLinkTypeAttribute));
-		Document correspondingWsdlDom = searchedTargetNamespaceToWsdlDocument(wsdlImportNamespace);
+		Document correspondingWsdlDom = fileHandler.searchedTargetNamespaceToWsdlDocument(wsdlImportNamespace);
 
 		if (correspondingWsdlDom != null) {
 			String partnerLinkTypeName = PrefixHelper.removePrefix(partnerLinkTypeAttribute);
@@ -142,18 +141,6 @@ public class ValidatorNavigator {
 		}
 
 		throw new NavigationException("PortType not defined");
-	}
-
-	public Document searchedTargetNamespaceToWsdlDocument(
-			String searchedTargetNamespace) throws NavigationException {
-		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
-			String targetNamespace = wsdlEntry.getTargetNamespace();
-			if (targetNamespace.equals(searchedTargetNamespace)) {
-				return wsdlEntry.getDocument();
-			}
-		}
-
-		throw new NavigationException("Document does not exist");
 	}
 
 	public Node portTypeToOperation(Node portType, String operationName)
@@ -354,16 +341,6 @@ public class ValidatorNavigator {
 			}
 		}
 		throw new NavigationException("Referenced <property> does not exist.");
-	}
-
-	public Document getXmlSchema() throws NavigationException {
-		for (DocumentEntry documentEntry : fileHandler.getAllXsds()) {
-			if (XSD_NAMESPACE.equals(documentEntry.getTargetNamespace())) {
-				return documentEntry.getDocument();
-			}
-		}
-		throw new NavigationException(
-				"XMLSchema should have been imported, but haven't.");
 	}
 
 	public static String getAttributeValue(Nodes attributes) {
