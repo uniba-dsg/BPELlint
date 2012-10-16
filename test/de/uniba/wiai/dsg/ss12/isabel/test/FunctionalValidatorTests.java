@@ -16,8 +16,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(value = Parameterized.class)
 public class FunctionalValidatorTests {
 
-	private Set<Integer> violatedRules;
-	private String bpel;
+	private final Set<Integer> violatedRules;
+	private final String bpel;
 
 	public FunctionalValidatorTests(String bpel, String violatedRules) {
 		this.violatedRules = parseString(violatedRules);
@@ -43,11 +43,11 @@ public class FunctionalValidatorTests {
 				{"TestCases/SA00001/Notification.bpel", "1"},
 				{"TestCases/SA00001/SolicitResponse.bpel", "1"},
 				{"TestCases/SA00002/OverloadedOperationNames.bpel", "2"},
-				{"TestCases/SA00003/ExitOnStandartFaultButCatchingStandardFaultInDirectFaultHandlers.bpel", "3"},
-				{"TestCases/SA00003/ExitOnStandartFaultButCatchingStandardFaultInDirectFaultHandlersInProcess.bpel", "3"},
-				{"TestCases/SA00003/ExitOnStandartFaultButCatchingStandardFaultInIndirectFaultHandlers.bpel", "3"},
-				{"TestCases/SA00003/ExitOnStandartFaultButCatchingStandardFaultInIndirectNestedFaultHandlers.bpel", "3"},
-				{"TestCases/SA00003/ExitOnStandartFaultButCatchingStandardFaultInNestedFaultHandlers.bpel", "3"},
+				{"TestCases/SA00003/ExitOnStandardFaultButCatchingStandardFaultInDirectFaultHandlers.bpel", "3"},
+				{"TestCases/SA00003/ExitOnStandardFaultButCatchingStandardFaultInDirectFaultHandlersInProcess.bpel", "3"},
+				{"TestCases/SA00003/ExitOnStandardFaultButCatchingStandardFaultInIndirectFaultHandlers.bpel", "3"},
+				{"TestCases/SA00003/ExitOnStandardFaultButCatchingStandardFaultInIndirectNestedFaultHandlers.bpel", "3"},
+				{"TestCases/SA00003/ExitOnStandardFaultButCatchingStandardFaultInNestedFaultHandlers.bpel", "3"},
 				{"TestCases/SA00005/InvokeWithNonExistentPortType.bpel", "5, 10"},
 				{"TestCases/SA00005/OnEventWithNonExistentPortType.bpel", "5, 10"},
 				{"TestCases/SA00005/OnMessageWithNonExistentPortType.bpel", "5, 10"},

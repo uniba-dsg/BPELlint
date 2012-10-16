@@ -21,8 +21,8 @@ public class XmlFileLoaderTests {
 	}
 
 	@Test(expected = ValidationException.class)
-	public void whenCalledLoadAllProcessFilesWithNonExsistentFile_shouldThrowIllegalArgumentException()
+	public void whenCalledLoadAllProcessFilesWithNonExistentFile_shouldThrowIllegalArgumentException()
 			throws Exception {
-		fileHandler.loadAllProcessFiles("nowhere/nonexsistent/file");
+		fileHandler.loadAllProcessFiles("nowhere/nonexistent/file");
 	}
 }

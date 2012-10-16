@@ -10,8 +10,6 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 
 public class SA00001Validator extends Validator {
 
-	private String filePath;
-
 	public SA00001Validator(BpelProcessFiles files,
 	                        ValidationResult violationCollector) {
 		super(files, violationCollector);
@@ -20,7 +18,7 @@ public class SA00001Validator extends Validator {
 	@Override
 	public void validate() {
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
-			filePath = wsdlEntry.getFilePath();
+			String filePath = wsdlEntry.getFilePath();
 			for (Node currentOperation : getOperations(wsdlEntry)) {
 				OperationHelper operationHelper = new OperationHelper(currentOperation);
 				if (operationHelper.isNotification()) {

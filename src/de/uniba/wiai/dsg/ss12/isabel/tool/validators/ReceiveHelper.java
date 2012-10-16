@@ -6,7 +6,7 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 
 public class ReceiveHelper {
 
-	private Node receive;
+	private final Node receive;
 
 	public ReceiveHelper(Node receive) {
 		this.receive = receive;

@@ -1,6 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.reports;
 
 public class Violation implements Comparable<Violation> {
+
 	public final int ruleNumber;
 	public final int row;
 	public final int column;
