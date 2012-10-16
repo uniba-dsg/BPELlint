@@ -2,6 +2,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.Standards;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.validators.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator;
 import nu.xom.*;
 
@@ -43,7 +44,7 @@ public class XmlFileLoader {
 		try {
 			setAbsoluteBpelFilePath(bpelFilePath);
 			Document bpelDom = builder.build(new File(bpelFilePath));
-			String qName = navigator.getTargetNamespace(bpelDom);
+			String qName = new NodeHelper(bpelDom).getTargetNamespace();
 			bpel = new DocumentEntry(bpelFilePath, qName, bpelDom);
 
 			String xmlSchemaFilePath = "/XMLSchema.xsd";
@@ -118,7 +119,7 @@ public class XmlFileLoader {
 
 		Node schemaNode = typesNodes.get(0);
 		if (isXsdNode(schemaNode)
-				&& navigator.getLocalName(schemaNode).equals("schema")) {
+				&& new NodeHelper(schemaNode).hasLocalName("schema")) {
 			xsdSchemaList.add(schemaNode);
 			addXsdImports(schemaNode);
 		}
@@ -130,7 +131,7 @@ public class XmlFileLoader {
 		Nodes schemaChildren = schemaNode.query("child::*", CONTEXT);
 		for (Node node : schemaChildren) {
 			if (isXsdNode(node)
-					&& navigator.getLocalName(node).equals("import")) {
+					&& new NodeHelper(schemaNode).hasLocalName("import")) {
 				xsdEntry = createImportDocumentEntry(node);
 				xsdList.add(xsdEntry);
 			}
@@ -170,8 +171,7 @@ public class XmlFileLoader {
 				getImportPath(importNode)).toString();
 		File importFile = new File(locationPath);
 		Document importFileDom = builder.build(importFile);
-		String targetNamespace = navigator.getTargetNamespace(importFileDom
-				.getDocument());
+		String targetNamespace = new NodeHelper(importFileDom).getTargetNamespace();
 		return new DocumentEntry(importFile.getAbsolutePath(), targetNamespace,
 				importFileDom);
 	}

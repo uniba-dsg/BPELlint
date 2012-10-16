@@ -1,12 +1,13 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import nu.xom.Node;
-import nu.xom.Nodes;
 import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.Standards;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import nu.xom.Node;
+import nu.xom.Nodes;
+
+import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 
 public class SA00046Validator extends Validator {
 	public SA00046Validator(BpelProcessFiles files,

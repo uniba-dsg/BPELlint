@@ -1,19 +1,15 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.XSD_NAMESPACE;
+import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
+import nu.xom.*;
 
 import java.util.HashMap;
 import java.util.List;
 
-import nu.xom.Attribute;
-import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Node;
-import nu.xom.Nodes;
-import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.XSD_NAMESPACE;
 
 public class ValidatorNavigator {
 	private final BpelProcessFiles fileHandler;
@@ -34,7 +30,7 @@ public class ValidatorNavigator {
 		for (Node child : operationChildren) {
 
 			String messageQName = getAttributeValue(child.query("@message"));
-			String childName = getLocalName(child);
+			String childName = new NodeHelper(child).getLocalName();
 			String namespaceURI = operation.getDocument().getRootElement()
 					.getNamespaceURI(getPrefix(messageQName));
 			String messageName = prefixFree(messageQName);
@@ -67,16 +63,6 @@ public class ValidatorNavigator {
 		}
 
 		return message;
-	}
-
-	public String getLocalName(Node node) {
-		Element el = (Element) node;
-		return el.getLocalName();
-	}
-
-	public String getTargetNamespace(Node node) {
-		return getAttributeValue(node.getDocument().getRootElement()
-				.query("@targetNamespace"));
 	}
 
 	public static String prefixFree(String localAttribute) {

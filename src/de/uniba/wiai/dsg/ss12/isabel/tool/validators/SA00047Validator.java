@@ -1,21 +1,21 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
+import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import nu.xom.Node;
+import nu.xom.Nodes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import nu.xom.Node;
-import nu.xom.Nodes;
-import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 
 public class SA00047Validator extends Validator {
 
 	public SA00047Validator(BpelProcessFiles files,
-			ViolationCollector violationCollector) {
+	                        ViolationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -97,17 +97,17 @@ public class SA00047Validator extends Validator {
 	}
 
 	private boolean isInvoke(Node messageActivity) {
-		return navigator.getLocalName(messageActivity).equals("invoke");
+		return new NodeHelper(messageActivity).hasLocalName("invoke");
 	}
 
 	private boolean isReply(Node messageActivity) {
-		return navigator.getLocalName(messageActivity).equals("reply");
+		return new NodeHelper(messageActivity).hasLocalName("reply");
 	}
 
 	private boolean isReceiveOnMessageOnEvent(Node messageActivity) {
-		String localName = navigator.getLocalName(messageActivity);
-		return localName.equals("receive") || localName.equals("onMessage")
-				|| localName.equals("onEvent");
+		NodeHelper nodeHelper = new NodeHelper(messageActivity);
+		return nodeHelper.hasLocalName("receive") || nodeHelper.hasLocalName("onMessage")
+				|| nodeHelper.hasLocalName("onEvent");
 	}
 
 	private List<Nodes> getMessageActivities() {

@@ -1,11 +1,11 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
-import nu.xom.Attribute;
-import nu.xom.Element;
-import nu.xom.Node;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import nu.xom.Attribute;
+import nu.xom.Element;
+import nu.xom.Node;
 
 public abstract class Validator {
 

@@ -1,19 +1,18 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.prefixFree;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import nu.xom.Node;
-import nu.xom.Nodes;
 import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import nu.xom.Node;
+import nu.xom.Nodes;
+
+import java.util.List;
+import java.util.Map;
+
+import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.prefixFree;
 
 public class SA00048Validator extends Validator {
 	public SA00048Validator(BpelProcessFiles files, ViolationCollector violationCollector) {
@@ -119,7 +118,7 @@ public class SA00048Validator extends Validator {
 		Node xsdType = null;
 
 		for (Node node : fileHandler.getXsdSchema()) {
-			if (navigator.getTargetNamespace(node).equals(variableTypeNamespaceURI)) {
+			if (new NodeHelper(node).hasTargetNamespace(variableTypeNamespaceURI)) {
 				Nodes xsdTypes = node.getDocument().query("//*[@name='" + xsdTypeName + "']", CONTEXT);
 				if (xsdTypes.size() > 0) {
 					xsdType = xsdTypes.get(0);
@@ -136,8 +135,7 @@ public class SA00048Validator extends Validator {
 	}
 
 	private boolean equalsTargetNamespace(Node firstNode, Node secondNode) {
-		return (navigator.getTargetNamespace(firstNode).equals(navigator
-				.getTargetNamespace(secondNode)));
+		return new NodeHelper(firstNode).hasTargetNamespace(secondNode);
 	}
 
 	private boolean equalsMessageName(Node firstNode, Node secondNode) {

@@ -5,7 +5,6 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

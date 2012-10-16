@@ -1,14 +1,14 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import nu.xom.Node;
+import nu.xom.Nodes;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import nu.xom.Node;
-import nu.xom.Nodes;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 
 public class SA00044Validator extends Validator {
 
