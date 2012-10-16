@@ -40,4 +40,15 @@ public class Violation implements Comparable<Violation> {
 	private boolean isSameRow(Violation o) {
 		return row == o.row;
 	}
+
+	@Override
+	public String toString() {
+		return "Violation{" +
+				"ruleNumber=" + ruleNumber +
+				", row=" + row +
+				", column=" + column +
+				", type=" + type +
+				", fileName='" + fileName + '\'' +
+				'}';
+	}
 }
