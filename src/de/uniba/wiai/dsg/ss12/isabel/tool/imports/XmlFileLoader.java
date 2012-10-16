@@ -2,7 +2,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.Standards;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.validators.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import nu.xom.*;
 
 import java.io.*;
@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
 
 public class XmlFileLoader {
 
@@ -172,14 +171,12 @@ public class XmlFileLoader {
 	}
 
 	private String getImportPath(Node node) {
-		String schemaLocation = getAttributeValue(node.query("@schemaLocation"));
-		String location = getAttributeValue(node.query("@location"));
+		NodeHelper nodeHelper = new NodeHelper(node);
 
-		if (!"".equals(schemaLocation)) {
-			return Paths.get(schemaLocation).toString();
-		} else if (!"".equals(location)) {
-			return Paths.get(location).toString();
-
+		if (nodeHelper.hasAttribute("schemaLocation")) {
+			return Paths.get(nodeHelper.getAttributeByName("schemaLocation")).toString();
+		} else if (nodeHelper.hasAttribute("location")) {
+			return Paths.get(nodeHelper.getAttributeByName("location")).toString();
 		}
 
 		return null;

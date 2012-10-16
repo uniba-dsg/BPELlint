@@ -1,5 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
@@ -9,7 +11,6 @@ import nu.xom.Nodes;
 import java.util.List;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
 
 public class SA00010Validator extends Validator {
 
@@ -101,8 +102,7 @@ public class SA00010Validator extends Validator {
 	}
 
 	private String getType(Node node, String definitionType) {
-		String attributeValue = getAttributeValue(node.query("@"
-				+ definitionType, CONTEXT));
+		String attributeValue = new NodeHelper(node).getAttributeByName(definitionType);
 		return PrefixHelper.removePrefix(attributeValue);
 	}
 

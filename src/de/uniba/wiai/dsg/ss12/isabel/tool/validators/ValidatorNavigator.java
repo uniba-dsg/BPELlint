@@ -1,6 +1,8 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import nu.xom.*;
@@ -29,8 +31,9 @@ public class ValidatorNavigator {
 		HashMap<String, Node> messages = new HashMap<>();
 		for (Node child : operationChildren) {
 
-			String messageQName = getAttributeValue(child.query("@message"));
-			String childName = new NodeHelper(child).getLocalName();
+			NodeHelper childHelper = new NodeHelper(child);
+			String messageQName = childHelper.getAttributeByName("message");
+			String childName = childHelper.getLocalName();
 			String namespaceURI = operation.getDocument().getRootElement()
 					.getNamespaceURI(PrefixHelper.getPrefix(messageQName));
 			String messageName = PrefixHelper.removePrefix(messageQName);
@@ -47,7 +50,7 @@ public class ValidatorNavigator {
 	}
 
 	public Node getMessage(String messageName, String namespaceURI,
-			List<DocumentEntry> wsdlImports) {
+	                       List<DocumentEntry> wsdlImports) {
 		Node message = null;
 		for (DocumentEntry wsdlEntry : wsdlImports) {
 			String targetNamespace = wsdlEntry.getTargetNamespace();
@@ -66,7 +69,7 @@ public class ValidatorNavigator {
 	}
 
 	public String getPrefixNamespaceURI(Document document,
-			String namespacePrefix) throws NavigationException {
+	                                    String namespacePrefix) throws NavigationException {
 		if (namespacePrefix.isEmpty()) {
 			throw new NavigationException(
 					"Document has no namespace for this prefix");
@@ -174,7 +177,7 @@ public class ValidatorNavigator {
 	}
 
 	public Node operationToMessage(List<DocumentEntry> wsdlImports,
-			Node operation) throws NavigationException {
+	                               Node operation) throws NavigationException {
 
 		if (operation == null)
 			throw new NavigationException("Operation not defined");
@@ -220,8 +223,7 @@ public class ValidatorNavigator {
 		Document correspondingWsdl = operation.getDocument();
 		Nodes messages = correspondingWsdl.query("//wsdl:message", CONTEXT);
 		for (Node message : messages) {
-			String messageName = getAttributeValue(message.query("@name",
-					CONTEXT));
+			String messageName = new NodeHelper(message).getAttributeByName("name");
 			if (messageName.equals(PrefixHelper.removePrefix(messageAttribute))) {
 				return message;
 			}
@@ -238,8 +240,7 @@ public class ValidatorNavigator {
 		Document correspondingWsdl = operation.getDocument();
 		Nodes messages = correspondingWsdl.query("//wsdl:message", CONTEXT);
 		for (Node message : messages) {
-			String messageName = getAttributeValue(message.query("@name",
-					CONTEXT));
+			String messageName = new NodeHelper(message).getAttributeByName("name");
 			if (messageName.equals(PrefixHelper.removePrefix(messageAttribute))) {
 				return message;
 			}
@@ -275,8 +276,7 @@ public class ValidatorNavigator {
 	public String getCorrelationPropertyAliasPrefix(Node correlationSet)
 			throws NavigationException {
 
-		String propertyAliasName = getAttributeValue(correlationSet.query(
-				"@properties", CONTEXT));
+		String propertyAliasName = new NodeHelper(correlationSet).getAttributeByName("properties");
 		String namespacePrefix = PrefixHelper.getPrefix(propertyAliasName);
 
 		if (namespacePrefix != null) {
@@ -302,21 +302,19 @@ public class ValidatorNavigator {
 	}
 
 	public Node getCorrespondingPropertyAlias(Node correlationSet,
-			Document wsdlFile) throws NavigationException {
+	                                          Document wsdlFile) throws NavigationException {
 		Nodes propertyAliases = wsdlFile
 				.query("//vprop:propertyAlias", CONTEXT);
-		String propertyAliasAttribute = PrefixHelper.removePrefix(getAttributeValue(correlationSet
-				.query("@properties", CONTEXT)));
+		String propertyAliasAttribute = PrefixHelper.removePrefix(new NodeHelper(correlationSet).getAttributeByName("properties"));
 
 		return navigateFromPropertyAliasNameToPropertyAlias(propertyAliases,
 				propertyAliasAttribute);
 	}
 
 	public Node navigateFromPropertyAliasNameToPropertyAlias(Nodes aliases,
-			String propertyAliasAttribute) throws NavigationException {
+	                                                         String propertyAliasAttribute) throws NavigationException {
 		for (Node propertyAlias : aliases) {
-			String propertyAliasName = PrefixHelper.removePrefix(getAttributeValue(propertyAlias
-					.query("@propertyName", CONTEXT)));
+			String propertyAliasName = PrefixHelper.removePrefix(new NodeHelper(propertyAlias).getAttributeByName("propertyName"));
 
 			if (propertyAliasName.equals(propertyAliasAttribute)) {
 				return propertyAlias;
@@ -329,13 +327,11 @@ public class ValidatorNavigator {
 	public Node getCorrespondingProperty(Node propertyAlias)
 			throws NavigationException {
 		Document wsdlDom = propertyAlias.getDocument();
-		String propertyAttribute = getAttributeValue(propertyAlias.query(
-				"@propertyName", CONTEXT));
+		String propertyAttribute = new NodeHelper(propertyAlias).getAttributeByName("propertyName");
 		Nodes properties = wsdlDom.query("//vprop:property", CONTEXT);
 
 		for (Node property : properties) {
-			String propertyName = getAttributeValue(property.query("@name",
-					CONTEXT));
+			String propertyName = new NodeHelper(property).getAttributeByName("name");
 
 			if (propertyName.equals(PrefixHelper.removePrefix(propertyAttribute))) {
 				return property;
@@ -354,4 +350,5 @@ public class ValidatorNavigator {
 		}
 		return "";
 	}
+
 }

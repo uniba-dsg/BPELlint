@@ -1,6 +1,8 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
@@ -16,7 +18,7 @@ public class SA00021Validator extends Validator {
 	private String filePath;
 
 	public SA00021Validator(BpelProcessFiles files,
-			ValidationResult violationCollector) {
+	                        ValidationResult violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -33,7 +35,7 @@ public class SA00021Validator extends Validator {
 		Nodes fromToSet = fileHandler.getBpel().getDocument()
 				.query(toOrFrom, CONTEXT);
 		for (Node fromTo : fromToSet) {
-			String property = getAttributeValue(fromTo.query("@property"));
+			String property = new NodeHelper(fromTo).getAttributeByName("property");
 			if (!property.isEmpty()) {
 				try {
 					Node variable = getCorrespondingScopeVariable(fromTo);
@@ -47,30 +49,29 @@ public class SA00021Validator extends Validator {
 
 	private Node getCorrespondingScopeVariable(Node fromTo)
 			throws NavigationException {
-		String variableName = getAttributeValue(fromTo.query("@variable"));
+		String variableName = new NodeHelper(fromTo).getAttributeByName("variable");
 		return checkParent(fromTo, variableName);
 	}
 
 	private Node checkParent(Node node, String variableName)
 			throws NavigationException {
 		if ("onEvent".equals(toElement(node).getLocalName())) {
-			String variableAttribute = getAttributeValue(node
-					.query("@variable"));
+			NodeHelper nodeHelper = new NodeHelper(node);
+			String variableAttribute = nodeHelper.getAttributeByName("variable");
 			if (variableAttribute.equals(variableName))
-				if (!getAttributeValue(node.query("@messageType")).isEmpty()
-						|| !getAttributeValue(node.query("@element")).isEmpty())
+				if (nodeHelper.hasAttribute("messageType") || nodeHelper.hasAttribute("element"))
 					return node;
 		} else if ("scope".equals(toElement(node).getLocalName())) {
 			Nodes scopeVariableSet = node.query("bpel:variable", CONTEXT);
 			for (Node variable : scopeVariableSet) {
-				String name = getAttributeValue(variable.query("@name"));
+				String name = new NodeHelper(variable).getAttributeByName("name");
 				if (name.equals(variableName))
 					return variable;
 			}
 		} else if ("process".equals(toElement(node).getLocalName())) {
 			Nodes scopeVariableSet = node.query("bpel:variable", CONTEXT);
 			for (Node variable : scopeVariableSet) {
-				String name = getAttributeValue(variable.query("@name"));
+				String name = new NodeHelper(variable).getAttributeByName("name");
 				if (name.equals(variableName))
 					return variable;
 			}
@@ -84,7 +85,7 @@ public class SA00021Validator extends Validator {
 	}
 
 	private void hasCorrespondingPropertyAlias(Node node, String property,
-			Node partHolder) throws NavigationException {
+	                                           Node partHolder) throws NavigationException {
 
 		String type = "";
 		if (toElement(node).getLocalName().equals("onEvent")) {
@@ -117,24 +118,23 @@ public class SA00021Validator extends Validator {
 	}
 
 	private boolean isOfThisElement(String type, Node propertyAlias) {
-		return getAttributeValue(propertyAlias.query("@element")).equals(
+		return new NodeHelper(propertyAlias).getAttributeByName("element").equals(
 				PrefixHelper.removePrefix(type));
 	}
 
 	private boolean isOfThisType(String type, Node propertyAlias) {
-		return getAttributeValue(propertyAlias.query("@type")).equals(
+		return new NodeHelper(propertyAlias).getAttributeByName("type").equals(
 				PrefixHelper.removePrefix(type));
 	}
 
 	private boolean isOfThisMessageType(String type, Node propertyAlias,
-			Node partHolder) {
-		boolean isMessageType = getAttributeValue(
-				propertyAlias.query("@messageType")).equals(PrefixHelper.removePrefix(type));
+	                                    Node partHolder) {
+		NodeHelper nodeHelper = new NodeHelper(propertyAlias);
+		boolean isMessageType = nodeHelper.getAttributeByName("messageType").equals(PrefixHelper.removePrefix(type));
 
 		return isMessageType
-				&& getAttributeValue(propertyAlias.query("@part"))
-						.equals(PrefixHelper.removePrefix(getAttributeValue(partHolder
-								.query("@part"))));
+				&& nodeHelper.getAttributeByName("part")
+				.equals(PrefixHelper.removePrefix(new NodeHelper(partHolder).getAttributeByName("part")));
 	}
 
 	private Document getCorrespondingWsdl(String property, Node node)

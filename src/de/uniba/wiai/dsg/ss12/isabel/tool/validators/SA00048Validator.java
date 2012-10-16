@@ -1,6 +1,8 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
@@ -44,12 +46,12 @@ public class SA00048Validator extends Validator {
 	}
 
 	private Node getInputVariable(Node invokeActivity) {
-		String inputVariableName = getAttributeValue(invokeActivity.query("@inputVariable"));
+		String inputVariableName = new NodeHelper(invokeActivity).getAttributeByName("inputVariable");
 		return correspondingVariable(invokeActivity, inputVariableName);
 	}
 
 	private Node getOutputVariable(Node invokeActivity) {
-		String outputVariableName = getAttributeValue(invokeActivity.query("@outputVariable"));
+		String outputVariableName = new NodeHelper(invokeActivity).getAttributeByName("outputVariable");
 		return correspondingVariable(invokeActivity, outputVariableName);
 	}
 

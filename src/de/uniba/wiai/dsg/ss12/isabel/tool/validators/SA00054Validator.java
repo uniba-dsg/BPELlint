@@ -1,6 +1,8 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import nu.xom.Node;
@@ -61,12 +63,10 @@ public class SA00054Validator extends Validator {
 		Nodes messageParts = message.query("wsdl:part", CONTEXT);
 
 		if (messageParts.size() > 0) {
-			String partAttribute = getAttributeValue(toPart.query("@part",
-					CONTEXT));
+			String partAttribute = new NodeHelper(toPart).getAttributeByName("part");
 
 			for (Node part : messageParts) {
-				String partName = getAttributeValue(part
-						.query("@name", CONTEXT));
+				String partName = new NodeHelper(part).getAttributeByName("name");
 
 				if (partName.equals(partAttribute)) {
 					return true;

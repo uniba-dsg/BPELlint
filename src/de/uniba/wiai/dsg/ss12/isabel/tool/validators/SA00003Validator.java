@@ -1,5 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import nu.xom.Node;
@@ -45,8 +46,7 @@ public class SA00003Validator extends Validator {
 	}
 
 	private boolean hasExitOnStandardFault(String bool, Node enclosingScopes) {
-		String exitOnStandardFault = getAttributeValue(enclosingScopes.query(
-				"@exitOnStandardFault", CONTEXT));
+		String exitOnStandardFault = new NodeHelper(enclosingScopes).getAttributeByName("exitOnStandardFault");
 		return bool.equals(exitOnStandardFault);
 	}
 
@@ -66,8 +66,7 @@ public class SA00003Validator extends Validator {
 		Nodes catches = currentScope.query("bpel:faultHandlers/bpel:catch",
 				CONTEXT);
 		for (Node catchNode : catches) {
-			String attribute = getAttributeValue(catchNode.query("@faultName",
-					CONTEXT));
+			String attribute = new NodeHelper(catchNode).getAttributeByName("faultName");
 			for (String fault : BPELFaults.VALUES) {
 				if (fault.equals(attribute)) {
 					return true;

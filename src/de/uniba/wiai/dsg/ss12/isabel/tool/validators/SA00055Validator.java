@@ -1,5 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.ReceiveHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import nu.xom.Node;
