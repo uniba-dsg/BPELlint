@@ -65,7 +65,7 @@ public class SA00047Validator extends Validator {
 	}
 
 	private void validateNoMessagePartConstraint(Node messageActivity) {
-		if (hasToPartORfromPart(messageActivity))
+		if (hasToPartOrFromPart(messageActivity))
 			reportViolation(messageActivity, 1);
 	}
 
@@ -132,11 +132,11 @@ public class SA00047Validator extends Validator {
 		return messageActivities;
 	}
 
-	private void reportViolation(Node invokeNode, int type) {
-		addViolation(getBpelFileName(), invokeNode, type);
+	private void reportViolation(Node node, int type) {
+		addViolation(getBpelFileName(), node, type);
 	}
 
-	private boolean hasToPartORfromPart(Node messageActivity) {
+	private boolean hasToPartOrFromPart(Node messageActivity) {
 		return (hasFromPart(messageActivity) || hasToPart(messageActivity));
 	}
 

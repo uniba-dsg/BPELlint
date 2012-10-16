@@ -21,11 +21,11 @@ public class SA00055Validator extends Validator {
 		Nodes receives = fileHandler.getBpel().getDocument()
 				.query("//bpel:receive", CONTEXT);
 
-		for (Node node : receives) {
+		for (Node receive : receives) {
+			ReceiveHelper receiveHelper = new ReceiveHelper(receive);
 
-			if ((node.query("bpel:fromParts", CONTEXT).size() > 0)
-					&& (node.query("@variable", CONTEXT).size() > 0)) {
-				addViolation(fileName, node, 1);
+			if (receiveHelper.hasFromParts() && receiveHelper.hasVariable()) {
+				addViolation(fileName, receive, 1);
 			}
 		}
 	}

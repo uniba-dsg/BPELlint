@@ -8,6 +8,10 @@ public class NodeHelper {
 	private Node node;
 
 	public NodeHelper(Node node) {
+		if(node == null){
+			throw new IllegalArgumentException("given node should not be null");
+		}
+
 		this.node = node;
 	}
 
