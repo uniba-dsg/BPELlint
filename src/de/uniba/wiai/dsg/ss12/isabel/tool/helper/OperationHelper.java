@@ -1,4 +1,4 @@
-package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
+package de.uniba.wiai.dsg.ss12.isabel.tool.helper;
 
 import nu.xom.Node;
 
