@@ -31,4 +31,30 @@ public class OperationHelper {
 				&& operation.query(secondNodeOutputChildQuery, CONTEXT).size() == 1;
 	}
 
+	public boolean isNotification() {
+		return hasOutput() && !hasInput();
+	}
+
+	public boolean isSolicitResponse() {
+		return hasOutput() && hasInput() && isFirstChildOutput();
+	}
+
+	private boolean isFirstChildOutput() {
+		Node firstOperationChild = operation.query("(child::*)[1]").get(
+				0);
+		Node operationOutput = operation.query("child::wsdl:output",
+				CONTEXT).get(0);
+		return firstOperationChild.equals(operationOutput);
+	}
+
+	private boolean hasOutput() {
+		return operation.query("child::wsdl:output",
+				CONTEXT).size() > 0;
+	}
+
+	private boolean hasInput() {
+		return operation.query("child::wsdl:input",
+				CONTEXT).size() > 0;
+	}
+
 }
