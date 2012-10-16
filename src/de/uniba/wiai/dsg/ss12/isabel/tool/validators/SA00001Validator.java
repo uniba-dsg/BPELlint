@@ -17,7 +17,7 @@ public class SA00001Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
 			filePath = wsdlEntry.getFilePath();
 			Nodes operations = getOperations(wsdlEntry);
@@ -28,7 +28,6 @@ public class SA00001Validator extends Validator {
 				isSolicitResponse(currentOperation);
 			}
 		}
-		return valid;
 	}
 
 	private void isNotification(Node currentOperation) {

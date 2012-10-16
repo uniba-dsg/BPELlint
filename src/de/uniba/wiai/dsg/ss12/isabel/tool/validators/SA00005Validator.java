@@ -19,7 +19,7 @@ public class SA00005Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		filePath = fileHandler.getBpel().getFilePath();
 		Document bpelDom = fileHandler.getBpel().getDocument();
 
@@ -37,8 +37,6 @@ public class SA00005Validator extends Validator {
 
 		Nodes onMessages = bpelDom.query("//bpel:onMessage", CONTEXT);
 		checkPortTypeCorrectness(onMessages);
-
-		return valid;
 	}
 
 	private void checkPortTypeCorrectness(Nodes messageActivities) {

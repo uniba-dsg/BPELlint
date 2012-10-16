@@ -18,7 +18,7 @@ public class SA00022Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 
 		List<DocumentEntry> wsdls = fileHandler.getAllWsdls();
 
@@ -105,8 +105,6 @@ public class SA00022Validator extends Validator {
 				}
 			}
 		}
-		return valid;
-
 	}
 
 	@Override

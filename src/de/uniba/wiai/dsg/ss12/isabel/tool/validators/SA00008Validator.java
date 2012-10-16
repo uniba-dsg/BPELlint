@@ -14,7 +14,7 @@ public class SA00008Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		String fileName = fileHandler.getBpel().getFilePath();
 		Nodes compensates = fileHandler.getBpel().getDocument()
 				.query("//bpel:compensate", CONTEXT);
@@ -39,8 +39,6 @@ public class SA00008Validator extends Validator {
 				addViolation(fileName, compensate, 1);
 			}
 		}
-
-		return valid;
 	}
 
 	@Override

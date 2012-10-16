@@ -11,7 +11,6 @@ public abstract class Validator {
 
 	protected final BpelProcessFiles fileHandler;
 	private final ViolationCollector violationCollector;
-	protected boolean valid = true;
 	protected final ValidatorNavigator navigator;
 
 	public Validator(BpelProcessFiles files,
@@ -21,12 +20,11 @@ public abstract class Validator {
 		navigator = new ValidatorNavigator(fileHandler);
 	}
 
-	public abstract boolean validate();
+	public abstract void validate();
 
 	public abstract int getSaNumber();
 
 	protected void addViolation(String fileName, Node node, int type) {
-		valid = false;
 		violationCollector.add(new Violation(fileName, getSaNumber(), type,
 				getLineNumber(node), getColumnNumber(node)));
 	}

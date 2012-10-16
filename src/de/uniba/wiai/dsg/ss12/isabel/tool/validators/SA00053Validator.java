@@ -19,15 +19,13 @@ public class SA00053Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		filePath = fileHandler.getBpel().getFilePath();
 
 		hasPartForEveryFromPart("//bpel:invoke");
 		hasPartForEveryFromPart("//bpel:receive");
 		hasPartForEveryFromPart("//bpel:onMessage");
 		hasPartForEveryFromPart("//bpel:onEvent");
-
-		return valid;
 	}
 
 	private void hasPartForEveryFromPart(String xPathOutgoingOperation) {

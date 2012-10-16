@@ -14,7 +14,7 @@ public class SA00051Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 
 		String fileName = fileHandler.getBpel().getFilePath();
 		Nodes invokes = fileHandler.getBpel().getDocument()
@@ -28,7 +28,6 @@ public class SA00051Validator extends Validator {
 				addViolation(fileName, node, 1);
 			}
 		}
-		return valid;
 	}
 
 	@Override

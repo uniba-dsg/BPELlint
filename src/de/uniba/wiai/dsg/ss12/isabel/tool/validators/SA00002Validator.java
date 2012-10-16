@@ -19,7 +19,7 @@ public class SA00002Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
 			String filePath = wsdlEntry.getFilePath();
 
@@ -40,7 +40,6 @@ public class SA00002Validator extends Validator {
 				}
 			}
 		}
-		return valid;
 	}
 
 	private Nodes getOperationNames(Node portType) {

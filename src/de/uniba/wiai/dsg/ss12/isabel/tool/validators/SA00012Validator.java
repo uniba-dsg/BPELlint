@@ -20,7 +20,7 @@ public class SA00012Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 
 		String fileName = fileHandler.getBpel().getFilePath();
 
@@ -41,7 +41,6 @@ public class SA00012Validator extends Validator {
 				}
 			}
 		}
-		return valid;
 	}
 
 	private boolean isValidFile(List<DocumentEntry> documentEntryList, Node node) {

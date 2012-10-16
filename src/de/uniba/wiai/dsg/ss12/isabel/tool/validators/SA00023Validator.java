@@ -16,7 +16,7 @@ public class SA00023Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 
 		this.fileName = fileHandler.getBpel().getFilePath();
 		Nodes processVariableNames = fileHandler
@@ -34,7 +34,6 @@ public class SA00023Validator extends Validator {
 					"bpel:variables/bpel:variable/@name", CONTEXT);
 			checkForDuplicates(variableNames, 2);
 		}
-		return valid;
 	}
 
 	private void checkForDuplicates(Nodes nodesToCheck, int errorType) {

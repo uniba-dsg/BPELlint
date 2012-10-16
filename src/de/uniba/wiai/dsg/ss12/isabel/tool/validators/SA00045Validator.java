@@ -21,7 +21,7 @@ public class SA00045Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		Nodes allCorrelationSet = fileHandler.getBpel().getDocument()
 				.query("//bpel:correlationSet", CONTEXT);
 
@@ -34,8 +34,6 @@ public class SA00045Validator extends Validator {
 				// This node could not be validated
 			}
 		}
-
-		return valid;
 	}
 
 	private boolean isSimpleType(Node correlationSet)

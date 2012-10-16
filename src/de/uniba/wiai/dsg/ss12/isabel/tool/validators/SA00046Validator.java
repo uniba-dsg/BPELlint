@@ -15,7 +15,7 @@ public class SA00046Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		Nodes invokeCorrelationsNodes = fileHandler.getBpel().getDocument()
 				.query("//bpel:invoke/bpel:correlations", CONTEXT);
 
@@ -34,8 +34,6 @@ public class SA00046Validator extends Validator {
 			}
 
 		}
-
-		return valid;
 	}
 
 	private void reportViolation(Nodes correlations, int type) {

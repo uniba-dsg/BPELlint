@@ -20,7 +20,7 @@ public class SA00047Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		List<Nodes> messageActivityList = getMessageActivities();
 
 		for (Nodes messageActivityNodes : messageActivityList) {
@@ -37,7 +37,6 @@ public class SA00047Validator extends Validator {
 				}
 			}
 		}
-		return valid;
 	}
 
 	private void validateMessagePartConstraint(Node messageActivity)

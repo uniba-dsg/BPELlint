@@ -16,7 +16,7 @@ public class SA00020Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		for (DocumentEntry documentEntry : fileHandler.getAllWsdls()) {
 			String filePath = documentEntry.getFilePath();
 			for (Node propertyAlias : getPropertyAliases(documentEntry)) {
@@ -37,7 +37,6 @@ public class SA00020Validator extends Validator {
 				}
 			}
 		}
-		return valid;
 	}
 
 	private Nodes getPropertyAliases(DocumentEntry documentEntry) {

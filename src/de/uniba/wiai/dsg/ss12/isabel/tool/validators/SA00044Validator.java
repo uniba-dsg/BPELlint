@@ -18,7 +18,7 @@ public class SA00044Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		Nodes correlationSetNames = fileHandler
 				.getBpel()
 				.getDocument()
@@ -33,8 +33,6 @@ public class SA00044Validator extends Validator {
 				addViolation(fileName, currentNode, 1);
 			}
 		}
-
-		return valid;
 	}
 
 	@Override

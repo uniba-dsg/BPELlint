@@ -20,7 +20,7 @@ public class SA00048Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		Nodes invokeNodes = fileHandler.getBpel().getDocument().query("//bpel:invoke", CONTEXT);
 		for (Node invokeActivity : invokeNodes) {
 			try {
@@ -42,7 +42,6 @@ public class SA00048Validator extends Validator {
 				// This node could not be validated
 			}
 		}
-		return valid;
 	}
 
 	private Node getInputVariable(Node invokeActivity) {

@@ -14,7 +14,7 @@ public class SA00006Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		String filePath = fileHandler.getBpel().getFilePath();
 		Nodes rethrows = fileHandler.getBpel().getDocument()
 				.query("//bpel:rethrow", CONTEXT);
@@ -24,7 +24,6 @@ public class SA00006Validator extends Validator {
 				addViolation(filePath, actualRethrow, 1);
 			}
 		}
-		return valid;
 	}
 
 	private boolean isNotInFaultHandler(Node actualRethrow) {

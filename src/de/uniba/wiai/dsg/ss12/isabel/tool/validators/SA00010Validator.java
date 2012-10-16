@@ -20,7 +20,7 @@ public class SA00010Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		String filePath = fileHandler.getBpel().getFilePath();
 
 		for (Node node : allBpelNodes()) {
@@ -28,8 +28,6 @@ public class SA00010Validator extends Validator {
 				addViolation(filePath, node, 1);
 			}
 		}
-
-		return valid;
 	}
 
 	private Nodes allBpelNodes() {

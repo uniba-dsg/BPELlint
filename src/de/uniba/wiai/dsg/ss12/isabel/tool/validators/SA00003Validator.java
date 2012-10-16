@@ -42,7 +42,7 @@ public class SA00003Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		filePath = fileHandler.getBpel().getFilePath();
 		Node process = getBpelProcessNode();
 
@@ -58,8 +58,6 @@ public class SA00003Validator extends Validator {
 				addViolation(scope);
 			}
 		}
-
-		return valid;
 	}
 
 	private Node getBpelProcessNode() {

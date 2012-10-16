@@ -21,14 +21,12 @@ public class SA00021Validator extends Validator {
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		filePath = fileHandler.getBpel().getFilePath();
 
 		hasEachCorrelationSetExistingProperty();
 		validateFor("//bpel:from[@property]");
 		validateFor("//bpel:to[@property]");
-
-		return valid;
 	}
 
 	private void validateFor(String toOrFrom) {
