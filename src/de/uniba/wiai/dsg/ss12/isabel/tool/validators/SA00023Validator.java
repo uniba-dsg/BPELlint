@@ -1,7 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
@@ -12,7 +12,7 @@ public class SA00023Validator extends Validator {
 	private String fileName;
 
 	public SA00023Validator(BpelProcessFiles files,
-			ViolationCollector violationCollector) {
+			ValidationResult violationCollector) {
 		super(files, violationCollector);
 	}
 

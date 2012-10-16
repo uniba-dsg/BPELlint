@@ -1,7 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.test;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.Isabel;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -284,7 +284,7 @@ public class FunctionalValidatorTests {
 
 	@Test
 	public void testValidators() throws Exception {
-		ViolationCollector violations = new Isabel().validate(bpel);
+		ValidationResult violations = new Isabel().validate(bpel);
 
 		assertEquals("error in bpel file: " + bpel + " additonal data: " + violations.getResults(), violatedRules, violations.getViolatedRules());
 	}

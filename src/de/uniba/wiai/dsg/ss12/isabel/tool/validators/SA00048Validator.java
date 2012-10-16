@@ -3,7 +3,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
@@ -15,7 +15,7 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.g
 import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.prefixFree;
 
 public class SA00048Validator extends Validator {
-	public SA00048Validator(BpelProcessFiles files, ViolationCollector violationCollector) {
+	public SA00048Validator(BpelProcessFiles files, ValidationResult violationCollector) {
 		super(files, violationCollector);
 	}
 

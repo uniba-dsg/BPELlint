@@ -3,7 +3,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.reports;
 import java.util.List;
 import java.util.Set;
 
-public interface ViolationCollector {
+public interface ValidationResult {
 
 	public void add(Violation violation);
 

@@ -1,8 +1,8 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
@@ -11,10 +11,10 @@ public abstract class Validator {
 
 	protected final BpelProcessFiles fileHandler;
 	protected final ValidatorNavigator navigator;
-	private final ViolationCollector violationCollector;
+	private final ValidationResult violationCollector;
 
 	public Validator(BpelProcessFiles files,
-			ViolationCollector violationCollector) {
+			ValidationResult violationCollector) {
 		this.fileHandler = files;
 		this.violationCollector = violationCollector;
 		navigator = new ValidatorNavigator(fileHandler);

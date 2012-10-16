@@ -1,7 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
@@ -17,7 +17,7 @@ public class SA00003Validator extends Validator {
 	private final List<String> faultList;
 
 	public SA00003Validator(BpelProcessFiles files,
-	                        ViolationCollector violationCollector) {
+	                        ValidationResult violationCollector) {
 		super(files, violationCollector);
 		faultList = Arrays.asList(BPELFaults.VALUES);
 	}

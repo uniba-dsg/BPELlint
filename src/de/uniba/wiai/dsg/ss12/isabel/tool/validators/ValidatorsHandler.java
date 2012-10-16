@@ -1,7 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +9,13 @@ import java.util.List;
 public class ValidatorsHandler {
 
 	private final BpelProcessFiles files;
-	private final ViolationCollector violationCollector;
+	private final ValidationResult violationCollector;
 
 	public ValidatorsHandler(BpelProcessFiles files,
-	                         ViolationCollector violationCollector) {
+	                         ValidationResult violationCollector) {
 		if (files == null) {
 			throw new IllegalArgumentException(
-					"ViolationCollector must not be null");
+					"ValidationResult must not be null");
 		}
 		if (violationCollector == null) {
 			throw new IllegalArgumentException("FileHandler must not be null");

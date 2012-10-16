@@ -2,8 +2,8 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.reports.print;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.VerbosityLevel;
+import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
 import nu.xom.*;
 
 import java.io.FileNotFoundException;
@@ -26,7 +26,7 @@ public class ValidationResultPrinter {
 		}
 	}
 
-	public void printResults(VerbosityLevel verbosityLevel, ViolationCollector violationCollector) {
+	public void printResults(VerbosityLevel verbosityLevel, ValidationResult violationCollector) {
 		switch (verbosityLevel) {
 			case NORMAL:
 				printResults(violationCollector);
@@ -68,7 +68,7 @@ public class ValidationResultPrinter {
 		}
 	}
 
-	private void printResults(ViolationCollector violationCollector) {
+	private void printResults(ValidationResult violationCollector) {
 		List<Violation> violations = violationCollector.getResults();
 
 		printOutputHeader(violations);
@@ -96,7 +96,7 @@ public class ValidationResultPrinter {
 		return saNumber + violation.ruleNumber;
 	}
 
-	private void printResultsVerbose(ViolationCollector violationCollector) {
+	private void printResultsVerbose(ValidationResult violationCollector) {
 		List<Violation> violations = violationCollector.getResults();
 
 		printOutputHeader(violations);
@@ -109,7 +109,7 @@ public class ValidationResultPrinter {
 		}
 	}
 
-	private void printResultsFull(ViolationCollector violationCollector) {
+	private void printResultsFull(ValidationResult violationCollector) {
 		List<Violation> violations = violationCollector.getResults();
 
 		printOutputHeader(violations);
