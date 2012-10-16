@@ -15,7 +15,7 @@ public class SA00054Validator extends Validator {
 	private String filePath;
 
 	public SA00054Validator(BpelProcessFiles files,
-			ViolationCollector violationCollector) {
+	                        ViolationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -44,12 +44,10 @@ public class SA00054Validator extends Validator {
 
 				Nodes toParts = outgoingOperation.query(
 						"bpel:toParts/bpel:toPart", CONTEXT);
-				if (toParts.size() > 0) {
-					for (Node toPart : toParts) {
+				for (Node toPart : toParts) {
 
-						if (!hasToPartCorrespondingMessagePart(toPart, message)) {
-							addViolation(filePath, toPart, 1);
-						}
+					if (!hasToPartCorrespondingMessagePart(toPart, message)) {
+						addViolation(filePath, toPart, 1);
 					}
 				}
 			} catch (NavigationException e) {
