@@ -53,7 +53,7 @@ public class SA00045Validator extends Validator {
 				property, namespacePrefix);
 
 		if (XSD_NAMESPACE.equals(propertyTypeTargetNamespace)) {
-			Document xmlSchema = navigator.fileHandler.getXmlSchema();
+			Document xmlSchema = fileHandler.getXmlSchema();
 			Nodes simpleTypes = xmlSchema.query("//xsd:simpleType", CONTEXT);
 			for (Node simpleType : simpleTypes) {
 				String simpleTypeName = getAttributeValue(simpleType.query(

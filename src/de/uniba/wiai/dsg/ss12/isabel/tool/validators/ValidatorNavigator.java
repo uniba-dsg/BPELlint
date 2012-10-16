@@ -11,7 +11,8 @@ import java.util.List;
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 
 public class ValidatorNavigator {
-	final BpelProcessFiles fileHandler;
+
+	private final BpelProcessFiles fileHandler;
 
 	public ValidatorNavigator(BpelProcessFiles fileHandler) {
 		this.fileHandler = fileHandler;
