@@ -1,6 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
@@ -47,8 +48,7 @@ public class SA00045Validator extends Validator {
 				correlationSet, wsdlFile);
 		Node property = navigator.getCorrespondingProperty(propertyAlias);
 
-		String propertyType = getAttributeValue(property
-				.query("@type", CONTEXT));
+		String propertyType = new NodeHelper(property).getAttributeByName("type");
 		String namespacePrefix = PrefixHelper.getPrefix(propertyType);
 		String propertyTypeTargetNamespace = navigator.getImportNamespace(
 				property, namespacePrefix);
@@ -57,8 +57,7 @@ public class SA00045Validator extends Validator {
 			Document xmlSchema = fileHandler.getXmlSchema();
 			Nodes simpleTypes = xmlSchema.query("//xsd:simpleType", CONTEXT);
 			for (Node simpleType : simpleTypes) {
-				String simpleTypeName = getAttributeValue(simpleType.query(
-						"@name", CONTEXT));
+				String simpleTypeName = new NodeHelper(simpleType).getAttributeByName("name");
 
 				if (PrefixHelper.removePrefix(propertyType).equals(simpleTypeName)) {
 					return true;

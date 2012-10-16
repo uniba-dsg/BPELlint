@@ -1,5 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
@@ -10,7 +11,6 @@ import java.io.File;
 import java.util.List;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
 
 public class SA00013Validator extends Validator {
 
@@ -47,9 +47,7 @@ public class SA00013Validator extends Validator {
 	private boolean isImportTypedWithinThisFiles(Node fileImport,
 			List<DocumentEntry> allFiles) {
 		for (DocumentEntry documentEntry : allFiles) {
-			String importType = getAttributeValue(fileImport.query(
-					"@importType", CONTEXT));
-
+			String importType = new NodeHelper(fileImport).getAttributeByName("importType");
 			if (isCorrespondingFile(fileImport, documentEntry)) {
 				if (importType.equals(getDefaultNamespace(documentEntry))) {
 					return true;
@@ -66,8 +64,7 @@ public class SA00013Validator extends Validator {
 	}
 
 	private String getAbsoluteFilePath(Node fileImport) {
-		String location = getAttributeValue(fileImport.query("@location",
-				CONTEXT));
+		String location = new NodeHelper(fileImport).getAttributeByName("location");
 		File path = new File(fileHandler.getAbsoluteBpelFilePath() + "/"
 				+ location);
 

@@ -6,11 +6,7 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
 
 public class SA00003Validator extends Validator {
 

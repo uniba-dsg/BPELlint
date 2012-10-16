@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
 
 public class SA00048Validator extends Validator {
 	public SA00048Validator(BpelProcessFiles files, ValidationResult violationCollector) {
@@ -68,8 +67,8 @@ public class SA00048Validator extends Validator {
 	}
 
 	private boolean hasCorrespondingMessage(Node variable, Node operationMessage) {
-		String messageTypeQName = getAttributeValue(variable.query("@messageType"));
-		String typeQName = getAttributeValue(variable.query("@type"));
+		String messageTypeQName = new NodeHelper(variable).getAttributeByName("messageType");
+		String typeQName = new NodeHelper(variable).getAttributeByName("type");
 
 		if (!messageTypeQName.isEmpty()) {
 			Node variableMessage = getVariableMessage(messageTypeQName, variable);
@@ -80,7 +79,7 @@ public class SA00048Validator extends Validator {
 			if (messageHasOnlyOnePartWithElement(operationMessage)) {
 				Node messagePartXsdType = findMessageXsdElement(operationMessage);
 				Node variableXsdType = findXsdType(typeQName, variable);
-				if (xsdTypeMatches(variableXsdType, messagePartXsdType)) {
+				if (hasSameNameAttribute(variableXsdType, messagePartXsdType)) {
 					return true;
 				}
 			}
@@ -91,7 +90,7 @@ public class SA00048Validator extends Validator {
 	private Node findMessageXsdElement(Node operationMessage) {
 		Node messagePartElement = getMessagePartAttributeElement(operationMessage);
 		Node xsdElement = findXsdType(messagePartElement.getValue(), messagePartElement);
-		String elementTypeQName = getAttributeValue(xsdElement.query("@type"));
+		String elementTypeQName = new NodeHelper(xsdElement).getAttributeByName("type");
 		return findXsdType(elementTypeQName, messagePartElement);
 	}
 
@@ -107,9 +106,9 @@ public class SA00048Validator extends Validator {
 		return (partElement.size() > 0) ? partElement.get(0) : null;
 	}
 
-	private boolean xsdTypeMatches(Node xsdType, Node xsdSecType) {
-		return getAttributeValue(xsdType.query("@name")).equals(
-				getAttributeValue(xsdSecType.query("@name")));
+	private boolean hasSameNameAttribute(Node xsdType, Node xsdSecType) {
+		return new NodeHelper(xsdType).getAttributeByName("name").equals(
+				new NodeHelper(xsdSecType).getAttributeByName("name"));
 	}
 
 	private Node findXsdType(String typeQName, Node variable) {
@@ -132,16 +131,11 @@ public class SA00048Validator extends Validator {
 
 	private boolean equalsMessage(Node firstNode, Node secondNode) {
 		return equalsTargetNamespace(firstNode, secondNode)
-				&& equalsMessageName(firstNode, secondNode);
+				&& hasSameNameAttribute(firstNode, secondNode);
 	}
 
 	private boolean equalsTargetNamespace(Node firstNode, Node secondNode) {
 		return new NodeHelper(firstNode).hasTargetNamespace(secondNode);
-	}
-
-	private boolean equalsMessageName(Node firstNode, Node secondNode) {
-		return (getAttributeValue(firstNode.query("@name")).equals(getAttributeValue(secondNode
-				.query("@name"))));
 	}
 
 	private Node getVariableMessage(String messageTypeQName, Node variable) {

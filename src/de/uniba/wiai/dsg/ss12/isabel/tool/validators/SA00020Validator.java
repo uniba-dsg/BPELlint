@@ -1,5 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
@@ -46,25 +47,19 @@ public class SA00020Validator extends Validator {
 	}
 
 	private boolean messageTypeExists(Node propertyAlias) {
-		String messageType = getAttributeValue(propertyAlias.query(
-				"@messageType", CONTEXT));
-		return !messageType.isEmpty();
+		return new NodeHelper(propertyAlias).hasAttribute("messageType");
 	}
 
 	private boolean partExists(Node propertyAlias) {
-		String part = getAttributeValue(propertyAlias.query("@part", CONTEXT));
-		return !part.isEmpty();
+		return new NodeHelper(propertyAlias).hasAttribute("part");
 	}
 
 	private boolean typeExists(Node propertyAlias) {
-		String type = getAttributeValue(propertyAlias.query("@type", CONTEXT));
-		return !type.isEmpty();
+		return new NodeHelper(propertyAlias).hasAttribute("type");
 	}
 
 	private boolean elementExists(Node propertyAlias) {
-		String element = getAttributeValue(propertyAlias.query("@element",
-				CONTEXT));
-		return !element.isEmpty();
+		return new NodeHelper(propertyAlias).hasAttribute("element");
 	}
 
 	@Override

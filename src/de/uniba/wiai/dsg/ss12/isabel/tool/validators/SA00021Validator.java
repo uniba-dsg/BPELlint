@@ -101,8 +101,7 @@ public class SA00021Validator extends Validator {
 			Nodes wsdlPropertyAliasSet = wsdl.query("//vprop:propertyAlias",
 					CONTEXT);
 			for (Node propertyAlias : wsdlPropertyAliasSet) {
-				String propertyName = PrefixHelper.removePrefix(getAttributeValue(propertyAlias
-						.query("@propertyName", CONTEXT)));
+				String propertyName = PrefixHelper.removePrefix(new NodeHelper(propertyAlias).getAttributeByName("propertyName"));
 
 				if (PrefixHelper.removePrefix(property).equals(propertyName)) {
 					if (!isOfThisMessageType(type, propertyAlias, partHolder)

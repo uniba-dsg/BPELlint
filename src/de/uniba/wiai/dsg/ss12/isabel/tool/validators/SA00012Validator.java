@@ -1,5 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
@@ -10,7 +11,6 @@ import java.io.File;
 import java.util.List;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
 
 public class SA00012Validator extends Validator {
 
@@ -44,12 +44,11 @@ public class SA00012Validator extends Validator {
 
 		boolean validFile = true;
 
-		if ("".equals(getAttributeValue(node.query("@namespace", CONTEXT)))) {
+		if (new NodeHelper(node).hasNoAttribute("namespace")) {
 
 			for (DocumentEntry documentEntry : documentEntryList) {
 
-				String location = getAttributeValue(node.query("@location",
-						CONTEXT));
+				String location = new NodeHelper(node).getAttributeByName("location");
 				File path = new File(fileHandler.getAbsoluteBpelFilePath() + "/"
 						+ location);
 
