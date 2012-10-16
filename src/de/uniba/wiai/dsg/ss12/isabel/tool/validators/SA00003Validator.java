@@ -14,12 +14,10 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.g
 public class SA00003Validator extends Validator {
 
 	private String filePath;
-	private final List<String> faultList;
 
 	public SA00003Validator(BpelProcessFiles files,
 	                        ValidationResult violationCollector) {
 		super(files, violationCollector);
-		faultList = Arrays.asList(BPELFaults.VALUES);
 	}
 
 	@Override
@@ -70,7 +68,7 @@ public class SA00003Validator extends Validator {
 		for (Node catchNode : catches) {
 			String attribute = getAttributeValue(catchNode.query("@faultName",
 					CONTEXT));
-			for (String fault : faultList) {
+			for (String fault : BPELFaults.VALUES) {
 				if (fault.equals(attribute)) {
 					return true;
 				}
