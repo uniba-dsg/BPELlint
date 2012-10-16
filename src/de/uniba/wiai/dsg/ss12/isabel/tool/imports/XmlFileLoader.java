@@ -3,7 +3,6 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 import de.uniba.wiai.dsg.ss12.isabel.tool.Standards;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.validators.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator;
 import nu.xom.*;
 
 import java.io.*;
@@ -17,6 +16,8 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.g
 
 public class XmlFileLoader {
 
+	public static final String XMLSCHEMA_XSD = "/XMLSchema.xsd";
+
 	private DocumentEntry bpel;
 	private List<DocumentEntry> wsdlList;
 	private List<DocumentEntry> xsdList;
@@ -24,15 +25,11 @@ public class XmlFileLoader {
 	private String absoluteBpelFilePath;
 
 	private final Builder builder;
-	private ValidatorNavigator navigator;
 
 	public XmlFileLoader() {
 		wsdlList = new ArrayList<>();
 		xsdList = new ArrayList<>();
 		builder = new Builder(new LocationAwareNodeFactory());
-
-		navigator = new ValidatorNavigator(new BpelProcessFiles(null, null,
-				null, null, null));
 	}
 
 	public BpelProcessFiles loadAllProcessFiles(String bpelFilePath)
@@ -47,15 +44,14 @@ public class XmlFileLoader {
 			String qName = new NodeHelper(bpelDom).getTargetNamespace();
 			bpel = new DocumentEntry(bpelFilePath, qName, bpelDom);
 
-			String xmlSchemaFilePath = "/XMLSchema.xsd";
-			InputStream stream = XmlFileLoader.class.getResourceAsStream(xmlSchemaFilePath);
+			InputStream stream = XmlFileLoader.class.getResourceAsStream(XMLSCHEMA_XSD);
 			if (stream == null) {
-				throw new ValidationException("Could not load" + xmlSchemaFilePath);
+				throw new ValidationException("Could not load" + XMLSCHEMA_XSD);
 			}
 			try (InputStreamReader schemaFile = new InputStreamReader(stream)) {
 				Document xmlSchemaDom = builder.build(schemaFile);
-				DocumentEntry xmlSchemaEntry = new DocumentEntry(xmlSchemaFilePath,
-						"http://www.w3.org/2001/XMLSchema", xmlSchemaDom);
+				DocumentEntry xmlSchemaEntry = new DocumentEntry(XMLSCHEMA_XSD,
+						Standards.XSD_NAMESPACE, xmlSchemaDom);
 				xsdList.add(xmlSchemaEntry);
 
 				loadBpelImports();
@@ -91,9 +87,8 @@ public class XmlFileLoader {
 
 	private void loadDirectImports(Nodes imports) throws ParsingException,
 			IOException {
-		for (int i = 0; i < imports.size(); i++) {
-			Node node = imports.get(i);
-			DocumentEntry entry = createImportDocumentEntry(node);
+		for (Node importNode : imports) {
+			DocumentEntry entry = createImportDocumentEntry(importNode);
 			if (isWsdl(entry)) {
 				if (!wsdlList.contains(entry)) {
 					wsdlList.add(entry);

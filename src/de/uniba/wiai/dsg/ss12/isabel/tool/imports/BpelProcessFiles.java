@@ -16,6 +16,12 @@ public class BpelProcessFiles {
 	public BpelProcessFiles(DocumentEntry bpel, List<DocumentEntry> wsdlList,
 	                        List<DocumentEntry> xsdList, List<Node> xsdSchemaList,
 	                        String absoluteBpelFilePath) {
+
+		if (bpel == null) {
+			throw new IllegalStateException("The BPEL DOM must be initialized "
+					+ "before calling this method.");
+		}
+
 		this.bpel = bpel;
 		this.wsdlList = wsdlList;
 		this.xsdList = xsdList;
@@ -28,10 +34,7 @@ public class BpelProcessFiles {
 	}
 
 	public DocumentEntry getBpel() {
-		if (bpel == null) {
-			throw new IllegalStateException("The BPEL DOM must be initialized "
-					+ "before calling this method.");
-		}
+
 
 		return bpel;
 	}

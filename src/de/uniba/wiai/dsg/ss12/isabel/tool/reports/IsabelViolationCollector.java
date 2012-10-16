@@ -3,7 +3,8 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.reports;
 import java.util.*;
 
 public class IsabelViolationCollector implements ValidationResult {
-	private final List<Violation>	violations	= new ArrayList<>();
+
+	private final List<Violation> violations = new ArrayList<>();
 
 	public void add(Violation violation) {
 		violations.add(violation);
@@ -22,7 +23,7 @@ public class IsabelViolationCollector implements ValidationResult {
 
 	@Override
 	public Set<Integer> getViolatedRules() {
-		if (isValid()){
+		if (isValid()) {
 			return Collections.emptySet();
 		} else {
 			Set<Integer> actualViolatedRules = new HashSet<>();
