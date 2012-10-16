@@ -1,7 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.test;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.Isabel;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +39,7 @@ public class FunctionalValidatorTests {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		Object[][] data = new Object[][]{
+				// SA violation tests
 				{"TestCases/SA00001/Notification.bpel", "1"},
 				{"TestCases/SA00001/SolicitResponse.bpel", "1"},
 				{"TestCases/SA00002/OverloadedOperationNames.bpel", "2"},
@@ -146,6 +146,7 @@ public class FunctionalValidatorTests {
 				{"TestCases/SA00059/Reply-WithToPartElementAndVariableAttribute.bpel", "59"},
 				{"TestCases/SA00063/OnMessage-With-FromPartAndAttributeVariable.bpel", "63"},
 
+				// betsy tests
 				{"TestCases/betsy/basic-activities/Assign-Copy-DoXslTransform-InvalidSourceFault.bpel", ""},
 				{"TestCases/betsy/basic-activities/Assign-Copy-DoXslTransform-SubLanguageExecutionFault.bpel", ""},
 				{"TestCases/betsy/basic-activities/Assign-Copy-DoXslTransform-XsltStylesheetNotFound.bpel", ""},
@@ -285,11 +286,6 @@ public class FunctionalValidatorTests {
 	public void testValidators() throws Exception {
 		ViolationCollector violations = new Isabel().validate(bpel);
 
-		Set<Integer> actualViolatedRules = new HashSet<>();
-		for (Violation violation : violations.getResults()) {
-			actualViolatedRules.add(violation.ruleNumber);
-		}
-
-		assertEquals("error in bpel file: " + bpel + " additonal data: " + violations.getResults(), violatedRules, actualViolatedRules);
+		assertEquals("error in bpel file: " + bpel + " additonal data: " + violations.getResults(), violatedRules, violations.getViolatedRules());
 	}
 }

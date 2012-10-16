@@ -1,11 +1,10 @@
 package de.uniba.wiai.dsg.ss12.isabel.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
+import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
 import org.junit.Test;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ViolationTests {
 

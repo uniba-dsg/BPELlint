@@ -1,10 +1,9 @@
 package de.uniba.wiai.dsg.ss12.isabel.test;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.XmlFileLoader;
+import org.junit.Before;
+import org.junit.Test;
 
 public class XmlFileLoaderTests {
 

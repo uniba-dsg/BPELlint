@@ -1,13 +1,12 @@
 package de.uniba.wiai.dsg.ss12.isabel.test;
 
-import static org.junit.Assert.assertEquals;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import nu.xom.Document;
 import nu.xom.Element;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
+import static org.junit.Assert.assertEquals;
 
 public class DocumentEntryTests {
 
