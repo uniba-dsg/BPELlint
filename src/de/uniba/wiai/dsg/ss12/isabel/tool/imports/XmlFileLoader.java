@@ -17,7 +17,6 @@ public class XmlFileLoader {
 
 	public static final String XMLSCHEMA_XSD = "/XMLSchema.xsd";
 
-	private DocumentEntry bpel;
 	private List<DocumentEntry> wsdlList;
 	private List<DocumentEntry> xsdList;
 	private List<Node> xsdSchemaList = new ArrayList<>();
@@ -37,25 +36,9 @@ public class XmlFileLoader {
 			throw new ValidationException(new IllegalArgumentException(
 					"parameter bpelFilePath must not be null"));
 		}
+
 		try {
-			setAbsoluteBpelFilePath(bpelFilePath);
-			Document bpelDom = builder.build(new File(bpelFilePath));
-			String qName = new NodeHelper(bpelDom).getTargetNamespace();
-			bpel = new DocumentEntry(bpelFilePath, qName, bpelDom);
-
-			InputStream stream = XmlFileLoader.class.getResourceAsStream(XMLSCHEMA_XSD);
-			if (stream == null) {
-				throw new ValidationException("Could not load" + XMLSCHEMA_XSD);
-			}
-			try (InputStreamReader schemaFile = new InputStreamReader(stream)) {
-				Document xmlSchemaDom = builder.build(schemaFile);
-				DocumentEntry xmlSchemaEntry = new DocumentEntry(XMLSCHEMA_XSD,
-						Standards.XSD_NAMESPACE, xmlSchemaDom);
-				xsdList.add(xmlSchemaEntry);
-
-				loadBpelImports();
-			}
-
+			return loadAllProcessFilesWithoutExceptions(bpelFilePath);
 		} catch (ValidityException e) {
 			throw new ValidationException(e,
 					"Loading failed: Not a valid BPEL-File");
@@ -69,19 +52,39 @@ public class XmlFileLoader {
 					"Loading failed: File-Reading Error");
 		}
 
+	}
+
+	private BpelProcessFiles loadAllProcessFilesWithoutExceptions(String bpelFilePath) throws ParsingException, IOException, ValidationException {
+		setAbsoluteBpelFilePath(bpelFilePath);
+		DocumentEntry bpel = createBpelDocumentEntry(bpelFilePath);
+
+		InputStream stream = XmlFileLoader.class.getResourceAsStream(XMLSCHEMA_XSD);
+		if (stream == null) {
+			throw new ValidationException("Could not load" + XMLSCHEMA_XSD);
+		}
+		try (InputStreamReader schemaFile = new InputStreamReader(stream)) {
+			Document xmlSchemaDom = builder.build(schemaFile);
+			DocumentEntry xmlSchemaEntry = new DocumentEntry(XMLSCHEMA_XSD,
+					Standards.XSD_NAMESPACE, xmlSchemaDom);
+			xsdList.add(xmlSchemaEntry);
+
+			Nodes imports = getImportLocations(bpel.getDocument());
+			loadDirectImports(imports);
+		}
+
 		return new BpelProcessFiles(bpel, wsdlList, xsdList, xsdSchemaList,
 				absoluteBpelFilePath);
+	}
+
+	private DocumentEntry createBpelDocumentEntry(String bpelFilePath) throws ParsingException, IOException {
+		Document bpelDom = builder.build(new File(bpelFilePath));
+		String qName = new NodeHelper(bpelDom).getTargetNamespace();
+		return new DocumentEntry(bpelFilePath, qName, bpelDom);
 	}
 
 	private void setAbsoluteBpelFilePath(String bpelFilePath) {
 		absoluteBpelFilePath = Paths.get(bpelFilePath).getParent()
 				.toAbsolutePath().toString();
-	}
-
-	private void loadBpelImports() throws ParsingException,
-			IOException {
-		Nodes imports = getImportLocations(bpel.getDocument());
-		loadDirectImports(imports);
 	}
 
 	private void loadDirectImports(Nodes imports) throws ParsingException,

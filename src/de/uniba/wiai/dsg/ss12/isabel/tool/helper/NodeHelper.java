@@ -1,6 +1,5 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.helper;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
