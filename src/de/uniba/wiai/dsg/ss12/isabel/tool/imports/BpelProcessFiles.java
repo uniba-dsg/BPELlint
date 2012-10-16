@@ -20,11 +20,9 @@ public class BpelProcessFiles {
 	public BpelProcessFiles(DocumentEntry bpel, List<DocumentEntry> wsdlList,
 	                        List<DocumentEntry> xsdList, List<Node> xsdSchemaList,
 	                        String absoluteBpelFilePath) {
-
-		if (bpel == null) {
+		if (bpel == null)
 			throw new IllegalStateException("The BPEL DOM must be initialized "
 					+ "before calling this method.");
-		}
 
 		this.bpel = bpel;
 		this.wsdlList = wsdlList;
@@ -38,8 +36,6 @@ public class BpelProcessFiles {
 	}
 
 	public DocumentEntry getBpel() {
-
-
 		return bpel;
 	}
 
@@ -53,30 +49,26 @@ public class BpelProcessFiles {
 
 	public List<Node> getXsdSchema() {
 		List<Node> xsdSchema = new ArrayList<>(xsdSchemaList);
-		for (DocumentEntry xsdNode : getAllXsds()) {
+		for (DocumentEntry xsdNode : getAllXsds())
 			xsdSchema.add(xsdNode.getDocument().getChild(0));
-		}
+
 		return xsdSchema;
 	}
 
 	public Document getXmlSchema() throws NavigationException {
-		for (DocumentEntry documentEntry : getAllXsds()) {
-			if (XSD_NAMESPACE.equals(documentEntry.getTargetNamespace())) {
+		for (DocumentEntry documentEntry : getAllXsds())
+			if (XSD_NAMESPACE.equals(documentEntry.getTargetNamespace()))
 				return documentEntry.getDocument();
-			}
-		}
+
 		throw new NavigationException(
 				"XMLSchema should have been imported, but haven't.");
 	}
 
-	public Document searchedTargetNamespaceToWsdlDocument(
+	public Document getWsdlByTargetNamespace(
 			String searchedTargetNamespace) throws NavigationException {
-		for (DocumentEntry wsdlEntry : getAllWsdls()) {
-			String targetNamespace = wsdlEntry.getTargetNamespace();
-			if (targetNamespace.equals(searchedTargetNamespace)) {
+		for (DocumentEntry wsdlEntry : getAllWsdls())
+			if (wsdlEntry.getTargetNamespace().equals(searchedTargetNamespace))
 				return wsdlEntry.getDocument();
-			}
-		}
 
 		throw new NavigationException("Document does not exist");
 	}

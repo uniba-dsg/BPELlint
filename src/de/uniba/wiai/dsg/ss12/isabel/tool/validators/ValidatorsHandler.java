@@ -13,24 +13,19 @@ public class ValidatorsHandler {
 
 	public ValidatorsHandler(BpelProcessFiles files,
 	                         ValidationResult violationCollector) {
-		if (files == null) {
+		if (files == null)
 			throw new IllegalArgumentException(
 					"ValidationResult must not be null");
-		}
-		if (violationCollector == null) {
+		if (violationCollector == null)
 			throw new IllegalArgumentException("FileHandler must not be null");
-		}
 
 		this.files = files;
 		this.violationCollector = violationCollector;
 	}
 
 	public void validate() {
-		List<Validator> validators = createValidators();
-
-		for (Validator validator : validators) {
+		for (Validator validator : createValidators())
 			validator.validate();
-		}
 	}
 
 	private List<Validator> createValidators() {

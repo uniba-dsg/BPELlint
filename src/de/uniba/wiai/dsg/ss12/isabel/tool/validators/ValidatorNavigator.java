@@ -109,7 +109,7 @@ public class ValidatorNavigator {
 				.getAttributeValue("partnerLinkType");
 		String wsdlImportNamespace = getPrefixNamespaceURI(
 				partnerLink.getDocument(), PrefixHelper.getPrefix(partnerLinkTypeAttribute));
-		Document correspondingWsdlDom = fileHandler.searchedTargetNamespaceToWsdlDocument(wsdlImportNamespace);
+		Document correspondingWsdlDom = fileHandler.getWsdlByTargetNamespace(wsdlImportNamespace);
 
 		if (correspondingWsdlDom != null) {
 			String partnerLinkTypeName = PrefixHelper.removePrefix(partnerLinkTypeAttribute);
