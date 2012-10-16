@@ -64,7 +64,7 @@ public class ValidationResultPrinter {
 					+ "the file was not found");
 		} catch (IOException e) {
 			throw new ValidationException(e, "Unable to load errormessages.xml, "
-					+ "the readingunit is damaged");
+					+ "the reading unit is damaged");
 		}
 	}
 

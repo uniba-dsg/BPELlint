@@ -91,8 +91,8 @@ public class SA00048Validator extends Validator {
 	private Node findMessageXsdElement(Node operationMessage) {
 		Node messagePartElement = getMessagePartAttributeElement(operationMessage);
 		Node xsdElement = findXsdType(messagePartElement.getValue(), messagePartElement);
-		String elementTypeQname = getAttributeValue(xsdElement.query("@type"));
-		return findXsdType(elementTypeQname, messagePartElement);
+		String elementTypeQName = getAttributeValue(xsdElement.query("@type"));
+		return findXsdType(elementTypeQName, messagePartElement);
 	}
 
 	private boolean messageHasOnlyOnePartWithElement(Node operationMessage) {

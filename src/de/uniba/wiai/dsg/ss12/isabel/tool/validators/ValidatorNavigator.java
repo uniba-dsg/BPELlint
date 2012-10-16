@@ -110,21 +110,21 @@ public class ValidatorNavigator {
 	public Node correspondingOperation(Node messageActivity)
 			throws NavigationException {
 		Element invokeElement = (Element) messageActivity;
-		String partnertLinkName = invokeElement
+		String partnerLinkName = invokeElement
 				.getAttributeValue("partnerLink");
 		String operationName = invokeElement.getAttributeValue("operation");
 		Node partnerLink = getPartnerLink(messageActivity.getDocument(),
-				partnertLinkName);
+				partnerLinkName);
 
 		Node portType = partnerLinkToPortType(partnerLink);
 
 		return portTypeToOperation(portType, operationName);
 	}
 
-	public Node getPartnerLink(Document document, String partnertLink)
+	public Node getPartnerLink(Document document, String partnerLink)
 			throws NavigationException {
 		Nodes partnerLink = document.query(
-				"//bpel:partnerLinks/bpel:partnerLink[@name='" + partnertLink
+				"//bpel:partnerLinks/bpel:partnerLink[@name='" + partnerLink
 						+ "']", CONTEXT);
 
 		if (partnerLink.size() > 0)
@@ -158,7 +158,7 @@ public class ValidatorNavigator {
 				String portTypeQName = partnerRolePortType.get(0).getValue();
 				String portTypeNamespaceURI = getPrefixNamespaceURI(
 						correspondingWsdlDom, getPrefix(portTypeQName));
-				return getPortype(portTypeQName, portTypeNamespaceURI);
+				return getPortType(portTypeQName, portTypeNamespaceURI);
 			} else {
 				Nodes myRolePortType = correspondingWsdlDom.query(
 						"//plink:partnerLinkType[@name='" + partnerLinkTypeName
@@ -168,7 +168,7 @@ public class ValidatorNavigator {
 					String portTypeQName = myRolePortType.get(0).getValue();
 					String portTypeNamespaceURI = getPrefixNamespaceURI(
 							correspondingWsdlDom, getPrefix(portTypeQName));
-					return getPortype(portTypeQName, portTypeNamespaceURI);
+					return getPortType(portTypeQName, portTypeNamespaceURI);
 				}
 			}
 		}
@@ -185,7 +185,7 @@ public class ValidatorNavigator {
 			}
 		}
 
-		throw new NavigationException("Document not existant");
+		throw new NavigationException("Document does not exist");
 	}
 
 	public Node portTypeToOperation(Node portType, String operationName)
@@ -199,7 +199,7 @@ public class ValidatorNavigator {
 		throw new NavigationException("Operation not defined");
 	}
 
-	public Node getPortype(String portTypeQName, String portTypeNamespaceURI)
+	public Node getPortType(String portTypeQName, String portTypeNamespaceURI)
 			throws NavigationException {
 		String portTypeName = prefixFree(portTypeQName);
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {

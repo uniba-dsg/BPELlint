@@ -17,15 +17,15 @@ public class SA00059Validator extends Validator {
 	public boolean validate() {
 
 		String fileName = fileHandler.getBpel().getFilePath();
-		Nodes replys = fileHandler.getBpel().getDocument()
+		Nodes replies = fileHandler.getBpel().getDocument()
 				.query("//bpel:reply", CONTEXT);
 
-		for (Node node : replys) {
+		for (Node reply : replies) {
 
-			Nodes toPartsSet = node.query("bpel:toParts", CONTEXT);
-			Nodes variableSet = node.query("@variable", CONTEXT);
+			Nodes toPartsSet = reply.query("bpel:toParts", CONTEXT);
+			Nodes variableSet = reply.query("@variable", CONTEXT);
 			if ((toPartsSet.size() > 0) && (variableSet.size() > 0)) {
-				addViolation(fileName, node, 1);
+				addViolation(fileName, reply, 1);
 			}
 		}
 		return valid;

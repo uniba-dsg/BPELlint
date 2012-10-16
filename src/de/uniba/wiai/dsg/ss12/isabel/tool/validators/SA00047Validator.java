@@ -3,7 +3,6 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,10 +43,10 @@ public class SA00047Validator extends Validator {
 	private void validateMessagePartConstraint(Node messageActivity)
 			throws NavigationException {
 		if (isReceiveOnMessageOnEvent(messageActivity)
-				&& !hasVariableORfromPart(messageActivity)) {
+				&& !hasVariableOrFromPart(messageActivity)) {
 			reportViolation(messageActivity, 2);
 		} else if (isReply(messageActivity)
-				&& !hasVariableORtoPart(messageActivity)) {
+				&& !hasVariableOrToPart(messageActivity)) {
 			reportViolation(messageActivity, 3);
 		} else if (isInvoke(messageActivity)) {
 			validateInvokeMessagePartConstraint(messageActivity);
@@ -58,10 +57,10 @@ public class SA00047Validator extends Validator {
 			throws NavigationException {
 		Node operation = navigator.correspondingOperation(messageActivity);
 		if (new OperationHelper(operation).isOneWay()
-				&& !hasInputVariableORtoPart(messageActivity)) {
+				&& !hasInputVariableOrToPart(messageActivity)) {
 			reportViolation(messageActivity, 4);
 		} else if (isRequestResponseOperation(operation)
-				&& (!hasInputVariableORtoPart(messageActivity) || !hasOutputVariableORfromPart(messageActivity))) {
+				&& (!hasInputVariableOrToPart(messageActivity) || !hasOutputVariableOrFromPart(messageActivity))) {
 			reportViolation(messageActivity, 5);
 		}
 	}
@@ -161,19 +160,19 @@ public class SA00047Validator extends Validator {
 		return variable.size() > 0;
 	}
 
-	private boolean hasVariableORfromPart(Node messageActivity) {
+	private boolean hasVariableOrFromPart(Node messageActivity) {
 		return (hasVariable(messageActivity) || hasFromPart(messageActivity));
 	}
 
-	private boolean hasVariableORtoPart(Node messageActivity) {
+	private boolean hasVariableOrToPart(Node messageActivity) {
 		return (hasVariable(messageActivity) || hasToPart(messageActivity));
 	}
 
-	private boolean hasInputVariableORtoPart(Node messageActivity) {
+	private boolean hasInputVariableOrToPart(Node messageActivity) {
 		return (navigator.hasInputVariable(messageActivity) || hasToPart(messageActivity));
 	}
 
-	private boolean hasOutputVariableORfromPart(Node messageActivity) {
+	private boolean hasOutputVariableOrFromPart(Node messageActivity) {
 		return (navigator.hasOutputVariable(messageActivity) || hasFromPart(messageActivity));
 	}
 

@@ -47,14 +47,14 @@ public class SA00003Validator extends Validator {
 		Node process = getBpelProcessNode();
 
 		if (hasExitOnStandardFault("yes", process)
-				&& hasCatchedStandardFault(process)) {
+				&& isCatchingStandardFaults(process)) {
 			addViolation(process);
 		}
 
 		Nodes scopes = process.query("//bpel:scope", CONTEXT);
 		for (Node scope : scopes) {
 			if (hasExitOnStandardFault("yes", scope)
-					&& hasCatchedStandardFault(scope)) {
+					&& isCatchingStandardFaults(scope)) {
 				addViolation(scope);
 			}
 		}
@@ -73,13 +73,13 @@ public class SA00003Validator extends Validator {
 		return bool.equals(exitOnStandardFault);
 	}
 
-	private boolean hasCatchedStandardFault(Node currentScope) {
+	private boolean isCatchingStandardFaults(Node currentScope) {
 		if (catchesStandardFaultDirectly(currentScope))
 			return true;
 		boolean foundStandardFault = false;
 		for (Node scope : currentScope.query("bpel:scope", CONTEXT)) {
 			if (!hasExitOnStandardFault("no", scope)) {
-				foundStandardFault |= hasCatchedStandardFault(scope);
+				foundStandardFault |= isCatchingStandardFaults(scope);
 			}
 		}
 		return foundStandardFault;
