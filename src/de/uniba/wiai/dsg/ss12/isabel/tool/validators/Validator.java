@@ -10,8 +10,8 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ViolationCollector;
 public abstract class Validator {
 
 	protected final BpelProcessFiles fileHandler;
-	private final ViolationCollector violationCollector;
 	protected final ValidatorNavigator navigator;
+	private final ViolationCollector violationCollector;
 
 	public Validator(BpelProcessFiles files,
 			ViolationCollector violationCollector) {
