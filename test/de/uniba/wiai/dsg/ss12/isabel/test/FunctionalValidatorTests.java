@@ -15,12 +15,12 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(value = Parameterized.class)
-public class ParameterizedTest {
+public class FunctionalValidatorTests {
 
 	private Set<Integer> violatedRules;
 	private String bpel;
 
-	public ParameterizedTest(String bpel, String violatedRules) {
+	public FunctionalValidatorTests(String bpel, String violatedRules) {
 		this.violatedRules = parseString(violatedRules);
 		this.bpel = bpel;
 	}
@@ -58,15 +58,15 @@ public class ParameterizedTest {
 				{"TestCases/SA00008/CompensateOutsideFaultHandlers.bpel", "8"},
 				{"TestCases/SA00010/UndefinedType-Catch-FaultElement.bpel", "10"},
 				{"TestCases/SA00010/UndefinedType-Catch-FaultMessageType.bpel", "10"},
-				{"TestCases/SA00010/UndefinedType-CorrelationSet.bpel", "10"},
-				{"TestCases/SA00010/UndefinedType-From.bpel", "10"},
+				{"TestCases/SA00010/UndefinedType-CorrelationSet.bpel", "10, 21"},
+				{"TestCases/SA00010/UndefinedType-From.bpel", "10, 21"},
 				{"TestCases/SA00010/UndefinedType-Invoke.bpel", "10, 5"},
 				{"TestCases/SA00010/UndefinedType-OnEvent.bpel", "10, 5"},
 				{"TestCases/SA00010/UndefinedType-OnMessage.bpel", "10, 5"},
 				{"TestCases/SA00010/UndefinedType-PartnerLink.bpel", "10"},
 				{"TestCases/SA00010/UndefinedType-Receive.bpel", "10, 5"},
 				{"TestCases/SA00010/UndefinedType-Reply.bpel", "10, 5"},
-				{"TestCases/SA00010/UndefinedType-To.bpel", "10"},
+				{"TestCases/SA00010/UndefinedType-To.bpel", "10, 21"},
 				{"TestCases/SA00010/UndefinedType-Variable-Element.bpel", "10"},
 				{"TestCases/SA00010/UndefinedType-Variable-MessageType.bpel", "10"},
 				{"TestCases/SA00010/UndefinedType-Variable-Type.bpel", "10"},
@@ -86,10 +86,10 @@ public class ParameterizedTest {
 				{"TestCases/SA00020/PropertyAlias-PartTypeAttributes.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-PartTypeElementAttributes.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-TypeElementAttributes.bpel", "20"},
-				{"TestCases/SA00021/CorrelationSet-Properties-Undefined.bpel", "21"},
-				{"TestCases/SA00021/From-Property-Undefined.bpel", "21"},
+				{"TestCases/SA00021/CorrelationSet-Properties-Undefined.bpel", "21, 10"},
+				{"TestCases/SA00021/From-Property-Undefined.bpel", "21, 10"},
 				{"TestCases/SA00021/OnEvent-Variable-Undefined.bpel", "21"},
-				{"TestCases/SA00021/To-Property-Undefined.bpel", "21"},
+				{"TestCases/SA00021/To-Property-Undefined.bpel", "21, 10"},
 				{"TestCases/SA00022/Duplicate-propertyAliasElement.bpel", "22"},
 				{"TestCases/SA00022/Duplicate-propertyAliasMessageType.bpel", "22"},
 				{"TestCases/SA00022/Duplicate-propertyAliasType.bpel", "22"},
@@ -109,12 +109,12 @@ public class ParameterizedTest {
 				{"TestCases/SA00045/Property-TypeMissing.bpel", "45"},
 				{"TestCases/SA00046/Invoke-OneWay-Correlation-Pattern.bpel", "46"},
 				{"TestCases/SA00046/Invoke-RequestResponse-Correlation-PatternMissing.bpel", "46"},
-				{"TestCases/SA00047/EmptyMessage-Invoke-FromParts.bpel", "47"},
-				{"TestCases/SA00047/EmptyMessage-Invoke-ToParts-FromParts.bpel", "47, 54"},
+				{"TestCases/SA00047/EmptyMessage-Invoke-FromParts.bpel", "47, 53"},
+				{"TestCases/SA00047/EmptyMessage-Invoke-ToParts-FromParts.bpel", "47, 54, 53"},
 				{"TestCases/SA00047/EmptyMessage-Invoke-ToParts.bpel", "47, 54"},
-				{"TestCases/SA00047/EmptyMessage-OnEvent-FromParts.bpel", "47"},
-				{"TestCases/SA00047/EmptyMessage-OnMessage-FromParts.bpel", "47"},
-				{"TestCases/SA00047/EmptyMessage-Receive-FromParts.bpel", "47"},
+				{"TestCases/SA00047/EmptyMessage-OnEvent-FromParts.bpel", "47, 53"},
+				{"TestCases/SA00047/EmptyMessage-OnMessage-FromParts.bpel", "47, 53"},
+				{"TestCases/SA00047/EmptyMessage-Receive-FromParts.bpel", "47, 53"},
 				{"TestCases/SA00047/EmptyMessage-Reply-ToParts.bpel", "47, 54"},
 				{"TestCases/SA00047/Invoke-OneWay-NoInputVariable-NoToParts.bpel", "47"},
 				{"TestCases/SA00047/Invoke-RequestResponse-NoInputOutputVariables-NoToFromParts.bpel", "47"},
