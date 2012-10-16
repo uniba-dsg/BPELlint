@@ -1,4 +1,4 @@
-package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
+package de.uniba.wiai.dsg.ss12.isabel;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.VerbosityLevel;
 
