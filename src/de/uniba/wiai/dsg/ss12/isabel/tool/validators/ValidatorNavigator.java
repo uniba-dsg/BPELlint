@@ -121,10 +121,10 @@ public class ValidatorNavigator {
 		return portTypeToOperation(portType, operationName);
 	}
 
-	public Node getPartnerLink(Document document, String partnerLink)
+	public Node getPartnerLink(Document document, String partnerLinkName)
 			throws NavigationException {
 		Nodes partnerLink = document.query(
-				"//bpel:partnerLinks/bpel:partnerLink[@name='" + partnerLink
+				"//bpel:partnerLinks/bpel:partnerLink[@name='" + partnerLinkName
 						+ "']", CONTEXT);
 
 		if (partnerLink.size() > 0)
