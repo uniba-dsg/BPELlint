@@ -1,9 +1,8 @@
-package de.uniba.wiai.dsg.ss12.isabel;
+package de.uniba.wiai.dsg.ss12.isabel.io;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
-import de.uniba.wiai.dsg.ss12.isabel.VerbosityLevel;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
+import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 import nu.xom.*;
 
 import java.io.FileNotFoundException;
@@ -165,7 +164,4 @@ public class ValidationResultPrinter {
 		System.out.println("Warning: Error message document is not specified.");
 	}
 
-	public void printStartUpError(Exception e) {
-		System.err.println("Error: " + e.getMessage());
-	}
 }

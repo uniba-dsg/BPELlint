@@ -1,4 +1,4 @@
-package de.uniba.wiai.dsg.ss12.isabel.tool.reports;
+package de.uniba.wiai.dsg.ss12.isabel.tool;
 
 public class Violation implements Comparable<Violation> {
 

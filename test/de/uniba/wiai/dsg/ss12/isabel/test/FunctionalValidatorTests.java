@@ -1,7 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.test;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.Isabel;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

@@ -2,7 +2,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.helper;
 
 import nu.xom.Node;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.CONTEXT;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class OperationHelper {
 

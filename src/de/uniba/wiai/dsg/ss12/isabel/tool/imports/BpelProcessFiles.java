@@ -1,13 +1,13 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
 import nu.xom.Document;
 import nu.xom.Node;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.Standards.XSD_NAMESPACE;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.XSD_NAMESPACE;
 
 public class BpelProcessFiles {
 

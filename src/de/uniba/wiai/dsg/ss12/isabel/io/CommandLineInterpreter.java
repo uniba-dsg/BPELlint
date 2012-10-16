@@ -1,6 +1,4 @@
-package de.uniba.wiai.dsg.ss12.isabel;
-
-import de.uniba.wiai.dsg.ss12.isabel.VerbosityLevel;
+package de.uniba.wiai.dsg.ss12.isabel.io;
 
 public class CommandLineInterpreter {
 	public final VerbosityLevel verbosityLevel;

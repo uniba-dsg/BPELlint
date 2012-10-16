@@ -1,7 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 
 import java.util.ArrayList;
 import java.util.List;

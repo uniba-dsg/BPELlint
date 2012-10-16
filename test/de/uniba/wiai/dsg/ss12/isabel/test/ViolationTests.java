@@ -1,6 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.test;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
+import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

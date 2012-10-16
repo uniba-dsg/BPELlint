@@ -23,7 +23,7 @@ public class NodeHelper {
 	}
 
 	public boolean hasLocalName(String name) {
-		return name.equals(getLocalName());
+		return getLocalName().equals(name);
 	}
 
 	public String getTargetNamespace() {
@@ -48,8 +48,6 @@ public class NodeHelper {
 			}
 		}
 		return "";
-
-
 	}
 
 	public boolean hasAttribute(String name) {

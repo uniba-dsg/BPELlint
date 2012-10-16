@@ -1,4 +1,7 @@
-package de.uniba.wiai.dsg.ss12.isabel.tool.reports;
+package de.uniba.wiai.dsg.ss12.isabel.tool.impl;
+
+import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 
 import java.util.*;
 

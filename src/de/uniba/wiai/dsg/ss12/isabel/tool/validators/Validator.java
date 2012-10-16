@@ -1,8 +1,8 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.Violation;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;

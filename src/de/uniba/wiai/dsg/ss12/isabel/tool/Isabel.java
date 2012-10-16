@@ -1,9 +1,8 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.CollectionBasedValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.XmlFileLoader;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.CollectionBasedValidationResult;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorsHandler;
 
 /**

@@ -1,4 +1,4 @@
-package de.uniba.wiai.dsg.ss12.isabel.tool;
+package de.uniba.wiai.dsg.ss12.isabel.tool.impl;
 
 public class NavigationException extends Exception {
 
