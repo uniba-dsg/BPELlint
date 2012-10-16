@@ -2,7 +2,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.reports;
 
 import java.util.*;
 
-public class IsabelViolationCollector implements ValidationResult {
+public class CollectionBasedValidationResult implements ValidationResult {
 
 	private final List<Violation> violations = new ArrayList<>();
 

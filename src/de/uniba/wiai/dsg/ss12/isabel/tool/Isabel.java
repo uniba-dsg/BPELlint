@@ -2,7 +2,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.XmlFileLoader;
-import de.uniba.wiai.dsg.ss12.isabel.tool.reports.IsabelViolationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.reports.CollectionBasedValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.reports.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorsHandler;
 
@@ -13,9 +13,6 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorsHandler;
  *         Distributed Systems Group - University of Bamberg - SS 2012
  */
 public class Isabel {
-
-	private final XmlFileLoader fileLoader = new XmlFileLoader();
-	private final ValidationResult violationCollector = new IsabelViolationCollector();
 
 	/**
 	 * @param bpelPath
@@ -32,11 +29,12 @@ public class Isabel {
 			throw new ValidationException("Path is no BPEL file");
 		}
 
-		BpelProcessFiles bpelProcessFiles = fileLoader.loadAllProcessFiles(bpelPath);
-		ValidatorsHandler validators = new ValidatorsHandler(bpelProcessFiles, violationCollector);
+		BpelProcessFiles bpelProcessFiles = new XmlFileLoader().loadAllProcessFiles(bpelPath);
+		CollectionBasedValidationResult validationResult = new CollectionBasedValidationResult();
+		ValidatorsHandler validators = new ValidatorsHandler(bpelProcessFiles, validationResult);
 		validators.validate();
 
-		return violationCollector;
+		return validationResult;
 	}
 
 }
