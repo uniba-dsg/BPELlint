@@ -5,7 +5,6 @@ apply plugin: "application"
 
 mainClassName = "de.uniba.wiai.dsg.ss12.isabel.IsabelTool"
 
-
 repositories {
     mavenCentral()
 }
@@ -15,7 +14,10 @@ sourceSets {
     main {
         java {
             srcDir 'src'
-        }	
+        }
+        resources {
+            srcDir 'resources'
+        }
     }
     test {
         java {
@@ -29,35 +31,13 @@ dependencies {
     testCompile "junit:junit:4.10"
 }
 
-
 run {
 	// pass arguments to Main class
     if(project.hasProperty('args')){
         args project.args.split('\\s+')
     }
-	copy {
-		from ('src'){
-			exclude 'de/'
-		}
-		into 'build/classes/main'
-	}
-
 }
-
-
-
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.2'
-}
-
-
-jar {
-    dependsOn configurations.runtime
-    from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
-	from ('src'){
-		exclude 'de/'
-	}
-
-    manifest { attributes 'Main-Class': 'de.uniba.wiai.dsg.ss12.isabel.IsabelTool' }
 }
