@@ -59,7 +59,7 @@ public class ValidatorsHandler {
 		// validators.add(new SA00019Validator(files, violationCollector));
 
 		validators.add(new SA00020Validator(files, violationCollector));
-		// validators.add(new SA00021Validator(files, violationCollector));
+		validators.add(new SA00021Validator(files, violationCollector));
 		validators.add(new SA00022Validator(files, violationCollector));
 		validators.add(new SA00023Validator(files, violationCollector));
 		validators.add(new SA00024Validator(files, violationCollector));
@@ -88,13 +88,13 @@ public class ValidatorsHandler {
 		validators.add(new SA00045Validator(files, violationCollector));
 		validators.add(new SA00046Validator(files, violationCollector));
 		validators.add(new SA00047Validator(files, violationCollector));
-		// validators.add(new SA00048Validator(files, violationCollector));
+		validators.add(new SA00048Validator(files, violationCollector));
 		// validators.add(new SA00049Validator(files, violationCollector));
 
 		validators.add(new SA00050Validator(files, violationCollector));
 		validators.add(new SA00051Validator(files, violationCollector));
 		validators.add(new SA00052Validator(files, violationCollector));
-		// validators.add(new SA00053Validator(files, violationCollector));
+		validators.add(new SA00053Validator(files, violationCollector));
 		validators.add(new SA00054Validator(files, violationCollector));
 		validators.add(new SA00055Validator(files, violationCollector));
 		// validators.add(new SA00056Validator(files, violationCollector));
