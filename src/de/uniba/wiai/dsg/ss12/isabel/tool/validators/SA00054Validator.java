@@ -72,14 +72,8 @@ public class SA00054Validator extends Validator {
 				}
 
 			}
-
-			return false;
-		} else {
-			return thereIsAToPartButNoPart();
 		}
-	}
 
-	private boolean thereIsAToPartButNoPart() {
 		return false;
 	}
 
