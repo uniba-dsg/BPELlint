@@ -16,7 +16,6 @@ public class SA00024Validator extends Validator {
 
 	@Override
 	public void validate() {
-		String fileName = fileHandler.getBpel().getFilePath();
 		Nodes variables = fileHandler.getBpel().getDocument()
 				.query("//bpel:variable/@name", CONTEXT);
 		Nodes onEvents = fileHandler.getBpel().getDocument()
@@ -24,13 +23,13 @@ public class SA00024Validator extends Validator {
 
 		for (Node variable : variables) {
 			if (variable.getValue().contains(".")) {
-				addViolation(fileName, variable, 1);
+				addViolation(variable);
 			}
 		}
 
 		for (Node onEvent : onEvents) {
 			if (onEvent.getValue().contains(".")) {
-				addViolation(fileName, onEvent, 1);
+				addViolation(onEvent);
 			}
 		}
 	}

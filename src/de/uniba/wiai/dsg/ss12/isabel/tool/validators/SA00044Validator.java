@@ -24,12 +24,11 @@ public class SA00044Validator extends Validator {
 				.getDocument()
 				.query("//bpel:correlationSets/bpel:correlationSet/@name",
 						CONTEXT);
-		String fileName = fileHandler.getBpel().getFilePath();
 
 		Set<String> occurringNames = new HashSet<>();
 		for (Node currentNode : correlationSetNames) {
 			if (!occurringNames.add(currentNode.toXML())) {
-				addViolation(fileName, currentNode, 1);
+				addViolation(currentNode);
 			}
 		}
 	}

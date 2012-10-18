@@ -21,9 +21,6 @@ public class SA00012Validator extends Validator {
 
 	@Override
 	public void validate() {
-
-		String fileName = fileHandler.getBpel().getFilePath();
-
 		Nodes imports = fileHandler.getBpel().getDocument()
 				.query("//bpel:import", CONTEXT);
 
@@ -35,7 +32,7 @@ public class SA00012Validator extends Validator {
 					&& isValidFile(allXsds, node);
 
 			if (!importedFileIsValid) {
-				addViolation(fileName, node, 1);
+				addViolation(node);
 			}
 		}
 	}

@@ -24,14 +24,14 @@ public class SA00003Validator extends Validator {
 
 		if (hasExitOnStandardFault("yes", process)
 				&& isCatchingStandardFaults(process)) {
-			addViolation(process);
+			addViolation(filePath, process);
 		}
 
 		Nodes scopes = process.query("//bpel:scope", CONTEXT);
 		for (Node scope : scopes) {
 			if (hasExitOnStandardFault("yes", scope)
 					&& isCatchingStandardFaults(scope)) {
-				addViolation(scope);
+				addViolation(filePath, scope);
 			}
 		}
 	}
@@ -71,10 +71,6 @@ public class SA00003Validator extends Validator {
 
 		}
 		return false;
-	}
-
-	private void addViolation(Node process) {
-		addViolation(filePath, process, 1);
 	}
 
 	@Override

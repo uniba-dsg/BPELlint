@@ -40,7 +40,7 @@ public class SA00046Validator extends Validator {
 
 	private void reportViolation(Nodes correlations, int type) {
 		for (Node node : correlations) {
-			addViolation(getBpelFileName(), node, type);
+			addViolation(node, type);
 		}
 	}
 

@@ -16,13 +16,12 @@ public class SA00006Validator extends Validator {
 
 	@Override
 	public void validate() {
-		String filePath = fileHandler.getBpel().getFilePath();
 		Nodes rethrows = fileHandler.getBpel().getDocument()
 				.query("//bpel:rethrow", CONTEXT);
 
 		for (Node actualRethrow : rethrows) {
 			if (isNotInFaultHandler(actualRethrow)) {
-				addViolation(filePath, actualRethrow, 1);
+				addViolation(actualRethrow);
 			}
 		}
 	}

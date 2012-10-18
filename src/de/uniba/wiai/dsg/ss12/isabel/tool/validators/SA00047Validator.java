@@ -45,10 +45,10 @@ public class SA00047Validator extends Validator {
 			throws NavigationException {
 		if (isReceiveOnMessageOnEvent(messageActivity)
 				&& !hasVariableOrFromPart(messageActivity)) {
-			reportViolation(messageActivity, 2);
+			addViolation(messageActivity, 2);
 		} else if (isReply(messageActivity)
 				&& !hasVariableOrToPart(messageActivity)) {
-			reportViolation(messageActivity, 3);
+			addViolation(messageActivity, 3);
 		} else if (isInvoke(messageActivity)) {
 			validateInvokeMessagePartConstraint(messageActivity);
 		}
@@ -59,16 +59,16 @@ public class SA00047Validator extends Validator {
 		Node operation = navigator.correspondingOperation(messageActivity);
 		if (new OperationHelper(operation).isOneWay()
 				&& !hasInputVariableOrToPart(messageActivity)) {
-			reportViolation(messageActivity, 4);
+			addViolation(messageActivity, 4);
 		} else if (new OperationHelper(operation).isRequestResponse()
 				&& (!hasInputVariableOrToPart(messageActivity) || !hasOutputVariableOrFromPart(messageActivity))) {
-			reportViolation(messageActivity, 5);
+			addViolation(messageActivity, 5);
 		}
 	}
 
 	private void validateNoMessagePartConstraint(Node messageActivity) {
 		if (hasToPartOrFromPart(messageActivity))
-			reportViolation(messageActivity, 1);
+			addViolation(messageActivity, 1);
 	}
 
 	private boolean hasMessagePart(Node messageActivity)
@@ -132,10 +132,6 @@ public class SA00047Validator extends Validator {
 		messageActivities.add(onEventNodes);
 
 		return messageActivities;
-	}
-
-	private void reportViolation(Node node, int type) {
-		addViolation(getBpelFileName(), node, type);
 	}
 
 	private boolean hasToPartOrFromPart(Node messageActivity) {

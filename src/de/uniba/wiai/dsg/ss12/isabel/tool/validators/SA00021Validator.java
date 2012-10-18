@@ -15,8 +15,6 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.g
 
 public class SA00021Validator extends Validator {
 
-	private String filePath;
-
 	public SA00021Validator(BpelProcessFiles files,
 	                        ValidationResult violationCollector) {
 		super(files, violationCollector);
@@ -24,8 +22,6 @@ public class SA00021Validator extends Validator {
 
 	@Override
 	public void validate() {
-		filePath = fileHandler.getBpel().getFilePath();
-
 		hasEachCorrelationSetExistingProperty();
 		validateFor("//bpel:from[@property]");
 		validateFor("//bpel:to[@property]");
@@ -41,7 +37,7 @@ public class SA00021Validator extends Validator {
 					Node variable = getCorrespondingScopeVariable(fromTo);
 					hasCorrespondingPropertyAlias(variable, property, fromTo);
 				} catch (NavigationException e) {
-					propagateViolation(fromTo);
+					addViolation(fromTo);
 				}
 			}
 		}
@@ -107,10 +103,10 @@ public class SA00021Validator extends Validator {
 					if (!isOfThisMessageType(type, propertyAlias, partHolder)
 							&& !isOfThisType(type, propertyAlias)
 							&& !isOfThisElement(type, propertyAlias)) {
-						propagateViolation(node);
+						addViolation(node);
 					}
 				} else {
-					propagateViolation(node);
+					addViolation(node);
 				}
 			}
 		}
@@ -155,7 +151,7 @@ public class SA00021Validator extends Validator {
 						correlationSet, wsdl.getDocument());
 				navigator.getCorrespondingProperty(propertyAlias);
 			} catch (NavigationException e) {
-				propagateViolation(correlationSet);
+				addViolation(correlationSet);
 			}
 		}
 	}
@@ -189,10 +185,6 @@ public class SA00021Validator extends Validator {
 		} catch (NavigationException e) {
 			return getVariableType(scope, "@element");
 		}
-	}
-
-	private void propagateViolation(Node from) {
-		addViolation(filePath, from, 1);
 	}
 
 	@Override

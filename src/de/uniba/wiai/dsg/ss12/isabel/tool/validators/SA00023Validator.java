@@ -9,7 +9,8 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00023Validator extends Validator {
 
-	private String fileName;
+	private static final int UNIQUE_IN_SCOPE = 2;
+	private static final int UNIQUE_IN_PROCESS = 1;
 
 	public SA00023Validator(BpelProcessFiles files,
 			ValidationResult violationCollector) {
@@ -19,21 +20,20 @@ public class SA00023Validator extends Validator {
 	@Override
 	public void validate() {
 
-		this.fileName = fileHandler.getBpel().getFilePath();
 		Nodes processVariableNames = fileHandler
 				.getBpel()
 				.getDocument()
 				.query("//bpel:process/bpel:variables/bpel:variable/@name",
 						CONTEXT);
 
-		checkForDuplicates(processVariableNames, 1);
+		checkForDuplicates(processVariableNames, UNIQUE_IN_PROCESS);
 
 		Nodes scopes = fileHandler.getBpel().getDocument()
 				.query("//bpel:scope", CONTEXT);
 		for (Node scope : scopes) {
 			Nodes variableNames = scope.query(
 					"bpel:variables/bpel:variable/@name", CONTEXT);
-			checkForDuplicates(variableNames, 2);
+			checkForDuplicates(variableNames, UNIQUE_IN_SCOPE);
 		}
 	}
 
@@ -45,7 +45,7 @@ public class SA00023Validator extends Validator {
 				for (int j = i + 1; j < nodesToCheck.size(); j++) {
 					if (nodesToCheck.get(j).getValue()
 							.equals(currentNode.getValue())) {
-						addViolation(fileName, currentNode, errorType);
+						addViolation(currentNode, errorType);
 					}
 				}
 			}

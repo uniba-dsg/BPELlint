@@ -17,7 +17,6 @@ public class SA00063Validator extends Validator {
 	@Override
 	public void validate() {
 
-		String fileName = fileHandler.getBpel().getFilePath();
 		Nodes onMessages = fileHandler.getBpel().getDocument()
 				.query("//bpel:onMessage", CONTEXT);
 
@@ -25,7 +24,7 @@ public class SA00063Validator extends Validator {
 
 			if (node.query("bpel:fromParts", CONTEXT).size() > 0
 					&& node.query("@variable", CONTEXT).size() > 0) {
-				addViolation(fileName, node, 1);
+				addViolation(node);
 			}
 		}
 	}

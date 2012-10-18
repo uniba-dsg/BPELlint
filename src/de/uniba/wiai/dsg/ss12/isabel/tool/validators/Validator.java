@@ -9,12 +9,13 @@ import nu.xom.Node;
 
 public abstract class Validator {
 
+	private static final int DEFAULT_TYPE = 1;
+
 	protected final BpelProcessFiles fileHandler;
 	protected final ValidatorNavigator navigator;
 	private final ValidationResult violationCollector;
 
-	public Validator(BpelProcessFiles files,
-			ValidationResult violationCollector) {
+	public Validator(BpelProcessFiles files, ValidationResult violationCollector) {
 		this.fileHandler = files;
 		this.violationCollector = violationCollector;
 		navigator = new ValidatorNavigator(fileHandler);
@@ -27,6 +28,18 @@ public abstract class Validator {
 	protected void addViolation(String fileName, Node node, int type) {
 		violationCollector.add(new Violation(fileName, getSaNumber(), type,
 				getLineNumber(node), getColumnNumber(node)));
+	}
+
+	protected void addViolation(String fileName, Node node) {
+		addViolation(fileName, node, DEFAULT_TYPE);
+	}
+
+	protected void addViolation(Node node) {
+		addViolation(getBpelFileName(), node);
+	}
+	
+	protected void addViolation(Node node, int type) {
+		addViolation(getBpelFileName(), node, type);
 	}
 
 	private int getLineNumber(Node node) {
@@ -44,8 +57,7 @@ public abstract class Validator {
 	private int getColumnNumber(Node node) {
 		if (node instanceof Element) {
 			Element element = (Element) node;
-			return (Integer) element
-					.getUserData("columnNumber");
+			return (Integer) element.getUserData("columnNumber");
 		} else if (node instanceof Attribute) {
 			return getColumnNumber(node.getParent());
 		} else {

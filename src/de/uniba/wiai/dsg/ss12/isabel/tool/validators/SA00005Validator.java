@@ -2,6 +2,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Document;
@@ -56,7 +57,7 @@ public class SA00005Validator extends Validator {
 				String correspondingPortTypeName = new NodeHelper(correspondingPortType).getAttributeByName("name");
 
 				if (!correspondingPortTypeName.equals(localPortTypeDefinition)) {
-					addViolation(filePath, messageActivity, 1);
+					addViolation(filePath, messageActivity);
 				}
 			} catch (NavigationException e) {
 				// This node could not be validated
@@ -66,11 +67,7 @@ public class SA00005Validator extends Validator {
 
 	private String getLocalPortTypeDefinition(Node messageActivity) {
 		String localPortTypeDefinition = new NodeHelper(messageActivity).getAttributeByName("portType");
-		if (localPortTypeDefinition.contains(":")) {
-			localPortTypeDefinition = localPortTypeDefinition
-					.substring(localPortTypeDefinition.indexOf(":") + 1);
-		}
-		return localPortTypeDefinition;
+		return PrefixHelper.removePrefix(localPortTypeDefinition);
 	}
 
 	@Override

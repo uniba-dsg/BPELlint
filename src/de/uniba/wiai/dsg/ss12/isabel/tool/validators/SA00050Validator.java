@@ -12,8 +12,6 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00050Validator extends Validator {
 
-	private String filePath;
-
 	public SA00050Validator(BpelProcessFiles files,
 			ValidationResult violationCollector) {
 		super(files, violationCollector);
@@ -21,8 +19,6 @@ public class SA00050Validator extends Validator {
 
 	@Override
 	public void validate() {
-		filePath = fileHandler.getBpel().getFilePath();
-
 		hasToPartForEveryMessagePart("//bpel:invoke");
 		hasToPartForEveryMessagePart("//bpel:reply");
 	}
@@ -50,7 +46,7 @@ public class SA00050Validator extends Validator {
 					for (Node part : messageParts) {
 
 						if (!hasMessagePartCorrespondingToPart(part, toParts)) {
-							addViolation(filePath, outgoingOperation, 1);
+							addViolation(outgoingOperation);
 						}
 					}
 				}

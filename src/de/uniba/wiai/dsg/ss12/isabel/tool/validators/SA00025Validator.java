@@ -9,6 +9,12 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00025Validator extends Validator {
 
+	private static final int MESSAGE_TYPE_AND_TYPE_AND_ELEMENT = 5;
+	private static final int TYPE_AND_ELEMENT = 4;
+	private static final int MESSAGE_TYPE_AND_ELEMENT = 3;
+	private static final int MESSAGE_TYPE_AND_TYPE = 2;
+	private static final int MESSAGE_TYPE_OR_TYPE_OR_ELEMENT_MISSING = 1;
+
 	public SA00025Validator(BpelProcessFiles files,
 			ValidationResult violationCollector) {
 		super(files, violationCollector);
@@ -17,7 +23,6 @@ public class SA00025Validator extends Validator {
 	@Override
 	public void validate() {
 
-		String fileName = fileHandler.getBpel().getFilePath();
 		Nodes variables = fileHandler.getBpel().getDocument()
 				.query("//bpel:variable", CONTEXT);
 
@@ -29,16 +34,16 @@ public class SA00025Validator extends Validator {
 
 			if ((messageTypeSet.size() == 0) && (typeSet.size() == 0)
 					&& (elementSet.size() == 0)) {
-				addViolation(fileName, variable, 1);
+				addViolation(variable, MESSAGE_TYPE_OR_TYPE_OR_ELEMENT_MISSING);
 			} else if (messageTypeSet.size() > 0 && typeSet.size() > 0) {
-				addViolation(fileName, variable, 2);
+				addViolation(variable, MESSAGE_TYPE_AND_TYPE);
 			} else if (messageTypeSet.size() > 0 && elementSet.size() > 0) {
-				addViolation(fileName, variable, 3);
+				addViolation(variable, MESSAGE_TYPE_AND_ELEMENT);
 			} else if (typeSet.size() > 0 && elementSet.size() > 0) {
-				addViolation(fileName, variable, 4);
+				addViolation(variable, TYPE_AND_ELEMENT);
 			} else if (messageTypeSet.size() > 0 && typeSet.size() > 0
 					&& elementSet.size() > 0) {
-				addViolation(fileName, variable, 5);
+				addViolation(variable, MESSAGE_TYPE_AND_TYPE_AND_ELEMENT);
 			}
 		}
 	}

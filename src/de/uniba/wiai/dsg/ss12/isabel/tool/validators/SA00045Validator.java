@@ -29,7 +29,7 @@ public class SA00045Validator extends Validator {
 		for (Node correlationSet : allCorrelationSet) {
 			try {
 				if (!isSimpleType(correlationSet)) {
-					addViolation(filePath, correlationSet, 1);
+					addViolation(filePath, correlationSet);
 				}
 			} catch (NavigationException e) {
 				// This node could not be validated

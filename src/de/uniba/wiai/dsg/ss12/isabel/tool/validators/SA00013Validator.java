@@ -21,12 +21,9 @@ public class SA00013Validator extends Validator {
 
 	@Override
 	public void validate() {
-		String filePath = fileHandler.getBpel().getFilePath();
-		Nodes imports = getAllImports();
-
-		for (Node node : imports) {
-			if (!hasCorrectType(node)) {
-				addViolation(filePath, node, 1);
+		for (Node importNode : getAllImports()) {
+			if (!hasCorrectType(importNode)) {
+				addViolation(importNode);
 			}
 		}
 	}
@@ -37,7 +34,6 @@ public class SA00013Validator extends Validator {
 	}
 
 	private boolean hasCorrectType(Node fileImport) {
-
 		return isImportTypedWithinThisFiles(fileImport,
 				fileHandler.getAllWsdls())
 				|| isImportTypedWithinThisFiles(fileImport,

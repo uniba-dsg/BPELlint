@@ -29,7 +29,7 @@ public class SA00002Validator extends Validator {
 					String currentName = nameAttribute.toXML();
 
 					if (nameSet.contains(currentName)) {
-						addViolation(filePath, nameAttribute, 1);
+						addViolation(filePath, nameAttribute);
 					} else {
 						nameSet.add(currentName);
 					}
@@ -43,8 +43,7 @@ public class SA00002Validator extends Validator {
 	}
 
 	private Nodes getPortTypes(DocumentEntry wsdlEntry) {
-		return wsdlEntry.getDocument().query("//wsdl:portType",
-				CONTEXT);
+		return wsdlEntry.getDocument().query("//wsdl:portType", CONTEXT);
 	}
 
 	@Override

@@ -21,11 +21,9 @@ public class SA00010Validator extends Validator {
 
 	@Override
 	public void validate() {
-		String filePath = fileHandler.getBpel().getFilePath();
-
 		for (Node node : allBpelNodes()) {
 			if (!typeDefinitionExists(node)) {
-				addViolation(filePath, node, 1);
+				addViolation(node);
 			}
 		}
 	}

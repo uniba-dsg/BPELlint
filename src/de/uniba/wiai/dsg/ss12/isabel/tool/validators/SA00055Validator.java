@@ -18,7 +18,6 @@ public class SA00055Validator extends Validator {
 	@Override
 	public void validate() {
 
-		String fileName = fileHandler.getBpel().getFilePath();
 		Nodes receives = fileHandler.getBpel().getDocument()
 				.query("//bpel:receive", CONTEXT);
 
@@ -26,7 +25,7 @@ public class SA00055Validator extends Validator {
 			ReceiveHelper receiveHelper = new ReceiveHelper(receive);
 
 			if (receiveHelper.hasFromParts() && receiveHelper.hasVariable()) {
-				addViolation(fileName, receive, 1);
+				addViolation(receive);
 			}
 		}
 	}

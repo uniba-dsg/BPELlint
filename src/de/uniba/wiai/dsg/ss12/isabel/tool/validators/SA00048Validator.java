@@ -30,12 +30,12 @@ public class SA00048Validator extends Validator {
 
 				if (variableForInput != null) {
 					if (!hasCorrespondingMessage(variableForInput, messages.get("input")))
-						reportViolation(invoke, 1);
+						addViolation(invoke, 1);
 				}
 
 				if (variableForOutput != null) {
 					if (!hasCorrespondingMessage(variableForOutput, messages.get("output"))) {
-						reportViolation(invoke, 2);
+						addViolation(invoke, 2);
 					}
 				}
 			} catch (NavigationException e) {
@@ -60,10 +60,6 @@ public class SA00048Validator extends Validator {
 		Node operation;
 		operation = navigator.correspondingOperation(invokeActivity);
 		return navigator.getOperationMessages(wsdlImports, operation);
-	}
-
-	private void reportViolation(Node node, int type) {
-		addViolation(getBpelFileName(), node, type);
 	}
 
 	private boolean hasCorrespondingMessage(Node variable, Node operationMessage) {

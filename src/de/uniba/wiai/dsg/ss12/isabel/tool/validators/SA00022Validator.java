@@ -12,6 +12,10 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00022Validator extends Validator {
 
+	private static final int SAME_MESSAGE_TYPE = 3;
+	private static final int SAME_ELEMENT = 2;
+	private static final int SAME_TYPE = 1;
+
 	public SA00022Validator(BpelProcessFiles files,
 			ValidationResult violationCollector) {
 		super(files, violationCollector);
@@ -70,7 +74,7 @@ public class SA00022Validator extends Validator {
 											.equals(otherType.get(0).getValue())) {
 
 										addViolation(fileName,
-												currentPropertyAlias, 1);
+												currentPropertyAlias, SAME_TYPE);
 									}
 								}
 
@@ -82,7 +86,7 @@ public class SA00022Validator extends Validator {
 											.equals(otherElement.get(0)
 													.getValue())) {
 										addViolation(fileName,
-												currentPropertyAlias, 2);
+												currentPropertyAlias, SAME_ELEMENT);
 									}
 
 								} else if (currentMessageType.size() > 0
@@ -93,7 +97,7 @@ public class SA00022Validator extends Validator {
 											.equals(otherMessageType.get(0)
 													.getValue())) {
 										addViolation(fileName,
-												currentPropertyAlias, 3);
+												currentPropertyAlias, SAME_MESSAGE_TYPE);
 									}
 
 								}
