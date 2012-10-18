@@ -2,21 +2,17 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.helper;
 
 import nu.xom.Node;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
-
-public class ReceiveHelper {
-
-	private final Node receive;
+public class ReceiveHelper extends NodeHelper {
 
 	public ReceiveHelper(Node receive) {
-		this.receive = receive;
+		super(receive);
 	}
 
 	public boolean hasFromParts() {
-		return receive.query("bpel:fromParts", CONTEXT).size() > 0;
+		return hasQueryResult("bpel:fromParts");
 	}
 
 	public boolean hasVariable() {
-		return receive.query("@variable", CONTEXT).size() > 0;
+		return hasAttribute("variable");
 	}
 }

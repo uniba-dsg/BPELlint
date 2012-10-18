@@ -8,7 +8,7 @@ import nu.xom.Nodes;
 
 public class NodeHelper {
 
-	private Node node;
+	protected Node node;
 
 	public NodeHelper(Node node) {
 		if (node == null) {
