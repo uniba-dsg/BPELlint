@@ -66,9 +66,9 @@
         </operation>
     </binding>
 
-    <service name="Receive-ConflictingReceiveFaultTestInterfaceService">
+    <service name="TestInterfaceService">
         <port name="TestInterfacePort" binding="tns:TestInterfacePortTypeBinding">
-            <soap:address location="http://localhost:8080/bpel-g/services/Receive-ConflictingReceiveFaultTestInterfaceService"/>
+            <soap:address location="ENDPOINT_URL"/>
         </port>
     </service>
 

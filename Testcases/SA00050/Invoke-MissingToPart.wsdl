@@ -75,10 +75,10 @@
         </operation>
     </binding>
 
-<!--     <service name="TestService"> -->
-<!--         <port name="TestPort" binding="tns:TestPartnerPortTypeBinding"> -->
-<!--             <soap:address location="http://localhost:2000/bpel-testpartner"/> -->
-<!--         </port> -->
-<!--     </service> -->
+    <service name="TestService">
+        <port binding="tns:TestPartnerPortTypeBinding" name="TestPort">
+            <soap:address location="http://localhost:2000/bpel-testpartner"></soap:address>
+        </port>
+    </service>
 
 </definitions>
