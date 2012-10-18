@@ -10,28 +10,25 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00003Validator extends Validator {
 
-	private String filePath;
-
-	public SA00003Validator(BpelProcessFiles files,
+    public SA00003Validator(BpelProcessFiles files,
 	                        ValidationResult violationCollector) {
 		super(files, violationCollector);
 	}
 
 	@Override
 	public void validate() {
-		filePath = fileHandler.getBpel().getFilePath();
 		Node process = getBpelProcessNode();
 
 		if (hasExitOnStandardFault("yes", process)
 				&& isCatchingStandardFaults(process)) {
-			addViolation(filePath, process);
+			addViolation(process);
 		}
 
 		Nodes scopes = process.query("//bpel:scope", CONTEXT);
 		for (Node scope : scopes) {
 			if (hasExitOnStandardFault("yes", scope)
 					&& isCatchingStandardFaults(scope)) {
-				addViolation(filePath, scope);
+				addViolation(scope);
 			}
 		}
 	}

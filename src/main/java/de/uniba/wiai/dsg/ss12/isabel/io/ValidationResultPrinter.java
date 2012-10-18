@@ -7,11 +7,7 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 
 public class ValidationResultPrinter {
 
-	private ErrorMessageRepository errorMessageRepository;
-
-	public ValidationResultPrinter() {
-		errorMessageRepository = new ErrorMessageRepository();
-	}
+	private final ErrorMessageRepository errorMessageRepository = new ErrorMessageRepository();
 
 	public void printResults(VerbosityLevel verbosityLevel,
 			ValidationResult violationCollector) {

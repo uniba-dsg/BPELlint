@@ -15,173 +15,163 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class XmlFileLoader {
 
-	public static final String XMLSCHEMA_XSD = "/XMLSchema.xsd";
+    public static final String XMLSCHEMA_XSD = "/XMLSchema.xsd";
 
-	private List<DocumentEntry> wsdlList;
-	private List<DocumentEntry> xsdList;
-	private List<Node> xsdSchemaList = new ArrayList<>();
-	private String absoluteBpelFilePath;
+    private final List<DocumentEntry> wsdlList = new ArrayList<>();
+    private final List<DocumentEntry> xsdList = new ArrayList<>();
+    private final Builder builder = new Builder(new LocationAwareNodeFactory());
+    private final List<Node> xsdSchemaList = new ArrayList<>();
 
-	private final Builder builder;
+    public BpelProcessFiles loadAllProcessFiles(String bpelFilePath)
+            throws ValidationException {
+        if (bpelFilePath == null) {
+            throw new ValidationException(new IllegalArgumentException(
+                    "parameter bpelFilePath must not be null"));
+        }
 
-	public XmlFileLoader() {
-		wsdlList = new ArrayList<>();
-		xsdList = new ArrayList<>();
-		builder = new Builder(new LocationAwareNodeFactory());
-	}
+        try {
+            return loadAllProcessFilesWithoutExceptions(bpelFilePath);
+        } catch (ValidityException e) {
+            throw new ValidationException(e,
+                    "Loading failed: Not a valid BPEL-File");
+        } catch (ParsingException e) {
+            throw new ValidationException(e, "Loading failed: Not Parsable");
+        } catch (FileNotFoundException e) {
+            throw new ValidationException(e,
+                    "Loading failed: File was not found");
+        } catch (IOException e) {
+            throw new ValidationException(e,
+                    "Loading failed: File-Reading Error");
+        }
 
-	public BpelProcessFiles loadAllProcessFiles(String bpelFilePath)
-			throws ValidationException {
-		if (bpelFilePath == null) {
-			throw new ValidationException(new IllegalArgumentException(
-					"parameter bpelFilePath must not be null"));
-		}
+    }
 
-		try {
-			return loadAllProcessFilesWithoutExceptions(bpelFilePath);
-		} catch (ValidityException e) {
-			throw new ValidationException(e,
-					"Loading failed: Not a valid BPEL-File");
-		} catch (ParsingException e) {
-			throw new ValidationException(e, "Loading failed: Not Parsable");
-		} catch (FileNotFoundException e) {
-			throw new ValidationException(e,
-					"Loading failed: File was not found");
-		} catch (IOException e) {
-			throw new ValidationException(e,
-					"Loading failed: File-Reading Error");
-		}
+    private BpelProcessFiles loadAllProcessFilesWithoutExceptions(String bpelFilePath) throws ParsingException, IOException, ValidationException {
+        DocumentEntry bpel = createBpelDocumentEntry(bpelFilePath);
 
-	}
+        InputStream stream = XmlFileLoader.class.getResourceAsStream(XMLSCHEMA_XSD);
+        if (stream == null) {
+            throw new ValidationException("Could not load" + XMLSCHEMA_XSD);
+        }
+        try (InputStreamReader schemaFile = new InputStreamReader(stream)) {
+            Document xmlSchemaDom = builder.build(schemaFile);
+            DocumentEntry xmlSchemaEntry = new DocumentEntry(XMLSCHEMA_XSD,
+                    Standards.XSD_NAMESPACE, xmlSchemaDom);
+            xsdList.add(xmlSchemaEntry);
 
-	private BpelProcessFiles loadAllProcessFilesWithoutExceptions(String bpelFilePath) throws ParsingException, IOException, ValidationException {
-		setAbsoluteBpelFilePath(bpelFilePath);
-		DocumentEntry bpel = createBpelDocumentEntry(bpelFilePath);
+            Nodes imports = getImportLocations(bpel.getDocument());
+            loadDirectImports(imports);
+        }
 
-		InputStream stream = XmlFileLoader.class.getResourceAsStream(XMLSCHEMA_XSD);
-		if (stream == null) {
-			throw new ValidationException("Could not load" + XMLSCHEMA_XSD);
-		}
-		try (InputStreamReader schemaFile = new InputStreamReader(stream)) {
-			Document xmlSchemaDom = builder.build(schemaFile);
-			DocumentEntry xmlSchemaEntry = new DocumentEntry(XMLSCHEMA_XSD,
-					Standards.XSD_NAMESPACE, xmlSchemaDom);
-			xsdList.add(xmlSchemaEntry);
+        return new BpelProcessFiles(bpel, wsdlList, xsdList, xsdSchemaList,
+                getAbsolutePath(bpelFilePath));
+    }
 
-			Nodes imports = getImportLocations(bpel.getDocument());
-			loadDirectImports(imports);
-		}
+    private String getAbsolutePath(String bpelFilePath) {
+        return Paths.get(bpelFilePath).getParent().toAbsolutePath().toString();
+    }
 
-		return new BpelProcessFiles(bpel, wsdlList, xsdList, xsdSchemaList,
-				absoluteBpelFilePath);
-	}
+    private DocumentEntry createBpelDocumentEntry(String bpelFilePath) throws ParsingException, IOException {
+        Document bpelDom = builder.build(new File(bpelFilePath));
+        String qName = new NodeHelper(bpelDom).getTargetNamespace();
+        return new DocumentEntry(bpelFilePath, qName, bpelDom);
+    }
 
-	private DocumentEntry createBpelDocumentEntry(String bpelFilePath) throws ParsingException, IOException {
-		Document bpelDom = builder.build(new File(bpelFilePath));
-		String qName = new NodeHelper(bpelDom).getTargetNamespace();
-		return new DocumentEntry(bpelFilePath, qName, bpelDom);
-	}
+    private void loadDirectImports(Nodes imports) throws ParsingException,
+            IOException {
+        for (Node importNode : imports) {
+            DocumentEntry entry = createImportDocumentEntry(importNode);
+            if (isWsdl(entry)) {
+                if (!wsdlList.contains(entry)) {
+                    wsdlList.add(entry);
+                    loadDirectImports(getImportLocations(entry.getDocument()));
+                    addWsdlXsd(entry);
+                }
+            } else if (isXsd(entry)) {
+                if (!xsdList.contains(entry)) {
+                    xsdList.add(entry);
+                    loadDirectImports(getImportLocations(entry.getDocument()));
+                }
+            }
+        }
+    }
 
-	private void setAbsoluteBpelFilePath(String bpelFilePath) {
-		absoluteBpelFilePath = Paths.get(bpelFilePath).getParent()
-				.toAbsolutePath().toString();
-	}
+    private void addWsdlXsd(DocumentEntry entry) throws
+            ParsingException, IOException {
+        Nodes typesNodes = entry.getDocument().query("//wsdl:types/*", CONTEXT);
 
-	private void loadDirectImports(Nodes imports) throws ParsingException,
-			IOException {
-		for (Node importNode : imports) {
-			DocumentEntry entry = createImportDocumentEntry(importNode);
-			if (isWsdl(entry)) {
-				if (!wsdlList.contains(entry)) {
-					wsdlList.add(entry);
-					loadDirectImports(getImportLocations(entry.getDocument()));
-					addWsdlXsd(entry);
-				}
-			} else if (isXsd(entry)) {
-				if (!xsdList.contains(entry)) {
-					xsdList.add(entry);
-					loadDirectImports(getImportLocations(entry.getDocument()));
-				}
-			}
-		}
-	}
+        if (typesNodes.size() == 0) {
+            return;
+        }
 
-	private void addWsdlXsd(DocumentEntry entry) throws
-			ParsingException, IOException {
-		Nodes typesNodes = entry.getDocument().query("//wsdl:types/*", CONTEXT);
+        Node schemaNode = typesNodes.get(0);
+        if (isXsdNode(schemaNode)
+                && new NodeHelper(schemaNode).hasLocalName("schema")) {
+            xsdSchemaList.add(schemaNode);
+            addXsdImports(schemaNode);
+        }
+    }
 
-		if (typesNodes.size() == 0) {
-			return;
-		}
+    private void addXsdImports(Node schemaNode) throws
+            ParsingException, IOException {
+        DocumentEntry xsdEntry;
+        Nodes schemaChildren = schemaNode.query("child::*", CONTEXT);
+        for (Node node : schemaChildren) {
+            if (isXsdNode(node)
+                    && new NodeHelper(schemaNode).hasLocalName("import")) {
+                xsdEntry = createImportDocumentEntry(node);
+                xsdList.add(xsdEntry);
+            }
+        }
+    }
 
-		Node schemaNode = typesNodes.get(0);
-		if (isXsdNode(schemaNode)
-				&& new NodeHelper(schemaNode).hasLocalName("schema")) {
-			xsdSchemaList.add(schemaNode);
-			addXsdImports(schemaNode);
-		}
-	}
+    private String getNodeDirectory(Node node) {
+        if (node.getBaseURI().isEmpty()) {
+            return null;
+        }
 
-	private void addXsdImports(Node schemaNode) throws
-			ParsingException, IOException {
-		DocumentEntry xsdEntry;
-		Nodes schemaChildren = schemaNode.query("child::*", CONTEXT);
-		for (Node node : schemaChildren) {
-			if (isXsdNode(node)
-					&& new NodeHelper(schemaNode).hasLocalName("import")) {
-				xsdEntry = createImportDocumentEntry(node);
-				xsdList.add(xsdEntry);
-			}
-		}
-	}
+        return Paths.get(URI.create(node.getBaseURI())).getParent().toString();
+    }
 
-	private String getNodeDirectory(Node node) {
-		if (node.getBaseURI().isEmpty()) {
-			return null;
-		}
+    private boolean isXsdNode(Node node) {
+        return ((Element) node).getNamespaceURI().equals(
+                Standards.XSD_NAMESPACE);
+    }
 
-		return Paths.get(URI.create(node.getBaseURI())).getParent().toString();
-	}
+    private Nodes getImportLocations(Document entry) {
+        return entry.query("/*/*[name()=\"import\"]");
+    }
 
-	private boolean isXsdNode(Node node) {
-		return ((Element) node).getNamespaceURI().equals(
-				Standards.XSD_NAMESPACE);
-	}
+    private boolean isXsd(DocumentEntry entry) {
+        return entry.getDocument().getRootElement().getNamespaceURI()
+                .startsWith(Standards.XSD_NAMESPACE);
+    }
 
-	private Nodes getImportLocations(Document entry) {
-		return entry.query("/*/*[name()=\"import\"]");
-	}
+    private boolean isWsdl(DocumentEntry entry) {
+        return entry.getDocument().getRootElement().getNamespaceURI()
+                .startsWith(Standards.WSDL_NAMESPACE);
+    }
 
-	private boolean isXsd(DocumentEntry entry) {
-		return entry.getDocument().getRootElement().getNamespaceURI()
-				.startsWith(Standards.XSD_NAMESPACE);
-	}
+    private DocumentEntry createImportDocumentEntry(Node importNode)
+            throws ParsingException, IOException {
+        String locationPath = Paths.get(getNodeDirectory(importNode),
+                getImportPath(importNode)).toString();
+        File importFile = new File(locationPath);
+        Document importFileDom = builder.build(importFile);
+        String targetNamespace = new NodeHelper(importFileDom).getTargetNamespace();
+        return new DocumentEntry(importFile.getAbsolutePath(), targetNamespace,
+                importFileDom);
+    }
 
-	private boolean isWsdl(DocumentEntry entry) {
-		return entry.getDocument().getRootElement().getNamespaceURI()
-				.startsWith(Standards.WSDL_NAMESPACE);
-	}
+    private String getImportPath(Node node) {
+        NodeHelper nodeHelper = new NodeHelper(node);
 
-	private DocumentEntry createImportDocumentEntry(Node importNode)
-			throws ParsingException, IOException {
-		String locationPath = Paths.get(getNodeDirectory(importNode),
-				getImportPath(importNode)).toString();
-		File importFile = new File(locationPath);
-		Document importFileDom = builder.build(importFile);
-		String targetNamespace = new NodeHelper(importFileDom).getTargetNamespace();
-		return new DocumentEntry(importFile.getAbsolutePath(), targetNamespace,
-				importFileDom);
-	}
+        if (nodeHelper.hasAttribute("schemaLocation")) {
+            return Paths.get(nodeHelper.getAttribute("schemaLocation")).toString();
+        } else if (nodeHelper.hasAttribute("location")) {
+            return Paths.get(nodeHelper.getAttribute("location")).toString();
+        }
 
-	private String getImportPath(Node node) {
-		NodeHelper nodeHelper = new NodeHelper(node);
-
-		if (nodeHelper.hasAttribute("schemaLocation")) {
-			return Paths.get(nodeHelper.getAttribute("schemaLocation")).toString();
-		} else if (nodeHelper.hasAttribute("location")) {
-			return Paths.get(nodeHelper.getAttribute("location")).toString();
-		}
-
-		return null;
-	}
+        return null;
+    }
 }
