@@ -3,7 +3,6 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import nu.xom.Document;
 import nu.xom.Element;
 
 public class SA00015Validator extends Validator {

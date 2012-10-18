@@ -90,6 +90,8 @@ public class FunctionalValidatorTests {
                 {"TestCases/SA00015/NoActivityWithCreateInstanceSetToYes.bpel", "15"},
                 {"TestCases/SA00015/OnlyActivityWithCreateInstanceSetToNo.bpel", "15"},
 
+                {"TestCases/SA00016/PartnerLinkWithoutMyRoleAndPartnerRole.bpel","16"},
+
 				{"TestCases/SA00020/PropertyAlias-AllOptionalAttributes.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-MessageTypeAttribute.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-MessageTypeElementAttributes.bpel", "20"},

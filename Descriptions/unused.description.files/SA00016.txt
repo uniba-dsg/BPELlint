@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-A partnerLink MUST specify the myRole or the partnerRole, or both.

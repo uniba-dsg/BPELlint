@@ -1,0 +1,11 @@
+A partnerLink without a myRole or partnerRole is forbidden
+@@@
+A partnerLink MUST specify the myRole or the partnerRole, or both.
+@@@
+FOREACH <partnerLink>
+    FAIL IF @myRole IS_MISSING AND @partnerRole IS_MISSING
+@@@
+PartnerLinkWithoutMyRoleAndPartnerRole.bpel:
+Contains a <partnerLink> element without the myRole and partnerRole attributes.
+@@@
+-
