@@ -1,0 +1,11 @@
+<partnerLink>@name duplicated within <partnerLinks>
+@@@
+The name of a partnerLink MUST be unique among the names of all partnerLinks defined within the same immediately enclosing scope.
+@@@
+FOREACH <partnerLinks>
+    FAIL IF DUPLICATE <partnerLink>@name
+@@@
+TwoPartnerLinksWithSameName.bpel:
+Two <partnerLink> activities have the same @name within a <partnerLinks> element.
+@@@
+-
