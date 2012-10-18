@@ -28,7 +28,7 @@ public class NodeHelper {
 	}
 
 	public String getTargetNamespace() {
-		return new NodeHelper(node.getDocument().getRootElement()).getAttributeByName("targetNamespace");
+		return new NodeHelper(node.getDocument().getRootElement()).getAttribute("targetNamespace");
 	}
 
 	public boolean hasTargetNamespace(String targetNamespace) {
@@ -39,7 +39,7 @@ public class NodeHelper {
 		return hasTargetNamespace(new NodeHelper(otherNode).getTargetNamespace());
 	}
 
-	public String getAttributeByName(String name) {
+	public String getAttribute(String name) {
 		Nodes attributes = node.query("@" + name);
 
 		if (attributes.size() > 0) {
@@ -52,7 +52,7 @@ public class NodeHelper {
 	}
 
 	public boolean hasAttribute(String name) {
-		return !getAttributeByName(name).isEmpty();
+		return !getAttribute(name).isEmpty();
 	}
 
 	public boolean hasNoAttribute(String name){

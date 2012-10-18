@@ -43,8 +43,8 @@ public class SA00011Validator extends Validator {
 
 		for (DocumentEntry documentEntry : documentEntryList) {
 
-			String namespace = new NodeHelper(node).getAttributeByName("namespace");
-			String location = new NodeHelper(node).getAttributeByName("location");
+			String namespace = new NodeHelper(node).getAttribute("namespace");
+			String location = new NodeHelper(node).getAttribute("location");
 			File path = new File(fileHandler.getAbsoluteBpelFilePath() + "/"
 					+ location);
 

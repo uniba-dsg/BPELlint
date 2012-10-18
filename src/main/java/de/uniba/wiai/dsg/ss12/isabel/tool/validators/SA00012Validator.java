@@ -45,7 +45,7 @@ public class SA00012Validator extends Validator {
 
 			for (DocumentEntry documentEntry : documentEntryList) {
 
-				String location = new NodeHelper(node).getAttributeByName("location");
+				String location = new NodeHelper(node).getAttribute("location");
 				File path = new File(fileHandler.getAbsoluteBpelFilePath() + "/"
 						+ location);
 

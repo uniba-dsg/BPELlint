@@ -43,7 +43,7 @@ public class SA00013Validator extends Validator {
 	private boolean isImportTypedWithinThisFiles(Node fileImport,
 			List<DocumentEntry> allFiles) {
 		for (DocumentEntry documentEntry : allFiles) {
-			String importType = new NodeHelper(fileImport).getAttributeByName("importType");
+			String importType = new NodeHelper(fileImport).getAttribute("importType");
 			if (isCorrespondingFile(fileImport, documentEntry)) {
 				if (importType.equals(getDefaultNamespace(documentEntry))) {
 					return true;
@@ -60,7 +60,7 @@ public class SA00013Validator extends Validator {
 	}
 
 	private String getAbsoluteFilePath(Node fileImport) {
-		String location = new NodeHelper(fileImport).getAttributeByName("location");
+		String location = new NodeHelper(fileImport).getAttribute("location");
 		File path = new File(fileHandler.getAbsoluteBpelFilePath() + "/"
 				+ location);
 

@@ -45,7 +45,7 @@ public class SA00005Validator extends Validator {
 		for (Node messageActivity : messageActivities) {
 			Node partnerLink;
 			try {
-				String partnerLinkAttribute = new NodeHelper(messageActivity).getAttributeByName("partnerLink");
+				String partnerLinkAttribute = new NodeHelper(messageActivity).getAttribute("partnerLink");
 
 				partnerLink = navigator.getPartnerLink(fileHandler.getBpel()
 						.getDocument(), partnerLinkAttribute);
@@ -54,7 +54,7 @@ public class SA00005Validator extends Validator {
 						.partnerLinkToPortType(partnerLink);
 
 				String localPortTypeDefinition = getLocalPortTypeDefinition(messageActivity);
-				String correspondingPortTypeName = new NodeHelper(correspondingPortType).getAttributeByName("name");
+				String correspondingPortTypeName = new NodeHelper(correspondingPortType).getAttribute("name");
 
 				if (!correspondingPortTypeName.equals(localPortTypeDefinition)) {
 					addViolation(filePath, messageActivity);
@@ -66,7 +66,7 @@ public class SA00005Validator extends Validator {
 	}
 
 	private String getLocalPortTypeDefinition(Node messageActivity) {
-		String localPortTypeDefinition = new NodeHelper(messageActivity).getAttributeByName("portType");
+		String localPortTypeDefinition = new NodeHelper(messageActivity).getAttribute("portType");
 		return PrefixHelper.removePrefix(localPortTypeDefinition);
 	}
 

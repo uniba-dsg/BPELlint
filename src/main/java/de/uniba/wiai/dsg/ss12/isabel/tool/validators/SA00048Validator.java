@@ -45,12 +45,12 @@ public class SA00048Validator extends Validator {
 	}
 
 	private Node getInputVariable(Node invokeActivity) {
-		String inputVariableName = new NodeHelper(invokeActivity).getAttributeByName("inputVariable");
+		String inputVariableName = new NodeHelper(invokeActivity).getAttribute("inputVariable");
 		return correspondingVariable(invokeActivity, inputVariableName);
 	}
 
 	private Node getOutputVariable(Node invokeActivity) {
-		String outputVariableName = new NodeHelper(invokeActivity).getAttributeByName("outputVariable");
+		String outputVariableName = new NodeHelper(invokeActivity).getAttribute("outputVariable");
 		return correspondingVariable(invokeActivity, outputVariableName);
 	}
 
@@ -63,8 +63,8 @@ public class SA00048Validator extends Validator {
 	}
 
 	private boolean hasCorrespondingMessage(Node variable, Node operationMessage) {
-		String messageTypeQName = new NodeHelper(variable).getAttributeByName("messageType");
-		String typeQName = new NodeHelper(variable).getAttributeByName("type");
+		String messageTypeQName = new NodeHelper(variable).getAttribute("messageType");
+		String typeQName = new NodeHelper(variable).getAttribute("type");
 
 		if (!messageTypeQName.isEmpty()) {
 			Node variableMessage = getVariableMessage(messageTypeQName, variable);
@@ -86,7 +86,7 @@ public class SA00048Validator extends Validator {
 	private Node findMessageXsdElement(Node operationMessage) {
 		Node messagePartElement = getMessagePartAttributeElement(operationMessage);
 		Node xsdElement = findXsdType(messagePartElement.getValue(), messagePartElement);
-		String elementTypeQName = new NodeHelper(xsdElement).getAttributeByName("type");
+		String elementTypeQName = new NodeHelper(xsdElement).getAttribute("type");
 		return findXsdType(elementTypeQName, messagePartElement);
 	}
 
@@ -103,8 +103,8 @@ public class SA00048Validator extends Validator {
 	}
 
 	private boolean hasSameNameAttribute(Node xsdType, Node xsdSecType) {
-		return new NodeHelper(xsdType).getAttributeByName("name").equals(
-				new NodeHelper(xsdSecType).getAttributeByName("name"));
+		return new NodeHelper(xsdType).getAttribute("name").equals(
+				new NodeHelper(xsdSecType).getAttribute("name"));
 	}
 
 	private Node findXsdType(String typeQName, Node variable) {

@@ -32,7 +32,7 @@ public class ValidatorNavigator {
 		for (Node child : operationChildren) {
 
 			NodeHelper childHelper = new NodeHelper(child);
-			String messageQName = childHelper.getAttributeByName("message");
+			String messageQName = childHelper.getAttribute("message");
 			String childName = childHelper.getLocalName();
 			String namespaceURI = operation.getDocument().getRootElement()
 					.getNamespaceURI(PrefixHelper.getPrefix(messageQName));
@@ -223,7 +223,7 @@ public class ValidatorNavigator {
 		Document correspondingWsdl = operation.getDocument();
 		Nodes messages = correspondingWsdl.query("//wsdl:message", CONTEXT);
 		for (Node message : messages) {
-			String messageName = new NodeHelper(message).getAttributeByName("name");
+			String messageName = new NodeHelper(message).getAttribute("name");
 			if (messageName.equals(PrefixHelper.removePrefix(messageAttribute))) {
 				return message;
 			}
@@ -240,7 +240,7 @@ public class ValidatorNavigator {
 		Document correspondingWsdl = operation.getDocument();
 		Nodes messages = correspondingWsdl.query("//wsdl:message", CONTEXT);
 		for (Node message : messages) {
-			String messageName = new NodeHelper(message).getAttributeByName("name");
+			String messageName = new NodeHelper(message).getAttribute("name");
 			if (messageName.equals(PrefixHelper.removePrefix(messageAttribute))) {
 				return message;
 			}
@@ -276,7 +276,7 @@ public class ValidatorNavigator {
 	public String getCorrelationPropertyAliasPrefix(Node correlationSet)
 			throws NavigationException {
 
-		String propertyAliasName = new NodeHelper(correlationSet).getAttributeByName("properties");
+		String propertyAliasName = new NodeHelper(correlationSet).getAttribute("properties");
 		String namespacePrefix = PrefixHelper.getPrefix(propertyAliasName);
 
 		if (namespacePrefix != null) {
@@ -305,7 +305,7 @@ public class ValidatorNavigator {
 	                                          Document wsdlFile) throws NavigationException {
 		Nodes propertyAliases = wsdlFile
 				.query("//vprop:propertyAlias", CONTEXT);
-		String propertyAliasAttribute = PrefixHelper.removePrefix(new NodeHelper(correlationSet).getAttributeByName("properties"));
+		String propertyAliasAttribute = PrefixHelper.removePrefix(new NodeHelper(correlationSet).getAttribute("properties"));
 
 		return navigateFromPropertyAliasNameToPropertyAlias(propertyAliases,
 				propertyAliasAttribute);
@@ -314,7 +314,7 @@ public class ValidatorNavigator {
 	public Node navigateFromPropertyAliasNameToPropertyAlias(Nodes aliases,
 	                                                         String propertyAliasAttribute) throws NavigationException {
 		for (Node propertyAlias : aliases) {
-			String propertyAliasName = PrefixHelper.removePrefix(new NodeHelper(propertyAlias).getAttributeByName("propertyName"));
+			String propertyAliasName = PrefixHelper.removePrefix(new NodeHelper(propertyAlias).getAttribute("propertyName"));
 
 			if (propertyAliasName.equals(propertyAliasAttribute)) {
 				return propertyAlias;
@@ -327,11 +327,11 @@ public class ValidatorNavigator {
 	public Node getCorrespondingProperty(Node propertyAlias)
 			throws NavigationException {
 		Document wsdlDom = propertyAlias.getDocument();
-		String propertyAttribute = new NodeHelper(propertyAlias).getAttributeByName("propertyName");
+		String propertyAttribute = new NodeHelper(propertyAlias).getAttribute("propertyName");
 		Nodes properties = wsdlDom.query("//vprop:property", CONTEXT);
 
 		for (Node property : properties) {
-			String propertyName = new NodeHelper(property).getAttributeByName("name");
+			String propertyName = new NodeHelper(property).getAttribute("name");
 
 			if (propertyName.equals(PrefixHelper.removePrefix(propertyAttribute))) {
 				return property;

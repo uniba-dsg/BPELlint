@@ -65,10 +65,10 @@ public class SA00053Validator extends Validator {
 		Nodes messageParts = message.query("wsdl:part", CONTEXT);
 
 		if (messageParts.size() > 0) {
-			String partAttribute = new NodeHelper(fromPart).getAttributeByName("part");
+			String partAttribute = new NodeHelper(fromPart).getAttribute("part");
 
 			for (Node part : messageParts) {
-				String partName = new NodeHelper(part).getAttributeByName("name");
+				String partName = new NodeHelper(part).getAttribute("name");
 
 				if (partName.equals(partAttribute)) {
 					return true;

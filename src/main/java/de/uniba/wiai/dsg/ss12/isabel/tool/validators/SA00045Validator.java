@@ -47,7 +47,7 @@ public class SA00045Validator extends Validator {
 				correlationSet, wsdlFile);
 		Node property = navigator.getCorrespondingProperty(propertyAlias);
 
-		String propertyType = new NodeHelper(property).getAttributeByName("type");
+		String propertyType = new NodeHelper(property).getAttribute("type");
 		String namespacePrefix = PrefixHelper.getPrefix(propertyType);
 		String propertyTypeTargetNamespace = navigator.getImportNamespace(
 				property, namespacePrefix);
@@ -56,7 +56,7 @@ public class SA00045Validator extends Validator {
 			Document xmlSchema = fileHandler.getXmlSchema();
 			Nodes simpleTypes = xmlSchema.query("//xsd:simpleType", CONTEXT);
 			for (Node simpleType : simpleTypes) {
-				String simpleTypeName = new NodeHelper(simpleType).getAttributeByName("name");
+				String simpleTypeName = new NodeHelper(simpleType).getAttribute("name");
 
 				if (PrefixHelper.removePrefix(propertyType).equals(simpleTypeName)) {
 					return true;

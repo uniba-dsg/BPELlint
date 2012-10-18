@@ -42,7 +42,7 @@ public class SA00003Validator extends Validator {
 	}
 
 	private boolean hasExitOnStandardFault(String bool, Node enclosingScopes) {
-		String exitOnStandardFault = new NodeHelper(enclosingScopes).getAttributeByName("exitOnStandardFault");
+		String exitOnStandardFault = new NodeHelper(enclosingScopes).getAttribute("exitOnStandardFault");
 		return bool.equals(exitOnStandardFault);
 	}
 
@@ -62,7 +62,7 @@ public class SA00003Validator extends Validator {
 		Nodes catches = currentScope.query("bpel:faultHandlers/bpel:catch",
 				CONTEXT);
 		for (Node catchNode : catches) {
-			String attribute = new NodeHelper(catchNode).getAttributeByName("faultName");
+			String attribute = new NodeHelper(catchNode).getAttribute("faultName");
 			for (String fault : BPELFaults.VALUES) {
 				if (fault.equals(attribute)) {
 					return true;

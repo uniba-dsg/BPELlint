@@ -177,9 +177,9 @@ public class XmlFileLoader {
 		NodeHelper nodeHelper = new NodeHelper(node);
 
 		if (nodeHelper.hasAttribute("schemaLocation")) {
-			return Paths.get(nodeHelper.getAttributeByName("schemaLocation")).toString();
+			return Paths.get(nodeHelper.getAttribute("schemaLocation")).toString();
 		} else if (nodeHelper.hasAttribute("location")) {
-			return Paths.get(nodeHelper.getAttributeByName("location")).toString();
+			return Paths.get(nodeHelper.getAttribute("location")).toString();
 		}
 
 		return null;

@@ -100,7 +100,7 @@ public class SA00010Validator extends Validator {
 	}
 
 	private String getType(Node node, String definitionType) {
-		String attributeValue = new NodeHelper(node).getAttributeByName(definitionType);
+		String attributeValue = new NodeHelper(node).getAttribute(definitionType);
 		return PrefixHelper.removePrefix(attributeValue);
 	}
 

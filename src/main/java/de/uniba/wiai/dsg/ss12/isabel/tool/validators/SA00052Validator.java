@@ -21,7 +21,7 @@ public class SA00052Validator extends Validator {
 
 		for (Node invoke : invokeNodes) {
 			Nodes fromParts = invoke.query("bpel:fromParts", CONTEXT);
-			String outputVariable = new NodeHelper(invoke).getAttributeByName("outputVariable");
+			String outputVariable = new NodeHelper(invoke).getAttribute("outputVariable");
 
 			if (!outputVariable.isEmpty() && fromParts.size() > 0) {
 				addViolation(invoke);

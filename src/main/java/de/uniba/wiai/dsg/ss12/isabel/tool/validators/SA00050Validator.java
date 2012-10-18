@@ -59,10 +59,10 @@ public class SA00050Validator extends Validator {
 	}
 
 	private boolean hasMessagePartCorrespondingToPart(Node part, Nodes toParts) {
-		String partName = new NodeHelper(part).getAttributeByName("name");
+		String partName = new NodeHelper(part).getAttribute("name");
 
 		for (Node toPart : toParts) {
-			String partAttribute = new NodeHelper(toPart).getAttributeByName("part");
+			String partAttribute = new NodeHelper(toPart).getAttribute("part");
 
 			if (partName.equals(partAttribute)) {
 				return true;
