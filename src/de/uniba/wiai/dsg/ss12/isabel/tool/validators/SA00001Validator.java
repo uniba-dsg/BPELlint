@@ -11,6 +11,9 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00001Validator extends Validator {
 
+	private static final int SOLICIT_RESPONSE_TYPE = 2;
+	private static final int NOTIFICATION_FAULT = 1;
+
 	public SA00001Validator(BpelProcessFiles files,
 	                        ValidationResult violationCollector) {
 		super(files, violationCollector);
@@ -23,10 +26,10 @@ public class SA00001Validator extends Validator {
 			for (Node currentOperation : getOperations(wsdlEntry)) {
 				OperationHelper operationHelper = new OperationHelper(currentOperation);
 				if (operationHelper.isNotification()) {
-					addViolation(filePath, currentOperation, 1);
+					addViolation(filePath, currentOperation, NOTIFICATION_FAULT);
 				}
 				if (operationHelper.isSolicitResponse()) {
-					addViolation(filePath, currentOperation, 2);
+					addViolation(filePath, currentOperation, SOLICIT_RESPONSE_TYPE);
 				}
 			}
 		}
