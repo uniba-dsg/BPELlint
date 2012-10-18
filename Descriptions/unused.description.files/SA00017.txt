@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-The initializePartnerRole attribute MUST NOT be used on a partnerLink that does not have a partner role. 

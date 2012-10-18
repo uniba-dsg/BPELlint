@@ -1,0 +1,7 @@
+<partnerLink>@initializePartnerRole is forbidden without @partnerRole
+@@@
+The initializePartnerRole attribute MUST NOT be used on a partnerLink that does not have a partner role.
+@@@
+FOREACH <partnerLink>
+    FAIL IF @initializePartnerRole EXISTS AND @partnerRole IS_MISSING
+@@@

@@ -92,6 +92,8 @@ public class FunctionalValidatorTests {
 
                 {"TestCases/SA00016/PartnerLinkWithoutMyRoleAndPartnerRole.bpel","16"},
 
+                {"TestCases/SA00017/InitializePartnerRoleUsedOnPartnerLinkWithoutPartnerRole.bpel","17"},
+
 				{"TestCases/SA00020/PropertyAlias-AllOptionalAttributes.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-MessageTypeAttribute.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-MessageTypeElementAttributes.bpel", "20"},
