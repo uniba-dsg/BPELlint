@@ -13,6 +13,9 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Executes tests based on the files from within the /Testcases directory.
+ */
 @RunWith(value = Parameterized.class)
 public class FunctionalValidatorTests {
 
@@ -42,20 +45,27 @@ public class FunctionalValidatorTests {
 				// SA violation tests
 				{"TestCases/SA00001/Notification.bpel", "1"},
 				{"TestCases/SA00001/SolicitResponse.bpel", "1"},
+
 				{"TestCases/SA00002/OverloadedOperationNames.bpel", "2"},
+
 				{"TestCases/SA00003/ExitOnStandardFaultButCatchingStandardFaultInDirectFaultHandlers.bpel", "3"},
 				{"TestCases/SA00003/ExitOnStandardFaultButCatchingStandardFaultInDirectFaultHandlersInProcess.bpel", "3"},
 				{"TestCases/SA00003/ExitOnStandardFaultButCatchingStandardFaultInIndirectFaultHandlers.bpel", "3"},
 				{"TestCases/SA00003/ExitOnStandardFaultButCatchingStandardFaultInIndirectNestedFaultHandlers.bpel", "3"},
 				{"TestCases/SA00003/ExitOnStandardFaultButCatchingStandardFaultInNestedFaultHandlers.bpel", "3"},
+
 				{"TestCases/SA00005/InvokeWithNonExistentPortType.bpel", "5, 10"},
 				{"TestCases/SA00005/OnEventWithNonExistentPortType.bpel", "5, 10"},
 				{"TestCases/SA00005/OnMessageWithNonExistentPortType.bpel", "5, 10"},
 				{"TestCases/SA00005/ReceiveWithNonExistentPortType.bpel", "5, 10"},
 				{"TestCases/SA00005/ReplyWithNonExistentPortType.bpel", "5, 10"},
+
 				{"TestCases/SA00006/RethrowOutsideFaultHandlers.bpel", "6"},
+
 				{"TestCases/SA00007/CompensateScopeOutsideFaultHandlers.bpel", "7"},
+
 				{"TestCases/SA00008/CompensateOutsideFaultHandlers.bpel", "8"},
+
 				{"TestCases/SA00010/UndefinedType-Catch-FaultElement.bpel", "10"},
 				{"TestCases/SA00010/UndefinedType-Catch-FaultMessageType.bpel", "10"},
 				{"TestCases/SA00010/UndefinedType-CorrelationSet.bpel", "10, 21"},
@@ -70,9 +80,16 @@ public class FunctionalValidatorTests {
 				{"TestCases/SA00010/UndefinedType-Variable-Element.bpel", "10"},
 				{"TestCases/SA00010/UndefinedType-Variable-MessageType.bpel", "10"},
 				{"TestCases/SA00010/UndefinedType-Variable-Type.bpel", "10"},
+
 				{"TestCases/SA00011/Import-WrongNameSpace.bpel", "11"},
+
 				{"TestCases/SA00012/Import-NoNameSpace.bpel", "12, 11"},
+
 				{"TestCases/SA00013/Import-WrongImportType.bpel", "13"},
+
+                {"TestCases/SA00015/NoActivityWithCreateInstanceSetToYes.bpel", "15"},
+                {"TestCases/SA00015/OnlyActivityWithCreateInstanceSetToNo.bpel", "15"},
+
 				{"TestCases/SA00020/PropertyAlias-AllOptionalAttributes.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-MessageTypeAttribute.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-MessageTypeElementAttributes.bpel", "20"},
@@ -86,29 +103,38 @@ public class FunctionalValidatorTests {
 				{"TestCases/SA00020/PropertyAlias-PartTypeAttributes.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-PartTypeElementAttributes.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-TypeElementAttributes.bpel", "20"},
+
 				{"TestCases/SA00021/CorrelationSet-Properties-Undefined.bpel", "21, 10"},
 				{"TestCases/SA00021/From-Property-Undefined.bpel", "21, 10"},
 				{"TestCases/SA00021/OnEvent-Variable-Undefined.bpel", "21"},
 				{"TestCases/SA00021/To-Property-Undefined.bpel", "21, 10"},
+
 				{"TestCases/SA00022/Duplicate-propertyAliasElement.bpel", "22"},
 				{"TestCases/SA00022/Duplicate-propertyAliasMessageType.bpel", "22"},
 				{"TestCases/SA00022/Duplicate-propertyAliasType.bpel", "22"},
+
 				{"TestCases/SA00023/Process-Duplicated-Variables.bpel", "23"},
 				{"TestCases/SA00023/Scope-Duplicated-Variables.bpel", "23"},
 				{"TestCases/SA00023/Scope-Scope-Duplicated-Variables.bpel", "23"},
+
 				{"TestCases/SA00024/OnEvent-containing-dot.bpel", "24"},
 				{"TestCases/SA00024/Variable-containing-dot.bpel", "24"},
+
 				{"TestCases/SA00025/Variable-havingMessageTypeAndElement.bpel", "25"},
 				{"TestCases/SA00025/Variable-havingTypeAndElement.bpel", "25"},
 				{"TestCases/SA00025/Variable-havingTypeAndMessageType.bpel", "25"},
 				{"TestCases/SA00025/Variable-havingTypeAndMessageTypeAndElement.bpel", "25"},
 				{"TestCases/SA00025/Variable-missingMessageTypeAndTypeAndElement.bpel", "25"},
+
 				{"TestCases/SA00044/Process-CorrelationSet-Ambiguous.bpel", "44"},
 				{"TestCases/SA00044/Scope-CorrelationSets-Ambiguous.bpel", "44"},
+
 				{"TestCases/SA00045/Property-TypeComplexType.bpel", "45"},
 				{"TestCases/SA00045/Property-TypeMissing.bpel", "45"},
+
 				{"TestCases/SA00046/Invoke-OneWay-Correlation-Pattern.bpel", "46"},
 				{"TestCases/SA00046/Invoke-RequestResponse-Correlation-PatternMissing.bpel", "46"},
+
 				{"TestCases/SA00047/EmptyMessage-Invoke-FromParts.bpel", "47, 53"},
 				{"TestCases/SA00047/EmptyMessage-Invoke-ToParts-FromParts.bpel", "47, 54, 53"},
 				{"TestCases/SA00047/EmptyMessage-Invoke-ToParts.bpel", "47, 54"},
@@ -125,6 +151,7 @@ public class FunctionalValidatorTests {
 				{"TestCases/SA00047/NoVariable-NoFromPart-Receive.bpel", "47"},
 				{"TestCases/SA00047/NoVariable-NoToPart-NoFromPart-ReceiveReply.bpel", "47"},
 				{"TestCases/SA00047/NoVariable-NoToPart-Reply.bpel", "47"},
+
 				{"TestCases/SA00048/InputOutputVariable-Message-NotFound.bpel", "48"},
 				{"TestCases/SA00048/InputVariable-MessageType-Message-NotFound.bpel", "48"},
 				{"TestCases/SA00048/InputVariable-Type-MessageManyParts.bpel", "48"},
@@ -132,18 +159,26 @@ public class FunctionalValidatorTests {
 				{"TestCases/SA00048/OutputVariable-MessageType-Message-NotFound.bpel", "48"},
 				{"TestCases/SA00048/OutputVariable-Type-MessageManyParts.bpel", "48"},
 				{"TestCases/SA00048/OutputVariable-Type-MessageOnePart-NotFound.bpel", "48"},
+
 				{"TestCases/SA00050/Invoke-MissingToPart.bpel", "50"},
 				{"TestCases/SA00050/Receive-MissingToPart.bpel", "50"},
+
 				{"TestCases/SA00051/Invoke-ToPartsAndInputVariable.bpel", "51"},
+
 				{"TestCases/SA00052/Invoke-FromPartsAndOutputVariable.bpel", "52"},
+
 				{"TestCases/SA00053/Invoke-FromPartDifferingFromMessageDefinition.bpel", "53"},
 				{"TestCases/SA00053/OnEvent-FromPartDifferingFromMessageDefinition.bpel", "53"},
 				{"TestCases/SA00053/OnMessage-FromPartDifferingFromMessageDefinition.bpel", "53"},
 				{"TestCases/SA00053/Receive-FromPartDifferingFromMessageDefinition.bpel", "53"},
+
 				{"TestCases/SA00054/Invoke-ToPartDifferingFromMessageDefinition.bpel", "54"},
 				{"TestCases/SA00054/Reply-ToPartDifferingFromMessageDefinition.bpel", "54"},
+
 				{"TestCases/SA00055/Receive-WithFromPartElementAndVariableAttribute.bpel", "55"},
+
 				{"TestCases/SA00059/Reply-WithToPartElementAndVariableAttribute.bpel", "59"},
+
 				{"TestCases/SA00063/OnMessage-With-FromPartAndAttributeVariable.bpel", "63"},
 
 				// betsy tests

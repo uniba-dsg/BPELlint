@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-To be instantiated, an executable business process MUST contain at least one <receive> or <pick> activity annotated with a createInstance='yes' attribute.
