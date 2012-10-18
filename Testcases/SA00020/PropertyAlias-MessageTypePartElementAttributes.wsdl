@@ -13,7 +13,6 @@
     </plink:partnerLinkType>
 
     <vprop:property name="correlationId" type="xsd:int"/>
-    <vprop:property name="executeProcessSyncRequest" />
     <vprop:propertyAlias messageType="tns:executeProcessSyncRequest" part="inputPart" element="tns:testElementSyncRequest" propertyName="tns:correlationId"/>
     <vprop:propertyAlias messageType="tns:executeProcessSyncResponse" part="outputPart" propertyName="tns:correlationId" />
     <vprop:propertyAlias messageType="tns:executeProcessAsyncRequest" part="inputPart" propertyName="tns:correlationId"/>

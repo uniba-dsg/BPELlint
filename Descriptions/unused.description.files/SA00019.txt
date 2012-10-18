@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-Either the type or element attributes MUST be present in a <vprop:property> element but not both. 

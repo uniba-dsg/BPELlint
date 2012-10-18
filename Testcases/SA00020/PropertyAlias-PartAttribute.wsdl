@@ -30,8 +30,6 @@
         <part name="inputPart" element="tns:testElementSyncRequest"/>
     </message>
     
-    <vprop:property name="executeProcessSyncRequest" />
-    
     <message name="executeProcessAsyncRequest">
         <part name="inputPart" element="tns:testElementAsyncRequest"/>
     </message>

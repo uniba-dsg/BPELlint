@@ -1,0 +1,10 @@
+No @type or @element found in <vprop:propert>
+Using @type and @element in <vprop:property> is forbidden
+@@@
+Either the type or element attributes MUST be present in a <vprop:property> element but not both.
+@@@
+FOREACH wsdl:
+	FOREACH <property>
+	    FAIL(1) IF @type IS_MISSING AND @element IS_MISSING
+	    FAIL(2) IF @type EXISTS AND @element EXISTS
+@@@

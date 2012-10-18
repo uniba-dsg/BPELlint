@@ -12,8 +12,10 @@
         <plink:role name="testInterfaceRole" portType="tns:TestInterfacePortType"/>
     </plink:partnerLinkType>
 
+    <vprop:property name="test" type="xsd:int" element="tns:testElementSyncRequest"/>
+
     <vprop:property name="correlationId" type="xsd:int"/>
-    <vprop:propertyAlias part="inputPart" type="xsd:sting" element="tns:testElementSyncRequest" propertyName="tns:correlationId"/>
+    <vprop:propertyAlias messageType="tns:executeProcessSyncRequest" part="inputPart" propertyName="tns:correlationId"/>
     <vprop:propertyAlias messageType="tns:executeProcessSyncResponse" part="outputPart" propertyName="tns:correlationId" />
     <vprop:propertyAlias messageType="tns:executeProcessAsyncRequest" part="inputPart" propertyName="tns:correlationId"/>
 
@@ -29,7 +31,6 @@
     <message name="executeProcessSyncRequest">
         <part name="inputPart" element="tns:testElementSyncRequest"/>
     </message>
-
     <message name="executeProcessAsyncRequest">
         <part name="inputPart" element="tns:testElementAsyncRequest"/>
     </message>
@@ -46,7 +47,7 @@
         </operation>
         <operation name="startProcessSync">
             <input name="syncInput" message="tns:executeProcessSyncRequest"/>
-            <output name="syncOutput" message="tns:executeProcessSyncResponse"/>
+            <output name="syncOutput" message="tns:executeProcessSyncResponse"/>     
             <fault name="syncFault" message="tns:executeProcessSyncFault"/>
         </operation>
     </portType>

@@ -12,8 +12,7 @@
         <plink:role name="testInterfaceRole" portType="tns:TestInterfacePortType"/>
     </plink:partnerLinkType>
     
-	<!-- @type has been omitted -->
-    <vprop:property name="correlationId"/> 
+    <vprop:property name="correlationId"/>
     <vprop:propertyAlias messageType="tns:executeProcessSyncRequest" part="inputPart"
                         propertyName="tns:correlationId"/>
     <vprop:propertyAlias messageType="tns:executeProcessSyncResponse" part="outputPart"

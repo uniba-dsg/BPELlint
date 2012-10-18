@@ -96,6 +96,9 @@ public class FunctionalValidatorTests {
 
                 {"TestCases/SA00018/TwoPartnerLinksWithSameName.bpel","18"},
 
+                {"TestCases/SA00019/PropertyWithoutTypeOrElement.bpel","19"},
+                {"TestCases/SA00019/PropertyWithTypeAndElement.bpel","19"},
+
 				{"TestCases/SA00020/PropertyAlias-AllOptionalAttributes.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-MessageTypeAttribute.bpel", "20"},
 				{"TestCases/SA00020/PropertyAlias-MessageTypeElementAttributes.bpel", "20"},
@@ -136,7 +139,7 @@ public class FunctionalValidatorTests {
 				{"TestCases/SA00044/Scope-CorrelationSets-Ambiguous.bpel", "44"},
 
 				{"TestCases/SA00045/Property-TypeComplexType.bpel", "45"},
-				{"TestCases/SA00045/Property-TypeMissing.bpel", "45"},
+				{"TestCases/SA00045/Property-TypeMissing.bpel", "45, 19"},
 
 				{"TestCases/SA00046/Invoke-OneWay-Correlation-Pattern.bpel", "46"},
 				{"TestCases/SA00046/Invoke-RequestResponse-Correlation-PatternMissing.bpel", "46"},
