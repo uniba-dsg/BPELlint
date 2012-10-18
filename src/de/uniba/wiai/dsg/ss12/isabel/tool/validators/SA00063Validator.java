@@ -1,6 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -20,11 +21,11 @@ public class SA00063Validator extends Validator {
 		Nodes onMessages = fileHandler.getBpel().getDocument()
 				.query("//bpel:onMessage", CONTEXT);
 
-		for (Node node : onMessages) {
-
-			if (node.query("bpel:fromParts", CONTEXT).size() > 0
-					&& node.query("@variable", CONTEXT).size() > 0) {
-				addViolation(node);
+		for (Node onMessage : onMessages) {
+			NodeHelper nodeHelper = new NodeHelper(onMessage);
+			if (nodeHelper.hasQueryResult("bpel:fromParts")
+					&& nodeHelper.hasAttribute("variable")) {
+				addViolation(onMessage);
 			}
 		}
 	}

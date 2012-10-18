@@ -1,5 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.helper;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
@@ -56,5 +57,9 @@ public class NodeHelper {
 
 	public boolean hasNoAttribute(String name){
 		return !hasAttribute(name);
+	}
+	
+	public boolean hasQueryResult(String query){
+		return node.query(query, Standards.CONTEXT).size() > 0;
 	}
 }
