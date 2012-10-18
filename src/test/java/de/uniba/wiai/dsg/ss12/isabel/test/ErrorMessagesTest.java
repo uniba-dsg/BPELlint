@@ -34,5 +34,4 @@ public class ErrorMessagesTest {
 				"A WS-BPEL processor MUST reject any WSDL portType definition that includes overloaded operation names.",
 				saLong);
 	}
-
 }
