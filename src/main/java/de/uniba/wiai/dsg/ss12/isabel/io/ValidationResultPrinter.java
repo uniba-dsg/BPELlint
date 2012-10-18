@@ -7,10 +7,10 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 
 public class ValidationResultPrinter {
 
-	private ErrorMessages errorMessages;
+	private ErrorMessageRepository errorMessageRepository;
 
 	public ValidationResultPrinter() {
-		errorMessages = new ErrorMessages();
+		errorMessageRepository = new ErrorMessageRepository();
 	}
 
 	public void printResults(VerbosityLevel verbosityLevel,
@@ -91,7 +91,7 @@ public class ValidationResultPrinter {
 
 	private void printShortDescription(String SANumber, int type) {
 		try {
-			System.out.println("\t\t" + errorMessages.getShort(SANumber, type));
+			System.out.println("\t\t" + errorMessageRepository.getShort(SANumber, type));
 		} catch (DescriptionNotFoundException e) {
 			printErrorDocumentFatal(e.getMessage());
 		}
@@ -99,7 +99,7 @@ public class ValidationResultPrinter {
 
 	private void printLongDescription(String SANumber) {
 		try {
-			System.out.println("\t\t" + errorMessages.getLong(SANumber));
+			System.out.println("\t\t" + errorMessageRepository.getLong(SANumber));
 		} catch (DescriptionNotFoundException e) {
 			printErrorDocumentFatal(e.getMessage());
 		}

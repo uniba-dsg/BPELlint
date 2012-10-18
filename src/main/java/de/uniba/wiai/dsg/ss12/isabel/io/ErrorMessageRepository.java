@@ -1,13 +1,10 @@
 package de.uniba.wiai.dsg.ss12.isabel.io;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Scanner;
 
-public class ErrorMessages {
+public class ErrorMessageRepository {
 
     public String getShort(String saNumber, int type)
             throws DescriptionNotFoundException {

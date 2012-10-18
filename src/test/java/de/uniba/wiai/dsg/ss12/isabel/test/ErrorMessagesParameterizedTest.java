@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import de.uniba.wiai.dsg.ss12.isabel.io.ErrorMessages;
+import de.uniba.wiai.dsg.ss12.isabel.io.ErrorMessageRepository;
 
 @RunWith(value = Parameterized.class)
 public class ErrorMessagesParameterizedTest {
@@ -50,18 +50,18 @@ public class ErrorMessagesParameterizedTest {
 	@Test
 	public void whenCalledGetShortWhithType1_shouldReturnInstanceOfString()
 			throws Exception {
-		ErrorMessages errorMessages = new ErrorMessages();
+		ErrorMessageRepository errorMessageRepository = new ErrorMessageRepository();
 
 		assertEquals("", true,
-				errorMessages.getShort(saNumber, 1) instanceof String);
+				errorMessageRepository.getShort(saNumber, 1) instanceof String);
 	}
 
 	@Test
 	public void whenCalledGetLong_shouldReturnInstanceOfString()
 			throws Exception {
-		ErrorMessages errorMessages = new ErrorMessages();
+		ErrorMessageRepository errorMessageRepository = new ErrorMessageRepository();
 
 		assertEquals("", true,
-				errorMessages.getLong(saNumber) instanceof String);
+				errorMessageRepository.getLong(saNumber) instanceof String);
 	}
 }
