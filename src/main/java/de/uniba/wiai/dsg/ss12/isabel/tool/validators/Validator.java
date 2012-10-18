@@ -13,11 +13,11 @@ public abstract class Validator {
 
 	protected final BpelProcessFiles fileHandler;
 	protected final ValidatorNavigator navigator;
-	private final ValidationResult violationCollector;
+	private final ValidationResult validationResult;
 
-	public Validator(BpelProcessFiles files, ValidationResult violationCollector) {
+	public Validator(BpelProcessFiles files, ValidationResult validationResult) {
 		this.fileHandler = files;
-		this.violationCollector = violationCollector;
+		this.validationResult = validationResult;
 		navigator = new ValidatorNavigator(fileHandler);
 	}
 
@@ -26,8 +26,8 @@ public abstract class Validator {
 	public abstract int getSaNumber();
 
 	protected void addViolation(String fileName, Node node, int type) {
-		violationCollector.add(new Violation(fileName, getSaNumber(), type,
-				getLineNumber(node), getColumnNumber(node)));
+		validationResult.add(new Violation(fileName, getSaNumber(), type,
+                getLineNumber(node), getColumnNumber(node)));
 	}
 
 	protected void addViolation(String fileName, Node node) {
