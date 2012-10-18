@@ -2,28 +2,12 @@ apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "application"
+apply from: "https://raw.github.com/breskeby/gradleplugins/master/emmaPlugin/emma.gradle"
 
 mainClassName = "de.uniba.wiai.dsg.ss12.isabel.IsabelTool"
 
 repositories {
     mavenCentral()
-}
-
-// customization of folder structure (not maven project structure)
-sourceSets {
-    main {
-        java {
-            srcDir 'src'
-        }
-        resources {
-            srcDir 'resources'
-        }
-    }
-    test {
-        java {
-            srcDir 'test/'
-        }
-    }
 }
 
 dependencies {
