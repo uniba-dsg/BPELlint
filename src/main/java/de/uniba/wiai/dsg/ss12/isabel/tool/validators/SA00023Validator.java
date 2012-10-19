@@ -1,16 +1,17 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00023Validator extends Validator {
-
-	private static final int UNIQUE_IN_SCOPE = 2;
-	private static final int UNIQUE_IN_PROCESS = 1;
 
 	public SA00023Validator(BpelProcessFiles files,
 			ValidationResult violationCollector) {
@@ -19,40 +20,28 @@ public class SA00023Validator extends Validator {
 
 	@Override
 	public void validate() {
-
-		Nodes processVariableNames = fileHandler
-				.getBpel()
-				.getDocument()
-				.query("//bpel:process/bpel:variables/bpel:variable/@name",
-						CONTEXT);
-
-		checkForDuplicates(processVariableNames, UNIQUE_IN_PROCESS);
-
-		Nodes scopes = fileHandler.getBpel().getDocument()
-				.query("//bpel:scope", CONTEXT);
-		for (Node scope : scopes) {
-			Nodes variableNames = scope.query(
-					"bpel:variables/bpel:variable/@name", CONTEXT);
-			checkForDuplicates(variableNames, UNIQUE_IN_SCOPE);
-		}
+        for(Node variablesContainer : getVariablesContainer()){
+            Set<String> names = new HashSet<>();
+            for(Node variable : variablesContainer.query("bpel:variable",CONTEXT)){
+                String name = new NodeHelper(variable).getAttribute("name");
+                if(names.contains(name)){
+                    addViolation(variable);
+                } else {
+                    names.add(name);
+                }
+            }
+        }
 	}
 
-	private void checkForDuplicates(Nodes nodesToCheck, int errorType) {
-		if (nodesToCheck.size() > 1) {
-			for (int i = 0; i < nodesToCheck.size(); i++) {
-				Node currentNode = nodesToCheck.get(i);
+    private Nodes getVariablesContainer() {
+        return fileHandler
+                .getBpel()
+                .getDocument()
+                .query("//bpel:variables",
+                        CONTEXT);
+    }
 
-				for (int j = i + 1; j < nodesToCheck.size(); j++) {
-					if (nodesToCheck.get(j).getValue()
-							.equals(currentNode.getValue())) {
-						addViolation(currentNode, errorType);
-					}
-				}
-			}
-		}
-	}
-
-	@Override
+    @Override
 	public int getSaNumber() {
 		return 23;
 	}

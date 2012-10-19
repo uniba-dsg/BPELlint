@@ -1,13 +1,9 @@
-variable@name must be unique in <process>
-variable@name must be unique in <scope>
+<variable>@name must be unique in <variables> container
 @@@
 The name of a variable MUST be unique among the names of all variables defined within the same immediately enclosing scope.
 @@@
-FOREACH <process><variables><variable>
+FOREACH <variables>
 	FAIL IF DUPLICATE <variable>@name
-FOREACH <scope>
-	FOREACH <variables><variable>
-		FAIL IF DUPLICATE <variable>@name
 @@@
 Process-Duplicated-Variables.bpel:
 Contains two \texttt{<variable>}'s with duplicated \texttt{@name='ReplyData'} within the \texttt{<process>}.
