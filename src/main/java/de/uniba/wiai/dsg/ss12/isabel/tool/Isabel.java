@@ -5,6 +5,9 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.XmlFileLoader;
 import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorsHandler;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * Isabel, a static analyzer for BPEL processes
  * 
@@ -27,6 +30,9 @@ public class Isabel {
 		if (bpelPath == null) {
 			throw new ValidationException("Path is no BPEL file");
 		}
+        if (!Files.exists(Paths.get(bpelPath))){
+            throw new ValidationException("File " + bpelPath + " does not exist");
+        }
 
 		BpelProcessFiles bpelProcessFiles = new XmlFileLoader().loadAllProcessFiles(bpelPath);
 		SimpleValidationResult validationResult = new SimpleValidationResult();
