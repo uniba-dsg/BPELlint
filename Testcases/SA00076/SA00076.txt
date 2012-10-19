@@ -1,0 +1,12 @@
+having a <forEach>, defining a variable with the same name as the counter variable of <forEach> is forbidden
+@@@
+For <forEach> the enclosed scope MUST NOT declare a variable with the same name as specified in the counterName attribute of <forEach>.
+@@@
+FOREACH <forEach>
+    FOREACH <scope><variables>
+        FAIL IF <variable>@name EQUALS <forEach>@counterName
+@@@
+ForEach-DuplicateCounterVariable.bpel:
+A variable named ForEachCounter is defined in the enclosed scope of a forEach loop with the counter variable ForEachCounter.
+@@@
+-

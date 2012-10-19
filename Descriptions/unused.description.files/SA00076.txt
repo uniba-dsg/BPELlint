@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-For <forEach> the enclosed scope MUST NOT declare a variable with the same name as specified in the counterName attribute of <forEach>.
