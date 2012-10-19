@@ -2,18 +2,20 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Document;
 import nu.xom.Node;
-import nu.xom.Nodes;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00005Validator extends Validator {
 
-	private String filePath;
 
 	public SA00005Validator(BpelProcessFiles files,
 			ValidationResult violationCollector) {
@@ -22,50 +24,44 @@ public class SA00005Validator extends Validator {
 
 	@Override
 	public void validate() {
-		filePath = fileHandler.getBpel().getFilePath();
-		Document bpelDom = fileHandler.getBpel().getDocument();
+        List<Node> messageActivities = getMessageActivities();
 
-		Nodes receives = bpelDom.query("//bpel:receive", CONTEXT);
-		checkPortTypeCorrectness(receives);
+        for (Node messageActivity : messageActivities) {
+            try {
+                String partnerLinkAttribute = new NodeHelper(messageActivity).getAttribute("partnerLink");
 
-		Nodes replies = bpelDom.query("//bpel:reply", CONTEXT);
-		checkPortTypeCorrectness(replies);
+                Node partnerLink = navigator.getPartnerLink(fileHandler.getBpel()
+                        .getDocument(), partnerLinkAttribute);
 
-		Nodes invokes = bpelDom.query("//bpel:invoke", CONTEXT);
-		checkPortTypeCorrectness(invokes);
+                Node correspondingPortType = navigator
+                        .partnerLinkToPortType(partnerLink);
 
-		Nodes onEvents = bpelDom.query("//bpel:onEvent", CONTEXT);
-		checkPortTypeCorrectness(onEvents);
+                String localPortTypeDefinition = getLocalPortTypeDefinition(messageActivity);
+                String correspondingPortTypeName = new NodeHelper(correspondingPortType).getAttribute("name");
 
-		Nodes onMessages = bpelDom.query("//bpel:onMessage", CONTEXT);
-		checkPortTypeCorrectness(onMessages);
-	}
+                if (!correspondingPortTypeName.equals(localPortTypeDefinition)) {
+                    addViolation(messageActivity);
+                }
+            } catch (NavigationException e) {
+                // This node could not be validated
+            }
+        }
+    }
 
-	private void checkPortTypeCorrectness(Nodes messageActivities) {
-		for (Node messageActivity : messageActivities) {
-			Node partnerLink;
-			try {
-				String partnerLinkAttribute = new NodeHelper(messageActivity).getAttribute("partnerLink");
+    private List<Node> getMessageActivities() {
+        Document bpelDom = fileHandler.getBpel().getDocument();
 
-				partnerLink = navigator.getPartnerLink(fileHandler.getBpel()
-						.getDocument(), partnerLinkAttribute);
+        List<Node> messageActivities = new LinkedList<>();
+        messageActivities.addAll(NodesUtil.toList(bpelDom.query("//bpel:receive", CONTEXT)));
+        messageActivities.addAll(NodesUtil.toList(bpelDom.query("//bpel:reply", CONTEXT)));
+        messageActivities.addAll(NodesUtil.toList(bpelDom.query("//bpel:invoke", CONTEXT)));
+        messageActivities.addAll(NodesUtil.toList(bpelDom.query("//bpel:onEvent", CONTEXT)));
+        messageActivities.addAll(NodesUtil.toList(bpelDom.query("//bpel:onMessage", CONTEXT)));
 
-				Node correspondingPortType = navigator
-						.partnerLinkToPortType(partnerLink);
+        return messageActivities;
+    }
 
-				String localPortTypeDefinition = getLocalPortTypeDefinition(messageActivity);
-				String correspondingPortTypeName = new NodeHelper(correspondingPortType).getAttribute("name");
-
-				if (!correspondingPortTypeName.equals(localPortTypeDefinition)) {
-					addViolation(messageActivity);
-				}
-			} catch (NavigationException e) {
-				// This node could not be validated
-			}
-		}
-	}
-
-	private String getLocalPortTypeDefinition(Node messageActivity) {
+    private String getLocalPortTypeDefinition(Node messageActivity) {
 		String localPortTypeDefinition = new NodeHelper(messageActivity).getAttribute("portType");
 		return PrefixHelper.removePrefix(localPortTypeDefinition);
 	}
