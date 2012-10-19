@@ -33,7 +33,7 @@ class Test
       origin = Dir.glob("#{BETSY_DIR}/**/#{name}.bpel")[0]
 
       unless origin
-        puts "ERROR - Origin could not be found for #{name}"
+        puts "ERROR - Origin could not be found for #{name} with file #{file}"
         next
       end
 
