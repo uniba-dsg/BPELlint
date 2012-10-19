@@ -62,4 +62,8 @@ public class NodeHelper {
 	public boolean hasQueryResult(String query){
 		return node.query(query, Standards.CONTEXT).size() > 0;
 	}
+
+    public boolean hasEmptyQueryResult(String query){
+        return node.query(query, Standards.CONTEXT).size() == 0;
+    }
 }

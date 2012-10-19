@@ -194,6 +194,9 @@ public class FunctionalValidatorTests {
 
                 {"TestCases/SA00076/ForEach-DuplicateCounterVariable.bpel", "76"},
 
+                {"TestCases/SA00080/FaultHandlersWithoutCatchOrCatchAllInProcess.bpel", "80"},
+                {"TestCases/SA00080/FaultHandlersWithoutCatchOrCatchAllInScope.bpel", "80"},
+
 				// betsy tests
 				{"TestCases/betsy/basic-activities/Assign-Copy-DoXslTransform-InvalidSourceFault.bpel", ""},
 				{"TestCases/betsy/basic-activities/Assign-Copy-DoXslTransform-SubLanguageExecutionFault.bpel", ""},
