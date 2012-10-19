@@ -34,11 +34,7 @@ public class SA00023Validator extends Validator {
 	}
 
     private Nodes getVariablesContainer() {
-        return fileHandler
-                .getBpel()
-                .getDocument()
-                .query("//bpel:variables",
-                        CONTEXT);
+        return fileHandler.getBpel().getDocument().query("//bpel:variables", CONTEXT);
     }
 
     @Override

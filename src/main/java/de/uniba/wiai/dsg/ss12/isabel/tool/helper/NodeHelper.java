@@ -78,4 +78,8 @@ public class NodeHelper {
     public Element asElement(){
         return (Element) node;
     }
+
+    public Node getNode() {
+        return node;
+    }
 }

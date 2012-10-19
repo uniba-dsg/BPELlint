@@ -1,112 +1,91 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import nu.xom.Node;
-import nu.xom.Nodes;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00022Validator extends Validator {
 
-	private static final int SAME_MESSAGE_TYPE = 3;
-	private static final int SAME_ELEMENT = 2;
-	private static final int SAME_TYPE = 1;
+    private static final int SAME_MESSAGE_TYPE = 3;
+    private static final int SAME_ELEMENT = 2;
+    private static final int SAME_TYPE = 1;
 
-	public SA00022Validator(BpelProcessFiles files,
-			ValidationResult violationCollector) {
-		super(files, violationCollector);
-	}
+    public SA00022Validator(BpelProcessFiles files,
+                            ValidationResult violationCollector) {
+        super(files, violationCollector);
+    }
 
-	@Override
-	public void validate() {
+    @Override
+    public void validate() {
+        List<Node> allPropertyAliases = getAllPropertyAliases();
+        for (int i = 0, allPropertyAliasesSize = allPropertyAliases.size(); i < allPropertyAliasesSize; i++) {
 
-		List<DocumentEntry> wsdls = fileHandler.getAllWsdls();
+            Node propertyAlias = allPropertyAliases.get(i);
+            NodeHelper propertyAliasHelper = new NodeHelper(propertyAlias);
 
-		for (DocumentEntry documentEntry : wsdls) {
-			Nodes propertyAliases = documentEntry.getDocument().query(
-					"//*[name()='vprop:propertyAlias']", CONTEXT);
+            for (int j = i + 1; j < allPropertyAliasesSize; j++) {
 
-			if (propertyAliases.size() > 1) {
-				for (int i = 0; i < propertyAliases.size(); i++) {
-					Node currentPropertyAlias = propertyAliases.get(i);
+                Node otherPropertyAlias = allPropertyAliases.get(j);
+                NodeHelper otherPropertyAliasHelper = new NodeHelper(otherPropertyAlias);
 
-					for (int j = i + 1; j < propertyAliases.size(); j++) {
-						Node otherPropertyAlias = propertyAliases.get(j);
+                if (!propertyAliasHelper.getAttribute("propertyName").equals(otherPropertyAliasHelper.getAttribute("propertyName"))) {
+                    continue;// go to next element
+                }
 
-						Nodes currentPropertyName = currentPropertyAlias.query(
-								"@propertyName", CONTEXT);
-						Nodes otherPropertyName = otherPropertyAlias.query(
-								"@propertyName", CONTEXT);
+                compareType(propertyAliasHelper, otherPropertyAliasHelper);
+                compareElement(propertyAliasHelper, otherPropertyAliasHelper);
+                compareMessageType(propertyAliasHelper, otherPropertyAliasHelper);
+            }
+        }
+    }
 
-						if (currentPropertyName.size() > 0
-								&& otherPropertyName.size() > 0) {
+    private void compareType(NodeHelper propertyAliasHelper, NodeHelper otherPropertyAliasHelper) {
+        if (propertyAliasHelper.hasAttribute("type") && otherPropertyAliasHelper.hasAttribute("type")) {
+            if (propertyAliasHelper.getAttribute("type").equals(otherPropertyAliasHelper.getAttribute("type"))) {
+                addViolation(otherPropertyAliasHelper.getNode(), SAME_TYPE);
+            }
+        }
+    }
 
-							if (currentPropertyName
-									.get(0)
-									.getValue()
-									.equals(otherPropertyName.get(0).getValue())) {
+    private void compareElement(NodeHelper propertyAliasHelper, NodeHelper otherPropertyAliasHelper) {
+        if (propertyAliasHelper.hasAttribute("element") && otherPropertyAliasHelper.hasAttribute("element")) {
+            if (propertyAliasHelper.getAttribute("element").equals(otherPropertyAliasHelper.getAttribute("element"))) {
+                addViolation(otherPropertyAliasHelper.getNode(), SAME_ELEMENT);
+            }
+        }
+    }
 
-								Nodes currentType = currentPropertyAlias.query(
-										"@type", CONTEXT);
-								Nodes otherType = otherPropertyAlias.query(
-										"@type", CONTEXT);
-								Nodes currentElement = currentPropertyAlias
-										.query("@element", CONTEXT);
-								Nodes otherElement = otherPropertyAlias.query(
-										"@element", CONTEXT);
-								Nodes currentMessageType = currentPropertyAlias
-										.query("@messageType", CONTEXT);
-								Nodes otherMessageType = otherPropertyAlias
-										.query("@messageType", CONTEXT);
+    private void compareMessageType(NodeHelper propertyAliasHelper, NodeHelper otherPropertyAliasHelper) {
+        if (propertyAliasHelper.hasAttribute("messageType") && otherPropertyAliasHelper.hasAttribute("messageType")) {
+            if (propertyAliasHelper.getAttribute("messageType").equals(otherPropertyAliasHelper.getAttribute("messageType"))) {
+                addViolation(otherPropertyAliasHelper.getNode(), SAME_MESSAGE_TYPE);
+            }
+        }
+    }
 
-								if (currentType.size() > 0
-										&& otherType.size() > 0) {
-									if (currentType
-											.get(0)
-											.getValue()
-											.equals(otherType.get(0).getValue())) {
+    private List<Node> getAllPropertyAliases() {
+        List<Node> propertyAliases = new LinkedList<>();
+        for (DocumentEntry documentEntry : fileHandler.getAllWsdls()) {
+            propertyAliases.addAll(getPropertyAliases(documentEntry));
+        }
+        return propertyAliases;
+    }
 
-										addViolation(currentPropertyAlias, SAME_TYPE);
-									}
-								}
+    private List<Node> getPropertyAliases(DocumentEntry documentEntry) {
+        return NodesUtil.toList(documentEntry.getDocument().query(
+                "//vprop:propertyAlias", CONTEXT));
+    }
 
-								else if (currentElement.size() > 0
-										&& otherElement.size() > 0) {
-									if (currentElement
-											.get(0)
-											.getValue()
-											.equals(otherElement.get(0)
-													.getValue())) {
-										addViolation(currentPropertyAlias, SAME_ELEMENT);
-									}
-
-								} else if (currentMessageType.size() > 0
-										&& otherMessageType.size() > 0) {
-									if (currentMessageType
-											.get(0)
-											.getValue()
-											.equals(otherMessageType.get(0)
-													.getValue())) {
-										addViolation(currentPropertyAlias, SAME_MESSAGE_TYPE);
-									}
-
-								}
-							}
-
-						}
-
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	public int getSaNumber() {
-		return 22;
-	}
+    @Override
+    public int getSaNumber() {
+        return 22;
+    }
 }
