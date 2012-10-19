@@ -70,4 +70,12 @@ public class NodeHelper {
     public boolean hasEmptyQueryResult(String query){
         return node.query(query, Standards.CONTEXT).size() == 0;
     }
+
+    public boolean hasAncestor(String name){
+        return hasQueryResult("ancestor::*[name()=\"" + name + "\"]");
+    }
+
+    public Element asElement(){
+        return (Element) node;
+    }
 }

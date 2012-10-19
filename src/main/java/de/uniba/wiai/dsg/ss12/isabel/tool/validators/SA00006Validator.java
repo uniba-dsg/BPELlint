@@ -1,6 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -16,20 +17,19 @@ public class SA00006Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes rethrows = fileHandler.getBpel().getDocument()
-				.query("//bpel:rethrow", CONTEXT);
+        for (Node rethrow : getAllRethrows()) {
+            NodeHelper rethrowHelper = new NodeHelper(rethrow);
 
-		for (Node actualRethrow : rethrows) {
-			if (isNotInFaultHandler(actualRethrow)) {
-				addViolation(actualRethrow);
+            if (!rethrowHelper.hasAncestor("faultHandlers")) {
+				addViolation(rethrow);
 			}
 		}
 	}
 
-	private boolean isNotInFaultHandler(Node actualRethrow) {
-		return actualRethrow.query("ancestor::*[name()=\"faultHandlers\"]",
-				CONTEXT).size() == 0;
-	}
+    private Nodes getAllRethrows() {
+        return fileHandler.getBpel().getDocument()
+                .query("//bpel:rethrow", CONTEXT);
+    }
 
 	@Override
 	public int getSaNumber() {

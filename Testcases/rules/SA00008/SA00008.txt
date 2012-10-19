@@ -3,10 +3,7 @@
 The <compensate> activity MUST only be used from within a faultHandler, another compensationHandler, or a terminationHandler.
 @@@
 FOREACH <compensate>
-	SET $isFaultParent TO <faultHandlers> EQUALS PARENT <compensate>
-	SET $isCompensationParent TO <compensationHandler> EQUALS PARENT <compensate>
-	SET $isTerminationParent TO <terminationHandler> EQUALS PARENT <compensate>
-	FAIL UNLESS ($isFaultParent OR $isCompensationParent OR $isTerminationParent)
+	FAIL UNLESS HAS_ANCESTOR <faultHandlers> OR HAS_ANCESTOR <compensationHandler> OR HAS_ANCESTOR <terminationHandler>
 @@@
 CompensateOutsideFaultHandlers.bpel:
 The activity \texttt{<compensate>} is a direct child of \texttt{<process>}.

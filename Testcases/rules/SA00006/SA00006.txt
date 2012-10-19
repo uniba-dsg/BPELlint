@@ -3,7 +3,7 @@
 The <rethrow> activity MUST only be used within a faultHandler (i.e. <catch> and <catchAll> elements).
 @@@
 FOREACH <rethrow>
-	FAIL UNLESS <faultHandlers> ANCESTOR_OF <rethrow>
+	FAIL UNLESS HAS_ANCESTOR <faultHandlers>
 @@@
 RethrowOutsideFaultHandlers.bpel:
 BPEL-file with a \texttt{<rethrow>} placed in a \texttt{<sequence>} as a direct child of \texttt{<process>}, outside of a \texttt{<faultHandlers>}. (Therefore outside a \texttt{<catch>} or \texttt{<catchAll>}.)
