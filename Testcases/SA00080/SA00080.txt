@@ -5,9 +5,9 @@ There MUST be at least one <catch> or <catchAll> element within a <faultHandlers
 FOREACH <faultHandlers>
     FAIL UNLESS ANY <catch> OR ANY <catchAll>
 @@@
-FaultHandlersWithoutCatchOrCatchAllInProcess.bpel:
+EmptyFaultHandlersInProcess.bpel:
 Empty <faultHandlers> in <process>
-FaultHandlersWithoutCatchOrCatchAllInScope.bpel:
+EmptyFaultHandlersInScope.bpel:
 Empty <faultHandlers> in <scope>
 @@@
 -

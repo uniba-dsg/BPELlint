@@ -1,0 +1,13 @@
+empty <eventHandlers> is forbidden
+@@@
+An event handler MUST contain at least one <onEvent> or <onAlarm> element.
+@@@
+FOREACH <eventHandlers>
+    FAIL UNLESS ANY <onEvent> OR ANY <onAlarm>
+@@@
+EmptyEventHandlersInProcess.bpel:
+empty <eventHandlers> in process
+EmptyEventHandlersInScope.bpel:
+empty <eventHandlers> in scope
+@@@
+-

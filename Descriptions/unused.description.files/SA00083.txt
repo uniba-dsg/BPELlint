@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-An event handler MUST contain at least one <onEvent> or <onAlarm> element.
