@@ -1,22 +1,21 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
+import nu.xom.Document;
+import nu.xom.Node;
+import nu.xom.Nodes;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
-import nu.xom.Document;
-import nu.xom.Node;
-import nu.xom.Nodes;
-
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorNavigator.getAttributeValue;
 
 public class SA00021Validator extends Validator {
 
 	public SA00021Validator(BpelProcessFiles files,
-	                        ValidationResult violationCollector) {
+			ValidationResult violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -55,19 +54,23 @@ public class SA00021Validator extends Validator {
 			NodeHelper nodeHelper = new NodeHelper(node);
 			String variableAttribute = nodeHelper.getAttribute("variable");
 			if (variableAttribute.equals(variableName))
-				if (nodeHelper.hasAttribute("messageType") || nodeHelper.hasAttribute("element"))
+				if (nodeHelper.hasAttribute("messageType")
+						|| nodeHelper.hasAttribute("element"))
 					return node;
 		} else if ("scope".equals(toElement(node).getLocalName())) {
-			Nodes scopeVariableSet = node.query("bpel:variable", CONTEXT);
+			Nodes scopeVariableSet = node.query(
+					"child::bpel:variables/bpel:variable", CONTEXT);
 			for (Node variable : scopeVariableSet) {
 				String name = new NodeHelper(variable).getAttribute("name");
 				if (name.equals(variableName))
 					return variable;
 			}
 		} else if ("process".equals(toElement(node).getLocalName())) {
-			Nodes scopeVariableSet = node.query("bpel:variable", CONTEXT);
+			Nodes scopeVariableSet = node.query(
+					"child::bpel:variables/bpel:variable", CONTEXT);
 			for (Node variable : scopeVariableSet) {
 				String name = new NodeHelper(variable).getAttribute("name");
+
 				if (name.equals(variableName))
 					return variable;
 			}
@@ -81,14 +84,11 @@ public class SA00021Validator extends Validator {
 	}
 
 	private void hasCorrespondingPropertyAlias(Node node, String property,
-	                                           Node partHolder) throws NavigationException {
-
+			Node partHolder) throws NavigationException {
 		String type = "";
 		if (toElement(node).getLocalName().equals("onEvent")) {
 			type = getAttributeValue(getOnEventVariableType(node));
-		} else if (toElement(node).getLocalName().equals("scope")) {
-			type = getAttributeValue(getEnclosingScopeVariableType(node));
-		} else if (toElement(node).getLocalName().equals("process")) {
+		} else if (toElement(node).getLocalName().equals("variable")) {
 			type = getAttributeValue(getEnclosingScopeVariableType(node));
 		}
 
@@ -97,12 +97,13 @@ public class SA00021Validator extends Validator {
 			Nodes wsdlPropertyAliasSet = wsdl.query("//vprop:propertyAlias",
 					CONTEXT);
 			for (Node propertyAlias : wsdlPropertyAliasSet) {
-				String propertyName = PrefixHelper.removePrefix(new NodeHelper(propertyAlias).getAttribute("propertyName"));
+				String propertyName = PrefixHelper.removePrefix(new NodeHelper(
+						propertyAlias).getAttribute("propertyName"));
 
 				if (PrefixHelper.removePrefix(property).equals(propertyName)) {
-					if (!isOfThisMessageType(type, propertyAlias, partHolder)
-							&& !isOfThisType(type, propertyAlias)
-							&& !isOfThisElement(type, propertyAlias)) {
+					if (!(isOfThisMessageType(type, propertyAlias, partHolder)
+							|| isOfThisType(type, propertyAlias) || isOfThisElement(
+								type, propertyAlias))) {
 						addViolation(node);
 					}
 				} else {
@@ -123,13 +124,32 @@ public class SA00021Validator extends Validator {
 	}
 
 	private boolean isOfThisMessageType(String type, Node propertyAlias,
-	                                    Node partHolder) {
+			Node partHolder) {
 		NodeHelper nodeHelper = new NodeHelper(propertyAlias);
-		boolean isMessageType = nodeHelper.getAttribute("messageType").equals(PrefixHelper.removePrefix(type));
+		String messageType = PrefixHelper.removePrefix(nodeHelper
+				.getAttribute("messageType"));
+		boolean isMessageType = messageType.equals(PrefixHelper
+				.removePrefix(type));
 
-		return isMessageType
-				&& nodeHelper.getAttribute("part")
-				.equals(PrefixHelper.removePrefix(new NodeHelper(partHolder).getAttribute("part")));
+		if (isMessageType) {
+			return (hasEqualPart(partHolder, nodeHelper) || hasOneMessagePart(
+					propertyAlias, messageType));
+		} else {
+			return true;
+		}
+	}
+
+	private boolean hasOneMessagePart(Node propertyAlias, String messageType) {
+		return propertyAlias
+				.getDocument()
+				.query("//wsdl:message[@name=\"" + messageType
+						+ "\"]/wsdl:part", CONTEXT).size() == 1;
+	}
+
+	private boolean hasEqualPart(Node partHolder, NodeHelper nodeHelper) {
+		return nodeHelper.getAttribute("part").equals(
+				PrefixHelper.removePrefix(new NodeHelper(partHolder)
+						.getAttribute("part")));
 	}
 
 	private Document getCorrespondingWsdl(String property, Node node)
@@ -156,15 +176,15 @@ public class SA00021Validator extends Validator {
 		}
 	}
 
-	private Nodes getEnclosingScopeVariableType(Node scope)
+	private Nodes getEnclosingScopeVariableType(Node variable)
 			throws NavigationException {
 		try {
-			return getVariableType(scope, "@messageType");
+			return getVariableType(variable, "@messageType");
 		} catch (NavigationException e) {
 			try {
-				return getVariableType(scope, "@type");
+				return getVariableType(variable, "@type");
 			} catch (NavigationException f) {
-				return getVariableType(scope, "@element");
+				return getVariableType(variable, "@element");
 			}
 		}
 	}
