@@ -20,9 +20,9 @@ public class SA00008Validator extends Validator {
         for (Node compensateScope : getAllCompensates()) {
             NodeHelper compensateScopeHelper = new NodeHelper(compensateScope);
 
-            if (!compensateScopeHelper.hasAncestor("faultHandlers") &&
-                    !compensateScopeHelper.hasAncestor("compensationHandler") &&
-                    !compensateScopeHelper.hasAncestor("terminationHandlers")) {
+            if (!compensateScopeHelper.hasAncestor("bpel:faultHandlers") &&
+                    !compensateScopeHelper.hasAncestor("bpel:compensationHandler") &&
+                    !compensateScopeHelper.hasAncestor("bpel:terminationHandlers")) {
                 addViolation(compensateScope);
             }
         }

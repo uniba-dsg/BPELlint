@@ -72,7 +72,7 @@ public class NodeHelper {
     }
 
     public boolean hasAncestor(String name){
-        return hasQueryResult("ancestor::*[name()=\"" + name + "\"]");
+        return hasQueryResult("ancestor::" + name);
     }
 
     public Element asElement(){

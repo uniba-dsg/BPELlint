@@ -20,7 +20,7 @@ public class SA00006Validator extends Validator {
         for (Node rethrow : getAllRethrows()) {
             NodeHelper rethrowHelper = new NodeHelper(rethrow);
 
-            if (!rethrowHelper.hasAncestor("faultHandlers")) {
+            if (!rethrowHelper.hasAncestor("bpel:faultHandlers")) {
 				addViolation(rethrow);
 			}
 		}
