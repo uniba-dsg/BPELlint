@@ -22,10 +22,7 @@ public class SA00045Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes allCorrelationSet = fileHandler.getBpel().getDocument()
-				.query("//bpel:correlationSet", CONTEXT);
-
-		for (Node correlationSet : allCorrelationSet) {
+        for (Node correlationSet : getAllCorrelationSets()) {
 			try {
 				if (!isSimpleType(correlationSet)) {
 					addViolation(correlationSet);
@@ -36,7 +33,11 @@ public class SA00045Validator extends Validator {
 		}
 	}
 
-	private boolean isSimpleType(Node correlationSet)
+    private Nodes getAllCorrelationSets() {
+        return fileHandler.getBpel().getDocument().query("//bpel:correlationSet", CONTEXT);
+    }
+
+    private boolean isSimpleType(Node correlationSet)
 			throws NavigationException {
 		DocumentEntry wsdlEntry = navigator
 				.getCorrespondingWsdlToCorrelationSet(correlationSet);
