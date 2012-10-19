@@ -2,6 +2,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -25,21 +26,17 @@ public abstract class Validator {
 
 	public abstract int getSaNumber();
 
-	protected void addViolation(String fileName, Node node, int type) {
+	private void addViolation(String fileName, Node node, int type) {
 		validationResult.add(new Violation(fileName, getSaNumber(), type,
                 getLineNumber(node), getColumnNumber(node)));
 	}
 
-	protected void addViolation(String fileName, Node node) {
-		addViolation(fileName, node, DEFAULT_TYPE);
-	}
-
 	protected void addViolation(Node node) {
-		addViolation(getBpelFileName(), node);
+		addViolation(node, DEFAULT_TYPE);
 	}
 	
 	protected void addViolation(Node node, int type) {
-		addViolation(getBpelFileName(), node, type);
+		addViolation(new NodeHelper(node).getFilePath(), node, type);
 	}
 
 	private int getLineNumber(Node node) {

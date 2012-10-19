@@ -34,7 +34,7 @@ public class SA00020Validator extends Validator {
 						&& !typeExists(propertyAlias)
 						&& elementExists(propertyAlias);
 				if (!(messageTypeAndPart || type || element)) {
-					addViolation(filePath, propertyAlias);
+					addViolation(propertyAlias);
 				}
 			}
 		}

@@ -73,8 +73,7 @@ public class SA00022Validator extends Validator {
 											.getValue()
 											.equals(otherType.get(0).getValue())) {
 
-										addViolation(fileName,
-												currentPropertyAlias, SAME_TYPE);
+										addViolation(currentPropertyAlias, SAME_TYPE);
 									}
 								}
 
@@ -85,8 +84,7 @@ public class SA00022Validator extends Validator {
 											.getValue()
 											.equals(otherElement.get(0)
 													.getValue())) {
-										addViolation(fileName,
-												currentPropertyAlias, SAME_ELEMENT);
+										addViolation(currentPropertyAlias, SAME_ELEMENT);
 									}
 
 								} else if (currentMessageType.size() > 0
@@ -96,8 +94,7 @@ public class SA00022Validator extends Validator {
 											.getValue()
 											.equals(otherMessageType.get(0)
 													.getValue())) {
-										addViolation(fileName,
-												currentPropertyAlias, SAME_MESSAGE_TYPE);
+										addViolation(currentPropertyAlias, SAME_MESSAGE_TYPE);
 									}
 
 								}

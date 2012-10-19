@@ -2,9 +2,13 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Node;
 import nu.xom.Nodes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
@@ -17,23 +21,23 @@ public class SA00003Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Node process = getBpelProcessNode();
+        List<Node> processAndScopeNodes = new ArrayList<>();
+        processAndScopeNodes.add(getBpelProcessNode());
+        processAndScopeNodes.addAll(getScopes());
 
-		if (hasExitOnStandardFault("yes", process)
-				&& isCatchingStandardFaults(process)) {
-			addViolation(process);
-		}
-
-		Nodes scopes = process.query("//bpel:scope", CONTEXT);
-		for (Node scope : scopes) {
-			if (hasExitOnStandardFault("yes", scope)
-					&& isCatchingStandardFaults(scope)) {
-				addViolation(scope);
+		for (Node processOrScope : processAndScopeNodes) {
+			if (hasExitOnStandardFault("yes", processOrScope)
+					&& isCatchingStandardFaults(processOrScope)) {
+				addViolation(processOrScope);
 			}
 		}
 	}
 
-	private Node getBpelProcessNode() {
+    private List<Node> getScopes() {
+        return NodesUtil.toList(fileHandler.getBpel().getDocument().query("//bpel:scope", CONTEXT));
+    }
+
+    private Node getBpelProcessNode() {
 		return fileHandler.getBpel().getDocument().query("/bpel:*", CONTEXT)
 				.get(0);
 	}

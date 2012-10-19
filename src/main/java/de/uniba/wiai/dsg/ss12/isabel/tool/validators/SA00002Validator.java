@@ -29,7 +29,7 @@ public class SA00002Validator extends Validator {
 					String currentName = nameAttribute.toXML();
 
 					if (nameSet.contains(currentName)) {
-						addViolation(filePath, nameAttribute);
+						addViolation(nameAttribute);
 					} else {
 						nameSet.add(currentName);
 					}

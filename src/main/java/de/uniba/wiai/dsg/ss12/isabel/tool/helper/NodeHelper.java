@@ -31,6 +31,10 @@ public class NodeHelper {
 		return new NodeHelper(node.getDocument().getRootElement()).getAttribute("targetNamespace");
 	}
 
+    public String getFilePath(){
+        return node.getBaseURI();
+    }
+
 	public boolean hasTargetNamespace(String targetNamespace) {
 		return getTargetNamespace().equals(targetNamespace);
 	}

@@ -57,7 +57,7 @@ public class SA00005Validator extends Validator {
 				String correspondingPortTypeName = new NodeHelper(correspondingPortType).getAttribute("name");
 
 				if (!correspondingPortTypeName.equals(localPortTypeDefinition)) {
-					addViolation(filePath, messageActivity);
+					addViolation(messageActivity);
 				}
 			} catch (NavigationException e) {
 				// This node could not be validated
