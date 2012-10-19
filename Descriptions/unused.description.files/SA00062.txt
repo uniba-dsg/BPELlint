@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-If <pick> has a createInstance attribute with a value of yes, the events in the <pick> MUST all be <onMessage> events.

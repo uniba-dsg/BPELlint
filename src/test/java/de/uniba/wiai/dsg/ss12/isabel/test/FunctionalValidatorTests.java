@@ -188,6 +188,8 @@ public class FunctionalValidatorTests {
 
 				{"TestCases/SA00059/Reply-WithToPartElementAndVariableAttribute.bpel", "59"},
 
+                {"TestCases/SA00062/Pick-CreateInstanceWithOnAlarm.bpel", "62"},
+
 				{"TestCases/SA00063/OnMessage-With-FromPartAndAttributeVariable.bpel", "63"},
 
 				// betsy tests

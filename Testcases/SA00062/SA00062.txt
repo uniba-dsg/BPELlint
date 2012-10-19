@@ -1,0 +1,12 @@
+<onAlarm> is forbidden for <pick>@createInstance='yes'
+@@@
+If <pick> has a createInstance attribute with a value of yes, the events in the <pick> MUST all be <onMessage> events.
+@@@
+FOREACH <pick>@createInstance='yes'
+    FOREACH <onAlarm>
+        FAIL
+@@@
+Pick-CreateInstanceWithOnAlarm.bpel:
+A <pick> activity with the attribute createInstance='yes' has one <onMessage> and one <onAlarm> child activity.
+@@@
+-
