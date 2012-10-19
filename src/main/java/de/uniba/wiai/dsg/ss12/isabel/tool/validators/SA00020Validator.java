@@ -19,7 +19,6 @@ public class SA00020Validator extends Validator {
 	@Override
 	public void validate() {
 		for (DocumentEntry documentEntry : fileHandler.getAllWsdls()) {
-			String filePath = documentEntry.getFilePath();
 			for (Node propertyAlias : getPropertyAliases(documentEntry)) {
 				boolean messageTypeAndPart = messageTypeExists(propertyAlias)
 						&& partExists(propertyAlias)

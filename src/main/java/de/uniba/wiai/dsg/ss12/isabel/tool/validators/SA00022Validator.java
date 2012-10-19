@@ -27,9 +27,6 @@ public class SA00022Validator extends Validator {
 		List<DocumentEntry> wsdls = fileHandler.getAllWsdls();
 
 		for (DocumentEntry documentEntry : wsdls) {
-
-			String fileName = documentEntry.getFilePath();
-
 			Nodes propertyAliases = documentEntry.getDocument().query(
 					"//*[name()='vprop:propertyAlias']", CONTEXT);
 

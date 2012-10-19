@@ -14,7 +14,6 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.XSD_NAMESPACE;
 
 public class SA00045Validator extends Validator {
-	private String filePath;
 
 	public SA00045Validator(BpelProcessFiles files,
 			ValidationResult violationCollector) {
@@ -41,7 +40,6 @@ public class SA00045Validator extends Validator {
 			throws NavigationException {
 		DocumentEntry wsdlEntry = navigator
 				.getCorrespondingWsdlToCorrelationSet(correlationSet);
-		filePath = wsdlEntry.getFilePath();
 		Document wsdlFile = wsdlEntry.getDocument();
 		Node propertyAlias = navigator.getCorrespondingPropertyAlias(
 				correlationSet, wsdlFile);

@@ -21,8 +21,6 @@ public class SA00002Validator extends Validator {
 	@Override
 	public void validate() {
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
-			String filePath = wsdlEntry.getFilePath();
-
 			for (Node portType : getPortTypes(wsdlEntry)) {
 				Set<String> nameSet = new HashSet<>();
 				for (Node nameAttribute : getOperationNames(portType)) {
