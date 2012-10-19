@@ -5,3 +5,7 @@ The initializePartnerRole attribute MUST NOT be used on a partnerLink that does 
 FOREACH <partnerLink>
     FAIL IF @initializePartnerRole EXISTS AND @partnerRole IS_MISSING
 @@@
+InitializePartnerRoleUsedOnPartnerLinkWithoutPartnerRole.bpel:
+<partnerLink> without @partnerRole but with @initializePartnerRole
+@@@
+-

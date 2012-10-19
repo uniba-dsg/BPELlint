@@ -5,7 +5,7 @@ For <reply>, if <toPart> elements are used on a <reply> activity then the variab
 FOREACH <reply>
 	FAIL IF <toParts> EXISTS AND @variable EXISTS
 @@@
-Reply-WithToPartElementAndVariableAttribute.bpel
+Reply-WithToPartElementAndVariableAttribute.bpel:
 BPEL-file with a \texttt{<reply>} containing a \texttt{<toParts>} and an \texttt{@variable}.
 @@@
 According to SA00059, a BPEL file is not valid if it contains \texttt{<reply>} element with a \texttt{<toParts>} child element as well as a \texttt{variable} attribute.

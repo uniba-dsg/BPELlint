@@ -26,15 +26,15 @@ correspondingPorttype: <partnerLink> -> wsdl:<portType>
 		IF wsdl:<partnerLinkType><role>@portType EQUALS wsdl:<portType>@name
 	=>| RETURN wsdl:<portType>
 @@@
-ReceiveWithNonExistantPortType.bpel:
+ReceiveWithNonExistentPortType.bpel:
 A BPEL-file with a \texttt{<receive>} which \texttt{@portType} attribute is 'nonExistantPortTypeName' which is not in the WSDL and differs from the one specified in the corresponding \texttt{<operation>}.
-ReplyWithNonExistantPortType.bpel:
+ReplyWithNonExistentPortType.bpel:
 A BPEL-file with a \texttt{<reply>} which \texttt{@portType} attribute is 'nonExistantPortTypeName' which is not in the WSDL and differs from the one specified in the corresponding \texttt{<operation>}.
-InvokeWithNonExistantPortType.bpel:
+InvokeWithNonExistentPortType.bpel:
 A BPEL-file with a \texttt{<invoke>} which \texttt{@portType} attribute is 'nonExistantPortTypeName' which is not in the WSDL and differs from the one specified in the corresponding \texttt{<operation>}.
-OnEventWithNonExistantPortType.bpel:
+OnEventWithNonExistentPortType.bpel:
 A BPEL-file with a \texttt{<onEvent>} which \texttt{@portType} attribute is 'nonExistantPortTypeName' which is not in the WSDL and differs from the one specified in the corresponding \texttt{<operation>}.
-OnMessageWithNonExistantPortType.bpel:
+OnMessageWithNonExistentPortType.bpel:
 A BPEL-file with a \texttt{<onMessage>} which \texttt{@portType} attribute is 'nonExistantPortTypeName' which is not in the WSDL and differs from the one specified in the corresponding \texttt{<operation>}.
 @@@
 SA00005 conveys:\\ If an optional \texttt{portType} is actually specified in a message activity (\texttt{<receive>}, \texttt{<reply>}, \texttt{<invoke>}, \texttt{<onEvent>} or \texttt{<onMessage>}) for convenience, it must be specified in the WSDL as well.

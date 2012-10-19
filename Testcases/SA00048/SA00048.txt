@@ -85,11 +85,11 @@ xsdElementType: $elementQName -> <simpleType>|<complexType>
   	IF <element>@name AND <element>@type EXISTS
   		RETURN xsdType(<element>@type)
 @@@ 
-InputVariable-MessageType-Message-NotFound.bpel: 
+InputVariable-MessageType-Message-NotFound.bpel:
 The messageType \texttt{variable} used in \texttt{invoke @inputVariable} does not correspond to the input \texttt{message} that is used in the \texttt{operation} specified in \texttt{invoke}
-InputVariable-Type-MessageOnePart-NotFound.bpel: 
+InputVariable-Type-MessageOnePart-NotFound.bpel:
 The <invoke> @inputVariable references a type <variable> that has not the same element type as the corresponding single <part> <message> that is used in the <operation> specified in <invoke>.
-InputVariable-Type-MessageManyParts.bpel: 
+InputVariable-Type-MessageManyParts.bpel:
 The <invoke> @inputVariable references a type <variable> corresponds to an input <message> used in the <operation> specified in <invoke>. But the <message> has more than one <part>.
 OutputVariable-MessageType-Message-NotFound.bpel:
 The messageType \texttt{variable} used in \texttt{invoke @outputVariable} does not correspond to the output \texttt{message} that is used in the \texttt{operation} specified in \texttt{invoke}.

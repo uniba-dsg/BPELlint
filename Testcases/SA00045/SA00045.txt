@@ -13,9 +13,9 @@ getPropertyFromCorrelationSet: <correlationSet> -> wsdl:<property>
 		IF <correlationSet>@properties EQUALS wsdl:<property>@name
 	=>| RETURN wsdl:<property>
 @@@
-Property-TypeMissing.wsdl, Property-TypeMissing.bpel:
+Property-TypeMissing.bpel:
 The \texttt{type} attribute in the WSDL \texttt{<property>} definition, which is used in the BPEL \texttt{<correlationSet>} is omitted.
-Property-TypeComplexType.wsdl, Property-TypeComplexType.bpel:
+Property-TypeComplexType.bpel:
 The \texttt{type} attribute in the WSDL \texttt{<property>} definition, which is used in BPEL \texttt{<correlationSet>} is defined using \texttt{<complexType>}.
 @@@
 SA00045 states that all \texttt{@properties} from a \texttt{<correlationSet>} must have a corresponding definition in the referenced XSD through a \texttt{<simpleType>}.

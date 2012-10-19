@@ -16,9 +16,9 @@ isNotification: <operation> -> boolean
 isSolicitResponse: <operation> -> boolean    
 	RETURN ((<output> EXISTS AND <input> EXISTS) AND (<output> BEFORE <input>))
 @@@
-Notification.bpel, Notification.wsdl:
+Notification.bpel:
 One .wsdl with a \texttt{<operation name='notification'>} just containing an \texttt{<output>} in a separate PortType.
-SolicitResponse.bpel, SolicitResponse.wsdl:
+SolicitResponse.bpel:
 A .wsdl with a \texttt{<operation name='solicitResponse'>} containing an \texttt{<output>} followed by \texttt{<input>} in a separate PortType.
 @@@
 The rule SA00001 forbids the message exchange patterns solicit-response and notification for WSDL \texttt{<operation>}'s.

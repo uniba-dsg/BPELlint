@@ -11,7 +11,7 @@ FOREACH $enclosingScope
 @@@
 Process-CorrelationSet-Ambiguous.bpel:
 A BPEL-file which <process> is containing two CorrelationSet with same \\@name='CorrelationSet'
-Scope-CorrelationSets-Ambiguous.bpel
+Scope-CorrelationSets-Ambiguous.bpel:
 A BPEL-file with a <scope> containing two CorrelationSet with same \\@name='CorrelationSet'
 @@@
 The name attribute of all \texttt{correlationSet} in a \texttt{scope} or \texttt{process} are inspected.

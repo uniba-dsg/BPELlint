@@ -45,9 +45,9 @@ correspondingToPart: $outgoingOperation, wsdl:<message><part> ->
 		IF $outgoingOperation<toParts><toPart>@part EQUALS wsdl:<message><part>@name
 	=>| $outgoingOperation<toParts><toPart> 
 @@@
-Invoke-MissingToPart.bpel, Invoke-MissingToPart.wsdl:
+Invoke-MissingToPart.bpel:
 One BPEL-file with a missing \texttt{<toPart>} definition for a \texttt{<message><part>} in an \texttt{<invoke>}.
-Receive-MissingToPart.bpel, Receive-MissingToPart.wsdl:
+Receive-MissingToPart.bpel:
 One BPEL-file with a missing \texttt{<toPart>} definition for a \texttt{<message><part>} in an \texttt{<receive>}.
 @@@
 This algorithm is like an injective function from all \texttt{<part>}'s of a WSDL \texttt{<message>} to all the \texttt{<toPart>}'s of a outgoing message activity's \texttt{<toParts>} element.

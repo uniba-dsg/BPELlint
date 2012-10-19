@@ -8,3 +8,9 @@ FOREACH wsdl:
 	    FAIL(1) IF @type IS_MISSING AND @element IS_MISSING
 	    FAIL(2) IF @type EXISTS AND @element EXISTS
 @@@
+PropertyWithTypeAndElement.bpel:
+a <vprop:property> with a @type and @element attribute
+PropertyWithoutTypeOrElement.bpel:
+a <vprop:property> without a @type or @element attribute
+@@@
+-

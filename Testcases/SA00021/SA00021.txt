@@ -66,11 +66,11 @@ hasNoCorrespondingPropertyAlias: $variableType, $fromToProperty  -> boolean
 @@@
 CorrelationSet-Properties-Undefined.bpel:
 Contains \texttt{<correlationSet>@properties} which is not defined in any WSDL definitions.
-From-Properties-Undefined.bpel:
+From-Property-Undefined.bpel:
 Contains \texttt{<from>@property} which is not defined in any WSDL definitions.
-OnEvent-Properties-Undefined.bpel, OnEvent-Properties-Undefined.wsdl:
+OnEvent-Properties-Undefined.bpel:
 Contains \texttt{<eventHandlers><onEvent>@variable} which is not defined in any WSDL definitions
-To-Properties-Undefined.bpel:
+To-Property-Undefined.bpel:
 Contains \texttt{<to>@property} which is not defined in any WSDL definitions.
 @@@
 SA00021 basically consists of two contentual parts:\\

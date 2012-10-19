@@ -6,7 +6,7 @@ FAIL UNLESS ANY <receive>@createInstance='yes' OR ANY <pick>@createInstance='yes
 @@@
 NoActivityWithCreateInstanceSetToYes.bpel:
 No <receive> or <pick> activity has the attribute createInstance set to "yes"
-OnlyActivityWithCreateInstanceSetToNo:
+OnlyActivityWithCreateInstanceSetToNo.bpel:
 A <receive> activity has the attribute createInstance set to "no"
 @@@
 -

@@ -86,19 +86,19 @@ isOneWay: wsdl:<operation> -> boolean
 	RETURN <input> EXISTS AND <output> EXISTS NOT
 	
 @@@
-EmptyMessage-Invoke-FromParts.bpel,\\ TestPartner-MessageWithoutParts.wsdl:
+EmptyMessage-Invoke-FromParts.bpel:
 BPEL has \texttt{<invoke><fromParts>}, but the corresponding WSDL \texttt{<message>} definition does not contain any parts.
-EmptyMessage-Invoke-ToParts-FromParts.bpel,\\ TestPartner-MessageWithoutParts.wsdl:
+EmptyMessage-Invoke-ToParts-FromParts.bpel:
 BPEL has \texttt{<invoke><toParts>} and \texttt{<fromParts>}, but the corresponding  WSDL \texttt{<message>} definition does not contain any parts.
-EmptyMessage-Invoke-ToParts.bpel,\\ TestPartner-MessageWithoutParts.wsdl:
+EmptyMessage-Invoke-ToParts.bpel:
 BPEL has \texttt{<invoke><toParts>}, but the corresponding WSDL \texttt{<message>} definition does not contain any parts.
-EmptyMessage-OnEvent-FromParts.bpel,\\ TestInterface-MessageWithoutParts.wsdl:
+EmptyMessage-OnEvent-FromParts.bpel:
 Contains a \texttt{<onEvent>} with a \texttt{<fromParts>}, but corresponding WSDL \texttt{<message>} definition does not contain any parts.
-EmptyMessage-OnMessage-FromParts.bpel,\\ TestInterface-MessageWithoutParts.wsdl:
+EmptyMessage-OnMessage-FromParts.bpel:
 Contains an \texttt{<onMessage>} with a \texttt{<fromParts>}, but corresponding WSDL \texttt{<message>} definition does not contain any parts.
-EmptyMessage-Receive-FromParts.bpel,\\ TestInterface-MessageWithoutParts.wsdl:
+EmptyMessage-Receive-FromParts.bpel:
 Contains a \texttt{<reply>} with a \texttt{<fromParts>}, but corresponding WSDL \texttt{<message>} definition does not contain any parts.
-EmptyMessage-Reply-ToParts.bpel,\\ TestInterface-MessageWithoutParts.wsdl:
+EmptyMessage-Reply-ToParts.bpel:
 Contains a \texttt{<reply>} with a \texttt{<toParts>}, but corresponding WSDL \texttt{<message>} definition does not contain any parts.
 Invoke-OneWay-NoInputVariable-NoToParts.bpel:
 One-way \texttt{<invoke>} operation with neither \texttt{@inputVariable} nor \texttt{<toPart>} defined.
@@ -112,7 +112,7 @@ NoVariable-NoFromPart-OnEvent.bpel:
 The \texttt{<onMessage>} activity does contain neither \texttt{@variable} attribute nor \texttt{<fromParts>}.
 NoVariable-NoFromPart-OnMessage.bpel:
 The \texttt{<onMessage>} activity does contain neither \texttt{@variable} attribute nor \texttt{<fromParts>}.
-NoVariable-FromPart-Receive.bpel:
+NoVariable-NoFromPart-Receive.bpel:
 The \texttt{<receive>} activity does contain neither \texttt{@variable} attribute nor \texttt{<fromParts>}.
 NoVariable-NoToPart-Reply.bpel:
 The \texttt{<reply>} activity does contain neither \texttt{@variable} attribute nor \texttt{<toParts>}.
