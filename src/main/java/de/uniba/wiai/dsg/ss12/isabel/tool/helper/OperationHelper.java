@@ -6,23 +6,27 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class OperationHelper extends NodeHelper {
 
-	public OperationHelper(Node operation) {
+    public OperationHelper(Node operation) {
 		super(operation);
+
+        if(!getLocalName().equals("operation")){
+            throw new IllegalArgumentException("operation helper only works for wsdl:operation elements");
+        }
 	}
 
-	public boolean isOneWay() {
+    public boolean isOneWay() {
         return hasInput() && !hasOutput();
 	}
 
-	public boolean isRequestResponse() {
+    public boolean isRequestResponse() {
 		return hasInput() && hasOutput() && !isFirstChildOutput();
 	}
 
-	public boolean isNotification() {
+    public boolean isNotification() {
 		return hasOutput() && !hasInput();
 	}
 
-	public boolean isSolicitResponse() {
+    public boolean isSolicitResponse() {
 		return hasOutput() && hasInput() && isFirstChildOutput();
 	}
 
@@ -39,5 +43,7 @@ public class OperationHelper extends NodeHelper {
 	private boolean hasInput() {
 		return hasQueryResult("child::wsdl:input");
 	}
+
+
 
 }

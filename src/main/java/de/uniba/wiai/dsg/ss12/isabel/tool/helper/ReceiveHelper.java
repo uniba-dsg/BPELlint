@@ -6,6 +6,10 @@ public class ReceiveHelper extends NodeHelper {
 
 	public ReceiveHelper(Node receive) {
 		super(receive);
+
+        if(!getLocalName().equals("receive")){
+            throw new IllegalArgumentException("receive helper only works for bpel:receive elements");
+        }
 	}
 
 	public boolean hasFromParts() {
