@@ -28,7 +28,7 @@ public class IsabelTool {
 		ValidationResultPrinter validationResultPrinter = new ValidationResultPrinter();
 		try {
 			CommandLineInterpreter input = new CommandLineInterpreter(args);
-			ValidationResult validationResult = new Isabel().validate(input.bpel_file);
+			ValidationResult validationResult = new Isabel().validate(input.bpelFile);
 
 			validationResultPrinter.printResults(input.verbosityLevel, validationResult);
 		} catch (ValidationException | IllegalArgumentException e) {
