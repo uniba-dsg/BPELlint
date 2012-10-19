@@ -1,0 +1,17 @@
+--- origin.xml	2012-10-19 13:35:22.389687400 +0200
++++ current.xml	2012-10-19 13:35:22.414688800 +0200
+@@ -1,12 +1,12 @@
+ <!-- Hard to verify that this actually works (as there is no response). However, it is an isolated test case and if we add additional synchronous
+         operations, we need correlations and such and do no longer test the receive in an isolated fashion. To sum up: The test case is fine as is.-->
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface" name="Receive" targetNamespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/bpel/receive">
+    <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable messageType="ti:executeProcessAsyncRequest" name="InitData"></variable>
+     </variables>
+-    <receive createInstance="yes" name="Receive" operation="startProcessAsync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"></receive>
++    <receive createInstance="yes" name="Receive" operation="startProcessAsync" partnerLink="MyRoleLink" portType="ti:nonExistantPortTypeName" variable="InitData"></receive>
+ </process>
+\ No newline at end of file

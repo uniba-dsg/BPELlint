@@ -1,3 +1,4 @@
+# Checks the SA000XX.txt files for consistency
 class DescriptionCheck
   attr_accessor :path, :dir, :filename
 

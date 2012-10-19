@@ -1,3 +1,4 @@
+# Prints statistics about how many tests are used and what rules are already implemented.
 class ProgressStatistics
 
   attr_accessor :implemented, :sa_tests
@@ -9,7 +10,7 @@ class ProgressStatistics
 
   def print
     # output
-    puts "Implemented #{implemented.size}/94 with #{sa_tests.flatten.size} tests and #{betsy_tests.size} betsy tests"
+    puts "Implemented #{implemented.size}/94 with #{sa_tests.flatten.size} SA tests and #{betsy_tests.size} betsy tests"
     implemented.each_slice(10) {|a| puts a.inspect}
     #puts "Unimplemented #{unimplemented.size}/94"
     #unimplemented.each_slice(10) {|a| puts a.inspect}

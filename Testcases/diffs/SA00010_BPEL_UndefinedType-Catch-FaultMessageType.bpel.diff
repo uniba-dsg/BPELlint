@@ -1,0 +1,34 @@
+--- origin.xml	2012-10-19 13:35:22.892716100 +0200
++++ current.xml	2012-10-19 13:35:22.917717600 +0200
+@@ -1,29 +1,29 @@
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface" name="Rethrow-FaultData" targetNamespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/bpel/rethrowFaultDataUnmodified">
+ <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface"></import>
+ <partnerLinks>
+     <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+ </partnerLinks>
+ <variables>
+     <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"></variable>
+     <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+ </variables>
+ <faultHandlers>
+-    <catch faultMessageType="ti:executeProcessSyncResponse" faultName="bpel:completionConditionFailure" faultVariable="FaultData">
++    <catch faultMessageType="ti:undefinedFaultMessageType" faultName="bpel:completionConditionFailure" faultVariable="FaultData">
+         <sequence>
+             <rethrow name="Rethrow"></rethrow>
+         </sequence>
+     </catch>
+ </faultHandlers>
+ <scope>
+     <sequence>
+         <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"></receive>
+         <assign name="AssignFaultData">
+             <copy>
+                 <from part="inputPart" variable="InitData"></from>
+                 <to part="outputPart" variable="ReplyData"></to>
+             </copy>
+         </assign>
+         <throw faultName="bpel:completionConditionFailure" faultVariable="ReplyData" name="Throw"></throw>
+     </sequence>
+ </scope>
+ </process>
+\ No newline at end of file

@@ -32,7 +32,7 @@ public class ErrorMessageRepository {
     }
 
     private File getFilePath(String saNumber) {
-        return new File("Testcases/" + saNumber + "/" + saNumber + ".txt");
+        return new File("Testcases/rules/" + saNumber + "/" + saNumber + ".txt");
     }
 
 }

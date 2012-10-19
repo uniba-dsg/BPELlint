@@ -1,0 +1,54 @@
+--- origin.xml	2012-10-19 13:35:27.350971100 +0200
++++ current.xml	2012-10-19 13:35:27.374972500 +0200
+@@ -1,48 +1,49 @@
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface" xmlns:tp="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testpartner" name="Invoke-Correlation-Pattern-InitAsync" targetNamespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/bpel/invokeCorrelationPatternInitAsync">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface"></import>
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestPartner.wsdl" namespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testpartner"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+         <partnerLink name="TestPartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable messageType="ti:executeProcessAsyncRequest" name="InitData"></variable>
+         <variable messageType="ti:executeProcessSyncRequest" name="syncInitData"></variable>
+         <variable messageType="ti:executeProcessSyncResponse" name="syncReplyData"></variable>
+         <variable messageType="tp:executeProcessSyncRequest" name="PartnerInitData"></variable>
+         <variable messageType="tp:executeProcessSyncResponse" name="PartnerReplyData"></variable>
+     </variables>
+     <correlationSets>
+         <correlationSet name="CorrelationSet" properties="ti:correlationId"></correlationSet>
+     </correlationSets>
+     <sequence>
+         <receive createInstance="yes" name="InitialReceive" operation="startProcessAsync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData">
+             <correlations>
+                 <correlation initiate="yes" set="CorrelationSet"></correlation>
+             </correlations>
+         </receive>
+         <assign name="AssignPartnerInitData">
+             <copy>
+                 <from part="inputPart" variable="InitData"></from>
+                 <to part="inputPart" variable="PartnerInitData"></to>
+             </copy>
+         </assign>
+         <invoke inputVariable="PartnerInitData" name="InvokePartner" operation="startProcessSync" outputVariable="PartnerReplyData" partnerLink="TestPartnerLink" portType="tp:TestPartnerPortType">
++            <!-- pattern attribute is missing -->
+             <correlations>
+-                <correlation initiate="no" pattern="request-response" set="CorrelationSet"></correlation>
++                <correlation initiate="no" set="CorrelationSet"></correlation>
+             </correlations>
+         </invoke>
+         <receive createInstance="no" name="CorrelatedReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="syncInitData">
+             <correlations>
+                 <correlation initiate="no" set="CorrelationSet"></correlation>
+             </correlations>
+         </receive>
+         <assign name="AssignReplyData">
+             <copy>
+                 <from part="outputPart" variable="PartnerReplyData"></from>
+                 <to part="outputPart" variable="syncReplyData"></to>
+             </copy>
+         </assign>
+         <reply name="ReplyToSecondReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="syncReplyData"></reply>
+     </sequence>
+ </process>
+\ No newline at end of file

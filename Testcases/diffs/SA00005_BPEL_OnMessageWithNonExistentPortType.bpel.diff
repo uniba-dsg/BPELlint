@@ -1,0 +1,30 @@
+--- origin.xml	2012-10-19 13:35:22.306682600 +0200
++++ current.xml	2012-10-19 13:35:22.333684200 +0200
+@@ -1,25 +1,25 @@
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface" name="Pick-CreateInstance" targetNamespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/bpel/pick-createInstance">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"></variable>
+         <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+     </variables>
+     <sequence>
+         <pick createInstance="yes" name="Pick">
+-            <onMessage operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData">
++            <onMessage operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:nonExistantPortTypeName" variable="InitData">
+                 <sequence name="Sequence">
+                     <assign name="AssignReplyData">
+                         <copy>
+                             <from part="inputPart" variable="InitData"></from>
+                             <to part="outputPart" variable="ReplyData"></to>
+                         </copy>
+                     </assign>
+                     <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"></reply>
+                 </sequence>
+             </onMessage>
+         </pick>
+     </sequence>
+ </process>
+\ No newline at end of file

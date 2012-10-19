@@ -1,0 +1,29 @@
+--- origin.xml	2012-10-19 13:35:30.014123400 +0200
++++ current.xml	2012-10-19 13:35:30.039124900 +0200
+@@ -1,20 +1,24 @@
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface" name="ReceiveReply" targetNamespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/bpel/receiveReply">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"></variable>
+         <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+     </variables>
+     <sequence>
+-        <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"></receive>
++        <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData">
++       		<fromParts>
++        		<fromPart part="inputPart" toVariable="invalidNonExisitentVariable"></fromPart>
++        	</fromParts>
++        </receive>
+         <assign name="AssignReplyData">
+             <copy>
+                 <from part="inputPart" variable="InitData"></from>
+                 <to part="outputPart" variable="ReplyData"></to>
+             </copy>
+         </assign>
+         <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"></reply>
+     </sequence>
+ </process>
+\ No newline at end of file
