@@ -1,12 +1,8 @@
-CorrelationSet name must be unique per scope
+<correlationSet>@name must be unique per <correlationSets> container
 @@@
 The name of a <correlationSet> MUST be unique among the names of all <correlationSet> defined within the same immediately enclosing scope.
 @@@
-$enclosingScope = <process> | <scope>
-
-
-
-FOREACH $enclosingScope
+FOREACH <correlationSets>
 	FAIL IF DUPLICATE <correlationSet>@name
 @@@
 Process-CorrelationSet-Ambiguous.bpel:

@@ -1,6 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -19,21 +20,25 @@ public class SA00044Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes correlationSetNames = fileHandler
-				.getBpel()
-				.getDocument()
-				.query("//bpel:correlationSets/bpel:correlationSet/@name",
-						CONTEXT);
+        for(Node correlationSetContainer : getCorrelationSetContainers()){
+            Set<String> names = new HashSet<>();
+            for(Node correlationSet : correlationSetContainer.query("bpel:correlationSet", CONTEXT)){
+                String name = new NodeHelper(correlationSet).getAttribute("name");
 
-		Set<String> occurringNames = new HashSet<>();
-		for (Node currentNode : correlationSetNames) {
-			if (!occurringNames.add(currentNode.toXML())) {
-				addViolation(currentNode);
-			}
-		}
+                if(names.contains(name)){
+                    addViolation(correlationSet);
+                } else {
+                    names.add(name);
+                }
+            }
+        }
 	}
 
-	@Override
+    private Nodes getCorrelationSetContainers() {
+        return fileHandler.getBpel().getDocument().query("//bpel:correlationSets", CONTEXT);
+    }
+
+    @Override
 	public int getSaNumber() {
 		return 44;
 	}
