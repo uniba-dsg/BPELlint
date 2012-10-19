@@ -1,6 +1,8 @@
 # Prints statistics about how many tests are used and what rules are already implemented.
 class ProgressStatistics
 
+  MISSING_RULES = [47]
+
   attr_accessor :implemented, :sa_tests
 
   def initialize
@@ -10,14 +12,22 @@ class ProgressStatistics
 
   def print
     # output
-    puts "Implemented #{implemented.size}/94 with #{sa_tests.flatten.size} SA tests and #{betsy_tests.size} betsy tests"
-    implemented.each_slice(10) {|a| puts a.inspect}
+    puts "Implemented #{implemented.size}/#{total_rules} (#{implemented_in_percent}%) with #{sa_tests.flatten.size} SA tests and #{betsy_tests.size} betsy tests"
+    # implemented.each_slice(10) {|a| puts a.inspect}
     #puts "Unimplemented #{unimplemented.size}/94"
     #unimplemented.each_slice(10) {|a| puts a.inspect}
   end
 
+  def implemented_in_percent
+    (implemented.size.to_f * 100/total_rules).to_i
+  end
+
+  def total_rules
+    95 - MISSING_RULES.size
+  end
+
   def unimplemented
-   (1..95).to_a - [49] - implemented
+   (1..95).to_a - MISSING_RULES - implemented
   end
 
   def add_implemented_rule(file)
