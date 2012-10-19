@@ -11,18 +11,11 @@ public class OperationHelper extends NodeHelper {
 	}
 
 	public boolean isOneWay() {
-		boolean hasInputChildElement = node.query("child::wsdl:input", CONTEXT)
-				.size() == 1;
-		boolean hasNoOutputChildElement = node.query("child::wsdl:output",
-				CONTEXT).size() == 0;
-		return hasInputChildElement && hasNoOutputChildElement;
+        return hasInput() && !hasOutput();
 	}
 
 	public boolean isRequestResponse() {
-		String firstNodeInputChildQuery = "child::*[position()=1][self::wsdl:input]";
-		String secondNodeOutputChildQuery = "child::*[position()=2][self::wsdl:output]";
-		return node.query(firstNodeInputChildQuery, CONTEXT).size() == 1
-				&& node.query(secondNodeOutputChildQuery, CONTEXT).size() == 1;
+		return hasInput() && hasOutput() && !isFirstChildOutput();
 	}
 
 	public boolean isNotification() {
