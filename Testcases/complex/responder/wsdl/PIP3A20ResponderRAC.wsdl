@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PIP3A20ResponderRAC"
+    targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderRAC"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderRAC"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:ns1="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0">
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderRAC">
+            <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0" schemaLocation="xsd/3A20/Wrapped_3A20_MS_V01_00_PurchaseOrderConfirmationNotification.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="Pip3A20PurchaseOrderConfirmationNotificationMsg">
+        <part name="Pip3A20PurchaseOrderConfirmationNotificationPart" element="ns1:WrappedPip3A20PurchaseOrderConfirmationNotification"/>
+    </message>
+    <portType name="PIP3A20ResponderRACPortType">
+        <operation name="ValidatePip3A20PurchaseOrderConfirmationNotificationOp">
+            <input name="input1" message="tns:Pip3A20PurchaseOrderConfirmationNotificationMsg"/>
+        </operation>
+    </portType>
+    <binding name="PIP3A20ResponderRACBinding" type="tns:PIP3A20ResponderRACPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="ValidatePip3A20PurchaseOrderConfirmationNotificationOp">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    <service name="PIP3A20ResponderRACService">
+        <port name="PIP3A20ResponderRACPort" binding="tns:PIP3A20ResponderRACBinding">
+            <soap:address location="http://localhost:8080/PIP3A20ResponderRACService/PIP3A20ResponderRACPort"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="PIP3A20ResponderRAC">
+        <plnk:role name="PIP3A20ResponderRACPortTypeRole" portType="tns:PIP3A20ResponderRACPortType"/>
+    </plnk:partnerLinkType>
+
+</definitions>
+

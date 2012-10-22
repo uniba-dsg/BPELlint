@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process
+    name="CalculatorService"
+    targetNamespace="http://enterprise.netbeans.org/bpel/CalculatorService/CalculatorService"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/CalculatorService/CalculatorService"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling" xmlns:sxed2="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2" xmlns:ns0="http://xml.netbeans.org/schema/CalculatorSchema">
+    <import namespace="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" location="CalculatorService.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="OperationPartner" xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" partnerLinkType="tns:CalculatorService" myRole="CalculatorServicePortTypeRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="CalculatorServiceOperationOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" messageType="tns:CalculatorServiceOperationResponse"/>
+        <variable name="Fault1FaultVar" xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" messageType="tns:CalculatorServiceOperationFault"/>
+        <variable name="CalculatorServiceOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" messageType="tns:CalculatorServiceOperationRequest"/>
+    </variables>
+    <sequence>
+        <receive name="Receive1" createInstance="yes" partnerLink="OperationPartner" operation="CalculatorServiceOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" portType="tns:CalculatorServicePortType" variable="CalculatorServiceOperationIn"/>
+        <if name="IfInputValid">
+            <condition>not(0 = $CalculatorServiceOperationIn.inputMessage/ns0:Operand2 and 'DIV' = $CalculatorServiceOperationIn.inputMessage/ns0:Operation)</condition>
+            <sequence name="Sequence1">
+                <if name="IfADDorSUB">
+                    <condition>'ADD' = $CalculatorServiceOperationIn.inputMessage/ns0:Operation or 'SUB' = $CalculatorServiceOperationIn.inputMessage/ns0:Operation</condition>
+                    <if name="IfADD">
+                        <condition>'ADD' = $CalculatorServiceOperationIn.inputMessage/ns0:Operation</condition>
+                        <assign name="Assign1">
+                            <copy>
+                                <from>$CalculatorServiceOperationIn.inputMessage/ns0:Operand1 + $CalculatorServiceOperationIn.inputMessage/ns0:Operand2</from>
+                                <to variable="CalculatorServiceOperationOut" part="responseMessage"/>
+                            </copy>
+                        </assign>
+                        <else>
+                            <assign name="Assign2">
+                                <copy>
+                                    <from>$CalculatorServiceOperationIn.inputMessage/ns0:Operand1 - $CalculatorServiceOperationIn.inputMessage/ns0:Operand2</from>
+                                    <to variable="CalculatorServiceOperationOut" part="responseMessage"/>
+                                </copy>
+                            </assign>
+                        </else>
+                    </if>
+                    <else>
+                        <if name="IfMULT">
+                            <condition>'MULT' = $CalculatorServiceOperationIn.inputMessage/ns0:Operation</condition>
+                            <assign name="Assign3">
+                                <copy>
+                                    <from>$CalculatorServiceOperationIn.inputMessage/ns0:Operand1 * $CalculatorServiceOperationIn.inputMessage/ns0:Operand2</from>
+                                    <to variable="CalculatorServiceOperationOut" part="responseMessage"/>
+                                </copy>
+                            </assign>
+                            <else>
+                                <assign name="Assign4">
+                                    <copy>
+                                        <from>$CalculatorServiceOperationIn.inputMessage/ns0:Operand1 div $CalculatorServiceOperationIn.inputMessage/ns0:Operand2</from>
+                                        <to variable="CalculatorServiceOperationOut" part="responseMessage"/>
+                                    </copy>
+                                </assign>
+                            </else>
+                        </if>
+                    </else>
+                </if>
+                <reply name="ResultReply" partnerLink="OperationPartner" operation="CalculatorServiceOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" portType="tns:CalculatorServicePortType" variable="CalculatorServiceOperationOut"/>
+            </sequence>
+            <else>
+                <sequence name="Sequence2">
+                    <assign name="Assign5">
+                        <copy>
+                            <from>'DivByZero'</from>
+                            <to variable="Fault1FaultVar" part="faultMessage"/>
+                        </copy>
+                    </assign>
+                    <reply name="FaultReply" 
+                    partnerLink="OperationPartner"
+                    operation="CalculatorServiceOperation"
+                    xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService"
+                    portType="tns:CalculatorServicePortType"
+                    faultName="tns:fault1"
+                    variable="Fault1FaultVar"/>
+                </sequence>
+            </else>
+        </if>
+    </sequence>
+</process>
+
+
+
+

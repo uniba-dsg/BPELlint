@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PIP3A20ResponderMasterClient"
+    targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderMasterClient"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderMasterClient"
+    xmlns:ns="urn:rosettanet:specification:interchange:PurchaseOrderConfirmationNotification:dtdbase:01.00"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:corr="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"
+    xmlns:ns1="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0"
+    xmlns:mb="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0"
+    xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+    <import location="Correlation-composable.wsdl" namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"/>
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderMasterClient">
+            <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0" schemaLocation="xsd/control/controlMessaging.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="txStartMsg">
+        <part name="txStartPart" element="ns1:txStartMessage"/>
+    </message>
+    <portType name="PIP3A20ResponderMasterClientPortType">
+        <operation name="txStartOp">
+            <input name="input1" message="tns:txStartMsg"/>
+        </operation>
+    </portType>
+    <binding name="PIP3A20ResponderMasterClientBinding" type="tns:PIP3A20ResponderMasterClientPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="txStartOp">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    <service name="PIP3A20ResponderMasterClientService">
+        <port name="PIP3A20ResponderMasterClientPort" binding="tns:PIP3A20ResponderMasterClientBinding">
+            <soap:address location="http://localhost:9081/PIP3A20ResponderMasterClientService/PIP3A20ResponderMasterClientPort"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="PIP3A20ResponderMasterClient">
+        <plnk:role name="PIP3A20ResponderMasterClientPortTypeRole" portType="tns:PIP3A20ResponderMasterClientPortType"/>
+    </plnk:partnerLinkType>
+    
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:txStartMsg" part="txStartPart">
+        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+</definitions>
+
+
+
+
+

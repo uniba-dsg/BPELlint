@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process
+    name="fluentCalculatorService"
+    targetNamespace="http://enterprise.netbeans.org/bpel/FluentCalculatorService/fluentCalculatorService"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/FluentCalculatorService/fluentCalculatorService"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling" xmlns:sxed2="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2" xmlns:ns0="http://xml.netbeans.org/schema/fluentCalcSchema" xmlns:ns1="http://xml.netbeans.org/schema/CalculatorSchema" xmlns:ns2="http://enterprise.netbeans.org/bpel/WizardCorrelationProperties" xmlns:ns3="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService">
+    <import namespace="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" location="fluentCalculatorService.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" location="CalculatorService.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="CalcService" xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" partnerLinkType="tns:CalculatorService" partnerRole="CalculatorServicePortTypeRole"/>
+        <partnerLink name="PartnerLink" xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" partnerLinkType="tns:fluentCalculatorService" myRole="fluentCalculatorServicePortTypeRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="ResultOPIn" messageType="ns3:resultRQ"/>
+        <variable name="ChangeOPOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" messageType="tns:resultRP"/>
+        <variable name="ChangeOPIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" messageType="tns:changeRQ"/>
+        <variable name="CalculatorServiceOperationOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" messageType="tns:CalculatorServiceOperationResponse"/>
+        <variable name="CalculatorServiceOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" messageType="tns:CalculatorServiceOperationRequest"/>
+        <variable name="ResultOPOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" messageType="tns:resultRP"/>
+        <variable name="InitOPOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" messageType="tns:resultRP"/>
+        <variable name="InitOPIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" messageType="tns:initRQ"/>
+        <variable name="InternalState" type="xsd:int"/>
+        <variable name="isResultNotRepliedYet" type="xsd:boolean"/>
+    </variables>
+    <correlationSets>
+        <correlationSet name="CorrelationSet1" properties="ns3:corrprop"/>
+    </correlationSets>
+    <sequence>
+        <receive name="initRV" createInstance="yes" partnerLink="PartnerLink" operation="initOP" xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" portType="tns:fluentCalculatorServicePortType" variable="InitOPIn">
+            <correlations>
+                <correlation set="CorrelationSet1" initiate="yes"/>
+            </correlations>
+        </receive>
+        <assign name="initState">
+            <copy>
+                <from>$InitOPIn.initRQpart/ns0:x</from>
+                <to variable="InternalState"/>
+            </copy>
+            <copy>
+                <from>
+                    $InternalState
+                </from>
+                <to variable="InitOPOut" part="resultRPpart" />
+            </copy>
+            <copy>
+                <from>true()</from>
+                <to variable="isResultNotRepliedYet"/>
+            </copy>
+        </assign>
+        <reply name="initRP" partnerLink="PartnerLink" operation="initOP" xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" portType="tns:fluentCalculatorServicePortType" variable="InitOPOut"></reply>
+        <while name="While1">
+            <condition>$isResultNotRepliedYet</condition>
+            <pick name="CHANGEorRESULT">
+                <onMessage partnerLink="PartnerLink" operation="resultOP" xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" portType="tns:fluentCalculatorServicePortType" variable="ResultOPIn">
+                    <correlations>
+                        <correlation set="CorrelationSet1" initiate="no"/>
+                    </correlations>
+                    <sequence name="RESULT">
+                        <assign name="createResultRP">
+                            <copy>
+                                <from variable="InternalState"/>
+                                <to variable="ResultOPOut" part="resultRPpart"/>
+                            </copy>
+                        </assign>
+                        <reply name="resultRP" partnerLink="PartnerLink" operation="resultOP" portType="tns:fluentCalculatorServicePortType" variable="ResultOPOut"/>
+                        <assign name="break-while">
+                            <copy>
+                                <from>false()</from>
+                                <to variable="isResultNotRepliedYet"/>
+                            </copy>
+                        </assign>
+                    </sequence>
+                </onMessage>
+                <onMessage partnerLink="PartnerLink" operation="changeOP" xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" portType="tns:fluentCalculatorServicePortType" variable="ChangeOPIn">
+                    <correlations>
+                        <correlation set="CorrelationSet1" initiate="no"/>
+                    </correlations>
+                    <sequence name="CHANGE">
+                        <sequence name="COMPUTE">
+                            <assign name="createComputeRQ">
+                                <copy>
+                                    <from variable="InternalState"/>
+                                    <to>$CalculatorServiceOperationIn.inputMessage/ns1:Operand1</to>
+                                </copy>
+                                <copy>
+                                    <from>$ChangeOPIn.changeRQpart/ns0:Operation</from>
+                                    <to>$CalculatorServiceOperationIn.inputMessage/ns1:Operation</to>
+                                </copy>
+                                <copy>
+                                    <from>$ChangeOPIn.changeRQpart/ns0:x</from>
+                                    <to>$CalculatorServiceOperationIn.inputMessage/ns1:Operand2</to>
+                                </copy>
+                            </assign>
+                            <invoke name="computeRQ" partnerLink="CalcService" operation="CalculatorServiceOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" portType="tns:CalculatorServicePortType" inputVariable="CalculatorServiceOperationIn" outputVariable="CalculatorServiceOperationOut">
+             
+                            </invoke>
+                            <assign name="updateState">
+                                <copy>
+                                        <from variable="CalculatorServiceOperationOut" part="responseMessage"/>
+                                            <to variable="InternalState"/>
+                                    </copy>
+                                <copy>
+                                    <from variable="CalculatorServiceOperationOut" part="responseMessage"/>
+                                    <to variable="ChangeOPOut" part="resultRPpart"/>
+                                </copy>
+                            </assign>
+                            <reply name="changeRP" partnerLink="PartnerLink" operation="changeOP" portType="tns:fluentCalculatorServicePortType" variable="ChangeOPOut"/>
+                        </sequence>
+                    </sequence>
+                </onMessage>
+            </pick>
+        </while>
+    </sequence>
+</process>
+
+
+
+
+
+
+
+
+

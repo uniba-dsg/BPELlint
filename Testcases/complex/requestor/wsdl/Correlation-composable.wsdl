@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Correlation-composable"
+    targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"
+    xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+	<!--
+            This is a ChildCallbackIdentifier
+        -->
+        <vprop:property
+            name="prop_CCBIdentifier"
+            type="xsd:string"/>
+        <vprop:property
+            name="prop_CollaborationIdentifier"
+            type="xsd:string"/>
+</definitions>

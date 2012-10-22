@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PIP3A20ResponderBackendClient"
+    targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderBackendClient"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderBackendClient"
+    xmlns:ns="urn:rosettanet:specification:interchange:PurchaseOrderConfirmationNotification:dtdbase:01.00"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:corr="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"
+    xmlns:ns1="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0"
+    xmlns:mb="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0"
+    xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+    <import location="Correlation-composable.wsdl" namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"/>
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderBackendClient">
+            <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0" schemaLocation="xsd/control/controlMessaging.xsd"/>
+        </xsd:schema>
+    </types>
+    <!--
+        DropAcceptAck
+    -->
+    <message name="DropAcceptanceAcknowledgementMsg">
+        <part name="DropAcceptanceAcknowledgementPart" element="ns1:WrappedAcceptanceAcknowledgementMessage"/>
+    </message>
+    <!--
+        Needed for dropping AcceptanceExceptionMessage
+    -->
+    <message name="DropExceptionMsg">
+        <part name="DropExceptionPart" element="ns1:WrappedExceptionMessage"/>
+    </message>
+    <message name="txCancelMsg">
+        <part name="txCancelPart" element="ns1:txCancelMessage"/>
+    </message>
+    <portType name="PIP3A20ResponderBackendClientPortType">
+        <operation name="DropAcceptanceAcknowledgementOp">
+            <input name="input1" message="tns:DropAcceptanceAcknowledgementMsg"/>
+        </operation>
+        <operation name="txCancelOp">
+            <input name="input2" message="tns:txCancelMsg"/>
+        </operation>
+        <operation name="DropExceptionOp">
+            <input name="input3" message="tns:DropExceptionMsg"/>
+        </operation>
+    </portType>
+    <binding name="PIP3A20ResponderBackendClientBinding" type="tns:PIP3A20ResponderBackendClientPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="DropAcceptanceAcknowledgementOp">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="txCancelOp">
+            <soap:operation/>
+            <input name="input2">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="DropExceptionOp">
+            <soap:operation/>
+            <input name="input3">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    <service name="PIP3A20ResponderBackendClientService">
+        <port name="PIP3A20ResponderBackendClientPort" binding="tns:PIP3A20ResponderBackendClientBinding">
+            <soap:address location="http://localhost:9081/PIP3A20ResponderBackendClientService/PIP3A20ResponderBackendClientPort"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="PIP3A20ResponderBackendClient">
+        <plnk:role name="PIP3A20ResponderBackendClientPortTypeRole" portType="tns:PIP3A20ResponderBackendClientPortType"/>
+    </plnk:partnerLinkType>
+
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:DropAcceptanceAcknowledgementMsg" part="DropAcceptanceAcknowledgementPart">
+        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:DropExceptionMsg" part="DropExceptionPart">
+        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:txCancelMsg" part="txCancelPart">
+        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+</definitions>
+
+
+
+

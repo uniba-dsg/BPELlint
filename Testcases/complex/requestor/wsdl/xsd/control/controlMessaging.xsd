@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0"
+            xmlns:mb="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0"
+            xmlns:sig="http://docs.oasis-open.org/ebxml-bp/ebbp-signals-2.0"
+            elementFormDefault="qualified"
+            xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0">
+    <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0" schemaLocation="metaBlockSchema.xsd" />
+    <xsd:import namespace="http://docs.oasis-open.org/ebxml-bp/ebbp-signals-2.0" schemaLocation="../ebbp/ebbp-signals-2.0.4.xsd"/>
+
+    <xsd:element name="txStartMessage" type="tns:txControlMessageType"/>
+    <xsd:element name="txPersistMessage" type="tns:txControlMessageType"/>
+    <xsd:element name="txCancelMessage" type="tns:txControlMessageType"/>
+    <xsd:element name="txSolicitBDMessage" type="tns:txControlMessageType"/>
+
+    <xsd:element name="genericProtocolResult" type="tns:genericProtocolResultType"/>
+
+    <xsd:simpleType name="genericProtocolResultType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ProtocolSuccess"/>
+            <xsd:enumeration value="AnyProtocolFailure"/>
+            <xsd:enumeration value="RequestReceiptFailure"/>
+            <xsd:enumeration value="RequestAcceptanceFailure"/>
+            <xsd:enumeration value="SignalTimeOut"/>
+            <xsd:enumeration value="Failure"/>
+            <xsd:enumeration value="Success"/>
+            <!--
+                The following result types are applicable for two-action ebBP BTs only
+            -->
+            <xsd:enumeration value="ResponseReceiptFailure"/>
+            <xsd:enumeration value="ResponseAcceptanceFailure"/>
+            <xsd:enumeration value="ResponseTimeOut"/>
+            <xsd:enumeration value="BusinessSuccess"/>
+            <xsd:enumeration value="BusinessFailure"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:element name="WrappedReceiptAcknowledgementMessage">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="tns:txControlMessageType">
+                    <xsd:sequence>
+                        <xsd:element ref="sig:ReceiptAcknowledgement"/>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="WrappedAcceptanceAcknowledgementMessage">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="tns:txControlMessageType">
+                    <xsd:sequence>
+                        <xsd:element ref="sig:AcceptanceAcknowledgement"/>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="WrappedExceptionMessage">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="tns:txControlMessageType">
+                    <xsd:sequence>
+                        <xsd:element ref="sig:Exception"/>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="txControlMessageType">
+        <xsd:sequence>
+            <xsd:element ref="mb:TransactionMetaBlock" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>
+
+

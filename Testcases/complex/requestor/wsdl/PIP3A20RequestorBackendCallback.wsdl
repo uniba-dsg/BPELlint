@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PIP3A20RequestorBackendCallback"
+    targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:ns0="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0">
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback">
+            <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0" schemaLocation="xsd/control/controlMessaging.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="ReceiptAcknowledgementMsg">
+        <part name="ReceiptAcknowledgementPart" element="ns0:WrappedReceiptAcknowledgementMessage"/>
+    </message>
+    <message name="AcceptanceAcknowledgementMsg">
+        <part name="AcceptanceAcknowledgementPart" element="ns0:WrappedAcceptanceAcknowledgementMessage"/>
+    </message>
+    <message name="ExceptionMsg">
+        <part name="ExceptionPart" element="ns0:WrappedExceptionMessage"/>
+    </message>
+    <message name="txPersistMsg">
+        <part name="txPersistPart" element="ns0:txPersistMessage"/>
+    </message>
+    <message name="txSolicitBDMsg">
+        <part name="txSolicitBDPart" element="ns0:txSolicitBDMessage"/>
+    </message>
+    <portType name="PIP3A20RequestorBackendCallbackPortType">
+        <operation name="ExceptionOp">
+            <input name="input1" message="tns:ExceptionMsg"/>
+        </operation>
+        <operation name="ReceiptAcknowledgementOp">
+            <input name="input2" message="tns:ReceiptAcknowledgementMsg"/>
+        </operation>
+        <operation name="AcceptanceAcknowledgementOp">
+            <input name="input4" message="tns:AcceptanceAcknowledgementMsg"/>
+        </operation>
+        <operation name="txPersistOp">
+            <input name="input3" message="tns:txPersistMsg"/>
+        </operation>
+        <operation name="txSolicitBDOp">
+            <input name="input5" message="tns:txSolicitBDMsg"/>
+        </operation>
+    </portType>
+    <binding name="PIP3A20RequestorBackendCallbackBinding" type="tns:PIP3A20RequestorBackendCallbackPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="ExceptionOp">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="ReceiptAcknowledgementOp">
+            <soap:operation/>
+            <input name="input2">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="AcceptanceAcknowledgementOp">
+            <soap:operation/>
+            <input name="input4">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="txPersistOp">
+            <soap:operation/>
+            <input name="input3">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="txSolicitBDOp">
+            <soap:operation/>
+            <input name="input5">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    <service name="PIP3A20RequestorBackendCallbackService">
+        <port name="PIP3A20RequestorBackendCallbackPort" binding="tns:PIP3A20RequestorBackendCallbackBinding">
+            <soap:address location="http://localhost:8080/PIP3A20RequestorBackendCallbackService/PIP3A20RequestorBackendCallbackPort"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="PIP3A20RequestorBackendCallback">
+        <plnk:role name="PIP3A20RequestorBackendCallbackPortTypeRole" portType="tns:PIP3A20RequestorBackendCallbackPortType"/>
+    </plnk:partnerLinkType>
+</definitions>
+

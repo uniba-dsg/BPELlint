@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://xml.netbeans.org/schema/CalculatorSchema"
+    xmlns:tns="http://xml.netbeans.org/schema/CalculatorSchema"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+        
+    <xsd:complexType name="calculationInputType">
+        <xsd:sequence>
+            <xsd:element name="Operand1" type="xsd:int"></xsd:element>
+            <xsd:element name="Operand2" type="xsd:int"></xsd:element>
+            <xsd:element name="Operation">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="ADD"/>
+                        <xsd:enumeration value="SUB"/>
+                        <xsd:enumeration value="MULT"/>
+                        <xsd:enumeration value="DIV"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="calculationInput" type="tns:calculationInputType"></xsd:element>
+    <xsd:element name="calculationResult" type="xsd:int"></xsd:element>
+  <!--  <xsd:element name="faultResult" type="xsd:string"></xsd:element>-->
+<!--
+    <xsd:element name="faultResult" type="tns:DivByZeroFaultType"></xsd:element>
+    <xsd:simpleType name="DivByZeroFaultType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="DivByZero"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    -->
+</xsd:schema>
+
+
+

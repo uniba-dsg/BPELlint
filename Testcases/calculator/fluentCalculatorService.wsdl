@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions 
+    name="fluentCalculatorService"
+    targetNamespace="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService"
+    xmlns:ns="http://xml.netbeans.org/schema/fluentCalcSchema"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+    >
+    <types>
+        <xsd:schema targetNamespace="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService">
+            <xsd:import namespace="http://xml.netbeans.org/schema/fluentCalcSchema" schemaLocation="fluentCalcSchema.xsd"/>
+        </xsd:schema>
+    </types>
+
+
+    <!--MESSAGES-->
+    <message name="initRQ">
+        <part name="initRQpart" element="ns:initRequest"/>
+    </message>
+    <message name="changeRQ">
+        <part name="changeRQpart" element="ns:changeRequest"/>
+    </message>
+    <message name="resultRQ">
+        <part name="resultRQpart" element="ns:resultRequest"/>
+    </message>
+    <message name="resultRP">
+        <part name="resultRPpart" element="ns:resultResponse"/>
+    </message>
+    <message name="faultRP">
+        <part name="faultRPpart" element="ns:faultResponse"/>
+    </message>
+
+    <!--OPERATIONS-->
+    <portType name="fluentCalculatorServicePortType">
+        <operation name="initOP">
+            <input name="input1" message="tns:initRQ"/>
+            <output name="output1" message="tns:resultRP"/>
+        </operation>
+        <operation name="changeOP">
+            <input name="input2" message="tns:changeRQ"/>
+            <output name="output2" message="tns:resultRP"/>
+            <fault name="fault1" message="tns:faultRP"/>
+        </operation>
+        <operation name="resultOP">
+            <input name="input3" message="tns:resultRQ"/>
+            <output name="output3" message="tns:resultRP"/>
+        </operation>
+    </portType>
+    
+    <binding name="fluentCalculatorServiceBinding" type="tns:fluentCalculatorServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+         <operation name="initOP">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+            <output name="output1">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="changeOP">
+            <soap:operation/>
+            <input name="input2">
+                <soap:body use="literal"/>
+            </input>
+            <output name="output2">
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault1">
+                <soap:fault name="fault1" use="literal"/>
+            </fault>
+        </operation>
+        <operation name="resultOP">
+            <soap:operation/>
+            <input name="input3">
+                <soap:body use="literal"/>
+            </input>
+            <output name="output3">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="fluentCalculatorServiceService">
+        <port name="fluentCalculatorServicePort" binding="tns:fluentCalculatorServiceBinding">
+            <soap:address location="http://localhost:${HttpDefaultPort}/fluentCalculatorServiceService/fluentCalculatorServicePort"/>
+        </port>
+    </service>
+    
+    <!--PROPERTY SETTINGS-->
+    <vprop:property name="corrprop" type="xsd:string"/>
+
+    <vprop:propertyAlias propertyName="tns:corrprop" messageType="tns:initRQ" part="initRQpart">
+        <vprop:query>/ns:initRequest/ns:ID</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="tns:corrprop" messageType="tns:changeRQ" part="changeRQpart">
+        <vprop:query>/ns:changeRequest/ns:ID</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="tns:corrprop" messageType="tns:resultRQ" part="resultRQpart">
+       <!-- <vprop:query>/ns:resultRequest</vprop:query>-->
+    </vprop:propertyAlias>
+
+    <plnk:partnerLinkType name="fluentCalculatorService">
+        <!-- A partner link type is automatically generated when a new port type is added. Partner link types are used by BPEL processes. 
+In a BPEL process, a partner link represents the interaction between the BPEL process and a partner service. Each partner link is associated with a partner link type.
+A partner link type characterizes the conversational relationship between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="fluentCalculatorServicePortTypeRole" portType="tns:fluentCalculatorServicePortType"/>
+    </plnk:partnerLinkType>
+</definitions>
+

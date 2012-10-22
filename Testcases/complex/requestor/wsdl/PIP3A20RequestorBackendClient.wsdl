@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PIP3A20RequestorBackendClient"
+    targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendClient"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendClient"
+    xmlns:ns="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:corr="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"
+    xmlns:ns1="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0"
+    xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+    xmlns:mb="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0">
+    <import location="Correlation-composable.wsdl" namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"/>
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendClient">
+            <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0" schemaLocation="xsd/3A20/Wrapped_3A20_MS_V01_00_PurchaseOrderConfirmationNotification.xsd"/>
+            <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0" schemaLocation="xsd/control/controlMessaging.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="DropPip3A20PurchaseOrderConfirmationNotificationMsg">
+        <part name="DropPip3A20PurchaseOrderConfirmationNotificationPart" element="ns:WrappedPip3A20PurchaseOrderConfirmationNotification"/>
+    </message>
+    <message name="txCancelMsg">
+        <part name="txCancelPart" element="ns1:txCancelMessage"/>
+    </message>
+    <portType name="PIP3A20RequestorBackendClientPortType">
+        <operation name="DropPip3A20PurchaseOrderConfirmationNotification">
+            <input name="input1" message="tns:DropPip3A20PurchaseOrderConfirmationNotificationMsg"/>
+        </operation>
+        <operation name="txCancelOp">
+            <input name="input2" message="tns:txCancelMsg"/>
+        </operation>
+    </portType>
+    <binding name="PIP3A20RequestorBackendClientBinding" type="tns:PIP3A20RequestorBackendClientPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="DropPip3A20PurchaseOrderConfirmationNotification">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="txCancelOp">
+            <soap:operation/>
+            <input name="input2">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    <service name="PIP3A20RequestorBackendClientService">
+        <port name="PIP3A20RequestorBackendClientPort" binding="tns:PIP3A20RequestorBackendClientBinding">
+            <soap:address location="http://localhost:${HttpDefaultPort}/PIP3A20RequestorBackendClientService/PIP3A20RequestorBackendClientPort"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="PIP3A20RequestorBackendClient">
+        <plnk:role name="PIP3A20RequestorBackendClientPortTypeRole" portType="tns:PIP3A20RequestorBackendClientPortType"/>
+    </plnk:partnerLinkType>
+
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:DropPip3A20PurchaseOrderConfirmationNotificationMsg" part="DropPip3A20PurchaseOrderConfirmationNotificationPart">
+        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:txCancelMsg" part="txCancelPart">
+        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+</definitions>
+
+

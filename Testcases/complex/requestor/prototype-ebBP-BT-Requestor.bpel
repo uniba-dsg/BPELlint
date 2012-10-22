@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process
+    name="prototype-ebBP-BT-Requestor"
+    targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/bpel/Requestor"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor"
+    xmlns:sxat="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Attachment"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling"
+    xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/bpel/Requestor"
+    xmlns:ns0="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"
+    xmlns:procFaults="urn:rosettanet:specification:interchange:processFaults:1.0"
+    xmlns:ns1="urn:rosettanet:specification:interchange:PurchaseOrderConfirmationNotification:dtdbase:01.00"
+    xmlns:ns2="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0"
+    xmlns:ns3="http://docs.oasis-open.org/ebxml-bp/ebbp-signals-2.0"
+    xmlns:sxxf="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/XPathFunctions"
+    xmlns:ns4="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxed2="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2"
+    xmlns:be="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0"
+    xmlns:ns5="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorMasterCallback"
+    xmlns:wr="urn:rosettanet:specification:interchange:PurchaseOrderConfirmationNotification:wrapped:dtdbase:01.00">
+    <import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendClient" location="wsdl/PIP3A20RequestorBackendClient.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0" location="wsdl/Correlation-composable.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" location="wsdl/PIP3A20Responder.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Requestor" location="wsdl/PIP3A20Requestor.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" location="wsdl/PIP3A20RequestorBackendCallback.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorMasterClient" location="wsdl/PIP3A20RequestorMasterClient.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorMasterCallback" location="wsdl/PIP3A20RequestorMasterCallback.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="FromMaster" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorMasterClient" partnerLinkType="tns:PIP3A20RequestorMasterClient" myRole="PIP3A20RequestorMasterClientPortTypeRole"/>
+        <partnerLink name="ToResponder" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" partnerLinkType="tns:PIP3A20Responder" partnerRole="PIP3A20ResponderPortTypeRole"/>
+        <partnerLink name="ToBackend" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" partnerLinkType="tns:PIP3A20RequestorBackendCallback" partnerRole="PIP3A20RequestorBackendCallbackPortTypeRole"/>
+        <partnerLink name="ToMaster" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorMasterCallback" partnerLinkType="tns:PIP3A20RequestorMasterCallback" partnerRole="PIP3A20RequestorMasterCallbackPortTypeRole"/>
+        <partnerLink name="Backend2Self" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendClient" partnerLinkType="tns:PIP3A20RequestorBackendClient" myRole="PIP3A20RequestorBackendClientPortTypeRole"/>
+        <partnerLink name="FromResponder" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Requestor" partnerLinkType="tns:PIP3A20Requestor" myRole="PIP3A20RequestorPortTypeRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="procResult" messageType="ns5:txResultMsg"/>
+        <variable name="TxStartOpIn" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorMasterClient" messageType="tns:txStartMsg"/>
+        <variable name="DropPip3A20PurchaseOrderConfirmationNotificationIn" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendClient" messageType="tns:DropPip3A20PurchaseOrderConfirmationNotificationMsg"/>
+        <variable name="AcceptAckToBackendIn" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" messageType="tns:AcceptanceAcknowledgementMsg"/>
+        <variable name="ReceiptAckToBackendIn" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" messageType="tns:ReceiptAcknowledgementMsg"/>
+        <variable name="AcceptanceAcknowledgementOpIn" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Requestor" messageType="tns:AcceptanceAcknowledgementMsg"/>
+        <variable name="ReceiptAcknowledgementOpIn" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Requestor" messageType="tns:ReceiptAcknowledgementMsg"/>
+        <variable name="bizDocDelivery" type="xsd:boolean" />
+        <variable name="maxRetries" type="xsd:int"/>
+        <variable name="errCount" type="xsd:int"/>
+        <variable name="mainScopeSuccess" type="xsd:boolean"/>
+        <variable name="partnerErrToBackend" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" messageType="tns:ExceptionMsg"/>
+        <variable name="cancelErrToResponder" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" messageType="tns:ExceptionMsg"/>
+        <variable name="ttpErrToResponder" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" messageType="tns:ExceptionMsg"/>
+        <variable name="ttpErrToBackend" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" messageType="tns:ExceptionMsg"/>
+        <variable name="ttaaErrToResponder" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" messageType="tns:ExceptionMsg"/>
+        <variable name="ttaaErrToBackend" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" messageType="tns:ExceptionMsg"/>
+        <variable name="ttarErrToResponder" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" messageType="tns:ExceptionMsg"/>
+        <variable name="ttarErrToBackend" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" messageType="tns:ExceptionMsg"/>
+        <variable name="deliveryErrToResponder" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" messageType="tns:ExceptionMsg"/>
+        <variable name="deliveryErrToBackend" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" messageType="tns:ExceptionMsg"/>
+   </variables>
+    <correlationSets>
+        <correlationSet name="corrSetTransaction" properties="ns0:prop_CollaborationIdentifier"/>
+    </correlationSets>
+            <faultHandlers>
+                <catch faultName="procFaults:deliveryException">
+                    <sequence name="deliveryErrSeq">
+                        <assign name="deliveryErrSeqAssign">
+                            <copy>
+                                <from>sxxf:current-dateTime()</from>
+                                <to>$deliveryErrToResponder.ExceptionPart/ns3:ThisMessageDateTime</to>
+                            </copy>
+                            <copy>
+                                <from>sxxf:current-dateTime()</from>
+                                <to>$deliveryErrToBackend.ExceptionPart/ns3:Exception/ns3:ThisMessageDateTime</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invBackend" partnerLink="ToBackend" operation="ExceptionOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" portType="tns:PIP3A20RequestorBackendCallbackPortType" inputVariable="deliveryErrToBackend"/>
+                        <assign name="prepResultdelEx">
+                            <copy>
+                                <from>
+                                    <literal>AnyProtocolFailure</literal>
+                                </from>
+                                <to>$procResult.txResultPart/be:genericProtocolResult</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invResultdelEx" partnerLink="ToMaster" operation="txResultOp" portType="ns5:PIP3A20RequestorMasterCallbackPortType" inputVariable="procResult"/>
+                        <invoke name="invResponder" partnerLink="ToResponder" operation="ExceptionOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" portType="tns:PIP3A20ResponderPortType" inputVariable="deliveryErrToResponder"/>
+                        <exit name="Exit1"/>
+                    </sequence>
+                </catch>
+                <catch faultName="procFaults:ttarException">
+                    <sequence name="ttarErrSeq">
+                        <assign name="ttarErrSeqAssign">
+                            <copy>
+                                <from>sxxf:current-dateTime()</from>
+                                <to>$ttarErrToResponder.ExceptionPart/ns3:ThisMessageDateTime</to>
+                            </copy>
+                            <copy>
+                                <from>sxxf:current-dateTime()</from>
+                                <to>$ttarErrToBackend.ExceptionPart/ns3:Exception/ns3:ThisMessageDateTime</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invBackendTtarErr" partnerLink="ToBackend" operation="ExceptionOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" portType="tns:PIP3A20RequestorBackendCallbackPortType" inputVariable="ttarErrToBackend"/>
+                        <assign name="prepResultTtar">
+                            <copy>
+                                <from>
+                                    <literal>SignalTimeOut</literal>
+                                </from>
+                                <to>$procResult.txResultPart/be:genericProtocolResult</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invResultTtar" partnerLink="ToMaster" operation="txResultOp" portType="ns5:PIP3A20RequestorMasterCallbackPortType" inputVariable="procResult"/>
+                        <invoke name="invResponderTtarErr" partnerLink="ToResponder" operation="ExceptionOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" portType="tns:PIP3A20ResponderPortType" inputVariable="ttarErrToResponder"/>
+                        <exit name="Exit2"/>
+                    </sequence>
+                </catch>
+                <catch faultName="procFaults:ttaaException">
+                    <sequence name="ttaaErrSeq">
+                        <assign name="ttaaErrSeqAssign">
+                            <copy>
+                                <from>sxxf:current-dateTime()</from>
+                                <to>$ttaaErrToResponder.ExceptionPart/ns3:ThisMessageDateTime</to>
+                            </copy>
+                            <copy>
+                                <from>sxxf:current-dateTime()</from>
+                                <to>$ttaaErrToBackend.ExceptionPart/ns3:Exception/ns3:ThisMessageDateTime</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invBackendTtaaErr" partnerLink="ToBackend" operation="ExceptionOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" portType="tns:PIP3A20RequestorBackendCallbackPortType" inputVariable="ttaaErrToBackend"/>
+                        <assign name="prepResultTtaa">
+                            <copy>
+                                <from>
+                                    <literal>SignalTimeOut</literal>
+                                </from>
+                                <to>$procResult.txResultPart/be:genericProtocolResult</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invResultTtaa" partnerLink="ToMaster" operation="txResultOp" portType="ns5:PIP3A20RequestorMasterCallbackPortType" inputVariable="procResult"/>
+                        <invoke name="invResponderTtaaErr" partnerLink="ToResponder" operation="ExceptionOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" portType="tns:PIP3A20ResponderPortType" inputVariable="ttaaErrToResponder"/>
+                        <exit name="Exit3"/>
+                    </sequence>
+                </catch>
+                <catch faultName="procFaults:ttpException">
+                    <sequence name="ttpErrSeq">
+                        <assign name="ttpErrSeqAssign">
+                            <copy>
+                                <from>sxxf:current-dateTime()</from>
+                                <to>$ttpErrToResponder.ExceptionPart/ns3:ThisMessageDateTime</to>
+                            </copy>
+                            <copy>
+                                <from>sxxf:current-dateTime()</from>
+                                <to>$ttpErrToBackend.ExceptionPart/ns3:Exception/ns3:ThisMessageDateTime</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invBackendTtpErr" partnerLink="ToBackend" operation="ExceptionOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" portType="tns:PIP3A20RequestorBackendCallbackPortType" inputVariable="ttpErrToBackend"/>
+                        <assign name="prepResultTtp">
+                            <copy>
+                                <from>
+                                    <literal>AnyProtocolFailure</literal>
+                                </from>
+                                <to>$procResult.txResultPart/be:genericProtocolResult</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invResultTtp" partnerLink="ToMaster" operation="txResultOp" portType="ns5:PIP3A20RequestorMasterCallbackPortType" inputVariable="procResult"/>
+                        <invoke name="invResponderTtpErr" partnerLink="ToResponder" operation="ExceptionOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" portType="tns:PIP3A20ResponderPortType" inputVariable="ttpErrToResponder"/>
+                        <exit name="Exit4"/>
+                    </sequence>
+                </catch>
+                <catch faultName="procFaults:cancelException" >
+                    <sequence name="cclErrSeq">
+                        <sxt:trace>
+                            <sxt:log level="info" location="onStart">
+                                <ns4:from>'catching Cancel Exception'</ns4:from>
+                            </sxt:log>
+                        </sxt:trace>
+                        <assign name="prepResultCcl">
+                            <copy>
+                                <from>
+                                    <literal>AnyProtocolFailure</literal>
+                                </from>
+                                <to>$procResult.txResultPart/be:genericProtocolResult</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invResultCcl" partnerLink="ToMaster" operation="txResultOp" portType="ns5:PIP3A20RequestorMasterCallbackPortType" inputVariable="procResult"/>
+                        <assign name="cclErrSeqAssign">
+                            <sxt:trace>
+                                <sxt:log level="info" location="onStart">
+                                    <ns4:from>'processing cancel exception'</ns4:from>
+                                </sxt:log>
+                            </sxt:trace>
+                            <copy>
+                                <from>sxxf:current-dateTime()</from>
+                                <to>$cancelErrToResponder.ExceptionPart/ns3:ThisMessageDateTime</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invResponderCancel" partnerLink="ToResponder" operation="ExceptionOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" portType="tns:PIP3A20ResponderPortType" inputVariable="cancelErrToResponder"/>
+                        <exit name="Exit5">
+                              <sxt:trace>
+                                    <sxt:log level="info" location="onStart">
+                                          <ns4:from>'Cancel sent to responder'</ns4:from>
+                                    </sxt:log>
+                              </sxt:trace>
+                        </exit>
+                    </sequence>
+                </catch>
+                <catch faultName="procFaults:partnerException">
+                    <sequence name="partnerErrSeq">
+                        <assign name="partnerErrSeqAssign">
+                            <copy>
+                                <from>sxxf:current-dateTime()</from>
+                                <to>$partnerErrToBackend.ExceptionPart/ns3:Exception/ns3:ThisMessageDateTime</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invBackendPartnerErr" partnerLink="ToBackend" operation="ExceptionOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" portType="tns:PIP3A20RequestorBackendCallbackPortType" inputVariable="partnerErrToBackend"/>
+                        <assign name="prepResultPartnerErr">
+                            <copy>
+                                <from>
+                                    <literal>AnyProtocolFailure</literal>
+                                </from>
+                                <to>$procResult.txResultPart/be:genericProtocolResult</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invResultPartnerErr" partnerLink="ToMaster" operation="txResultOp" portType="ns5:PIP3A20RequestorMasterCallbackPortType" inputVariable="procResult"/>
+                        <exit name="Exit6"/>
+                    </sequence>
+                </catch>
+            </faultHandlers>
+    <sequence name="rootSeq">
+        <scope name="mainScope" >
+            <variables>
+                <variable name="TxSolicitBDOpIn" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" messageType="tns:txSolicitBDMsg"/>
+                <variable name="Pip3A20PurchaseOrderConfirmationNotificationOpIn" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" messageType="tns:Pip3A20PurchaseOrderConfirmationNotificationMsg"/>
+            </variables>
+            <eventHandlers>
+                <!--
+                    There's no distinction between partner's general processing errors
+                    and ReceiptAckException and AcceptAckException.
+                    This is due to the unspecific definition of an Exception message
+                    in ebBP signals definitions.
+                -->
+                <onEvent partnerLink="Backend2Self" operation="txCancelOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendClient" portType="tns:PIP3A20RequestorBackendClientPortType" variable="cancelRequested" messageType="tns:txCancelMsg">
+                    <correlations>
+                        <correlation set="corrSetTransaction" initiate="no"/>
+                    </correlations>
+                    <scope name="DealWithBackendCancel">
+                        <throw name="throwCancel" faultName="procFaults:cancelException">
+                            <sxt:trace>
+                                <sxt:log level="info" location="onStart">
+                                    <ns4:from>'processingBackendCancel'</ns4:from>
+                                </sxt:log>
+                            </sxt:trace>
+                        </throw>
+                    </scope>
+                </onEvent>
+                <onEvent partnerLink="FromResponder" operation="ExceptionOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Requestor" portType="tns:PIP3A20RequestorPortType" variable="partnerErrIn" messageType="tns:ExceptionMsg">
+                    <correlations>
+                        <correlation set="corrSetTransaction" initiate="no"/>
+                    </correlations>
+                    <scope name="DealWithPartnerErr">
+                        <documentation>regular processingError, ReceiptAckException, AcceptanceAckException</documentation>
+                        <sequence name="DealWithPartnerErrSeq">
+                            <assign name="copyErrSrc">
+                                <documentation>only ExceptionType and reason are copied. strictly speaking, input validation would be necessary</documentation>
+                                <copy>
+                                    <from>$partnerErrIn.ExceptionPart/ns3:ExceptionType</from>
+                                    <to>$partnerErrToBackend.ExceptionPart/ns3:Exception/ns3:ExceptionType</to>
+                                </copy>
+                                <copy>
+                                    <from>$partnerErrIn.ExceptionPart/ns3:Reason</from>
+                                    <to>$partnerErrToBackend.ExceptionPart/ns3:Exception/ns3:Reason</to>
+                                </copy>
+                            </assign>
+                            <throw name="throwPartnerEx" faultName="procFaults:partnerException"/>
+                        </sequence>
+                    </scope>
+                </onEvent>
+                <onAlarm>
+                    <for>'P0Y0M0DT0H15M0.0S'</for>
+                    <scope name="DealWithTimeout">
+                        <throw name="throwTTP" faultName="procFaults:ttpException"/>
+                    </scope>
+                </onAlarm>
+            </eventHandlers>
+            <sequence name="mainSeq">
+                <receive name="receiveStart" createInstance="yes" partnerLink="FromMaster" operation="txStartOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorMasterClient" portType="tns:PIP3A20RequestorMasterClientPortType" variable="TxStartOpIn">
+                    <sxt:trace>
+                        <sxt:log level="info" location="onStart">
+                            <ns4:from>'Got Start Message'</ns4:from>
+                        </sxt:log>
+                    </sxt:trace>
+                    <correlations>
+                        <correlation set="corrSetTransaction" initiate="yes"/>
+                    </correlations>
+                </receive>
+                <assign name="initVars">
+                    <copy>
+                        <from>3</from>
+                        <to variable="maxRetries"/>
+                    </copy>
+                        <copy>
+                            <from>0</from>
+                                <to variable="errCount"/>
+                        </copy>
+                        <copy>
+                            <from>false()</from>
+                                <to variable="bizDocDelivery"/>
+                        </copy>
+                    <copy>
+                        <from>false()</from>
+                        <to variable="mainScopeSuccess"/>
+                    </copy>
+                    <copy>
+                        <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock</from>
+                        <to>$TxSolicitBDOpIn.txSolicitBDPart/ns2:TransactionMetaBlock</to>
+                    </copy>
+                    <copy>
+                        <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock</from>
+                        <to>$procResult.txResultPart/ns2:TransactionMetaBlock</to>
+                    </copy>
+                    <copy>
+                        <from>
+                            <literal>Failure</literal>
+                        </from>
+                        <to>$procResult.txResultPart/be:genericProtocolResult</to>
+                    </copy>
+                </assign>
+                <invoke name="solicitBD" partnerLink="ToBackend" operation="txSolicitBDOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" portType="tns:PIP3A20RequestorBackendCallbackPortType" inputVariable="TxSolicitBDOpIn"></invoke>
+                <receive name="receiveBizDoc" createInstance="no" partnerLink="Backend2Self" operation="DropPip3A20PurchaseOrderConfirmationNotification" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendClient" portType="tns:PIP3A20RequestorBackendClientPortType" variable="DropPip3A20PurchaseOrderConfirmationNotificationIn">
+                    <sxt:trace>
+                        <sxt:log level="info" location="onComplete">
+                            <ns4:from>'business document received'</ns4:from>
+                        </sxt:log>
+                    </sxt:trace>
+                    <correlations>
+                        <correlation set="corrSetTransaction" initiate="no"/>
+                    </correlations>
+                </receive>
+                <assign name="prepDepVars">
+                    <sxt:trace>
+                        <sxt:log level="info" location="onStart">
+                            <ns4:from>'staring biz doc preparation'</ns4:from>
+                        </sxt:log>
+                        <sxt:log level="info" location="onComplete">
+                            <ns4:from>'completing biz doc preparation'</ns4:from>
+                        </sxt:log>
+                    </sxt:trace>
+                    <copy>
+                        <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification</from>
+                        <to variable="Pip3A20PurchaseOrderConfirmationNotificationOpIn" part="Pip3A20PurchaseOrderConfirmationNotificationPart"/>
+                    </copy>
+                       <!-- BEGIN init deliveryErrToResponder -->
+                         <copy>
+                              <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock/ns2:InstanceIdentifier</from>
+                              <to>$deliveryErrToResponder.ExceptionPart/ns3:CollaborationIdentifier</to>
+                         </copy>
+                        <copy>
+                            <from>string($DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentIdentifier/ns1:ProprietaryDocumentIdentifier)</from>
+                            <to>$deliveryErrToResponder.ExceptionPart/ns3:OriginalMessageIdentifier</to>
+                        </copy>
+                        <copy>
+                            <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentGenerationDateTime/ns1:DateTimeStamp</from>
+                            <to>$deliveryErrToResponder.ExceptionPart/ns3:OriginalMessageDateTime</to>
+                        </copy>
+                        <copy>
+                            <from>'The business document could not be delivered to the business partner'</from>
+                            <to>$deliveryErrToResponder.ExceptionPart/ns3:Reason</to>
+                        </copy>
+                        <copy>
+                            <from>
+                                <literal>DeliveryError</literal>
+                            </from>
+                            <to>$deliveryErrToResponder.ExceptionPart/ns3:ExceptionType/ns3:GeneralException</to>
+                        </copy>
+                       <!-- END init deliveryErrToResponder -->
+                       <!-- BEGIN init cancelErrToResponder -->
+                         <copy>
+                              <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock/ns2:InstanceIdentifier</from>
+                              <to>$cancelErrToResponder.ExceptionPart/ns3:CollaborationIdentifier</to>
+                         </copy>
+                        <copy>
+                            <from>string($DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentIdentifier/ns1:ProprietaryDocumentIdentifier)</from>
+                            <to>$cancelErrToResponder.ExceptionPart/ns3:OriginalMessageIdentifier</to>
+                        </copy>
+                        <copy>
+                            <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentGenerationDateTime/ns1:DateTimeStamp</from>
+                            <to>$cancelErrToResponder.ExceptionPart/ns3:OriginalMessageDateTime</to>
+                        </copy>
+                        <copy>
+                            <from>'The business transaction has been canceled'</from>
+                            <to>$cancelErrToResponder.ExceptionPart/ns3:Reason</to>
+                        </copy>
+                        <copy>
+                            <from>
+                                <literal>Cancelation</literal>
+                            </from>
+                            <to>$cancelErrToResponder.ExceptionPart/ns3:ExceptionType/ns3:GeneralException</to>
+                        </copy>
+                       <!-- END init cancelErrToResponder -->
+                       <!-- BEGIN init ttaaErrToResponder -->
+                         <copy>
+                              <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock/ns2:InstanceIdentifier</from>
+                              <to>$ttaaErrToResponder.ExceptionPart/ns3:CollaborationIdentifier</to>
+                         </copy>
+                        <copy>
+                            <from>string($DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentIdentifier/ns1:ProprietaryDocumentIdentifier)</from>
+                            <to>$ttaaErrToResponder.ExceptionPart/ns3:OriginalMessageIdentifier</to>
+                        </copy>
+                        <copy>
+                            <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentGenerationDateTime/ns1:DateTimeStamp</from>
+                            <to>$ttaaErrToResponder.ExceptionPart/ns3:OriginalMessageDateTime</to>
+                        </copy>
+                        <copy>
+                            <from>'Timeout while waiting for AcceptanceAcknowledgement'</from>
+                            <to>$ttaaErrToResponder.ExceptionPart/ns3:Reason</to>
+                        </copy>
+                        <copy>
+                            <from>
+                                <literal>TtaaError</literal>
+                            </from>
+                            <to>$ttaaErrToResponder.ExceptionPart/ns3:ExceptionType/ns3:GeneralException</to>
+                        </copy>
+                       <!-- END init ttaaErrToResponder -->
+                       <!-- BEGIN init ttarErrToResponder -->
+                         <copy>
+                              <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock/ns2:InstanceIdentifier</from>
+                              <to>$ttarErrToResponder.ExceptionPart/ns3:CollaborationIdentifier</to>
+                         </copy>
+                        <copy>
+                            <from>string($DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentIdentifier/ns1:ProprietaryDocumentIdentifier)</from>
+                            <to>$ttarErrToResponder.ExceptionPart/ns3:OriginalMessageIdentifier</to>
+                        </copy>
+                        <copy>
+                            <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentGenerationDateTime/ns1:DateTimeStamp</from>
+                            <to>$ttarErrToResponder.ExceptionPart/ns3:OriginalMessageDateTime</to>
+                        </copy>
+                        <copy>
+                            <from>'Timeout while waiting for ReceiptAcknowledgement'</from>
+                            <to>$ttarErrToResponder.ExceptionPart/ns3:Reason</to>
+                        </copy>
+                        <copy>
+                            <from>
+                                <literal>TtarError</literal>
+                            </from>
+                            <to>$ttarErrToResponder.ExceptionPart/ns3:ExceptionType/ns3:GeneralException</to>
+                        </copy>
+                       <!-- END init ttarErrToResponder -->
+                       <!-- BEGIN init ttpErrToResponder -->
+                         <copy>
+                              <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock/ns2:InstanceIdentifier</from>
+                              <to>$ttpErrToResponder.ExceptionPart/ns3:CollaborationIdentifier</to>
+                         </copy>
+                        <copy>
+                            <from>string($DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentIdentifier/ns1:ProprietaryDocumentIdentifier)</from>
+                            <to>$ttpErrToResponder.ExceptionPart/ns3:OriginalMessageIdentifier</to>
+                        </copy>
+                        <copy>
+                            <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentGenerationDateTime/ns1:DateTimeStamp</from>
+                            <to>$ttpErrToResponder.ExceptionPart/ns3:OriginalMessageDateTime</to>
+                        </copy>
+                        <copy>
+                            <from>'Timeout while performing business transaction'</from>
+                            <to>$ttpErrToResponder.ExceptionPart/ns3:Reason</to>
+                        </copy>
+                        <copy>
+                            <from>
+                                <literal>TtpError</literal>
+                            </from>
+                            <to>$ttpErrToResponder.ExceptionPart/ns3:ExceptionType/ns3:GeneralException</to>
+                        </copy>
+                       <!-- END init ttpErrToResponder -->
+                       <!-- BEGIN init deliveryErrToBackend -->
+                        <copy>
+                            <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock</from>
+                            <to>$deliveryErrToBackend.ExceptionPart/ns2:TransactionMetaBlock</to>
+                        </copy>
+                         <copy>
+                              <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock/ns2:InstanceIdentifier</from>
+                              <to>$deliveryErrToBackend.ExceptionPart/ns3:Exception/ns3:CollaborationIdentifier</to>
+                         </copy>
+                        <copy>
+                            <from>string($DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentIdentifier/ns1:ProprietaryDocumentIdentifier)</from>
+                            <to>$deliveryErrToBackend.ExceptionPart/ns3:Exception/ns3:OriginalMessageIdentifier</to>
+                        </copy>
+                        <copy>
+                            <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentGenerationDateTime/ns1:DateTimeStamp</from>
+                            <to>$deliveryErrToBackend.ExceptionPart/ns3:Exception/ns3:OriginalMessageDateTime</to>
+                        </copy>
+                        <copy>
+                            <from>'The business document could not be delivered to the business partner'</from>
+                            <to>$deliveryErrToBackend.ExceptionPart/ns3:Exception/ns3:Reason</to>
+                        </copy>
+                        <copy>
+                            <from>
+                                <literal>DeliveryError</literal>
+                            </from>
+                            <to>$deliveryErrToBackend.ExceptionPart/ns3:Exception/ns3:ExceptionType/ns3:GeneralException</to>
+                        </copy>
+                       <!-- END init deliveryErrToBackend -->
+                       <!-- BEGIN init partnerErrToBackend -->
+                        <copy>
+                            <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock</from>
+                            <to>$partnerErrToBackend.ExceptionPart/ns2:TransactionMetaBlock</to>
+                        </copy>
+                         <copy>
+                              <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock/ns2:InstanceIdentifier</from>
+                              <to>$partnerErrToBackend.ExceptionPart/ns3:Exception/ns3:CollaborationIdentifier</to>
+                         </copy>
+                        <copy>
+                            <from>string($DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentIdentifier/ns1:ProprietaryDocumentIdentifier)</from>
+                            <to>$partnerErrToBackend.ExceptionPart/ns3:Exception/ns3:OriginalMessageIdentifier</to>
+                        </copy>
+                        <copy>
+                            <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentGenerationDateTime/ns1:DateTimeStamp</from>
+                            <to>$partnerErrToBackend.ExceptionPart/ns3:Exception/ns3:OriginalMessageDateTime</to>
+                        </copy>
+                        <copy>
+                            <from>'partner detected an error'</from>
+                            <to>$partnerErrToBackend.ExceptionPart/ns3:Exception/ns3:Reason</to>
+                        </copy>
+                        <copy>
+                            <from>
+                                <literal>PartnerError</literal>
+                            </from>
+                            <to>$partnerErrToBackend.ExceptionPart/ns3:Exception/ns3:ExceptionType/ns3:GeneralException</to>
+                        </copy>
+                       <!-- END init partnerErrToBackend -->
+                       <!-- BEGIN init ttaaErrToBackend -->
+                        <copy>
+                            <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock</from>
+                            <to>$ttaaErrToBackend.ExceptionPart/ns2:TransactionMetaBlock</to>
+                        </copy>
+                         <copy>
+                              <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock/ns2:InstanceIdentifier</from>
+                              <to>$ttaaErrToBackend.ExceptionPart/ns3:Exception/ns3:CollaborationIdentifier</to>
+                         </copy>
+                        <copy>
+                            <from>string($DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentIdentifier/ns1:ProprietaryDocumentIdentifier)</from>
+                            <to>$ttaaErrToBackend.ExceptionPart/ns3:Exception/ns3:OriginalMessageIdentifier</to>
+                        </copy>
+                        <copy>
+                            <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentGenerationDateTime/ns1:DateTimeStamp</from>
+                            <to>$ttaaErrToBackend.ExceptionPart/ns3:Exception/ns3:OriginalMessageDateTime</to>
+                        </copy>
+                        <copy>
+                            <from>'Timeout while waiting for AcceptanceAcknowledgement'</from>
+                            <to>$ttaaErrToBackend.ExceptionPart/ns3:Exception/ns3:Reason</to>
+                        </copy>
+                        <copy>
+                            <from>
+                                <literal>TtaaError</literal>
+                            </from>
+                            <to>$ttaaErrToBackend.ExceptionPart/ns3:Exception/ns3:ExceptionType/ns3:GeneralException</to>
+                        </copy>
+                       <!-- END init ttaaErrToBackend -->
+                       <!-- BEGIN init ttarErrToBackend -->
+                        <copy>
+                            <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock</from>
+                            <to>$ttarErrToBackend.ExceptionPart/ns2:TransactionMetaBlock</to>
+                        </copy>
+                         <copy>
+                              <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock/ns2:InstanceIdentifier</from>
+                              <to>$ttarErrToBackend.ExceptionPart/ns3:Exception/ns3:CollaborationIdentifier</to>
+                         </copy>
+                        <copy>
+                            <from>string($DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentIdentifier/ns1:ProprietaryDocumentIdentifier)</from>
+                            <to>$ttarErrToBackend.ExceptionPart/ns3:Exception/ns3:OriginalMessageIdentifier</to>
+                        </copy>
+                        <copy>
+                            <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentGenerationDateTime/ns1:DateTimeStamp</from>
+                            <to>$ttarErrToBackend.ExceptionPart/ns3:Exception/ns3:OriginalMessageDateTime</to>
+                        </copy>
+                        <copy>
+                             <from>'Timeout while waiting for ReceiptAcknowledgement'</from>
+                             <to>$ttarErrToBackend.ExceptionPart/ns3:Exception/ns3:Reason</to>
+                        </copy>
+                        <copy>
+                            <from>
+                                <literal>TtarError</literal>
+                            </from>
+                            <to>$ttarErrToBackend.ExceptionPart/ns3:Exception/ns3:ExceptionType/ns3:GeneralException</to>
+                        </copy>
+                       <!-- END init ttarErrToBackend -->
+                       <!-- BEGIN init ttpErrToBackend -->
+                        <copy>
+                            <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock</from>
+                            <to>$ttpErrToBackend.ExceptionPart/ns2:TransactionMetaBlock</to>
+                        </copy>
+                         <copy>
+                              <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock/ns2:InstanceIdentifier</from>
+                              <to>$ttpErrToBackend.ExceptionPart/ns3:Exception/ns3:CollaborationIdentifier</to>
+                         </copy>
+                        <copy>
+                            <from>string($DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentIdentifier/ns1:ProprietaryDocumentIdentifier)</from>
+                            <to>$ttpErrToBackend.ExceptionPart/ns3:Exception/ns3:OriginalMessageIdentifier</to>
+                        </copy>
+                        <copy>
+                            <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification/ns1:thisDocumentGenerationDateTime/ns1:DateTimeStamp</from>
+                            <to>$ttpErrToBackend.ExceptionPart/ns3:Exception/ns3:OriginalMessageDateTime</to>
+                        </copy>
+                        <copy>
+                            <from>'Timeout while performing business transaction'</from>
+                            <to>$ttpErrToBackend.ExceptionPart/ns3:Exception/ns3:Reason</to>
+                        </copy>
+                        <copy>
+                            <from>
+                                <literal>TtpError</literal>
+                            </from>
+                            <to>$ttpErrToBackend.ExceptionPart/ns3:Exception/ns3:ExceptionType/ns3:GeneralException</to>
+                        </copy>
+                       <!-- END init ttpErrToBackend -->
+                </assign>
+                <while name="retry">
+                    <condition>not($bizDocDelivery)</condition>
+                    <scope name="bizDocDeliveryScope" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Responder">
+                        <faultHandlers>
+                            <catch faultName="sxeh:systemFault">
+                                <sequence name="errCountSeq">
+                                    <assign name="incErrCount">
+                                        <copy>
+                                                <from>$errCount + 1</from>
+                                                    <to variable="errCount"/>
+                                            </copy>
+                                    </assign>
+                                    <if name="If1">
+                                        <condition>$errCount &gt;= $maxRetries</condition>
+                                        <throw name="throwDelError" faultName="procFaults:deliveryException"/>
+                                        <else>
+                                            <wait name="backOff">
+                                                <for>'P0Y0M0DT0H0M60.0S'</for>
+                                            </wait>
+                                        </else>
+                                    </if>
+                                </sequence>
+                            </catch>
+                        </faultHandlers>
+                        <sequence name="deliverySeq">
+                            <invoke name="sendBizDoc" partnerLink="ToResponder" operation="Pip3A20PurchaseOrderConfirmationNotificationOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder" portType="tns:PIP3A20ResponderPortType" inputVariable="Pip3A20PurchaseOrderConfirmationNotificationOpIn">
+                                <sxt:trace>
+                                    <sxt:log level="info" location="onStart">
+                                        <ns4:from>'Delivering bizDoc'</ns4:from>
+                                    </sxt:log>
+                                </sxt:trace>
+                                 <correlations>
+                                      <correlation set="corrSetTransaction" initiate="no"/>
+                                 </correlations>
+                            </invoke>
+                            <assign name="setCommSuccess">
+                                <copy>
+                                    <from>true()</from>
+                                    <to variable="bizDocDelivery"/>
+                                </copy>
+                            </assign>
+                        </sequence>
+                    </scope>
+                </while>
+                <scope name="ttaaScope">
+                    <sxt:trace>
+                        <sxt:log level="info" location="onStart">
+                            <ns4:from>'ttaaScopeStarted'</ns4:from>
+                        </sxt:log>
+                    </sxt:trace>
+                    <eventHandlers>
+                        <onAlarm>
+                            <for>'P0Y0M0DT0H2M0.0S'</for>
+                            <scope name="Scope2">
+                                <throw name="throwTTAA" faultName="procFaults:ttaaException"/>
+                            </scope>
+                        </onAlarm>
+                    </eventHandlers>
+                    <sequence name="acksSeq">
+                        <scope name="ttarScope" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Requestor">
+                            <sxt:trace>
+                                <sxt:log level="info" location="onStart">
+                                    <ns4:from>'ttarScope started'</ns4:from>
+                                </sxt:log>
+                            </sxt:trace>
+                            <eventHandlers>
+                                <onAlarm>
+                                    <documentation>Implements TimeToAcknowledgeReceipt</documentation>
+                                    <for>'P0Y0M0DT0H1M30.0S'</for>
+                                    <scope name="ttarScope">
+                                        <throw name="throwTTAR" faultName="procFaults:ttarException"/>
+                                    </scope>
+                                </onAlarm>
+                            </eventHandlers>
+                            <sequence name="Sequence2">
+                                <receive name="AwaitReceiptAck" createInstance="no" partnerLink="FromResponder" operation="ReceiptAcknowledgementOp" portType="tns:PIP3A20RequestorPortType" variable="ReceiptAcknowledgementOpIn">
+                                    <correlations>
+                                        <correlation set="corrSetTransaction" initiate="no"/>
+                                    </correlations>
+                                </receive>
+                                <assign name="prepReceiptAck">
+                                    <copy>
+                                        <from variable="ReceiptAcknowledgementOpIn" part="ReceiptAcknowledgementPart"/>
+                                        <to>$ReceiptAckToBackendIn.ReceiptAcknowledgementPart/ns3:ReceiptAcknowledgement</to>
+                                    </copy>
+                                    <copy>
+                                        <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock</from>
+                                        <to>$ReceiptAckToBackendIn.ReceiptAcknowledgementPart/ns2:TransactionMetaBlock</to>
+                                    </copy>
+                                </assign>
+                                <invoke name="sendReceiptAck" partnerLink="ToBackend" operation="ReceiptAcknowledgementOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" portType="tns:PIP3A20RequestorBackendCallbackPortType" inputVariable="ReceiptAckToBackendIn"/>
+                            </sequence>
+                        </scope>
+                        <receive name="AwaitAcceptAck" createInstance="no" partnerLink="FromResponder" operation="AcceptanceAcknowledgementOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Requestor" portType="tns:PIP3A20RequestorPortType" variable="AcceptanceAcknowledgementOpIn">
+                            <correlations>
+                                <correlation set="corrSetTransaction" initiate="no"/>
+                            </correlations>
+                        </receive>
+                    </sequence>
+                </scope>
+                <assign name="mainScopeSuccess">
+                    <copy>
+                        <from>true()</from>
+                        <to variable="mainScopeSuccess"/>
+                    </copy>
+                </assign>
+            </sequence>
+        </scope>
+        <if name="CheckMainScopeSuccess">
+            <condition>$mainScopeSuccess</condition>
+            <scope name="finalizeScope" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback">
+                <documentation>Canceling and Timeout are not admissible from this situation onwards.</documentation>
+                    <sxt:trace>
+                        <sxt:log level="info" location="onStart">
+                                <from>'finalizeScopeStarted'</from>
+                            </sxt:log>
+                    </sxt:trace>
+                    <variables>
+                        <variable name="PersistOpIn" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" messageType="tns:txPersistMsg"/>
+                    </variables>
+                    <sequence name="finalAckSeq">
+                        <assign name="prepAcceptAck">
+                            <copy>
+                                <from variable="AcceptanceAcknowledgementOpIn" part="AcceptanceAcknowledgementPart"/>
+                                <to>$AcceptAckToBackendIn.AcceptanceAcknowledgementPart/ns3:AcceptanceAcknowledgement</to>
+                            </copy>
+                            <copy>
+                                <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock</from>
+                                <to>$AcceptAckToBackendIn.AcceptanceAcknowledgementPart/ns2:TransactionMetaBlock</to>
+                            </copy>
+                        </assign>
+                            <invoke name="sendAcceptAck" partnerLink="ToBackend" operation="AcceptanceAcknowledgementOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" portType="tns:PIP3A20RequestorBackendCallbackPortType" inputVariable="AcceptAckToBackendIn"/>
+                            <assign name="prepPersist">
+                                 <copy>
+                                      <from>$TxStartOpIn.txStartPart/ns2:TransactionMetaBlock</from>
+                                      <to>$PersistOpIn.txPersistPart/ns2:TransactionMetaBlock</to>
+                                 </copy>
+                            </assign>
+                            <invoke name="persist" partnerLink="ToBackend" operation="txPersistOp" xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback" portType="tns:PIP3A20RequestorBackendCallbackPortType" inputVariable="PersistOpIn"/>
+                        <assign name="prepResult">
+                            <copy>
+                                <from>
+                                    <literal>ProtocolSuccess</literal>
+                                </from>
+                                <to>$procResult.txResultPart/be:genericProtocolResult</to>
+                            </copy>
+                            <copy>
+                                <from>$DropPip3A20PurchaseOrderConfirmationNotificationIn.DropPip3A20PurchaseOrderConfirmationNotificationPart/ns1:Pip3A20PurchaseOrderConfirmationNotification</from>
+                                <to>$procResult.txResultPart/ns1:Pip3A20PurchaseOrderConfirmationNotification</to>
+                            </copy>
+                        </assign>
+                        <invoke name="invResult" partnerLink="ToMaster" operation="txResultOp" portType="ns5:PIP3A20RequestorMasterCallbackPortType" inputVariable="procResult"/>
+                    </sequence>
+            </scope>
+            <else>
+                <sequence name="skipFinalizeSeq">
+                    <assign name="prepResultAnyPFail">
+                        <sxt:trace>
+                            <sxt:log level="info" location="onStart">
+                                    <from>'finalizeScope skipped due to mainScope Error'</from>
+                                </sxt:log>
+                        </sxt:trace>
+                        <copy>
+                            <from>
+                                <literal>AnyProtocolFailure</literal>
+                            </from>
+                            <to>$procResult.txResultPart/be:genericProtocolResult</to>
+                        </copy>
+                    </assign>
+                    <invoke name="invResultAnyPFail" partnerLink="ToMaster" operation="txResultOp" portType="ns5:PIP3A20RequestorMasterCallbackPortType" inputVariable="procResult"/>
+                </sequence>
+            </else>
+        </if>
+    </sequence>
+</process>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

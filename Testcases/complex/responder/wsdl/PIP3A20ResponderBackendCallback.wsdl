@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PIP3A20ResponderBackendCallback"
+    targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderBackendCallback"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderBackendCallback"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:ns0="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0"
+    xmlns:ns1="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0">
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderBackendCallback">
+            <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0" schemaLocation="xsd/3A20/Wrapped_3A20_MS_V01_00_PurchaseOrderConfirmationNotification.xsd"/>
+            <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0" schemaLocation="xsd/control/controlMessaging.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="Pip3A20PurchaseOrderConfirmationNotificationMsg">
+        <part name="Pip3A20PurchaseOrderConfirmationNotificationPart" element="ns1:WrappedPip3A20PurchaseOrderConfirmationNotification"/>
+    </message>
+    <message name="ExceptionMsg">
+        <part name="ExceptionPart" element="ns0:WrappedExceptionMessage"/>
+    </message>
+    <message name="txPersistMsg">
+        <part name="txPersistPart" element="ns0:txPersistMessage"/>
+    </message>
+    <portType name="PIP3A20ResponderBackendCallbackPortType">
+        <operation name="ExceptionOp">
+            <input name="input1" message="tns:ExceptionMsg"/>
+        </operation>
+        <operation name="Pip3A20PurchaseOrderConfirmationNotificationOp">
+            <input name="input2" message="tns:Pip3A20PurchaseOrderConfirmationNotificationMsg"/>
+        </operation>
+        <operation name="txPersistOp">
+            <input name="input3" message="tns:txPersistMsg"/>
+        </operation>
+    </portType>
+    <binding name="PIP3A20ResponderBackendCallbackBinding" type="tns:PIP3A20ResponderBackendCallbackPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="ExceptionOp">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="Pip3A20PurchaseOrderConfirmationNotificationOp">
+            <soap:operation/>
+            <input name="input2">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="txPersistOp">
+            <soap:operation/>
+            <input name="input3">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    <service name="PIP3A20ResponderBackendCallbackService">
+        <port name="PIP3A20ResponderBackendCallbackPort" binding="tns:PIP3A20ResponderBackendCallbackBinding">
+            <soap:address location="http://localhost:8080/PIP3A20ResponderBackendCallbackService/PIP3A20ResponderBackendCallbackPort"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="PIP3A20ResponderBackendCallback">
+        <plnk:role name="PIP3A20ResponderBackendCallbackPortTypeRole" portType="tns:PIP3A20ResponderBackendCallbackPortType"/>
+    </plnk:partnerLinkType>
+
+</definitions>
+

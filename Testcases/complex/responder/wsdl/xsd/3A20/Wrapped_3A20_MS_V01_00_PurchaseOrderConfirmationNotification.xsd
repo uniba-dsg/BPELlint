@@ -1,0 +1,33 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0"
+           xmlns="urn:rosettanet:specification:interchange:PurchaseOrderConfirmationNotification:wrapped:dtdbase:01.00"
+           xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0"
+           xmlns:mb="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0"
+           xmlns:be="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0"
+           xmlns:pip="urn:rosettanet:specification:interchange:PurchaseOrderConfirmationNotification:dtdbase:01.00">
+    <xs:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0" schemaLocation="../control/metaBlockSchema.xsd"/>
+    <xs:import namespace="urn:rosettanet:specification:interchange:PurchaseOrderConfirmationNotification:dtdbase:01.00" schemaLocation="3A20_MS_V01_00_PurchaseOrderConfirmationNotification.xsd"/>
+    <xs:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0" schemaLocation="../control/controlMessaging.xsd"/>
+
+    <xs:element name="WrappedPip3A20PurchaseOrderConfirmationNotification">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="mb:TransactionMetaBlock"/>
+                <xs:element ref="pip:Pip3A20PurchaseOrderConfirmationNotification"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="txResultMessage">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="mb:TransactionMetaBlock"/>
+                <xs:element ref="be:genericProtocolResult"/>
+                <xs:element ref="pip:Pip3A20PurchaseOrderConfirmationNotification" minOccurs="0" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
+
+

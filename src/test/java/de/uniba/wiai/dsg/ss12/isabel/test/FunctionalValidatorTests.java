@@ -332,6 +332,12 @@ public class FunctionalValidatorTests {
 				{"TestCases/betsy/structured-activities/RepeatUntilEquality.bpel", ""},
 				{"TestCases/betsy/structured-activities/Sequence.bpel", ""},
 				{"TestCases/betsy/structured-activities/While.bpel", ""},
+
+				{"Testcases/complex/requestor/prototype-ebBP-BT-Requestor.bpel",""},
+				{"Testcases/complex/responder/prototype-ebBP-BT-Responder.bpel",""},
+
+				{"Testcases/calculator/CalculatorService.bpel",""},
+				{"Testcases/calculator/fluentCalculatorService.bpel",""},
 		};
 		return Arrays.asList(data);
 	}

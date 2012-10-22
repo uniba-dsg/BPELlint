@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PIP3A20Requestor"
+    targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Requestor"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Requestor"
+    xmlns:ns="http://docs.oasis-open.org/ebxml-bp/ebbp-signals-2.0"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:corr="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"
+    xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+    <import location="Correlation-composable.wsdl" namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"/>
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Requestor">
+            <xsd:import namespace="http://docs.oasis-open.org/ebxml-bp/ebbp-signals-2.0" schemaLocation="xsd/ebbp/ebbp-signals-2.0.4.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="ReceiptAcknowledgementMsg">
+        <part name="ReceiptAcknowledgementPart" element="ns:ReceiptAcknowledgement"/>
+    </message>
+    <message name="AcceptanceAcknowledgementMsg">
+        <part name="AcceptanceAcknowledgementPart" element="ns:AcceptanceAcknowledgement"/>
+    </message>
+    <message name="ExceptionMsg">
+        <part name="ExceptionPart" element="ns:Exception"/>
+    </message>
+    <portType name="PIP3A20RequestorPortType">
+        <operation name="ReceiptAcknowledgementOp">
+            <input name="input1" message="tns:ReceiptAcknowledgementMsg"/>
+        </operation>
+        <operation name="AcceptanceAcknowledgementOp">
+            <input name="input2" message="tns:AcceptanceAcknowledgementMsg"/>
+        </operation>
+        <operation name="ExceptionOp">
+            <input name="input3" message="tns:ExceptionMsg"/>
+        </operation>
+    </portType>
+    <binding name="PIP3A20RequestorBinding" type="tns:PIP3A20RequestorPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="ReceiptAcknowledgementOp">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="AcceptanceAcknowledgementOp">
+            <soap:operation/>
+            <input name="input2">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="ExceptionOp">
+            <soap:operation/>
+            <input name="input3">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    <service name="PIP3A20RequestorService">
+        <port name="PIP3A20RequestorPort" binding="tns:PIP3A20RequestorBinding">
+            <soap:address location="http://localhost:${HttpDefaultPort}/PIP3A20RequestorService/PIP3A20RequestorPort"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="PIP3A20Requestor">
+        <plnk:role name="PIP3A20RequestorPortTypeRole" portType="tns:PIP3A20RequestorPortType"/>
+    </plnk:partnerLinkType>
+
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:ReceiptAcknowledgementMsg" part="ReceiptAcknowledgementPart">
+        <vprop:query>ns:CollaborationIdentifier</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:AcceptanceAcknowledgementMsg" part="AcceptanceAcknowledgementPart">
+        <vprop:query>ns:CollaborationIdentifier</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:ExceptionMsg" part="ExceptionPart">
+        <vprop:query>ns:CollaborationIdentifier</vprop:query>
+    </vprop:propertyAlias>
+
+</definitions>
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://xml.netbeans.org/schema/fluentCalcSchema"
+    xmlns:tns="http://xml.netbeans.org/schema/fluentCalcSchema"
+    elementFormDefault="qualified">
+
+    <!--REQUESTS-->
+    <xsd:element name="initRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ID" type="xsd:string"></xsd:element>
+                <xsd:element name="x" type="xsd:int"></xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="changeRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ID" type="xsd:string"></xsd:element>
+                <xsd:element name="x" type="xsd:int"></xsd:element>
+                <xsd:element name="Operation">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:enumeration value="ADD"/>
+                            <xsd:enumeration value="SUB"/>
+                            <xsd:enumeration value="MULT"/>
+                            <xsd:enumeration value="DIV"/>
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="resultRequest" type="xsd:string"></xsd:element>
+
+    <!--RESPONSES-->
+    <xsd:element name="resultResponse" type="xsd:int"></xsd:element>
+    <xsd:element name="faultResponse" type="xsd:string"></xsd:element>
+
+</xsd:schema>
+

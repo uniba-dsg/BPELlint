@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0"
+            xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0"
+            xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+            xmlns="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0"
+            elementFormDefault="qualified">
+   <xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="../core/xmldsig-core-schema.xsd"/>
+
+    <!--
+        This information is for communication between backend and transaction control processes,
+        between collaboration control processes and transaction control processes
+        as well as between collaboration control processes of the communicating parties.
+    -->
+
+    <xsd:element name="TransactionMetaBlock" type="transactionMetaBlockType" />
+    <xsd:element name="CollaborationMetaBlock" type="collaborationMetaBlockType" />
+
+    <xsd:complexType name="commonMetaBlockType">
+        <xsd:sequence>
+            <xsd:element name="RootIdentifier" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="ParentIdentifier" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="InstanceIdentifier" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="ProcessDepth" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="transactionMetaBlockType">
+        <xsd:complexContent>
+            <xsd:extension base="commonMetaBlockType">
+                <xsd:sequence>
+                    <xsd:element name="hasLegalIntent" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+                    <xsd:element name="isConcurrent" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="collaborationMetaBlockType">
+        <xsd:complexContent>
+            <xsd:extension base="commonMetaBlockType">
+                <xsd:sequence/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+</xsd:schema>

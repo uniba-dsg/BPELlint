@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PIP3A20Responder"
+    targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder"
+    xmlns:ns="urn:rosettanet:specification:interchange:PurchaseOrderConfirmationNotification:dtdbase:01.00"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:ns0="http://docs.oasis-open.org/ebxml-bp/ebbp-signals-2.0"
+    xmlns:corr="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"
+    xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+    <import location="Correlation-composable.wsdl" namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"/>
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder">
+            <xsd:import namespace="urn:rosettanet:specification:interchange:PurchaseOrderConfirmationNotification:dtdbase:01.00" schemaLocation="xsd/3A20/3A20_MS_V01_00_PurchaseOrderConfirmationNotification.xsd"/>
+            <xsd:import namespace="http://docs.oasis-open.org/ebxml-bp/ebbp-signals-2.0" schemaLocation="xsd/ebbp/ebbp-signals-2.0.4.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="Pip3A20PurchaseOrderConfirmationNotificationMsg">
+        <part name="Pip3A20PurchaseOrderConfirmationNotificationPart" element="ns:Pip3A20PurchaseOrderConfirmationNotification"/>
+    </message>
+    <message name="ExceptionMsg">
+        <part name="ExceptionPart" element="ns0:Exception"/>
+    </message>
+    <portType name="PIP3A20ResponderPortType">
+        <operation name="Pip3A20PurchaseOrderConfirmationNotificationOp">
+            <input name="input1" message="tns:Pip3A20PurchaseOrderConfirmationNotificationMsg"/>
+        </operation>
+        <operation name="ExceptionOp">
+            <input name="input2" message="tns:ExceptionMsg"/>
+        </operation>
+    </portType>
+    <binding name="PIP3A20ResponderBinding" type="tns:PIP3A20ResponderPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="Pip3A20PurchaseOrderConfirmationNotificationOp">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="ExceptionOp">
+            <soap:operation/>
+            <input name="input2">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    <service name="PIP3A20ResponderService">
+        <port name="PIP3A20ResponderPort" binding="tns:PIP3A20ResponderBinding">
+            <soap:address location="http://localhost:9081/PIP3A20ResponderService/PIP3A20ResponderPort"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="PIP3A20Responder">
+        <plnk:role name="PIP3A20ResponderPortTypeRole" portType="tns:PIP3A20ResponderPortType"/>
+    </plnk:partnerLinkType>
+
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:Pip3A20PurchaseOrderConfirmationNotificationMsg" part="Pip3A20PurchaseOrderConfirmationNotificationPart">
+        <vprop:query>ns:thisDocumentIdentifier/ns:ProprietaryDocumentIdentifier</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:ExceptionMsg" part="ExceptionPart">
+        <vprop:query>ns0:CollaborationIdentifier</vprop:query>
+    </vprop:propertyAlias>
+</definitions>
+
