@@ -1,11 +1,17 @@
 package de.uniba.wiai.dsg.ss12.isabel.test;
 
+import de.uniba.wiai.dsg.ss12.isabel.io.ValidationResultPrinter;
+import de.uniba.wiai.dsg.ss12.isabel.io.VerbosityLevel;
 import de.uniba.wiai.dsg.ss12.isabel.tool.Isabel;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -349,6 +355,12 @@ public class FunctionalValidatorTests {
 	public void testValidators() throws Exception {
 		ValidationResult violations = new Isabel().validate(bpel);
 
-		assertEquals("error in bpel file: " + bpel + " additonal data: " + violations.getResults(), violatedRules, violations.getViolatedRules());
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintStream ps = new PrintStream(baos);
+		new ValidationResultPrinter(ps).printResults(VerbosityLevel.NORMAL,violations);
+		String data = "\n" + baos.toString() + "\n";
+
+		assertEquals("BPEL: " + bpel + data, violatedRules, violations.getViolatedRules());
 	}
+
 }

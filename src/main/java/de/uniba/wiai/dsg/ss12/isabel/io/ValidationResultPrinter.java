@@ -1,5 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.io;
 
+import java.io.PrintStream;
 import java.util.List;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
@@ -8,6 +9,15 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 public class ValidationResultPrinter {
 
 	private final ErrorMessageRepository errorMessageRepository = new ErrorMessageRepository();
+	private PrintStream printer;
+
+	public ValidationResultPrinter() {
+		this(System.out);
+	}
+
+	public ValidationResultPrinter(PrintStream printer) {
+		this.printer = printer;
+	}
 
 	public void printResults(VerbosityLevel verbosityLevel,
 			ValidationResult violationCollector) {
@@ -39,7 +49,7 @@ public class ValidationResultPrinter {
 
 	private void printOutputHeader(List<Violation> violations) {
 		if (!violations.isEmpty()) {
-			System.out.println("VIOLATIONS:\n");
+			printer.println("VIOLATIONS:\n");
 		}
 	}
 
@@ -79,15 +89,15 @@ public class ValidationResultPrinter {
 	private void printLineRowSA(Violation violation, String saNumber,
 			String previousSourceFile) {
 		if (!violation.fileName.equals(previousSourceFile))
-			System.out.println(violation.fileName + ":");
+			printer.println(violation.fileName + ":");
 
-		System.out.println("\tLine " + violation.row + ", Column "
+		printer.println("\tLine " + violation.row + ", Column "
 				+ violation.column + ", " + saNumber);
 	}
 
 	private void printShortDescription(String SANumber, int type) {
 		try {
-			System.out.println("\t\t" + errorMessageRepository.getShort(SANumber, type));
+			printer.println("\t\t" + errorMessageRepository.getShort(SANumber, type));
 		} catch (DescriptionNotFoundException e) {
 			printErrorDocumentFatal(e.getMessage());
 		}
@@ -95,14 +105,14 @@ public class ValidationResultPrinter {
 
 	private void printLongDescription(String SANumber) {
 		try {
-			System.out.println("\t\t" + errorMessageRepository.getLong(SANumber));
+			printer.println("\t\t" + errorMessageRepository.getLong(SANumber));
 		} catch (DescriptionNotFoundException e) {
 			printErrorDocumentFatal(e.getMessage());
 		}
 	}
 
 	private void printErrorDocumentFatal(String error) {
-		System.out.println("Warning: " + error);
+		printer.println("Warning: " + error);
 	}
 
 }
