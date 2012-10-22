@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+	
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		   
+   elementFormDefault="qualified"
+		   
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/xsd/event/1-0"
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/xsd/event/1-0"
+	xmlns="http://lspi.wiai.uniba.de/prototype/xsd/event/1-0"
+	
+	xmlns:header="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0"
+	>
+	
+	<xsd:import namespace="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0" schemaLocation="Header.xsd" />
+    
+    <xsd:element name="Event" type="EventType" />
+
+    <xsd:complexType name="EventType">
+        <xsd:sequence>
+        	<xsd:element name="Identifier" type="tns:IdentifierType"/>
+            <xsd:element name="Content" type="xsd:string"/>
+            <xsd:element name="Payload" type="xsd:anyType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="IdentifierType">
+        <xsd:sequence>
+        	<xsd:element name="EventCounter" type="xsd:int"/>
+        	<xsd:element name="Timestamp" type="xsd:dateTime"/>
+            <xsd:element ref="header:TransactionHeader"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+</xsd:schema>

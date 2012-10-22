@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+	
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	name="MasterCallback"
+		   
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/master/callback/1-0" 
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/master/callback/1-0"
+	
+	xmlns:transactionControlMessages="http://lspi.wiai.uniba.de/prototype/xsd/transaction/controlMessages/1-0"
+	xmlns:correlation="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:header="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0"
+	>
+	
+	<plnk:partnerLinkType name="MasterCallback">
+	    <plnk:role name="MasterCallbackPortTypeRole" portType="tns:MasterCallbackPortType"/>
+	</plnk:partnerLinkType>
+    
+    <vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:ResultMessage" part="ResultPart">
+        <vprop:query>header:TransactionHeader/header:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>	
+	
+	<import namespace="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0" location="Correlation.wsdl" />
+	
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/master/callback/1-0">
+			<xsd:import namespace="http://lspi.wiai.uniba.de/prototype/xsd/transaction/controlMessages/1-0" schemaLocation="xsd/TransactionControlMessages.xsd"/>        		
+        </xsd:schema>
+    </types>
+    
+    <message name="ResultMessage">
+        <part name="ResultPart" element="transactionControlMessages:Result"/>
+    </message>
+    
+    <portType name="MasterCallbackPortType">
+        <operation name="ResultOperation">
+            <input name="input1" message="tns:ResultMessage"/>
+        </operation>
+    </portType>
+    
+    <binding name="MasterCallbackBinding" type="tns:MasterCallbackPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="ResultOperation">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    
+    <service name="MasterCallbackService">
+        <port name="MasterCallbackPort" binding="tns:MasterCallbackBinding">
+        	<soap:address location="http://localhost:3000/backend/Transaction-rev1-btaRAandAAandTTPv1-role-1/MasterCallback"/>
+            
+        </port>
+    </service>
+    
+</definitions>

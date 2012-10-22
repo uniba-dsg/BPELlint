@@ -336,6 +336,9 @@ public class FunctionalValidatorTests {
 				{"Testcases/complex/requestor/prototype-ebBP-BT-Requestor.bpel",""},
 				{"Testcases/complex/responder/prototype-ebBP-BT-Responder.bpel",""},
 
+				{"Testcases/complex/bpel_req/Transaction-rev1-btaRAandAAandTTPv1-role-1.bpel",""},
+				{"Testcases/complex/bpel_resp/Transaction-rev1-btaRAandAAandTTPv1-role-2.bpel",""},
+
 				{"Testcases/calculator/CalculatorService.bpel",""},
 				{"Testcases/calculator/fluentCalculatorService.bpel",""},
 		};

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+	
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	name="TimerCallback"
+		   
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/timer/callback/1-0" 
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/timer/callback/1-0" 
+	
+	xmlns:timer="http://lspi.wiai.uniba.de/prototype/xsd/service/TimerMessages/1-0"
+	xmlns:correlation="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:header="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0"
+	>
+	
+	<plnk:partnerLinkType name="TimerCallback">
+	    <plnk:role name="TimerCallbackPortTypeRole" portType="tns:TimerCallbackPortType"/>
+	</plnk:partnerLinkType>
+	
+	<vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:OnTimeoutBTAMessage" part="OnTimeoutBTAPart">
+	    <vprop:query>timer:Identifier</vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:OnTimeoutRAMessage" part="OnTimeoutRAPart">
+	    <vprop:query>timer:Identifier</vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:OnTimeoutAAMessage" part="OnTimeoutAAPart">
+	    <vprop:query>timer:Identifier</vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:OnTimeoutBCMessage" part="OnTimeoutBCPart">
+	    <vprop:query>timer:Identifier</vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:OnTimeoutSTMessage" part="OnTimeoutSTPart">
+	    <vprop:query>timer:Identifier</vprop:query>
+	</vprop:propertyAlias>
+	
+	<import namespace="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0" location="Correlation.wsdl" />
+	
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/timer/callback/1-0">
+			<xsd:import namespace="http://lspi.wiai.uniba.de/prototype/xsd/service/TimerMessages/1-0" schemaLocation="xsd/ServiceTimerMessages.xsd"/>        		
+        </xsd:schema>
+    </types>
+    
+    <message name="OnTimeoutBTAMessage">
+        <part name="OnTimeoutBTAPart" element="timer:OnTimeoutBTA"/>
+    </message>
+    
+    <message name="OnTimeoutRAMessage">
+        <part name="OnTimeoutRAPart" element="timer:OnTimeoutRA"/>
+    </message>
+    
+    <message name="OnTimeoutAAMessage">
+        <part name="OnTimeoutAAPart" element="timer:OnTimeoutAA"/>
+    </message>
+    
+    <message name="OnTimeoutBCMessage">
+        <part name="OnTimeoutBCPart" element="timer:OnTimeoutBC"/>
+    </message>
+    
+    <message name="OnTimeoutSTMessage">
+        <part name="OnTimeoutSTPart" element="timer:OnTimeoutST"/>
+    </message>
+    
+    <portType name="TimerCallbackPortType">
+        <operation name="OnTimeoutBTAOperation">
+            <input name="input_BTA" message="tns:OnTimeoutBTAMessage"/>
+        </operation>
+        <operation name="OnTimeoutRAOperation">
+            <input name="input_RA" message="tns:OnTimeoutRAMessage"/>
+        </operation>
+        <operation name="OnTimeoutAAOperation">
+            <input name="input_AA" message="tns:OnTimeoutAAMessage"/>
+        </operation>
+        <operation name="OnTimeoutBCOperation">
+            <input name="input_BC" message="tns:OnTimeoutBCMessage"/>
+        </operation>
+        <operation name="OnTimeoutSTOperation">
+            <input name="input_ST" message="tns:OnTimeoutSTMessage"/>
+        </operation>
+    </portType>
+    
+    <binding name="TimerCallbackBinding" type="tns:TimerCallbackPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="OnTimeoutBTAOperation">
+            <soap:operation/>
+            <input name="input_BTA">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="OnTimeoutRAOperation">
+            <soap:operation/>
+            <input name="input_RA">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="OnTimeoutAAOperation">
+            <soap:operation/>
+            <input name="input_AA">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="OnTimeoutBCOperation">
+            <soap:operation/>
+            <input name="input_BC">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="OnTimeoutSTOperation">
+            <soap:operation/>
+            <input name="input_ST">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    
+    <service name="TimerCallbackService">
+        <port name="TimerCallbackPort" binding="tns:TimerCallbackBinding">
+        	<soap:address location="http://localhost:7001/backend/Transaction-rev1-btaRAandAAandTTPv1-role-1/TimerCallback"/>
+            
+        </port>
+    </service>
+    
+</definitions>

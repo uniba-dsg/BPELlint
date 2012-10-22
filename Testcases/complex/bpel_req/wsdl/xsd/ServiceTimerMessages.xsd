@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+	
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		   
+   elementFormDefault="qualified"
+		   
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/xsd/service/TimerMessages/1-0"
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/xsd/service/TimerMessages/1-0"
+	xmlns="http://lspi.wiai.uniba.de/prototype/xsd/service/TimerMessages/1-0"
+	
+	>
+	
+	
+    <xsd:element name="StartRequest" type="tns:StartRequestType" />
+    <xsd:element name="StartResponse" type="tns:StartResponseType" />
+    <xsd:element name="StopRequest" type="tns:StopRequestType" />
+    <xsd:element name="StopResponse" type="tns:StopResponseType" />
+    <xsd:element name="OnTimeoutBTA" type="tns:OnTimeoutBTAType" />
+    <xsd:element name="OnTimeoutRA" type="tns:OnTimeoutRAType" />
+    <xsd:element name="OnTimeoutAA" type="tns:OnTimeoutAAType" />
+    <xsd:element name="OnTimeoutBC" type="tns:OnTimeoutBCType" />
+    <xsd:element name="OnTimeoutST" type="tns:OnTimeoutSTType" />
+
+    <xsd:complexType name="StartRequestType">
+        <xsd:sequence>
+        	<xsd:element name="Identifier" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        	<xsd:element name="Type" type="tns:TimeoutType" minOccurs="1" maxOccurs="1"/>
+        	<xsd:element name="Duration" type="xsd:duration" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="StartResponseType">
+        <xsd:sequence>
+        	<xsd:element name="StartTime" type="xsd:dateTime" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="StopRequestType">
+        <xsd:sequence>
+        	<xsd:element name="Identifier" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        	<xsd:element name="Type" type="tns:TimeoutType" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="StopResponseType">
+        <xsd:sequence>
+        	<xsd:element name="RequestedDuration" type="xsd:duration" minOccurs="1" maxOccurs="1"/>
+        	<xsd:element name="RemainingDuration" type="xsd:duration" minOccurs="1" maxOccurs="1"/>
+        	<xsd:element name="ActualDuration" type="xsd:duration" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="TimeoutType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="BTA"/>
+            <xsd:enumeration value="RA"/>
+            <xsd:enumeration value="AA"/>
+            <xsd:enumeration value="BC"/>
+            <xsd:enumeration value="ST"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="OnTimeoutBTAType">
+        <xsd:sequence>
+        	<xsd:element name="Identifier" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="OnTimeoutBCType">
+        <xsd:sequence>
+        	<xsd:element name="Identifier" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="OnTimeoutRAType">
+        <xsd:sequence>
+        	<xsd:element name="Identifier" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="OnTimeoutAAType">
+        <xsd:sequence>
+        	<xsd:element name="Identifier" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="OnTimeoutSTType">
+        <xsd:sequence>
+        	<xsd:element name="Identifier" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+</xsd:schema>

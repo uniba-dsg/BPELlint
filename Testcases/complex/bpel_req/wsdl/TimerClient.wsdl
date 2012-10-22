@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+	
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	name="TimerClient"
+		   
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/timer/client/1-0" 
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/timer/client/1-0" 
+	
+	xmlns:timer="http://lspi.wiai.uniba.de/prototype/xsd/service/TimerMessages/1-0"
+	xmlns:correlation="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:header="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0"
+	>
+	
+	<plnk:partnerLinkType name="TimerClient">
+	    <plnk:role name="TimerClientPortTypeRole" portType="tns:TimerClientPortType"/>
+	</plnk:partnerLinkType>
+	<vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:StartRequestMessage" part="StartRequestPart">
+	    <vprop:query>timer:Identifier</vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:StopRequestMessage" part="StopRequestPart">
+	    <vprop:query>timer:Identifier</vprop:query>
+	</vprop:propertyAlias>
+	
+	<import namespace="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0" location="Correlation.wsdl" />
+	
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/timer/client/1-0">
+			<xsd:import namespace="http://lspi.wiai.uniba.de/prototype/xsd/service/TimerMessages/1-0" schemaLocation="xsd/ServiceTimerMessages.xsd"/>        		
+        </xsd:schema>
+    </types>
+    
+    <message name="StartRequestMessage">
+        <part name="StartRequestPart" element="timer:StartRequest"/>
+    </message>
+    
+    <message name="StartResponseMessage">
+        <part name="StartResponsePart" element="timer:StartResponse"/>
+    </message>
+    
+    <message name="StopRequestMessage">
+        <part name="StopRequestPart" element="timer:StopRequest"/>
+    </message>
+    
+    <message name="StopResponseMessage">
+        <part name="StopResponsePart" element="timer:StopResponse"/>
+    </message>
+    
+    <portType name="TimerClientPortType">
+        <operation name="StartOperation">
+            <input name="input1" message="tns:StartRequestMessage"/>
+            <output name="output1" message="tns:StartResponseMessage" />
+        </operation>
+        
+        <operation name="StopOperation">
+            <input name="input2" message="tns:StopRequestMessage"/>
+            <output name="output2" message="tns:StopResponseMessage" />
+        </operation>
+    </portType>
+    
+    <binding name="TimerClientBinding" type="tns:TimerClientPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        
+        <operation name="StartOperation">
+        	<soap:operation/>
+            <input name="input1">
+            	 <soap:body use="literal"/>
+            </input>
+            <output name="output1">
+            	 <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="StopOperation">
+        	<soap:operation/>
+            <input name="input2">
+            	 <soap:body use="literal"/>
+            </input>
+            <output name="output2">
+            	 <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+    </binding>
+    
+    <service name="TimerClientService">
+        <port name="TimerClientPort" binding="tns:TimerClientBinding">
+        	<soap:address location="http://localhost:3000/backend/Transaction-rev1-btaRAandAAandTTPv1-role-1/TimerClient"/>
+            
+        </port>
+    </service>
+    
+</definitions>

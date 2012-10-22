@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+	
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	name="Monitoring"
+		   
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/monitoring/1-0" 
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/monitoring/1-0" 
+	
+	xmlns:event="http://lspi.wiai.uniba.de/prototype/xsd/event/1-0"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:header="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0"
+	>
+	
+	<plnk:partnerLinkType name="Monitoring">
+	    <plnk:role name="MonitoringPortTypeRole" portType="tns:MonitoringPortType"/>
+	</plnk:partnerLinkType>
+	
+	
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/monitoring/1-0">
+			<xsd:import namespace="http://lspi.wiai.uniba.de/prototype/xsd/event/1-0" schemaLocation="xsd/Event.xsd"/>        		
+        </xsd:schema>
+    </types>
+    
+    <message name="EventMessage">
+        <part name="EventPart" element="event:Event"/>
+    </message>
+    
+    <portType name="MonitoringPortType">
+        <operation name="EventOperation">
+            <input name="input1" message="tns:EventMessage"/>
+        </operation>
+    </portType>
+    
+    <binding name="MonitoringBinding" type="tns:MonitoringPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="EventOperation">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    
+    <service name="MonitoringService">
+        <port name="MonitoringPort" binding="tns:MonitoringBinding">
+        	<soap:address location="http://localhost:3001/monitor/Transaction-rev1-btaRAandAAandTTPv1-role-2/Monitoring"/>
+            
+        </port>
+    </service>
+    
+</definitions>

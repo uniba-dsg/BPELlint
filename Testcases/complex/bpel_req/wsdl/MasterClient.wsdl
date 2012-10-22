@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+	
+	xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	name="MasterClient"
+		   
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/master/client/1-0" 
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/master/client/1-0"
+	
+	xmlns:transactionControlMessages="http://lspi.wiai.uniba.de/prototype/xsd/transaction/controlMessages/1-0"
+	xmlns:correlation="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:header="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0"
+	>
+	
+	<plnk:partnerLinkType name="MasterClient">
+	    <plnk:role name="MasterClientPortTypeRole" portType="tns:MasterClientPortType"/>
+	</plnk:partnerLinkType>
+    
+    <vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:StartMessage" part="StartPart">
+        <vprop:query>header:TransactionHeader/header:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+	
+	<import namespace="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0" location="Correlation.wsdl" />
+	
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/master/client/1-0">
+			<xsd:import namespace="http://lspi.wiai.uniba.de/prototype/xsd/transaction/controlMessages/1-0" schemaLocation="xsd/TransactionControlMessages.xsd"/>        		
+        </xsd:schema>
+    </types>
+    
+    <message name="StartMessage">
+        <part name="StartPart" element="transactionControlMessages:Start"/>
+    </message>
+    
+    <portType name="MasterClientPortType">
+        <operation name="StartOperation">
+            <input name="input1" message="tns:StartMessage"/>
+        </operation>
+    </portType>
+    
+    <binding name="MasterClientBinding" type="tns:MasterClientPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="StartOperation">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    
+    <service name="MasterClientService">
+        <port name="MasterClientPort" binding="tns:MasterClientBinding">
+        	<soap:address location="http://localhost:7001/backend/Transaction-rev1-btaRAandAAandTTPv1-role-1/MasterClient"/>
+            
+        </port>
+    </service>
+    
+</definitions>

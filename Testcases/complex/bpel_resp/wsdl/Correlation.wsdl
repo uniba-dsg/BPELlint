@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+	
+	xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	name="Correlation"
+		   
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0" 
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0"
+	
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:header="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0"
+	>
+	
+	
+    
+    <vprop:property
+        name="property_CollaborationIdentifier"
+        type="xsd:string"/>
+            
+</definitions>

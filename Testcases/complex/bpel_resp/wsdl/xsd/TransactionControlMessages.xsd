@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+	
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		   
+   elementFormDefault="qualified"
+		   
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/xsd/transaction/controlMessages/1-0"
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/xsd/transaction/controlMessages/1-0"
+	xmlns="http://lspi.wiai.uniba.de/prototype/xsd/transaction/controlMessages/1-0"
+	
+	xmlns:signals="http://docs.oasis-open.org/ebxml-bp/ebbp-signals-2.0"
+	xmlns:header="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0"
+	xmlns:businessDocumentEnvelopes="http://lspi.wiai.uniba.de/prototype/xsd/businessDocumentEnvelopes/1-0"
+	>
+	
+	<xsd:import namespace="http://docs.oasis-open.org/ebxml-bp/ebbp-signals-2.0" schemaLocation="ebbp-signals-2.0.4.xsd" />
+	<xsd:import namespace="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0" schemaLocation="Header.xsd" />
+	<xsd:import namespace="http://lspi.wiai.uniba.de/prototype/xsd/businessDocumentEnvelopes/1-0" schemaLocation="BusinessDocumentEnvelopes.xsd" />
+    <xsd:element name="Start" type="tns:ControlMessageType"/>
+    <xsd:element name="Persist" type="tns:ControlMessageType"/>
+    <xsd:element name="Cancel" type="tns:ControlMessageType"/>
+    <xsd:element name="Result" type="tns:ResultMessageType"/>
+    
+    <xsd:element name="SolicitBusinessDocument" type="tns:ControlMessageType"/>
+	<xsd:element name="Exception" type="tns:ExceptionType" />
+	<xsd:element name="ReceiptAcknowledgement" type="tns:ReceiptAcknowledgementType" />
+	<xsd:element name="AcceptanceAcknowledgement" type="tns:AcceptanceAcknowledgementType" />
+	<xsd:element name="ReceiptAcknowledgementException" type="tns:ReceiptAcknowledgementExceptionType" />
+	<xsd:element name="AcceptanceAcknowledgementException" type="tns:AcceptanceAcknowledgementExceptionType" />
+	
+	
+    <xsd:simpleType name="ProtocolResultType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ProtocolSuccess"/>
+            <xsd:enumeration value="AnyProtocolFailure"/>
+            <xsd:enumeration value="RequestReceiptFailure"/>
+            <xsd:enumeration value="RequestAcceptanceFailure"/>
+            <xsd:enumeration value="SignalTimeOut"/>
+            <xsd:enumeration value="Failure"/>
+            <xsd:enumeration value="Success"/>
+            <xsd:enumeration value="ResponseReceiptFailure"/>
+            <xsd:enumeration value="ResponseAcceptanceFailure"/>
+            <xsd:enumeration value="ResponseTimeOut"/>
+            <xsd:enumeration value="BusinessSuccess"/>
+            <xsd:enumeration value="BusinessFailure"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+	
+	<xsd:complexType name="ReceiptAcknowledgementType">
+        <xsd:complexContent>
+            <xsd:extension base="tns:ControlMessageType">
+                <xsd:sequence>
+                    <xsd:element ref="signals:ReceiptAcknowledgement"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+		
+    <xsd:complexType name="AcceptanceAcknowledgementType">
+        <xsd:complexContent>
+            <xsd:extension base="tns:ControlMessageType">
+                <xsd:sequence>
+                    <xsd:element ref="signals:AcceptanceAcknowledgement"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ExceptionType">
+        <xsd:complexContent>
+            <xsd:extension base="tns:ControlMessageType">
+                <xsd:sequence>
+                    <xsd:element ref="signals:Exception"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ReceiptAcknowledgementExceptionType">
+        <xsd:complexContent>
+            <xsd:extension base="tns:ControlMessageType">
+                <xsd:sequence>
+                    <xsd:element ref="signals:Exception"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="AcceptanceAcknowledgementExceptionType">
+        <xsd:complexContent>
+            <xsd:extension base="tns:ControlMessageType">
+                <xsd:sequence>
+                    <xsd:element ref="signals:Exception"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ResultMessageType">
+        <xsd:sequence>
+            <xsd:element ref="header:TransactionHeader"/>
+            <xsd:element name="ProtocolResult" type="tns:ProtocolResultType"/>
+            <xsd:element name="Body" type="businessDocumentEnvelopes:BodyType" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ControlMessageType">
+        <xsd:sequence>
+            <xsd:element ref="header:TransactionHeader" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>

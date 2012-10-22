@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema  
+	
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		   
+    elementFormDefault="qualified"
+		   
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/xsd/businessDocumentEnvelopes/1-0" 
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/xsd/businessDocumentEnvelopes/1-0"
+	xmlns="http://lspi.wiai.uniba.de/prototype/xsd/businessDocumentEnvelopes/1-0"
+	
+	xmlns:header="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0"
+	>
+	
+	<xsd:import namespace="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0" schemaLocation="Header.xsd" />
+	           
+    <xsd:element name="BusinessDocumentEnvelope" type="BusinessDocumentEnvelopeType" />
+    
+    <xsd:complexType name="BusinessDocumentEnvelopeType">
+        <xsd:sequence>
+            <xsd:element ref="header:TransactionHeader"/>
+            <xsd:element name="Body" type="tns:BodyType" />
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="BodyType">
+        <xsd:sequence>
+        	<xsd:element name="OriginalDocumentIdentifier" type="xsd:string" />
+        	<xsd:element name="OriginalDocumentDateTime" type="xsd:dateTime" />
+            <xsd:element name="Document" type="xsd:anyType" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>

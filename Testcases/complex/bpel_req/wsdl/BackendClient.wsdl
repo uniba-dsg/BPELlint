@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+	
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	name="BackendClient"
+		   
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/backend/client/1-0" 
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/backend/client/1-0"
+	  
+	xmlns:transactionControlMessages="http://lspi.wiai.uniba.de/prototype/xsd/transaction/controlMessages/1-0"
+	xmlns:businessDocumentEnvelopes="http://lspi.wiai.uniba.de/prototype/xsd/businessDocumentEnvelopes/1-0"
+	xmlns:correlation="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:header="http://lspi.wiai.uniba.de/prototype/xsd/header/1-0"
+	>
+	
+	<plnk:partnerLinkType name="BackendClient">
+	    <plnk:role name="BackendClientPortTypeRole" portType="tns:BackendClientPortType"/>
+	</plnk:partnerLinkType>
+
+	<vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:BusinessDocumentMessage" part="BusinessDocumentPart">
+	    <vprop:query>header:TransactionHeader/header:InstanceIdentifier</vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:CancelMessage" part="CancelPart">
+	    <vprop:query>header:TransactionHeader/header:InstanceIdentifier</vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:AcceptanceAcknowledgementMessage" part="AcceptanceAcknowledgementPart">
+	    <vprop:query>header:TransactionHeader/header:InstanceIdentifier</vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias propertyName="correlation:property_CollaborationIdentifier" messageType="tns:AcceptanceAcknowledgementExceptionMessage" part="AcceptanceAcknowledgementExceptionPart">
+	    <vprop:query>header:TransactionHeader/header:InstanceIdentifier</vprop:query>
+	</vprop:propertyAlias>
+	
+	<import namespace="http://lspi.wiai.uniba.de/prototype/wsdl/correlation/1-0" location="Correlation.wsdl" />
+	
+    <types>
+        <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/backend/client/1-0">
+			<xsd:import namespace="http://lspi.wiai.uniba.de/prototype/xsd/transaction/controlMessages/1-0" schemaLocation="xsd/TransactionControlMessages.xsd"/>        		
+			<xsd:import namespace="http://lspi.wiai.uniba.de/prototype/xsd/businessDocumentEnvelopes/1-0" schemaLocation="xsd/BusinessDocumentEnvelopes.xsd"/>        		
+        </xsd:schema>
+    </types>
+    
+    <message name="BusinessDocumentMessage">
+        <part name="BusinessDocumentPart" element="businessDocumentEnvelopes:BusinessDocumentEnvelope"/>
+    </message>
+    <message name="CancelMessage">
+        <part name="CancelPart" element="transactionControlMessages:Cancel"/>
+    </message>
+    <message name="AcceptanceAcknowledgementMessage">
+        <part name="AcceptanceAcknowledgementPart" element="transactionControlMessages:AcceptanceAcknowledgement"/>
+    </message>
+    <message name="AcceptanceAcknowledgementExceptionMessage">
+        <part name="AcceptanceAcknowledgementExceptionPart" element="transactionControlMessages:AcceptanceAcknowledgementException"/>
+    </message>
+    
+    <portType name="BackendClientPortType">
+        <operation name="BusinessDocumentOperation">
+            <input name="input1" message="tns:BusinessDocumentMessage"/>
+        </operation>
+        <operation name="CancelOperation">
+            <input name="input2" message="tns:CancelMessage"/>
+        </operation>
+        <operation name="AcceptanceAcknowledgementOperation">
+            <input name="input3" message="tns:AcceptanceAcknowledgementMessage"/>
+        </operation>
+        <operation name="AcceptanceAcknowledgementExceptionOperation">
+            <input name="input4" message="tns:AcceptanceAcknowledgementExceptionMessage"/>
+        </operation>
+    </portType>
+    
+    <binding name="BackendClientBinding" type="tns:BackendClientPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="BusinessDocumentOperation">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="CancelOperation">
+            <soap:operation/>
+            <input name="input2">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="AcceptanceAcknowledgementOperation">
+            <soap:operation/>
+            <input name="input3">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="AcceptanceAcknowledgementExceptionOperation">
+            <soap:operation/>
+            <input name="input4">
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+    </binding>
+    
+    <service name="BackendClientService">
+        <port name="BackendClientPort" binding="tns:BackendClientBinding">
+        	<soap:address location="http://localhost:7001/backend/Transaction-rev1-btaRAandAAandTTPv1-role-1/BackendClient"/>
+            
+        </port>
+    </service>
+    
+</definitions>
