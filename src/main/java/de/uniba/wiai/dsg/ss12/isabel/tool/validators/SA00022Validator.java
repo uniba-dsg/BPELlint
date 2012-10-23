@@ -1,6 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.AttributeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
@@ -36,42 +37,24 @@ public class SA00022Validator extends Validator {
                 Node otherPropertyAlias = allPropertyAliases.get(j);
                 NodeHelper otherPropertyAliasHelper = new NodeHelper(otherPropertyAlias);
 
-                if (!propertyAliasHelper.getAttribute("propertyName").equals(otherPropertyAliasHelper.getAttribute("propertyName"))) {
+                if (!propertyAliasHelper.hasSameAttribute(otherPropertyAliasHelper, "propertyName")) {
                     continue;// go to next element
                 }
 
-                compareType(propertyAliasHelper, otherPropertyAliasHelper);
-                compareElement(propertyAliasHelper, otherPropertyAliasHelper);
-                compareMessageType(propertyAliasHelper, otherPropertyAliasHelper);
+	            if(propertyAliasHelper.hasSameAttribute(otherPropertyAliasHelper, "type")) {
+					addViolation(propertyAliasHelper.getNode(),SAME_TYPE);
+	            }
+	            if(propertyAliasHelper.hasSameAttribute(otherPropertyAliasHelper, "element")) {
+		            addViolation(propertyAliasHelper.getNode(),SAME_ELEMENT);
+	            }
+	            if(propertyAliasHelper.hasSameAttribute(otherPropertyAliasHelper, "messageType")) {
+		            addViolation(propertyAliasHelper.getNode(),SAME_MESSAGE_TYPE);
+	            }
             }
         }
     }
 
-    private void compareType(NodeHelper propertyAliasHelper, NodeHelper otherPropertyAliasHelper) {
-        if (propertyAliasHelper.hasAttribute("type") && otherPropertyAliasHelper.hasAttribute("type")) {
-            if (propertyAliasHelper.getAttribute("type").equals(otherPropertyAliasHelper.getAttribute("type"))) {
-                addViolation(otherPropertyAliasHelper.getNode(), SAME_TYPE);
-            }
-        }
-    }
-
-    private void compareElement(NodeHelper propertyAliasHelper, NodeHelper otherPropertyAliasHelper) {
-        if (propertyAliasHelper.hasAttribute("element") && otherPropertyAliasHelper.hasAttribute("element")) {
-            if (propertyAliasHelper.getAttribute("element").equals(otherPropertyAliasHelper.getAttribute("element"))) {
-                addViolation(otherPropertyAliasHelper.getNode(), SAME_ELEMENT);
-            }
-        }
-    }
-
-    private void compareMessageType(NodeHelper propertyAliasHelper, NodeHelper otherPropertyAliasHelper) {
-        if (propertyAliasHelper.hasAttribute("messageType") && otherPropertyAliasHelper.hasAttribute("messageType")) {
-            if (propertyAliasHelper.getAttribute("messageType").equals(otherPropertyAliasHelper.getAttribute("messageType"))) {
-                addViolation(otherPropertyAliasHelper.getNode(), SAME_MESSAGE_TYPE);
-            }
-        }
-    }
-
-    private List<Node> getAllPropertyAliases() {
+	private List<Node> getAllPropertyAliases() {
         List<Node> propertyAliases = new LinkedList<>();
         for (DocumentEntry documentEntry : fileHandler.getAllWsdls()) {
             propertyAliases.addAll(getPropertyAliases(documentEntry));

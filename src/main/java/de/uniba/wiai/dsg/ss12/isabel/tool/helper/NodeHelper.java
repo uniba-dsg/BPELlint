@@ -55,6 +55,28 @@ public class NodeHelper {
 		return "";
 	}
 
+	public Attribute getAttributeNode(String name) {
+		Nodes attributes = node.query("@" + name);
+
+		if (attributes.size() > 0) {
+			return (Attribute) attributes.get(0);
+		}
+		return null;
+	}
+
+	public boolean hasSameAttribute(NodeHelper otherNode, String attributeName) {
+		if (hasAttribute(attributeName) && otherNode.hasAttribute(attributeName)) {
+
+			AttributeHelper otherAttribute = new AttributeHelper(otherNode.getAttributeNode(attributeName));
+			AttributeHelper attribute = new AttributeHelper(getAttributeNode(attributeName));
+			if (attribute.isEqualTo(otherAttribute.getAttribute())) {
+				return true;
+			}
+
+		}
+		return false;
+	}
+
 	public boolean hasAttribute(String name) {
 		return !getAttribute(name).isEmpty();
 	}
