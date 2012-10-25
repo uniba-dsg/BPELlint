@@ -26,7 +26,7 @@ public class SA00022Validator extends Validator {
 
     @Override
     public void validate() {
-        List<Node> allPropertyAliases = getAllPropertyAliases();
+        List<Node> allPropertyAliases = fileHandler.getAllPropertyAliases();
         for (int i = 0, allPropertyAliasesSize = allPropertyAliases.size(); i < allPropertyAliasesSize; i++) {
 
             Node propertyAlias = allPropertyAliases.get(i);
@@ -52,19 +52,6 @@ public class SA00022Validator extends Validator {
 	            }
             }
         }
-    }
-
-	private List<Node> getAllPropertyAliases() {
-        List<Node> propertyAliases = new LinkedList<>();
-        for (DocumentEntry documentEntry : fileHandler.getAllWsdls()) {
-            propertyAliases.addAll(getPropertyAliases(documentEntry));
-        }
-        return propertyAliases;
-    }
-
-    private List<Node> getPropertyAliases(DocumentEntry documentEntry) {
-        return NodesUtil.toList(documentEntry.getDocument().query(
-                "//vprop:propertyAlias", CONTEXT));
     }
 
     @Override

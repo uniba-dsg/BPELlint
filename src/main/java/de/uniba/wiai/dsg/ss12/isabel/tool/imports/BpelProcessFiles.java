@@ -1,12 +1,16 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
 import nu.xom.Document;
 import nu.xom.Node;
+import nu.xom.Nodes;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.XSD_NAMESPACE;
 
 public class BpelProcessFiles {
@@ -72,4 +76,28 @@ public class BpelProcessFiles {
 
 		throw new NavigationException("Document does not exist");
 	}
+
+	public List<Node> getAllPropertyAliases() {
+		List<Node> propertyAliases = new LinkedList<>();
+		for (DocumentEntry documentEntry : getAllWsdls()) {
+			propertyAliases.addAll(NodesUtil.toList(documentEntry.getDocument().query(
+					"//vprop:propertyAlias", CONTEXT)));
+		}
+		return propertyAliases;
+	}
+
+	public List<Node> getAllProperties() {
+		List<Node> propertyAliases = new LinkedList<>();
+		for (DocumentEntry documentEntry : getAllWsdls()) {
+			propertyAliases.addAll(NodesUtil.toList(documentEntry.getDocument().query(
+					"//vprop:property", CONTEXT)));
+		}
+		return propertyAliases;
+	}
+
+	public Nodes getCorrelationSets() {
+		return getBpel().getDocument()
+				.query("//bpel:correlationSet", CONTEXT);
+	}
+
 }
