@@ -8,6 +8,11 @@
     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
     xmlns:ns1="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0">
+
+    <plnk:partnerLinkType name="PIP3A20ResponderRAC">
+        <plnk:role name="PIP3A20ResponderRACPortTypeRole" portType="tns:PIP3A20ResponderRACPortType"/>
+    </plnk:partnerLinkType>
+
     <types>
         <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderRAC">
             <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0" schemaLocation="xsd/3A20/Wrapped_3A20_MS_V01_00_PurchaseOrderConfirmationNotification.xsd"/>
@@ -35,9 +40,7 @@
             <soap:address location="http://localhost:8080/PIP3A20ResponderRACService/PIP3A20ResponderRACPort"/>
         </port>
     </service>
-    <plnk:partnerLinkType name="PIP3A20ResponderRAC">
-        <plnk:role name="PIP3A20ResponderRACPortTypeRole" portType="tns:PIP3A20ResponderRACPortType"/>
-    </plnk:partnerLinkType>
+
 
 </definitions>
 

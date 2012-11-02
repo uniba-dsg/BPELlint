@@ -11,6 +11,18 @@
     xmlns:mb="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0"
     xmlns:ns="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0"
     xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+
+    <plnk:partnerLinkType name="PIP3A20ResponderRACResult">
+        <plnk:role name="PIP3A20ResponderRACResultPortTypeRole" portType="tns:PIP3A20ResponderRACResultPortType"/>
+    </plnk:partnerLinkType>
+
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:DropReceiptAcknowledgementMsg" part="DropReceiptAcknowledgementPart">
+        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:DropExceptionMsg" part="DropExceptionPart">
+        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+
     <import location="Correlation-composable.wsdl" namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"/>
     <types>
         <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderRACResult">
@@ -57,16 +69,7 @@
             <soap:address location="http://localhost:9081/PIP3A20ResponderRACResultService/PIP3A20ResponderRACResultPort"/>
         </port>
     </service>
-    <plnk:partnerLinkType name="PIP3A20ResponderRACResult">
-        <plnk:role name="PIP3A20ResponderRACResultPortTypeRole" portType="tns:PIP3A20ResponderRACResultPortType"/>
-    </plnk:partnerLinkType>
 
-    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:DropReceiptAcknowledgementMsg" part="DropReceiptAcknowledgementPart">
-        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
-    </vprop:propertyAlias>
-    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:DropExceptionMsg" part="DropExceptionPart">
-        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
-    </vprop:propertyAlias>
 </definitions>
 
 

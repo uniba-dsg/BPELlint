@@ -11,6 +11,18 @@
     xmlns:ns0="http://docs.oasis-open.org/ebxml-bp/ebbp-signals-2.0"
     xmlns:corr="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"
     xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+
+    <plnk:partnerLinkType name="PIP3A20Responder">
+        <plnk:role name="PIP3A20ResponderPortTypeRole" portType="tns:PIP3A20ResponderPortType"/>
+    </plnk:partnerLinkType>
+
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:Pip3A20PurchaseOrderConfirmationNotificationMsg" part="Pip3A20PurchaseOrderConfirmationNotificationPart">
+        <vprop:query>ns:thisDocumentIdentifier/ns:ProprietaryDocumentIdentifier</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:ExceptionMsg" part="ExceptionPart">
+        <vprop:query>ns0:CollaborationIdentifier</vprop:query>
+    </vprop:propertyAlias>
+
     <import location="Correlation-composable.wsdl" namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"/>
     <types>
         <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20Responder">
@@ -52,15 +64,6 @@
             <soap:address location="http://localhost:9081/PIP3A20ResponderService/PIP3A20ResponderPort"/>
         </port>
     </service>
-    <plnk:partnerLinkType name="PIP3A20Responder">
-        <plnk:role name="PIP3A20ResponderPortTypeRole" portType="tns:PIP3A20ResponderPortType"/>
-    </plnk:partnerLinkType>
 
-    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:Pip3A20PurchaseOrderConfirmationNotificationMsg" part="Pip3A20PurchaseOrderConfirmationNotificationPart">
-        <vprop:query>ns:thisDocumentIdentifier/ns:ProprietaryDocumentIdentifier</vprop:query>
-    </vprop:propertyAlias>
-    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:ExceptionMsg" part="ExceptionPart">
-        <vprop:query>ns0:CollaborationIdentifier</vprop:query>
-    </vprop:propertyAlias>
 </definitions>
 

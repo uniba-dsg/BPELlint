@@ -10,6 +10,11 @@
     xmlns:ns="http://xml.netbeans.org/schema/CalculatorSchema"
     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+
+    <plnk:partnerLinkType name="CalculatorService">
+        <plnk:role name="CalculatorServicePortTypeRole" portType="tns:CalculatorServicePortType"/>
+    </plnk:partnerLinkType>
+
     <types>
         <xsd:schema targetNamespace="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService">
             <xsd:import namespace="http://xml.netbeans.org/schema/CalculatorSchema" schemaLocation="CalculatorSchema.xsd"/>
@@ -56,8 +61,6 @@
             <soap:address location="http://localhost:${HttpDefaultPort}/CalculatorServiceService/CalculatorServicePort"/>
         </port>
     </service>
-    <plnk:partnerLinkType name="CalculatorService">
-        <plnk:role name="CalculatorServicePortTypeRole" portType="tns:CalculatorServicePortType"/>
-    </plnk:partnerLinkType>
+
 </definitions>
 

@@ -9,6 +9,12 @@
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
     xmlns:ns0="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0"
     xmlns:ns1="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0">
+
+    <plnk:partnerLinkType name="PIP3A20ResponderBackendCallback">
+        <plnk:role name="PIP3A20ResponderBackendCallbackPortTypeRole" portType="tns:PIP3A20ResponderBackendCallbackPortType"/>
+    </plnk:partnerLinkType>
+
+
     <types>
         <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Responder/PIP3A20ResponderBackendCallback">
             <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/Wrapped-DTDBased-PurchaseOrderConfirmationNotification-1-0" schemaLocation="xsd/3A20/Wrapped_3A20_MS_V01_00_PurchaseOrderConfirmationNotification.xsd"/>
@@ -61,9 +67,6 @@
             <soap:address location="http://localhost:8080/PIP3A20ResponderBackendCallbackService/PIP3A20ResponderBackendCallbackPort"/>
         </port>
     </service>
-    <plnk:partnerLinkType name="PIP3A20ResponderBackendCallback">
-        <plnk:role name="PIP3A20ResponderBackendCallbackPortTypeRole" portType="tns:PIP3A20ResponderBackendCallbackPortType"/>
-    </plnk:partnerLinkType>
 
 </definitions>
 

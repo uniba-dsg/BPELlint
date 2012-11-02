@@ -11,6 +11,15 @@
     xmlns:ns1="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0"
     xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
     xmlns:mb="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0">
+
+    <plnk:partnerLinkType name="PIP3A20RequestorMasterClient">
+        <plnk:role name="PIP3A20RequestorMasterClientPortTypeRole" portType="tns:PIP3A20RequestorMasterClientPortType"/>
+    </plnk:partnerLinkType>
+
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:txStartMsg" part="txStartPart">
+        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+
     <import location="Correlation-composable.wsdl" namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"/>
     <types>
         <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorMasterClient">
@@ -39,13 +48,7 @@
             <soap:address location="http://localhost:${HttpDefaultPort}/PIP3A20RequestorMasterClientService/PIP3A20RequestorMasterClientPort"/>
         </port>
     </service>
-    <plnk:partnerLinkType name="PIP3A20RequestorMasterClient">
-        <plnk:role name="PIP3A20RequestorMasterClientPortTypeRole" portType="tns:PIP3A20RequestorMasterClientPortType"/>
-    </plnk:partnerLinkType>
 
-    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:txStartMsg" part="txStartPart">
-        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
-    </vprop:propertyAlias>
 </definitions>
 
 

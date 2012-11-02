@@ -12,6 +12,18 @@
     xmlns:ns1="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0"
     xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
     xmlns:mb="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/header-1-0">
+
+    <plnk:partnerLinkType name="PIP3A20RequestorBackendClient">
+        <plnk:role name="PIP3A20RequestorBackendClientPortTypeRole" portType="tns:PIP3A20RequestorBackendClientPortType"/>
+    </plnk:partnerLinkType>
+
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:DropPip3A20PurchaseOrderConfirmationNotificationMsg" part="DropPip3A20PurchaseOrderConfirmationNotificationPart">
+        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:txCancelMsg" part="txCancelPart">
+        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
+    </vprop:propertyAlias>
+
     <import location="Correlation-composable.wsdl" namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"/>
     <types>
         <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendClient">
@@ -53,16 +65,7 @@
             <soap:address location="http://localhost:${HttpDefaultPort}/PIP3A20RequestorBackendClientService/PIP3A20RequestorBackendClientPort"/>
         </port>
     </service>
-    <plnk:partnerLinkType name="PIP3A20RequestorBackendClient">
-        <plnk:role name="PIP3A20RequestorBackendClientPortTypeRole" portType="tns:PIP3A20RequestorBackendClientPortType"/>
-    </plnk:partnerLinkType>
 
-    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:DropPip3A20PurchaseOrderConfirmationNotificationMsg" part="DropPip3A20PurchaseOrderConfirmationNotificationPart">
-        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
-    </vprop:propertyAlias>
-    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:txCancelMsg" part="txCancelPart">
-        <vprop:query>mb:TransactionMetaBlock/mb:InstanceIdentifier</vprop:query>
-    </vprop:propertyAlias>
 </definitions>
 
 

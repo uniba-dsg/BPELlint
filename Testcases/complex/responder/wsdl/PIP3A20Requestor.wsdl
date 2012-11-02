@@ -10,6 +10,21 @@
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
     xmlns:corr="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"
     xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+
+    <plnk:partnerLinkType name="PIP3A20Requestor">
+        <plnk:role name="PIP3A20RequestorPortTypeRole" portType="tns:PIP3A20RequestorPortType"/>
+    </plnk:partnerLinkType>
+
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:ReceiptAcknowledgementMsg" part="ReceiptAcknowledgementPart">
+        <vprop:query>ns:CollaborationIdentifier</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:AcceptanceAcknowledgementMsg" part="AcceptanceAcknowledgementPart">
+        <vprop:query>ns:CollaborationIdentifier</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:ExceptionMsg" part="ExceptionPart">
+        <vprop:query>ns:CollaborationIdentifier</vprop:query>
+    </vprop:propertyAlias>
+
     <import location="Correlation-composable.wsdl" namespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/correlation-1-0"/>
     <types>
         <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20Requestor">
@@ -62,19 +77,7 @@
             <soap:address location="http://localhost:${HttpDefaultPort}/PIP3A20RequestorService/PIP3A20RequestorPort"/>
         </port>
     </service>
-    <plnk:partnerLinkType name="PIP3A20Requestor">
-        <plnk:role name="PIP3A20RequestorPortTypeRole" portType="tns:PIP3A20RequestorPortType"/>
-    </plnk:partnerLinkType>
 
-    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:ReceiptAcknowledgementMsg" part="ReceiptAcknowledgementPart">
-        <vprop:query>ns:CollaborationIdentifier</vprop:query>
-    </vprop:propertyAlias>
-    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:AcceptanceAcknowledgementMsg" part="AcceptanceAcknowledgementPart">
-        <vprop:query>ns:CollaborationIdentifier</vprop:query>
-    </vprop:propertyAlias>
-    <vprop:propertyAlias propertyName="corr:prop_CollaborationIdentifier" messageType="tns:ExceptionMsg" part="ExceptionPart">
-        <vprop:query>ns:CollaborationIdentifier</vprop:query>
-    </vprop:propertyAlias>
 
 </definitions>
 

@@ -8,6 +8,11 @@
     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
     xmlns:ns0="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0">
+
+    <plnk:partnerLinkType name="PIP3A20RequestorBackendCallback">
+        <plnk:role name="PIP3A20RequestorBackendCallbackPortTypeRole" portType="tns:PIP3A20RequestorBackendCallbackPortType"/>
+    </plnk:partnerLinkType>
+
     <types>
         <xsd:schema targetNamespace="http://lspi.wiai.uniba.de/ebBP-prototype/wsdl/composablePIP3A20Requestor/PIP3A20RequestorBackendCallback">
             <xsd:import namespace="http://lspi.wiai.uniba.de/ebBP-prototype/xsd/controlMsg-1-0" schemaLocation="xsd/control/controlMessaging.xsd"/>
@@ -83,8 +88,6 @@
             <soap:address location="http://localhost:8080/PIP3A20RequestorBackendCallbackService/PIP3A20RequestorBackendCallbackPort"/>
         </port>
     </service>
-    <plnk:partnerLinkType name="PIP3A20RequestorBackendCallback">
-        <plnk:role name="PIP3A20RequestorBackendCallbackPortTypeRole" portType="tns:PIP3A20RequestorBackendCallbackPortType"/>
-    </plnk:partnerLinkType>
+
 </definitions>
 
