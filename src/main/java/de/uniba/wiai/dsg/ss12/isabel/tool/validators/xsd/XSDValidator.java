@@ -9,7 +9,7 @@ import javax.xml.validation.SchemaFactory;
 import java.io.File;
 
 
-public class XSDLValidator {
+public class XSDValidator {
 
     private static SchemaFactory sFactory = SchemaFactory
             .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

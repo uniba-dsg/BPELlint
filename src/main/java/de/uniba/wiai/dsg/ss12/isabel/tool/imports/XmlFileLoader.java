@@ -57,6 +57,7 @@ public class XmlFileLoader {
             Document xmlSchemaDom = builder.build(schemaFile);
             DocumentEntry xmlSchemaEntry = new DocumentEntry(XMLSCHEMA_XSD,
                     Standards.XSD_NAMESPACE, xmlSchemaDom);
+
             xsdList.add(xmlSchemaEntry);
 
             Nodes imports = getImportLocations(bpel.getDocument());
