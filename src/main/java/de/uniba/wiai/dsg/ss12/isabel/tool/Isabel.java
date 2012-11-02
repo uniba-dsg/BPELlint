@@ -2,8 +2,12 @@ package de.uniba.wiai.dsg.ss12.isabel.tool;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.SimpleValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.XmlFileLoader;
-import de.uniba.wiai.dsg.ss12.isabel.tool.validators.ValidatorsHandler;
+import de.uniba.wiai.dsg.ss12.isabel.tool.validators.xsd.BPELValidator;
+import de.uniba.wiai.dsg.ss12.isabel.tool.validators.xsd.WSDLValidator;
+import de.uniba.wiai.dsg.ss12.isabel.tool.validators.xsd.XMLWellFormednessValidator;
+import de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules.ValidatorsHandler;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -34,12 +38,39 @@ public class Isabel {
             throw new ValidationException("File " + bpelPath + " does not exist");
         }
 
+        // validate well-formedness of bpel file
+        new XMLWellFormednessValidator().validate(bpelPath);
+
+        // load files
 		BpelProcessFiles bpelProcessFiles = new XmlFileLoader().loadAllProcessFiles(bpelPath);
-		SimpleValidationResult validationResult = new SimpleValidationResult();
-		ValidatorsHandler validators = new ValidatorsHandler(bpelProcessFiles, validationResult);
-		validators.validate();
+
+        // validate XML Schema
+        validateAgainstXSDs(bpelProcessFiles);
+
+        // validate SA rules
+        SimpleValidationResult validationResult = validateAgainstSARules(bpelProcessFiles);
 
 		return validationResult;
 	}
+
+    private void validateAgainstXSDs(BpelProcessFiles bpelProcessFiles) throws ValidationException {
+        new BPELValidator().validate(bpelProcessFiles.getAbsoluteBpelFilePath());
+
+        for(DocumentEntry xsdDocumentEntry : bpelProcessFiles.getAllXsds()){
+            // TODO does not work yet
+            //new XSDLValidator().validate(xsdDocumentEntry.getFilePath());
+        }
+
+        for(DocumentEntry wsdlDocumentEntry : bpelProcessFiles.getAllWsdls()){
+            new WSDLValidator().validate(wsdlDocumentEntry.getFilePath());
+        }
+    }
+
+    private SimpleValidationResult validateAgainstSARules(BpelProcessFiles bpelProcessFiles) {
+        SimpleValidationResult validationResult = new SimpleValidationResult();
+        ValidatorsHandler validators = new ValidatorsHandler(bpelProcessFiles, validationResult);
+        validators.validate();
+        return validationResult;
+    }
 
 }

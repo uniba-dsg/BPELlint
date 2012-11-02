@@ -15,7 +15,7 @@ import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class XmlFileLoader {
 
-    public static final String XMLSCHEMA_XSD = "/XMLSchema.xsd";
+    public static final String XMLSCHEMA_XSD = "/xsd/XMLSchema.xsd";
 
     private final List<DocumentEntry> wsdlList = new ArrayList<>();
     private final List<DocumentEntry> xsdList = new ArrayList<>();
@@ -32,16 +32,16 @@ public class XmlFileLoader {
         try {
             return loadAllProcessFilesWithoutExceptions(bpelFilePath);
         } catch (ValidityException e) {
-            throw new ValidationException(e,
-                    "Loading failed: Not a valid BPEL-File");
+            throw new ValidationException(
+                    "Loading failed: Not a valid BPEL-File", e);
         } catch (ParsingException e) {
-            throw new ValidationException(e, "Loading failed: Not Parsable");
+            throw new ValidationException("Loading failed: Not Parsable", e);
         } catch (FileNotFoundException e) {
-            throw new ValidationException(e,
-                    "Loading failed: File was not found");
+            throw new ValidationException(
+                    "Loading failed: File was not found", e);
         } catch (IOException e) {
-            throw new ValidationException(e,
-                    "Loading failed: File-Reading Error");
+            throw new ValidationException(
+                    "Loading failed: File-Reading Error", e);
         }
 
     }
