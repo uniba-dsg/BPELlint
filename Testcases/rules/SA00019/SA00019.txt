@@ -1,4 +1,4 @@
-No @type or @element found in <vprop:propert>
+No @type or @element found in <vprop:property>
 Using @type and @element in <vprop:property> is forbidden
 @@@
 Either the type or element attributes MUST be present in a <vprop:property> element but not both.
