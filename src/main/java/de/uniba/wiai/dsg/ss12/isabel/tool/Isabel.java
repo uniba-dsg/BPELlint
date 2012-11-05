@@ -58,8 +58,11 @@ public class Isabel {
         new BPELValidator().validate(bpelProcessFiles.getBpel().getFilePath());
 
         for(DocumentEntry xsdDocumentEntry : bpelProcessFiles.getAllXsds()){
-            // TODO does not work yet
-            //new XSDValidator().validate(xsdDocumentEntry.getFilePath());
+            // do not validate XMLSchema as this does not work somehow
+	        if(xsdDocumentEntry.getFilePath().equals("/xsd/XMLSchema.xsd")) {
+		        continue;
+	        }
+            new XSDValidator().validate(xsdDocumentEntry.getFilePath());
         }
 
         for(DocumentEntry wsdlDocumentEntry : bpelProcessFiles.getAllWsdls()){
