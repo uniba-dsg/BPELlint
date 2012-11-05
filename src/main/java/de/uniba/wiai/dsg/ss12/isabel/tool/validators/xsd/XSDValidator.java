@@ -18,7 +18,7 @@ class XSDValidator {
         // Load the main schema
         try {
             sFactory.newSchema(new File(file));
-            Logger.info("File " + file + " is a valid XSD file");
+            Logger.debug("File " + file + " is a valid XSD file");
         } catch (SAXException e) {
             throw new ValidationException("File " + file + " is no XML Schema",e);
         }

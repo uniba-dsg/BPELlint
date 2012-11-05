@@ -16,7 +16,7 @@ public class XMLValidator {
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             db.parse(new File(file));
-            Logger.info("File " + file + " is a valid XML file");
+            Logger.debug("File " + file + " is a valid XML file");
         } catch (Exception e) {
            throw new ValidationException("The file " + file + " is not well formed", e);
         }

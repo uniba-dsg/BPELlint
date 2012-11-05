@@ -22,7 +22,7 @@ class BPELValidator {
 
     public BPELValidator() throws ValidationException {
         try {
-            Logger.info("Loading BPEL schemas");
+            Logger.debug("Loading BPEL schemas");
             Schema schema = sFactory.newSchema(new Source[]{
                     new StreamSource(getClass().getResourceAsStream("/xsd/xml.xsd")),
                     new StreamSource(getClass().getResourceAsStream("/bpel2/ws-bpel_executable.xsd")),
@@ -31,7 +31,7 @@ class BPELValidator {
                     new StreamSource(getClass().getResourceAsStream("/bpel2/ws-bpel_serviceref.xsd"))
             });
             validator = schema.newValidator();
-            Logger.info("Loading BPEL schemas DONE");
+            Logger.debug("Loading BPEL schemas DONE");
         } catch (SAXException e) {
             throw new ValidationException("Schemas for BPEL Validation could not be found", e);
         }
@@ -40,7 +40,7 @@ class BPELValidator {
     public void validate(String file) throws ValidationException {
         try {
             validator.validate(new StreamSource(new File(file)));
-            Logger.info("File " + file + " is a valid BPEL file");
+            Logger.debug("File " + file + " is a valid BPEL file");
         } catch (SAXException | IOException e) {
             throw new ValidationException("BPEL file " + file + " is no valid BPEL file", e);
         }

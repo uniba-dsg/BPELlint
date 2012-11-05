@@ -39,7 +39,7 @@ class WSDLValidator {
     public void validate(String file) throws ValidationException {
         try {
             validator.validate(new StreamSource(new File(file)));
-            Logger.info("File " + file + " is a valid WSDL file");
+            Logger.debug("File " + file + " is a valid WSDL file");
         } catch (SAXException | IOException e) {
             throw new ValidationException("WSDL file " + file + " is no valid WSDL file", e);
         }
