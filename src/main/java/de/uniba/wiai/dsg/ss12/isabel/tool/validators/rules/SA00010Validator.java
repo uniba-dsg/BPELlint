@@ -112,7 +112,7 @@ public class SA00010Validator extends Validator {
 	                          List<DocumentEntry> files) {
 		for (DocumentEntry domEntry : files) {
 			Nodes rightNamedElements = domEntry.getDocument().query(
-					"//*[@name=\"" + type + "\"]", CONTEXT);
+					"//*[@name='" + type + "']", CONTEXT);
 
 			for (Node rightElement : rightNamedElements) {
 				String definitionElement = NodeHelper.toElement(rightElement)
@@ -129,7 +129,7 @@ public class SA00010Validator extends Validator {
 	private boolean isInAnyXsd(String definitionType, String type) {
 		for (Node domEntry : fileHandler.getXsdSchema()) {
 			Nodes rightNamedElements = domEntry.getDocument().query(
-					"//*[@name=\"" + type + "\"]", CONTEXT);
+					"//*[@name='" + type + "']", CONTEXT);
 
 			for (Node rightElement : rightNamedElements) {
 				String definitionElement = NodeHelper.toElement(rightElement)
