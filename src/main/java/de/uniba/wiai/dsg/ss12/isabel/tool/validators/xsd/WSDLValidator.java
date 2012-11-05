@@ -13,7 +13,7 @@ import javax.xml.validation.Validator;
 import java.io.File;
 import java.io.IOException;
 
-public class WSDLValidator {
+class WSDLValidator {
 
     private static SchemaFactory sFactory = SchemaFactory
             .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
