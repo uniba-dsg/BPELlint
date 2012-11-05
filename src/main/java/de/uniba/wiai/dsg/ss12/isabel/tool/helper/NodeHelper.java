@@ -98,10 +98,19 @@ public class NodeHelper {
     }
 
     public Element asElement(){
-        return (Element) node;
+	    if (!(node instanceof Element)) {
+		    throw new IllegalArgumentException(
+				    "Given Node must not be null or an attribute.");
+	    }
+
+	    return (Element) node;
     }
 
     public Node getNode() {
         return node;
     }
+
+	public static Element toElement(Node node) {
+		return new NodeHelper(node).asElement();
+	}
 }

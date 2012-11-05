@@ -68,7 +68,7 @@ public class SA00013Validator extends Validator {
 	}
 
 	private String getDefaultNamespace(DocumentEntry documentEntry) {
-		return toElement(
+		return NodeHelper.toElement(
 				documentEntry.getDocument().query("/*", CONTEXT).get(0))
 				.getNamespaceURI();
 	}

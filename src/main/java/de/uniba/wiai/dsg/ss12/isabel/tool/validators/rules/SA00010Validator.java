@@ -33,7 +33,7 @@ public class SA00010Validator extends Validator {
 	}
 
 	private boolean typeDefinitionExists(Node node) {
-		String elementName = toElement(node).getQualifiedName();
+		String elementName = NodeHelper.toElement(node).getQualifiedName();
 
 		switch (elementName) {
 			case "partnerLink":
@@ -115,7 +115,7 @@ public class SA00010Validator extends Validator {
 					"//*[@name=\"" + type + "\"]", CONTEXT);
 
 			for (Node rightElement : rightNamedElements) {
-				String definitionElement = toElement(rightElement)
+				String definitionElement = NodeHelper.toElement(rightElement)
 						.getQualifiedName();
 
 				if (definitionType.equals(PrefixHelper.removePrefix(definitionElement))) {
@@ -132,7 +132,7 @@ public class SA00010Validator extends Validator {
 					"//*[@name=\"" + type + "\"]", CONTEXT);
 
 			for (Node rightElement : rightNamedElements) {
-				String definitionElement = toElement(rightElement)
+				String definitionElement = NodeHelper.toElement(rightElement)
 						.getQualifiedName();
 
 				if (definitionType.equals(PrefixHelper.removePrefix(definitionElement))) {

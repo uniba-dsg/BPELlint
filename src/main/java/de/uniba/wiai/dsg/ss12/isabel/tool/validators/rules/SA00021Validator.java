@@ -1,21 +1,22 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
-
-import nu.xom.Document;
-import nu.xom.Node;
-import nu.xom.Nodes;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.BPELHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
+import nu.xom.Document;
+import nu.xom.Node;
+import nu.xom.Nodes;
+
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00021Validator extends Validator {
 
 	public SA00021Validator(BpelProcessFiles files,
-			ValidationResult violationCollector) {
+	                        ValidationResult violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -31,65 +32,27 @@ public class SA00021Validator extends Validator {
 				.query(toOrFrom, CONTEXT);
 		for (Node fromTo : fromToSet) {
 			String property = new NodeHelper(fromTo).getAttribute("property");
-			if (!property.isEmpty()) {
-				try {
-					Node variable = getCorrespondingScopeVariable(fromTo);
-					hasCorrespondingPropertyAlias(variable, property, fromTo);
-				} catch (NavigationException e) {
-					addViolation(fromTo);
-				}
+			try {
+				Node variable = getCorrespondingVariable(fromTo);
+				hasCorrespondingPropertyAlias(variable, property, fromTo);
+			} catch (NavigationException e) {
+				addViolation(fromTo);
 			}
 		}
 	}
 
-	private Node getCorrespondingScopeVariable(Node fromTo)
-			throws NavigationException {
-		String variableName = new NodeHelper(fromTo).getAttribute("variable");
-		return checkParent(fromTo, variableName);
-	}
-
-	private Node checkParent(Node node, String variableName)
-			throws NavigationException {
-		if ("onEvent".equals(toElement(node).getLocalName())) {
-			NodeHelper nodeHelper = new NodeHelper(node);
-			String variableAttribute = nodeHelper.getAttribute("variable");
-			if (variableAttribute.equals(variableName))
-				if (nodeHelper.hasAttribute("messageType")
-						|| nodeHelper.hasAttribute("element"))
-					return node;
-		} else if ("scope".equals(toElement(node).getLocalName())) {
-			Nodes scopeVariableSet = node.query(
-					"child::bpel:variables/bpel:variable", CONTEXT);
-			for (Node variable : scopeVariableSet) {
-				String name = new NodeHelper(variable).getAttribute("name");
-				if (name.equals(variableName))
-					return variable;
-			}
-		} else if ("process".equals(toElement(node).getLocalName())) {
-			Nodes scopeVariableSet = node.query(
-					"child::bpel:variables/bpel:variable", CONTEXT);
-			for (Node variable : scopeVariableSet) {
-				String name = new NodeHelper(variable).getAttribute("name");
-
-				if (name.equals(variableName))
-					return variable;
-			}
-
-			throw new NavigationException("Variable not in process");
-		}
-
-		return checkParent(
-				node.query("parent::*").get(node.query("parent::*").size() - 1),
-				variableName);
+	private Node getCorrespondingVariable(Node fromTo) throws NavigationException {
+		return BPELHelper.getVariableByName(fromTo, new NodeHelper(fromTo).getAttribute("variable"));
 	}
 
 	private void hasCorrespondingPropertyAlias(Node node, String property,
-			Node partHolder) throws NavigationException {
+	                                           Node partHolder) throws NavigationException {
 		String type = "";
-		if (toElement(node).getLocalName().equals("onEvent")) {
-			type = ValidatorNavigator.getAttributeValue(getOnEventVariableType(node));
-		} else if (toElement(node).getLocalName().equals("variable")) {
-			type = ValidatorNavigator.getAttributeValue(getEnclosingScopeVariableType(node));
+
+		if (NodeHelper.toElement(node).getLocalName().equals("onEvent")) {
+			type = getOnEventVariableType(node);
+		} else if (NodeHelper.toElement(node).getLocalName().equals("variable")) {
+			type = getEnclosingScopeVariableType(node);
 		}
 
 		if (!type.isEmpty()) {
@@ -103,7 +66,7 @@ public class SA00021Validator extends Validator {
 				if (PrefixHelper.removePrefix(property).equals(propertyName)) {
 					if (!(isOfThisMessageType(type, propertyAlias, partHolder)
 							|| isOfThisType(type, propertyAlias) || isOfThisElement(
-								type, propertyAlias))) {
+							type, propertyAlias))) {
 						addViolation(node);
 					}
 				} else {
@@ -124,7 +87,7 @@ public class SA00021Validator extends Validator {
 	}
 
 	private boolean isOfThisMessageType(String type, Node propertyAlias,
-			Node partHolder) {
+	                                    Node partHolder) {
 		NodeHelper nodeHelper = new NodeHelper(propertyAlias);
 		String messageType = PrefixHelper.removePrefix(nodeHelper
 				.getAttribute("messageType"));
@@ -132,7 +95,7 @@ public class SA00021Validator extends Validator {
 				.removePrefix(type));
 
 		if (isMessageType) {
-			return (hasEqualPart(partHolder, nodeHelper) || hasOneMessagePart(
+			return (new NodeHelper(partHolder).hasSameAttribute(nodeHelper, "part") || hasOneMessagePart(
 					propertyAlias, messageType));
 		} else {
 			return true;
@@ -144,12 +107,6 @@ public class SA00021Validator extends Validator {
 				.getDocument()
 				.query("//wsdl:message[@name=\"" + messageType
 						+ "\"]/wsdl:part", CONTEXT).size() == 1;
-	}
-
-	private boolean hasEqualPart(Node partHolder, NodeHelper nodeHelper) {
-		return nodeHelper.getAttribute("part").equals(
-				PrefixHelper.removePrefix(new NodeHelper(partHolder)
-						.getAttribute("part")));
 	}
 
 	private Document getCorrespondingWsdl(String property, Node node)
@@ -176,34 +133,29 @@ public class SA00021Validator extends Validator {
 		}
 	}
 
-	private Nodes getEnclosingScopeVariableType(Node variable)
+	private String getEnclosingScopeVariableType(Node variable)
 			throws NavigationException {
-		try {
-			return getVariableType(variable, "@messageType");
-		} catch (NavigationException e) {
-			try {
-				return getVariableType(variable, "@type");
-			} catch (NavigationException f) {
-				return getVariableType(variable, "@element");
-			}
+		NodeHelper variableHelper = new NodeHelper(variable);
+		if (variableHelper.hasAttribute("messageType")) {
+			return variableHelper.getAttribute("messageType");
+		} else if (variableHelper.hasAttribute("type")) {
+			return variableHelper.getAttribute("type");
+		} else if (variableHelper.hasAttribute("element")) {
+			return variableHelper.getAttribute("element");
+		} else {
+			throw new NavigationException("Node variable does not contain any messageType, type or element attribute");
 		}
 	}
 
-	private Nodes getVariableType(Node scope, String type)
-			throws NavigationException {
-		Nodes scopeMessageTypeSet = scope.query(type, CONTEXT);
-		if (scopeMessageTypeSet.size() > 0) {
-			return scopeMessageTypeSet;
-		}
+	private String getOnEventVariableType(Node onEvent) throws NavigationException {
 
-		throw new NavigationException("This is not the correct variable Type");
-	}
-
-	private Nodes getOnEventVariableType(Node scope) throws NavigationException {
-		try {
-			return getVariableType(scope, "@messageType");
-		} catch (NavigationException e) {
-			return getVariableType(scope, "@element");
+		NodeHelper onEventHelper = new NodeHelper(onEvent);
+		if (onEventHelper.hasAttribute("messageType")) {
+			return onEventHelper.getAttribute("messageType");
+		} else if (onEventHelper.hasAttribute("element")) {
+			return onEventHelper.getAttribute("element");
+		} else {
+			throw new NavigationException("Node onEvent does not contain any messageType or element attribute");
 		}
 	}
 

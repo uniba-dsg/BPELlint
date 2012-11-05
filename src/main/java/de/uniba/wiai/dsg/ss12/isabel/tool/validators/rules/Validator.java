@@ -63,15 +63,6 @@ public abstract class Validator {
 		}
 	}
 
-	protected Element toElement(Node element) {
-		if (!(element instanceof Element)) {
-			throw new IllegalArgumentException(
-					"Given Node must not be null or an attribute.");
-		}
-
-		return (Element) element;
-	}
-
 	public String getBpelFileName() {
 		return fileHandler.getBpel().getFilePath();
 	}
