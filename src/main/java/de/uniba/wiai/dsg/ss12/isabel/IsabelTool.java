@@ -32,9 +32,9 @@ public class IsabelTool {
 			ValidationResult validationResult = new Isabel().validate(input.bpelFile);
 
 			validationResultPrinter.printResults(input.verbosityLevel, validationResult);
-		} catch (ValidationException | IllegalArgumentException e) {
-			Logger.debug(e);
-			System.err.println("Error: " + e.getMessage());
+		} catch (Exception e) {
+			Logger.info(e);
+			System.out.println("Error: " + e.getMessage());
 		}
 	}
 }
