@@ -62,6 +62,9 @@ public class XmlFileLoader {
             xsdList.add(xmlSchemaEntry);
 
             Nodes imports = getImportLocations(bpel.getDocument());
+	        if(imports.size() == 0){
+		        throw new IllegalStateException("At least one import is required");
+	        }
             loadDirectImports(imports);
         }
 
