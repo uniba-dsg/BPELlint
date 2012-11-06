@@ -6,7 +6,7 @@ public class CommandLineInterpreter {
 
 	public CommandLineInterpreter(String[] args) {
 		if (args == null || args.length == 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Usage: [--verbose|--full] BPEL_FILE");
 		}
 
 		VerbosityLevel verbosityLevel = VerbosityLevel.NORMAL;
