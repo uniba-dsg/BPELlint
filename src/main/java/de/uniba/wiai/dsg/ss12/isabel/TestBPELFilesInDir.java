@@ -9,10 +9,12 @@ import java.nio.file.Paths;
 public class TestBPELFilesInDir {
 
 	public static void main(String[] args) throws IOException {
+		// validation
 		if(args == null || args.length != 1 || args[0] == null || args[0].isEmpty()){
 			throw new IllegalArgumentException("Usage: PATH");
 		}
 
+		// file tree iteration
 		Path startingDirectory = Paths.get(args[0]);
 		try(DirectoryStream<Path> paths = Files.newDirectoryStream(startingDirectory)){
 			for(Path path : paths) {
