@@ -6,6 +6,7 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import nu.xom.Node;
 import nu.xom.Nodes;
+import org.pmw.tinylog.Logger;
 
 import java.io.File;
 import java.util.List;
@@ -28,6 +29,7 @@ public class SA00011Validator extends Validator {
 		List<DocumentEntry> allXsds = fileHandler.getAllXsds();
 
 		for (Node node : imports) {
+			Logger.debug("Checking <import> Element " + node);
 			boolean validFile = isValidFile(allWsdls, node)
 					|| isValidFile(allXsds, node);
 
@@ -45,9 +47,13 @@ public class SA00011Validator extends Validator {
 
 			String namespace = new NodeHelper(node).getAttribute("namespace");
 			String location = new NodeHelper(node).getAttribute("location");
+			Logger.debug("<import>@namespace = " + namespace);
+			Logger.debug("<import>@location = " + location);
 			File path = new File(fileHandler.getAbsoluteBpelFilePath() + "/"
 					+ location);
+			Logger.debug("path based on <import>@location = " + path);
 
+			Logger.debug("Comparing " + documentEntry.getFilePath() + " with " + path.getAbsolutePath());
 			if (documentEntry.getFilePath().equals(path.getAbsolutePath())) {
 
 				if (namespace.equals(documentEntry.getTargetNamespace())) {

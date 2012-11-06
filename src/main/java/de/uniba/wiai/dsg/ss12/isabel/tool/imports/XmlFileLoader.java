@@ -4,6 +4,7 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
 import nu.xom.*;
+import org.pmw.tinylog.Logger;
 
 import java.io.*;
 import java.net.URI;
@@ -64,6 +65,12 @@ public class XmlFileLoader {
             loadDirectImports(imports);
         }
 
+	    Logger.debug("Found " + wsdlList.size() + " WSDL files, " + xsdList.size() + " XSD files");
+
+	    if(wsdlList.isEmpty()){
+		    throw new IllegalStateException("At least one WSDL file is required");
+	    }
+
         return new BpelProcessFiles(bpel, wsdlList, xsdList, xsdSchemaList,
                 getAbsolutePath(bpelFilePath));
     }
@@ -81,6 +88,7 @@ public class XmlFileLoader {
     private void loadDirectImports(Nodes imports) throws ParsingException,
             IOException {
         for (Node importNode : imports) {
+	        Logger.debug("Loading <import> reference");
             DocumentEntry entry = createImportDocumentEntry(importNode);
             if (isWsdl(entry)) {
                 if (!wsdlList.contains(entry)) {
@@ -93,6 +101,8 @@ public class XmlFileLoader {
                     xsdList.add(entry);
                     loadDirectImports(getImportLocations(entry.getDocument()));
                 }
+            } else {
+	            throw new IllegalStateException("Bad <import> found");
             }
         }
     }
@@ -140,7 +150,7 @@ public class XmlFileLoader {
     }
 
     private Nodes getImportLocations(Document entry) {
-        return entry.query("/*/*[name()=\"import\"]");
+        return entry.query("//bpel:import", CONTEXT);
     }
 
     private boolean isXsd(DocumentEntry entry) {
@@ -158,8 +168,10 @@ public class XmlFileLoader {
         String locationPath = Paths.get(getNodeDirectory(importNode),
                 getImportPath(importNode)).toString();
         File importFile = new File(locationPath);
+	    Logger.debug("Loading <import> from " + importFile);
         Document importFileDom = builder.build(importFile);
         String targetNamespace = new NodeHelper(importFileDom).getTargetNamespace();
+	    Logger.debug("Loaded <import> from " + importFile + " with namespace " + targetNamespace);
         return new DocumentEntry(importFile.getAbsolutePath(), targetNamespace,
                 importFileDom);
     }

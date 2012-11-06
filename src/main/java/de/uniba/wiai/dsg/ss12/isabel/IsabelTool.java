@@ -21,6 +21,7 @@ import de.uniba.wiai.dsg.ss12.isabel.io.ValidationResultPrinter;
 import de.uniba.wiai.dsg.ss12.isabel.tool.Isabel;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import org.pmw.tinylog.Logger;
 
 public class IsabelTool {
 
@@ -32,6 +33,7 @@ public class IsabelTool {
 
 			validationResultPrinter.printResults(input.verbosityLevel, validationResult);
 		} catch (ValidationException | IllegalArgumentException e) {
+			Logger.debug(e);
 			System.err.println("Error: " + e.getMessage());
 		}
 	}
