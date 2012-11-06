@@ -20,7 +20,9 @@ public class TestBPELFilesInDir {
 			for(Path path : paths) {
 				if(Files.isRegularFile(path) && path.toString().endsWith(".bpel")){
 					// start testing
+					System.out.println("Testing " + path);
 					IsabelTool.main(new String[]{path.toString()});
+					System.out.println("--------------------------------------------------------------------");
 				} else if(Files.isDirectory(path)){
 					// recursion
 					TestBPELFilesInDir.main(new String[]{path.toString()});
