@@ -36,14 +36,16 @@ public class Isabel {
             throw new ValidationException("File " + bpelPath + " does not exist");
         }
 
-        // validate well-formedness of bpel file
+        // validate well-formedness and correct schema of bpel file
         new XMLValidator().validate(bpelPath);
+		SchemaValidator schemaValidator = SchemaValidator.newInstance();
+		schemaValidator.validateBpel(bpelPath);
 
         // load files
 		BpelProcessFiles bpelProcessFiles = new XmlFileLoader().loadAllProcessFiles(bpelPath);
 
         // validate XML Schema
-        validateAgainstXSDs(bpelProcessFiles);
+        validateWsdlAndXsdFiles(bpelProcessFiles);
 
         // validate SA rules
         SimpleValidationResult validationResult = validateAgainstSARules(bpelProcessFiles);
@@ -51,10 +53,8 @@ public class Isabel {
 		return validationResult;
 	}
 
-    private void validateAgainstXSDs(BpelProcessFiles bpelProcessFiles) throws ValidationException {
+    private void validateWsdlAndXsdFiles(BpelProcessFiles bpelProcessFiles) throws ValidationException {
 	    SchemaValidator schemaValidator = SchemaValidator.newInstance();
-
-	    schemaValidator.validateBpel(bpelProcessFiles.getBpel().getFilePath());
 
         for(DocumentEntry xsdDocumentEntry : bpelProcessFiles.getAllXsds()){
             // do not validate XMLSchema as this does not work somehow
