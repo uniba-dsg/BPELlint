@@ -22,9 +22,10 @@ $ gradlew run -Pargs="empty.bpel --full" # Output consists of the position of th
 $ gradlew run -Pargs="empty.bpel -f" # same as --full
 $ gradlew run -Pargs="empty.bpel --verbose" # The position of the error and the description of the actual SA rule are given back.
 $ gradlew run -Pargs="empty.bpel -v" # same as --verbose
+$ gradlew run -Pargs="folder" # validates all .bpel files within the <folder> and its subfolders
 ```
 
-Only the .bpel file path has to be given as parameter, all needed and referenced files will be loaded.
+Only the .bpel file path or directory has to be given as parameter, all needed and referenced files will be loaded.
 With no further parameters the output consists of error position and a short message.
 Parameter order is not important, only the last used parameter is of importance.
 

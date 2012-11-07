@@ -18,23 +18,48 @@ package de.uniba.wiai.dsg.ss12.isabel;
 
 import de.uniba.wiai.dsg.ss12.isabel.io.CommandLineInterpreter;
 import de.uniba.wiai.dsg.ss12.isabel.io.ValidationResultPrinter;
+import de.uniba.wiai.dsg.ss12.isabel.io.VerbosityLevel;
 import de.uniba.wiai.dsg.ss12.isabel.tool.Isabel;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import org.pmw.tinylog.Logger;
 
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class IsabelTool {
 
+	static ValidationResultPrinter validationResultPrinter = new ValidationResultPrinter();
+
 	public static void main(String[] args) {
-		ValidationResultPrinter validationResultPrinter = new ValidationResultPrinter();
 		try {
 			CommandLineInterpreter input = new CommandLineInterpreter(args);
-			ValidationResult validationResult = new Isabel().validate(input.bpelFile);
-
-			validationResultPrinter.printResults(input.verbosityLevel, validationResult);
+			validate(Paths.get(input.path), input.verbosityLevel);
 		} catch (Exception e) {
 			Logger.info(e);
 			System.out.println("Error: " + e.getMessage());
+		}
+	}
+
+	private static void validate(Path path, VerbosityLevel verbosityLevel) throws ValidationException, IOException {
+		if (Files.isRegularFile(path) && path.toString().endsWith(".bpel")) {
+			try {
+				ValidationResult validationResult = new Isabel().validate(path.toString());
+				validationResultPrinter.printResults(verbosityLevel, validationResult);
+			} catch (Exception e) {
+				Logger.info(e);
+				System.out.println("Error: " + e.getMessage());
+			}
+		} else if (Files.isDirectory(path)) {
+			// file tree iteration
+			try (DirectoryStream<Path> directoryPaths = Files.newDirectoryStream(path)) {
+				for (Path directoryPath : directoryPaths) {
+					validate(directoryPath, verbosityLevel);
+				}
+			}
 		}
 	}
 }

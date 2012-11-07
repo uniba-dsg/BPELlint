@@ -1,16 +1,17 @@
 package de.uniba.wiai.dsg.ss12.isabel.io;
 
 public class CommandLineInterpreter {
+	public static final String USAGE = "Usage: [--verbose|--full] PATH\nPATH can be a BPEL file or a Folder containing BPEL files";
 	public final VerbosityLevel verbosityLevel;
-	public final String bpelFile;
+	public final String path;
 
 	public CommandLineInterpreter(String[] args) {
 		if (args == null || args.length == 0) {
-			throw new IllegalArgumentException("Usage: [--verbose|--full] BPEL_FILE");
+			throw new IllegalArgumentException(USAGE);
 		}
 
 		VerbosityLevel verbosityLevel = VerbosityLevel.NORMAL;
-		String bpelFile = "";
+		String path = "";
 
 		for (String string : args) {
 			switch (string) {
@@ -23,11 +24,16 @@ public class CommandLineInterpreter {
 					verbosityLevel = VerbosityLevel.FULL;
 					break;
 				default:
-					bpelFile = string;
+					path = string;
 			}
 		}
 
+		if(path.isEmpty()){
+			throw new IllegalArgumentException(USAGE);
+		}
+
 		this.verbosityLevel = verbosityLevel;
-		this.bpelFile = bpelFile;
+		this.path = path;
 	}
+
 }
