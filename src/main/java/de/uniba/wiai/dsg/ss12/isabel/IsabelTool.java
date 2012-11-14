@@ -32,7 +32,7 @@ import java.nio.file.Paths;
 
 public class IsabelTool {
 
-	static ValidationResultPrinter validationResultPrinter = new ValidationResultPrinter();
+	private static ValidationResultPrinter validationResultPrinter = new ValidationResultPrinter();
 
 	public static void main(String[] args) {
 		try {
