@@ -58,7 +58,7 @@ public class Isabel {
 
         for(DocumentEntry xsdDocumentEntry : bpelProcessFiles.getAllXsds()){
             // do not validate XMLSchema as this does not work somehow
-	        if(xsdDocumentEntry.getFilePath().equals("/xsd/XMLSchema.xsd")) {
+	        if(xsdDocumentEntry.getFilePath().equals("")) {
 		        continue;
 	        }
 	        schemaValidator.validateXsd(xsdDocumentEntry.getFilePath());

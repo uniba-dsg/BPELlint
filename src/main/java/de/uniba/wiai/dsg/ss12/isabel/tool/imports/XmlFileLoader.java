@@ -9,8 +9,6 @@ import org.pmw.tinylog.Logger;
 import java.io.*;
 import java.net.URI;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
@@ -18,13 +16,12 @@ public class XmlFileLoader {
 
 	public static final String XMLSCHEMA_XSD = "/xsd/XMLSchema.xsd";
 
-	private final List<DocumentEntry> wsdlList = new ArrayList<>();
-	private final List<DocumentEntry> xsdList = new ArrayList<>();
 	private final Builder builder = new Builder(new LocationAwareNodeFactory());
-	private final List<Node> xsdSchemaList = new ArrayList<>();
+	private BpelProcessFiles result;
 
 	public BpelProcessFiles loadAllProcessFiles(String bpelFilePath)
 			throws ValidationException {
+
 		if (bpelFilePath == null) {
 			throw new ValidationException(new IllegalArgumentException(
 					"parameter bpelFilePath must not be null"));
@@ -48,68 +45,74 @@ public class XmlFileLoader {
 	}
 
 	private BpelProcessFiles loadAllProcessFilesWithoutExceptions(String bpelFilePath) throws ParsingException, IOException, ValidationException {
-		DocumentEntry bpel = createBpelDocumentEntry(bpelFilePath);
+		loadBpelFile(bpelFilePath);
+		loadXmlSchema();
+		loadBpelImports();
 
-		InputStream stream = XmlFileLoader.class.getResourceAsStream(XMLSCHEMA_XSD);
-		if (stream == null) {
-			throw new ValidationException("Could not load" + XMLSCHEMA_XSD);
-		}
-		try (InputStreamReader schemaFile = new InputStreamReader(stream)) {
-			Document xmlSchemaDom = builder.build(schemaFile);
-			DocumentEntry xmlSchemaEntry = new DocumentEntry(XMLSCHEMA_XSD,
-					Standards.XSD_NAMESPACE, xmlSchemaDom);
-
-			xsdList.add(xmlSchemaEntry);
-
-			Nodes imports = getImportLocations(bpel.getDocument());
-			if (imports.size() == 0) {
-				throw new IllegalStateException("At least one import is required");
-			}
-			loadDirectImports(imports);
-		}
-
-		Logger.debug("Found " + wsdlList.size() + " WSDL files, " + xsdList.size() + " XSD files");
-
-		if (wsdlList.isEmpty()) {
-			throw new IllegalStateException("At least one WSDL file is required");
-		}
-
-		return new BpelProcessFiles(bpel, wsdlList, xsdList, xsdSchemaList,
-				getAbsolutePath(bpelFilePath));
+		return result.createImmutable();
 	}
 
-	private String getAbsolutePath(String bpelFilePath) {
-		return Paths.get(bpelFilePath).getParent().toAbsolutePath().toString();
+	private void loadBpelImports() throws ParsingException, IOException {
+		for (Node importNode : result.getImports()) {
+			loadWsdlOrXsd(importNode);
+		}
 	}
 
-	private DocumentEntry createBpelDocumentEntry(String bpelFilePath) throws ParsingException, IOException, ValidationException {
+	private void loadWsdlOrXsd(Node importNode) throws ParsingException, IOException {
+		Logger.debug("Loading <bpel:import> reference " + importNode.toXML());
+		DocumentEntry entry = createImportDocumentEntry(importNode);
+		if (entry.isWsdl()) {
+			loadWSDL(entry);
+		} else if (entry.isXsd()) {
+			loadXSD(entry);
+		} else {
+			throw new IllegalStateException("Bad <import> found " + importNode.toXML());
+		}
+	}
+
+	private void loadXmlSchema() throws ValidationException, ParsingException, IOException {
+		try (InputStream stream = XmlFileLoader.class.getResourceAsStream(XMLSCHEMA_XSD)) {
+			Document xmlSchemaDom = builder.build(stream);
+			Logger.debug("XML Schema Resource URL: " + xmlSchemaDom.getBaseURI());
+			DocumentEntry xmlSchemaEntry = new DocumentEntry(xmlSchemaDom);
+
+			result.addXsd(xmlSchemaEntry);
+		}
+	}
+
+	private DocumentEntry loadBpelFile(String bpelFilePath) throws ParsingException, IOException, ValidationException {
 		try {
 			Document bpelDom = builder.build(new File(bpelFilePath));
-			String qName = new NodeHelper(bpelDom).getTargetNamespace();
-			return new DocumentEntry(bpelFilePath, qName, bpelDom);
+			DocumentEntry bpel = new DocumentEntry(bpelDom);
+
+			// create and set result
+			result = new BpelProcessFiles();
+			result.setBpel(bpel);
+
+			return bpel;
 		} catch (Exception e) {
 			throw new ValidationException("Error with file " + bpelFilePath, e);
 		}
 	}
 
-	private void loadDirectImports(Nodes imports) throws ParsingException,
-			IOException {
-		for (Node importNode : imports) {
-			Logger.debug("Loading <import> reference");
-			DocumentEntry entry = createImportDocumentEntry(importNode);
-			if (isWsdl(entry)) {
-				if (!wsdlList.contains(entry)) {
-					wsdlList.add(entry);
-					loadDirectImports(getImportLocations(entry.getDocument()));
-					addWsdlXsd(entry);
-				}
-			} else if (isXsd(entry)) {
-				if (!xsdList.contains(entry)) {
-					xsdList.add(entry);
-					loadDirectImports(getImportLocations(entry.getDocument()));
-				}
-			} else {
-				throw new IllegalStateException("Bad <import> found " + importNode.toXML());
+	private void loadWSDL(DocumentEntry wsdlEntry) throws ParsingException, IOException {
+		if (!result.getAllWsdls().contains(wsdlEntry)) {
+			result.addWsdl(wsdlEntry);
+
+			for (Node importNode : wsdlEntry.getDocument().query("//wsdl:import", CONTEXT)) {
+				loadWsdlOrXsd(importNode);
+			}
+
+			addWsdlXsd(wsdlEntry);
+		}
+	}
+
+	private void loadXSD(DocumentEntry entry) throws ParsingException, IOException {
+		if (!result.getAllXsds().contains(entry)) {
+			result.addXsd(entry);
+			// TODO check if this is the right xsd file
+			for (Node importNode : entry.getDocument().query("//xsd:import", CONTEXT)) {
+				loadWsdlOrXsd(importNode);
 			}
 		}
 	}
@@ -125,7 +128,7 @@ public class XmlFileLoader {
 		Node schemaNode = typesNodes.get(0);
 		if (isXsdNode(schemaNode)
 				&& new NodeHelper(schemaNode).hasLocalName("schema")) {
-			xsdSchemaList.add(schemaNode);
+			result.addSchema(schemaNode);
 			addXsdImports(schemaNode);
 		}
 	}
@@ -138,7 +141,7 @@ public class XmlFileLoader {
 			if (isXsdNode(node)
 					&& new NodeHelper(schemaNode).hasLocalName("import")) {
 				xsdEntry = createImportDocumentEntry(node);
-				xsdList.add(xsdEntry);
+				result.addXsd(xsdEntry);
 			}
 		}
 	}
@@ -156,31 +159,20 @@ public class XmlFileLoader {
 				Standards.XSD_NAMESPACE);
 	}
 
-	private Nodes getImportLocations(Document entry) {
-		return entry.query("//bpel:import", CONTEXT);
-	}
-
-	private boolean isXsd(DocumentEntry entry) {
-		return entry.getDocument().getRootElement().getNamespaceURI()
-				.startsWith(Standards.XSD_NAMESPACE);
-	}
-
-	private boolean isWsdl(DocumentEntry entry) {
-		return entry.getDocument().getRootElement().getNamespaceURI()
-				.startsWith(Standards.WSDL_NAMESPACE);
-	}
-
 	private DocumentEntry createImportDocumentEntry(Node importNode)
 			throws ParsingException, IOException {
+		Logger.debug("Creating entry for " + importNode.toXML());
+
 		String locationPath = Paths.get(getNodeDirectory(importNode),
 				getImportPath(importNode)).toString();
+		// remove relative path elements like .. and .
 		File importFile = Paths.get(locationPath).toFile().getCanonicalFile();
-		Logger.debug("Loading <import> from " + importFile);
 		Document importFileDom = builder.build(importFile);
-		String targetNamespace = new NodeHelper(importFileDom).getTargetNamespace();
-		Logger.debug("Loaded <import> from " + importFile + " with namespace " + targetNamespace);
-		return new DocumentEntry(importFile.getAbsolutePath(), targetNamespace,
-				importFileDom);
+
+		DocumentEntry entry = new DocumentEntry(importFileDom);
+		Logger.debug("Loaded " + importFile + " (" + importNode.toXML() + ") as " + entry);
+
+		return entry;
 	}
 
 	private String getImportPath(Node node) {

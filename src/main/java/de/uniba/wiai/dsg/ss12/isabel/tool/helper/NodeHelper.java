@@ -44,15 +44,12 @@ public class NodeHelper {
 	}
 
 	public String getAttribute(String name) {
-		Nodes attributes = node.query("@" + name);
-
-		if (attributes.size() > 0) {
-			Node attribute = attributes.get(0);
-			if (attribute instanceof Attribute) {
-				return attribute.getValue();
-			}
+		String result = this.asElement().getAttributeValue(name);
+		if(result == null){
+			return "";
+		} else {
+			return result;
 		}
-		return "";
 	}
 
 	public Attribute getAttributeNode(String name) {

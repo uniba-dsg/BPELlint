@@ -2,12 +2,14 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.bpel.ImportElement;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import nu.xom.Node;
 import nu.xom.Nodes;
+import org.pmw.tinylog.Logger;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
@@ -45,7 +47,7 @@ public class SA00013Validator extends Validator {
 		for (DocumentEntry documentEntry : allFiles) {
 			String importType = new NodeHelper(fileImport).getAttribute("importType");
 			if (isCorrespondingFile(fileImport, documentEntry)) {
-				if (importType.equals(getDefaultNamespace(documentEntry))) {
+				if (importType.equals(documentEntry.getNamespace())) {
 					return true;
 				}
 			}
@@ -60,17 +62,12 @@ public class SA00013Validator extends Validator {
 	}
 
 	private String getAbsoluteFilePath(Node fileImport) {
-		String location = new NodeHelper(fileImport).getAttribute("location");
-		File path = new File(fileHandler.getAbsoluteBpelFilePath() + "/"
-				+ location);
-
-		return path.getAbsolutePath();
-	}
-
-	private String getDefaultNamespace(DocumentEntry documentEntry) {
-		return NodeHelper.toElement(
-				documentEntry.getDocument().query("/*", CONTEXT).get(0))
-				.getNamespaceURI();
+		try {
+			return new ImportElement(fileImport).getAbsoluteLocation(fileHandler.getAbsoluteBpelFolder());
+		} catch (IOException e) {
+			Logger.error(e);
+			throw new IllegalStateException(e);
+		}
 	}
 
 	@Override
