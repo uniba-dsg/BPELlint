@@ -3,6 +3,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.helper.bpel;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
 import nu.xom.Element;
 import nu.xom.Node;
+import org.pmw.tinylog.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +26,13 @@ public class ImportElement {
 	}
 
 	public String getNamespace() {
-		return element.getAttributeValue("namespace");
+		String namespace = element.getAttributeValue("namespace");
+		// TODO solve  default value problem
+		if(namespace == null){
+			return "";
+		} else {
+			return namespace;
+		}
 	}
 
 	public String getImportType() {
@@ -36,8 +43,13 @@ public class ImportElement {
 		return element.getAttributeValue("location");
 	}
 
-	public String getAbsoluteLocation(String folder) throws IOException {
-		return Paths.get(new File(folder, getLocation()).getAbsolutePath()).toFile().getCanonicalPath();
+	public String getAbsoluteLocation(String folder) {
+		try {
+			return Paths.get(new File(folder, getLocation()).getAbsolutePath()).toFile().getCanonicalPath();
+		} catch (IOException e) {
+			Logger.error(e);
+			return "";
+		}
 	}
 
 	public boolean isXsdImport() {

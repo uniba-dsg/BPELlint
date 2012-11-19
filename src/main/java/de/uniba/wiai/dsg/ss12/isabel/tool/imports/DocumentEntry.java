@@ -73,12 +73,12 @@ public class DocumentEntry {
 
 	boolean isWsdl() {
 		return getDocument().getRootElement().getNamespaceURI()
-				.startsWith(Standards.WSDL_NAMESPACE);
+				.equals(Standards.WSDL_NAMESPACE);
 	}
 
 	boolean isXsd() {
 		return getDocument().getRootElement().getNamespaceURI()
-				.startsWith(Standards.XSD_NAMESPACE);
+				.equals(Standards.XSD_NAMESPACE);
 	}
 
 	@Override
