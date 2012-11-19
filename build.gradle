@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     compile files("lib/xom-1.2.7.jar", "lib/tinylog-0.7.1.jar")
-    testCompile "junit:junit:4.10"
+    testCompile "junit:junit:4.11"
 }
 
 run {

@@ -45,7 +45,7 @@ public class FunctionalValidatorTests {
 		return parsedElements;
 	}
 
-	@Parameterized.Parameters
+	@Parameterized.Parameters(name = "{index}: {0} violates {1}")
 	public static Collection<Object[]> data() {
 		Object[][] data = new Object[][]{
 				// SA violation tests
