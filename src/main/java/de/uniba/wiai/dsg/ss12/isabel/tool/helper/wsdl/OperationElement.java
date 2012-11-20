@@ -1,12 +1,13 @@
-package de.uniba.wiai.dsg.ss12.isabel.tool.helper;
+package de.uniba.wiai.dsg.ss12.isabel.tool.helper.wsdl;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import nu.xom.Node;
 
 import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
-public class OperationHelper extends NodeHelper {
+public class OperationElement extends NodeHelper {
 
-    public OperationHelper(Node operation) {
+    public OperationElement(Node operation) {
 		super(operation);
 
         if(!getLocalName().equals("operation")){

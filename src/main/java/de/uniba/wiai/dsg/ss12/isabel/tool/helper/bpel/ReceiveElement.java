@@ -1,10 +1,11 @@
-package de.uniba.wiai.dsg.ss12.isabel.tool.helper;
+package de.uniba.wiai.dsg.ss12.isabel.tool.helper.bpel;
 
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import nu.xom.Node;
 
-public class ReceiveHelper extends NodeHelper {
+public class ReceiveElement extends NodeHelper {
 
-	public ReceiveHelper(Node receive) {
+	public ReceiveElement(Node receive) {
 		super(receive);
 
         if(!getLocalName().equals("receive")){

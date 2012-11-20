@@ -2,7 +2,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.OperationHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.wsdl.OperationElement;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Node;
@@ -57,10 +57,10 @@ public class SA00047Validator extends Validator {
 	private void validateInvokeMessagePartConstraint(Node messageActivity)
 			throws NavigationException {
 		Node operation = navigator.correspondingOperation(messageActivity);
-		if (new OperationHelper(operation).isOneWay()
+		if (new OperationElement(operation).isOneWay()
 				&& !hasInputVariableOrToPart(messageActivity)) {
 			addViolation(messageActivity, 4);
-		} else if (new OperationHelper(operation).isRequestResponse()
+		} else if (new OperationElement(operation).isRequestResponse()
 				&& (!hasInputVariableOrToPart(messageActivity) || !hasOutputVariableOrFromPart(messageActivity))) {
 			addViolation(messageActivity, 5);
 		}

@@ -2,7 +2,7 @@ package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.OperationHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.wsdl.OperationElement;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 import nu.xom.Node;
@@ -25,7 +25,7 @@ public class SA00001Validator extends Validator {
 	public void validate() {
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
 			for (Node currentOperation : getOperations(wsdlEntry)) {
-				OperationHelper operationHelper = new OperationHelper(currentOperation);
+				OperationElement operationHelper = new OperationElement(currentOperation);
 				if (operationHelper.isNotification()) {
 					addViolation(currentOperation, NOTIFICATION_FAULT);
 				}

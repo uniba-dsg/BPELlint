@@ -1,7 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.ReceiveHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.bpel.ReceiveElement;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -22,7 +22,7 @@ public class SA00055Validator extends Validator {
 				.query("//bpel:receive", CONTEXT);
 
 		for (Node receive : receives) {
-			ReceiveHelper receiveHelper = new ReceiveHelper(receive);
+			ReceiveElement receiveHelper = new ReceiveElement(receive);
 
 			if (receiveHelper.hasFromParts() && receiveHelper.hasVariable()) {
 				addViolation(receive);

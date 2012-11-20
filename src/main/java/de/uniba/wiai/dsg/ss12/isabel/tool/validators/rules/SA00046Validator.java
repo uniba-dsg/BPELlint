@@ -1,7 +1,7 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.OperationHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.wsdl.OperationElement;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
@@ -26,9 +26,9 @@ public class SA00046Validator extends Validator {
 				Node operation = navigator.correspondingOperation(node
 						.getParent());
 
-				if (new OperationHelper(operation).isRequestResponse()) {
+				if (new OperationElement(operation).isRequestResponse()) {
 					reportViolation(getCorrelationWithoutPattern(node), 1);
-				} else if (new OperationHelper(operation).isOneWay()) {
+				} else if (new OperationElement(operation).isOneWay()) {
 					reportViolation(getCorrelationWithPattern(node), 2);
 				}
 			} catch (NavigationException e) {
