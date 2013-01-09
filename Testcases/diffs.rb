@@ -4,7 +4,7 @@ class Test
 
   BPELVAL_DIR = "rules"
   BETSY_DIR = "betsy"
-  OPTIONS = "--ignore-space-change --ignore-blank-lines -U9999999"
+  OPTIONS = "--ignore-space-change --ignore-blank-lines -U9999"
 
   def self.compute_wsdl_diffs
     main_wsdl = "#{BETSY_DIR}/TestInterface.wsdl"
