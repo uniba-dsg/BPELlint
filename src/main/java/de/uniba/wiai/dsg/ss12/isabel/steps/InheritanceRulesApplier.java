@@ -39,12 +39,14 @@ public class InheritanceRulesApplier {
 	private void applyAttributeToElements(Document doc, String attributeName, String[] elements) {
 		Attribute expressionLanguage = doc.getRootElement().getAttribute(attributeName);
 
+		//create query
 		String[] queryElements = new String[elements.length];
 		for (int i = 0; i < elements.length; i++) {
 			queryElements[i] = "//bpel:" + elements[i];
 		}
 		String query = Joiner.on("|").join(queryElements);
 
+		//add attribute if not present
 		Nodes nodes = doc.getRootElement().query(query, new XPathContext("bpel", "http://docs.oasis-open.org/wsbpel/2.0/process/executable"));
 		for (Node node : nodes) {
 			Element element = (Element) node;
@@ -58,20 +60,20 @@ public class InheritanceRulesApplier {
 		String attributeName = "exitOnStandardFault";
 		String[] elementNames = {"scope"};
 
-		Attribute exitOnStandardFaultAttribute = doc.getRootElement().getAttribute(attributeName);
 		Element root = doc.getRootElement();
+		Attribute attribute = root.getAttribute(attributeName);
 
-		applyAttributeRecursively(root, exitOnStandardFaultAttribute, attributeName, Arrays.asList(elementNames));
+		applyAttributeRecursively(root, attribute, attributeName, Arrays.asList(elementNames));
 	}
 
 	private void applySuppressJoinFailure(Document doc) {
 		String attributeName = "suppressJoinFailure";
 		String[] elementNames = {"assign", "compensate", "compensateScope", "empty", "exit", "flow","forEach", "if", "invoke", "pick", "receive", "repeatUntil", "reply", "rethrow", "scope", "sequence", "throw","validate", "wait","while"};
 
-		Attribute exitOnStandardFaultAttribute = doc.getRootElement().getAttribute(attributeName);
 		Element root = doc.getRootElement();
+		Attribute attribute = root.getAttribute(attributeName);
 
-		applyAttributeRecursively(root, exitOnStandardFaultAttribute, attributeName, Arrays.asList(elementNames));
+		applyAttributeRecursively(root, attribute, attributeName, Arrays.asList(elementNames));
 	}
 
 	private void applyAttributeRecursively(Element root, Attribute exitOnStandardFaultAttribute, String attributeName, List<String> elementNames) {
