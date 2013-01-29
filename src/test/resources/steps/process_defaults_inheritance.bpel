@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface" exitOnStandardFault="no" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0" name="ReceiveReply" queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0" suppressJoinFailure="no" targetNamespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/bpel/receiveReply">
+    <import importType="http://schemas.xmlsoap.org/wsdl/" location="OverloadedOperationNames.wsdl" namespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface"/>
+    <partnerLinks>
+        <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"/>
+    </partnerLinks>
+    <variables>
+        <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"/>
+        <variable messageType="ti:executeProcessSyncRequest" name="InitData"/>
+    </variables>
+    <sequence>
+        <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"/>
+        <assign name="AssignReplyData" validate="no">
+            <copy ignoreMissingFromData="no" keepSrcElementName="no">
+                <from part="inputPart" variable="InitData" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"/>
+                <to part="outputPart" variable="ReplyData" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"/>
+            </copy>
+        </assign>
+        <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"/>
+    </sequence>
+</process>

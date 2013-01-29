@@ -1,0 +1,44 @@
+attribute: exitOnStandardFault
+elements: process or scope
+rules: when not specified, inheritance from enclosing scope along XML node hierarchy up to process. specifying the value breaks the inheritance chain.
+default value: no in process only
+
+attribute: suppressJoinFailure
+elements: process and each activity
+rules: same as exitOnStandardFault
+default value: no in process only
+
+attribute: queryLanguage
+elements: process or query
+rules: in BPEL: use process (only default value semantics in WSDL)
+default: urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0 for process and if query is part of vprop:propertyAlias
+
+attribute: expressionLanguage
+elements: process or multiple others
+rules: from process
+default: urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0 in process
+
+
+def make attribute defaults explicit:
+	apply XSD validation with parameter for default value filling
+	persist xml with defaults
+
+def make inherited attributes explicit:
+	for all query with no queryLanguage attribute:
+		copy process/@queryLanguage to query
+	for all XXX with no expressionLanguage attribute:
+		copy process/@expressionLanguage to XXX
+	apply suppressJoinFailure
+	apply exitOnStandardFault
+
+def apply exitOnStandardFault:
+	start with process
+	store exitOnStandardFault from process
+	depth first search for scopes:
+		if scope has no exitOnStandardFault:
+			copy stored exitOnStandardFault to scope
+		else:
+			store exitOnStandardFault from scope
+
+def apply suppressJoinFailure:
+     same as exitOnStandardFault having LIST OF ELEMENTS instead of scope
