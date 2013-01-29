@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    compile files("lib/xom-1.2.7.jar", "lib/tinylog-0.7.1.jar")
+    compile files(fileTree(dir: 'lib', includes: ['*.jar']))
     compile 'com.google.guava:guava:14.0-rc1'
     testCompile "junit:junit:4.11"
 }

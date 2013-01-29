@@ -8,14 +8,14 @@
         <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"/>
         <variable messageType="ti:executeProcessSyncRequest" name="InitData"/>
     </variables>
-    <sequence>
-        <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"/>
-        <assign name="AssignReplyData" validate="no">
+    <sequence suppressJoinFailure="no">
+        <receive suppressJoinFailure="no" createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"/>
+        <assign suppressJoinFailure="no" name="AssignReplyData" validate="no">
             <copy ignoreMissingFromData="no" keepSrcElementName="no">
                 <from part="inputPart" variable="InitData" expressionLanguage="my:own:expression:language"/>
                 <to part="outputPart" variable="ReplyData" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"/>
             </copy>
         </assign>
-        <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"/>
+        <reply suppressJoinFailure="no" name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"/>
     </sequence>
 </process>
