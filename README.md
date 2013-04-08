@@ -17,12 +17,15 @@ LGPL Version 3: http://www.gnu.org/licenses/lgpl-3.0.html
 Requirements have to be fulfilled in order to execute any of these `gradlew` tasks.
 
 ```bash
-$ gradlew run -Pargs="empty.bpel" # validates the empty.bpel file
-$ gradlew run -Pargs="empty.bpel --full" # Output consists of the position of the error, a short specific message and the actual SA rule.
+# Validates the <empty.bpel> file.
+$ gradlew run -Pargs="empty.bpel"
+
+# Validates *.bpel files within the <folder> and all its subfolders.
+$ gradlew run -Pargs="folder"
+
+# Validates the <empty.bpel> file including rule description.
+$ gradlew run -Pargs="empty.bpel --full"
 $ gradlew run -Pargs="empty.bpel -f" # same as --full
-$ gradlew run -Pargs="empty.bpel --verbose" # The position of the error and the description of the actual SA rule are given back.
-$ gradlew run -Pargs="empty.bpel -v" # same as --verbose
-$ gradlew run -Pargs="folder" # validates all .bpel files within the <folder> and its subfolders
 ```
 
 Only the .bpel file path or directory has to be given as parameter, all needed and referenced files will be loaded.

@@ -25,9 +25,6 @@ public class ValidationResultPrinter {
 		case NORMAL:
 			printResults(violationCollector);
 			break;
-		case VERBOSE:
-			printResultsVerbose(violationCollector);
-			break;
 		case FULL:
 			printResultsFull(violationCollector);
 			break;
@@ -57,19 +54,6 @@ public class ValidationResultPrinter {
 		String saNumber = "SA000";
 		saNumber = (violation.ruleNumber < 10) ? saNumber + "0" : saNumber;
 		return saNumber + violation.ruleNumber;
-	}
-
-	private void printResultsVerbose(ValidationResult violationCollector) {
-		List<Violation> violations = violationCollector.getResults();
-
-		printOutputHeader(violations);
-		String previousSourceFile = "";
-		for (Violation violation : violations) {
-			String saNumber = getSANumber(violation);
-			printLineRowSA(violation, saNumber, previousSourceFile);
-			printLongDescription(saNumber);
-			previousSourceFile = violation.fileName;
-		}
 	}
 
 	private void printResultsFull(ValidationResult violationCollector) {

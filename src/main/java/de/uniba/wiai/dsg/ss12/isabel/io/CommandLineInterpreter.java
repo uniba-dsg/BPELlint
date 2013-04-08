@@ -15,10 +15,6 @@ public class CommandLineInterpreter {
 
 		for (String string : args) {
 			switch (string) {
-				case "--verbose":
-				case "-v":
-					verbosityLevel = VerbosityLevel.VERBOSE;
-					break;
 				case "--full":
 				case "-f":
 					verbosityLevel = VerbosityLevel.FULL;

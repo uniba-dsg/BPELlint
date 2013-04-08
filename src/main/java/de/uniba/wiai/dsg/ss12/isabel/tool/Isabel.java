@@ -48,9 +48,7 @@ public class Isabel {
         validateWsdlAndXsdFiles(bpelProcessFiles);
 
         // validate SA rules
-        SimpleValidationResult validationResult = validateAgainstSARules(bpelProcessFiles);
-
-		return validationResult;
+		return validateAgainstSARules(bpelProcessFiles);
 	}
 
     private void validateWsdlAndXsdFiles(BpelProcessFiles bpelProcessFiles) throws ValidationException {
