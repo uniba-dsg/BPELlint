@@ -14,7 +14,7 @@ public class SimpleValidationResult implements ValidationCollector, ValidationRe
 	}
 
 	@Override
-	public List<Violation> getResults() {
+	public List<Violation> getViolations() {
 		Collections.sort(violations);
 		return new ArrayList<>(violations);
 	}
@@ -30,7 +30,7 @@ public class SimpleValidationResult implements ValidationCollector, ValidationRe
 			return Collections.emptySet();
 		} else {
 			Set<Integer> actualViolatedRules = new HashSet<>();
-			for (Violation violation : getResults()) {
+			for (Violation violation : getViolations()) {
 				actualViolatedRules.add(violation.ruleNumber);
 			}
 			return actualViolatedRules;

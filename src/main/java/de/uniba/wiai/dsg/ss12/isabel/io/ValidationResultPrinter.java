@@ -32,7 +32,7 @@ public class ValidationResultPrinter {
 	}
 
 	private void printResults(ValidationResult validationResult) {
-		List<Violation> violations = validationResult.getResults();
+		List<Violation> violations = validationResult.getViolations();
 
 		printOutputHeader(violations);
 		String previousSourceFile = "";
@@ -57,7 +57,7 @@ public class ValidationResultPrinter {
 	}
 
 	private void printResultsFull(ValidationResult validationResult) {
-		List<Violation> violations = validationResult.getResults();
+		List<Violation> violations = validationResult.getViolations();
 
 		printOutputHeader(violations);
 		String previousSourceFile = "";

@@ -5,7 +5,7 @@ import java.util.Set;
 
 public interface ValidationResult {
 
-	public List<Violation> getResults();
+	public List<Violation> getViolations();
 
 	public boolean isValid();
 
