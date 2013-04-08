@@ -1,6 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
 import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
@@ -14,11 +14,11 @@ public abstract class Validator {
 
 	protected final BpelProcessFiles fileHandler;
 	protected final ValidatorNavigator navigator;
-	private final ValidationResult validationResult;
+	private final ValidationCollector validationCollector;
 
-	public Validator(BpelProcessFiles files, ValidationResult validationResult) {
+	public Validator(BpelProcessFiles files, ValidationCollector validationCollector) {
 		this.fileHandler = files;
-		this.validationResult = validationResult;
+		this.validationCollector = validationCollector;
 		navigator = new ValidatorNavigator(fileHandler);
 	}
 
@@ -27,7 +27,7 @@ public abstract class Validator {
 	public abstract int getSaNumber();
 
 	private void addViolation(String fileName, Node node, int type) {
-		validationResult.add(new Violation(fileName, getSaNumber(), type,
+		validationCollector.add(new Violation(fileName, getSaNumber(), type,
                 getLineNumber(node), getColumnNumber(node)));
 	}
 

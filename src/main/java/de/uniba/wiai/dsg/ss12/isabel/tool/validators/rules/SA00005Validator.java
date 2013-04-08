@@ -1,6 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
@@ -18,7 +18,7 @@ public class SA00005Validator extends Validator {
 
 
 	public SA00005Validator(BpelProcessFiles files,
-			ValidationResult violationCollector) {
+			ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 

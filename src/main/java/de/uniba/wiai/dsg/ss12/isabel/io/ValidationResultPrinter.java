@@ -1,10 +1,10 @@
 package de.uniba.wiai.dsg.ss12.isabel.io;
 
-import java.io.PrintStream;
-import java.util.List;
-
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
+
+import java.io.PrintStream;
+import java.util.List;
 
 public class ValidationResultPrinter {
 
@@ -20,19 +20,19 @@ public class ValidationResultPrinter {
 	}
 
 	public void printResults(VerbosityLevel verbosityLevel,
-			ValidationResult violationCollector) {
+	                         ValidationResult validationResult) {
 		switch (verbosityLevel) {
 		case NORMAL:
-			printResults(violationCollector);
+			printResults(validationResult);
 			break;
 		case FULL:
-			printResultsFull(violationCollector);
+			printResultsFull(validationResult);
 			break;
 		}
 	}
 
-	private void printResults(ValidationResult violationCollector) {
-		List<Violation> violations = violationCollector.getResults();
+	private void printResults(ValidationResult validationResult) {
+		List<Violation> violations = validationResult.getResults();
 
 		printOutputHeader(violations);
 		String previousSourceFile = "";
@@ -56,8 +56,8 @@ public class ValidationResultPrinter {
 		return saNumber + violation.ruleNumber;
 	}
 
-	private void printResultsFull(ValidationResult violationCollector) {
-		List<Violation> violations = violationCollector.getResults();
+	private void printResultsFull(ValidationResult validationResult) {
+		List<Violation> violations = validationResult.getResults();
 
 		printOutputHeader(violations);
 		String previousSourceFile = "";

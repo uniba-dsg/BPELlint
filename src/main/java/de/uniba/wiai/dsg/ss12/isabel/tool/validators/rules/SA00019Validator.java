@@ -1,6 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
@@ -13,8 +13,8 @@ public class SA00019Validator extends Validator {
     public static final int NEITHER_TYPE_NOR_ELEMENT = 1;
     public static final int TYPE_AND_ELEMENT = 2;
 
-    public SA00019Validator(BpelProcessFiles files, ValidationResult validationResult) {
-        super(files, validationResult);
+    public SA00019Validator(BpelProcessFiles files, ValidationCollector validationCollector) {
+        super(files, validationCollector);
     }
 
     @Override

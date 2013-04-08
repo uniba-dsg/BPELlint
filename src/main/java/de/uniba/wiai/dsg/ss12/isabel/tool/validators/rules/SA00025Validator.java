@@ -1,6 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -16,7 +16,7 @@ public class SA00025Validator extends Validator {
 	private static final int MESSAGE_TYPE_OR_TYPE_OR_ELEMENT_MISSING = 1;
 
 	public SA00025Validator(BpelProcessFiles files,
-			ValidationResult violationCollector) {
+			ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 

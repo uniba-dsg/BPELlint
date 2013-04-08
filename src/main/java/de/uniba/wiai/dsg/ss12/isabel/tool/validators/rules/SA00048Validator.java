@@ -1,6 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
@@ -15,7 +15,7 @@ import java.util.Map;
 import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00048Validator extends Validator {
-	public SA00048Validator(BpelProcessFiles files, ValidationResult violationCollector) {
+	public SA00048Validator(BpelProcessFiles files, ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 

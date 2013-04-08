@@ -20,8 +20,9 @@ import de.uniba.wiai.dsg.ss12.isabel.io.CommandLineInterpreter;
 import de.uniba.wiai.dsg.ss12.isabel.io.ValidationResultPrinter;
 import de.uniba.wiai.dsg.ss12.isabel.io.VerbosityLevel;
 import de.uniba.wiai.dsg.ss12.isabel.tool.Isabel;
-import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 import org.pmw.tinylog.Logger;
 
 import java.io.IOException;

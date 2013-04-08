@@ -351,14 +351,14 @@ public class FunctionalValidatorTests {
 
 	@Test
 	public void testValidators() throws Exception {
-		ValidationResult violations = new Isabel().validate(bpel);
+		ValidationResult validationResult = new Isabel().validate(bpel);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(baos);
-		new ValidationResultPrinter(ps).printResults(VerbosityLevel.NORMAL,violations);
+		new ValidationResultPrinter(ps).printResults(VerbosityLevel.NORMAL, validationResult);
 		String data = "\n" + baos.toString() + "\n";
 
-		assertEquals("BPEL: " + bpel + data, violatedRules, violations.getViolatedRules());
+		assertEquals("BPEL: " + bpel + data, violatedRules, validationResult.getViolatedRules());
 	}
 
 }

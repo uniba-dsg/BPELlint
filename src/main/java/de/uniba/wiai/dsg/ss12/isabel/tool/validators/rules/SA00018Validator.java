@@ -1,6 +1,6 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
@@ -12,8 +12,8 @@ import java.util.Set;
 
 public class SA00018Validator extends Validator {
 
-    public SA00018Validator(BpelProcessFiles files, ValidationResult validationResult) {
-        super(files, validationResult);
+    public SA00018Validator(BpelProcessFiles files, ValidationCollector validationCollector) {
+        super(files, validationCollector);
     }
 
     @Override

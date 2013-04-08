@@ -5,7 +5,7 @@ import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 
 import java.util.*;
 
-public class SimpleValidationResult implements ValidationResult {
+public class SimpleValidationResult implements ValidationCollector, ValidationResult {
 
 	private final List<Violation> violations = new ArrayList<>();
 
