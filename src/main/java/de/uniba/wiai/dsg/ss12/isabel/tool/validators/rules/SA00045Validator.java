@@ -1,17 +1,16 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.XSD_NAMESPACE;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;
-
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.XSD_NAMESPACE;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 
 public class SA00045Validator extends Validator {
 
@@ -22,7 +21,7 @@ public class SA00045Validator extends Validator {
 
 	@Override
 	public void validate() {
-        for (Node correlationSet : getAllCorrelationSets()) {
+		for (Node correlationSet : getAllCorrelationSets()) {
 			try {
 				if (!isSimpleType(correlationSet)) {
 					addViolation(correlationSet);
@@ -33,11 +32,12 @@ public class SA00045Validator extends Validator {
 		}
 	}
 
-    private Nodes getAllCorrelationSets() {
-        return fileHandler.getBpel().getDocument().query("//bpel:correlationSet", CONTEXT);
-    }
+	private Nodes getAllCorrelationSets() {
+		return fileHandler.getBpel().getDocument()
+				.query("//bpel:correlationSet", CONTEXT);
+	}
 
-    private boolean isSimpleType(Node correlationSet)
+	private boolean isSimpleType(Node correlationSet)
 			throws NavigationException {
 		DocumentEntry wsdlEntry = navigator
 				.getCorrespondingWsdlToCorrelationSet(correlationSet);
@@ -55,9 +55,11 @@ public class SA00045Validator extends Validator {
 			Document xmlSchema = fileHandler.getXmlSchema();
 			Nodes simpleTypes = xmlSchema.query("//xsd:simpleType", CONTEXT);
 			for (Node simpleType : simpleTypes) {
-				String simpleTypeName = new NodeHelper(simpleType).getAttribute("name");
+				String simpleTypeName = new NodeHelper(simpleType)
+						.getAttribute("name");
 
-				if (PrefixHelper.removePrefix(propertyType).equals(simpleTypeName)) {
+				if (PrefixHelper.removePrefix(propertyType).equals(
+						simpleTypeName)) {
 					return true;
 				}
 			}

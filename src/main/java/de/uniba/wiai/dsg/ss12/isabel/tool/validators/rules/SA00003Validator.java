@@ -1,29 +1,29 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import nu.xom.Node;
-import nu.xom.Nodes;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import nu.xom.Node;
+import nu.xom.Nodes;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 
 public class SA00003Validator extends Validator {
 
-    public SA00003Validator(BpelProcessFiles files,
-	                        ValidationCollector violationCollector) {
+	public SA00003Validator(BpelProcessFiles files,
+			ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
 	@Override
 	public void validate() {
-        List<Node> processAndScopeNodes = new ArrayList<>();
-        processAndScopeNodes.add(getBpelProcessNode());
-        processAndScopeNodes.addAll(getScopes());
+		List<Node> processAndScopeNodes = new ArrayList<>();
+		processAndScopeNodes.add(getBpelProcessNode());
+		processAndScopeNodes.addAll(getScopes());
 
 		for (Node processOrScope : processAndScopeNodes) {
 			if (hasExitOnStandardFault("yes", processOrScope)
@@ -33,17 +33,19 @@ public class SA00003Validator extends Validator {
 		}
 	}
 
-    private List<Node> getScopes() {
-        return NodesUtil.toList(fileHandler.getBpel().getDocument().query("//bpel:scope", CONTEXT));
-    }
+	private List<Node> getScopes() {
+		return NodesUtil.toList(fileHandler.getBpel().getDocument()
+				.query("//bpel:scope", CONTEXT));
+	}
 
-    private Node getBpelProcessNode() {
+	private Node getBpelProcessNode() {
 		return fileHandler.getBpel().getDocument().query("/bpel:*", CONTEXT)
 				.get(0);
 	}
 
 	private boolean hasExitOnStandardFault(String bool, Node enclosingScopes) {
-		String exitOnStandardFault = new NodeHelper(enclosingScopes).getAttribute("exitOnStandardFault");
+		String exitOnStandardFault = new NodeHelper(enclosingScopes)
+				.getAttribute("exitOnStandardFault");
 		return bool.equals(exitOnStandardFault);
 	}
 
@@ -63,7 +65,8 @@ public class SA00003Validator extends Validator {
 		Nodes catches = currentScope.query("bpel:faultHandlers/bpel:catch",
 				CONTEXT);
 		for (Node catchNode : catches) {
-			String attribute = new NodeHelper(catchNode).getAttribute("faultName");
+			String attribute = new NodeHelper(catchNode)
+					.getAttribute("faultName");
 			for (String fault : BPELFaults.VALUES) {
 				if (fault.equals(attribute)) {
 					return true;

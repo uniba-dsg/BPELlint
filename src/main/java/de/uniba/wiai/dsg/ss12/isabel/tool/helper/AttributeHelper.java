@@ -13,23 +13,29 @@ public class AttributeHelper {
 
 	public boolean isEqualTo(Attribute other) {
 		// TODO debug logging
-		//System.out.println("Comparing " + attribute.getValue() + " with " + other.getValue());
+		// System.out.println("Comparing " + attribute.getValue() + " with " +
+		// other.getValue());
 
-		if (hasDifferentAttributeNamespace(other)) return false;
-		if (hasDifferentAttributeValue(other)) return false;
+		if (hasDifferentAttributeNamespace(other))
+			return false;
+		if (hasDifferentAttributeValue(other))
+			return false;
 
 		return true;
 	}
 
 	public boolean hasDifferentAttributeNamespace(Attribute other) {
-		String namespaceA = ((Element)attribute.getParent()).getNamespaceURI(PrefixHelper.getPrefix(attribute.getValue()));
-		String namespaceB = ((Element)other.getParent()).getNamespaceURI(PrefixHelper.getPrefix(other.getValue()));
+		String namespaceA = ((Element) attribute.getParent())
+				.getNamespaceURI(PrefixHelper.getPrefix(attribute.getValue()));
+		String namespaceB = ((Element) other.getParent())
+				.getNamespaceURI(PrefixHelper.getPrefix(other.getValue()));
 
 		// TODO debug logging
-		//System.out.println("Comparing namespaces [" + namespaceA + "] and [" + namespaceB + "]");
-		if(!namespaceA.equals(namespaceB)){
+		// System.out.println("Comparing namespaces [" + namespaceA + "] and ["
+		// + namespaceB + "]");
+		if (!namespaceA.equals(namespaceB)) {
 			// TODO debug logging
-			//System.out.println("Namespaces not identical");
+			// System.out.println("Namespaces not identical");
 			return true;
 		}
 		return false;
@@ -39,10 +45,11 @@ public class AttributeHelper {
 		String valueA = PrefixHelper.removePrefix(attribute.getValue());
 		String valueB = PrefixHelper.removePrefix(other.getValue());
 		// TODO debug logging
-		//System.out.println("Comparing values [" + valueA + "] and [" + valueA + "]");
-		if(!valueA.equals(valueB)){
+		// System.out.println("Comparing values [" + valueA + "] and [" + valueA
+		// + "]");
+		if (!valueA.equals(valueB)) {
 			// TODO debug logging
-			//System.out.println("Values not identical");
+			// System.out.println("Values not identical");
 			return true;
 		}
 		return false;

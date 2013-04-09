@@ -15,16 +15,16 @@ public class CommandLineInterpreter {
 
 		for (String string : args) {
 			switch (string) {
-				case "--full":
-				case "-f":
-					verbosityLevel = VerbosityLevel.FULL;
-					break;
-				default:
-					path = string;
+			case "--full":
+			case "-f":
+				verbosityLevel = VerbosityLevel.FULL;
+				break;
+			default:
+				path = string;
 			}
 		}
 
-		if(path.isEmpty()){
+		if (path.isEmpty()) {
 			throw new IllegalArgumentException(USAGE);
 		}
 

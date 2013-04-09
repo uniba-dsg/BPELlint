@@ -44,12 +44,8 @@ public class Violation implements Comparable<Violation> {
 
 	@Override
 	public String toString() {
-		return "Violation{" +
-				"ruleNumber=" + ruleNumber +
-				", row=" + row +
-				", column=" + column +
-				", type=" + type +
-				", fileName='" + fileName + '\'' +
-				'}';
+		return "Violation{" + "ruleNumber=" + ruleNumber + ", row=" + row
+				+ ", column=" + column + ", type=" + type + ", fileName='"
+				+ fileName + '\'' + '}';
 	}
 }

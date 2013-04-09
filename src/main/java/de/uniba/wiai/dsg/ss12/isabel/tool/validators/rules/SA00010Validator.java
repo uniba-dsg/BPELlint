@@ -1,21 +1,21 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
-import nu.xom.Node;
-import nu.xom.Nodes;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 import java.util.List;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import nu.xom.Node;
+import nu.xom.Nodes;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 
 public class SA00010Validator extends Validator {
 
 	public SA00010Validator(BpelProcessFiles files,
-	                        ValidationCollector violationCollector) {
+			ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -36,71 +36,73 @@ public class SA00010Validator extends Validator {
 		String elementName = NodeHelper.toElement(node).getQualifiedName();
 
 		switch (elementName) {
-			case "partnerLink":
-				String partnerLinkType = getType(node, "partnerLinkType");
-				return isInAnyWsdl("partnerLinkType", partnerLinkType);
+		case "partnerLink":
+			String partnerLinkType = getType(node, "partnerLinkType");
+			return isInAnyWsdl("partnerLinkType", partnerLinkType);
 
-			case "variable":
-				String variableType = getType(node, "messageType");
-				if (!"".equals(variableType)) {
-					return isInAnyWsdl("message", variableType);
-				}
+		case "variable":
+			String variableType = getType(node, "messageType");
+			if (!"".equals(variableType)) {
+				return isInAnyWsdl("message", variableType);
+			}
 
-				variableType = getType(node, "type");
-				if (!"".equals(variableType)) {
-					return isInAnyXsd("simpleType", variableType)
-							|| isInAnyXsd("complexType", variableType);
-				}
+			variableType = getType(node, "type");
+			if (!"".equals(variableType)) {
+				return isInAnyXsd("simpleType", variableType)
+						|| isInAnyXsd("complexType", variableType);
+			}
 
-				variableType = getType(node, "element");
-				return "".equals(variableType) || isInAnyXsd("element", variableType);
+			variableType = getType(node, "element");
+			return "".equals(variableType)
+					|| isInAnyXsd("element", variableType);
 
-			case "correlationSet":
-				String correlationSetType = getType(node, "properties");
-				return isInAnyWsdl("property", correlationSetType);
+		case "correlationSet":
+			String correlationSetType = getType(node, "properties");
+			return isInAnyWsdl("property", correlationSetType);
 
-			case "reply":
-				String replyType = getType(node, "portType");
-				return isInAnyWsdl("portType", replyType);
+		case "reply":
+			String replyType = getType(node, "portType");
+			return isInAnyWsdl("portType", replyType);
 
-			case "catch":
-				String catchType = getType(node, "faultMessageType");
-				if (!"".equals(catchType)) {
-					return isInAnyWsdl("message", catchType);
-				}
+		case "catch":
+			String catchType = getType(node, "faultMessageType");
+			if (!"".equals(catchType)) {
+				return isInAnyWsdl("message", catchType);
+			}
 
-				catchType = getType(node, "faultElement");
-				return "".equals(catchType) || isInAnyXsd("element", catchType);
+			catchType = getType(node, "faultElement");
+			return "".equals(catchType) || isInAnyXsd("element", catchType);
 
-			case "receive":
-				String receiveType = getType(node, "portType");
-				return isInAnyWsdl("portType", receiveType);
+		case "receive":
+			String receiveType = getType(node, "portType");
+			return isInAnyWsdl("portType", receiveType);
 
-			case "invoke":
-				String invokeType = getType(node, "portType");
-				return isInAnyWsdl("portType", invokeType);
+		case "invoke":
+			String invokeType = getType(node, "portType");
+			return isInAnyWsdl("portType", invokeType);
 
-			case "onMessage":
-				String onMessageType = getType(node, "portType");
-				return isInAnyWsdl("portType", onMessageType);
+		case "onMessage":
+			String onMessageType = getType(node, "portType");
+			return isInAnyWsdl("portType", onMessageType);
 
-			case "onEvent":
-				String onEventType = getType(node, "portType");
-				return isInAnyWsdl("portType", onEventType);
+		case "onEvent":
+			String onEventType = getType(node, "portType");
+			return isInAnyWsdl("portType", onEventType);
 
-			case "to":
-				String toType = getType(node, "property");
-				return "".equals(toType) || isInAnyWsdl("property", toType);
-			case "from":
-				String fromType = getType(node, "property");
-				return "".equals(fromType) || isInAnyWsdl("property", fromType);
-			default:
-				return true;
+		case "to":
+			String toType = getType(node, "property");
+			return "".equals(toType) || isInAnyWsdl("property", toType);
+		case "from":
+			String fromType = getType(node, "property");
+			return "".equals(fromType) || isInAnyWsdl("property", fromType);
+		default:
+			return true;
 		}
 	}
 
 	private String getType(Node node, String definitionType) {
-		String attributeValue = new NodeHelper(node).getAttribute(definitionType);
+		String attributeValue = new NodeHelper(node)
+				.getAttribute(definitionType);
 		return PrefixHelper.removePrefix(attributeValue);
 	}
 
@@ -109,7 +111,7 @@ public class SA00010Validator extends Validator {
 	}
 
 	private boolean inAnyFile(String definitionType, String type,
-	                          List<DocumentEntry> files) {
+			List<DocumentEntry> files) {
 		for (DocumentEntry domEntry : files) {
 			Nodes rightNamedElements = domEntry.getDocument().query(
 					"//*[@name='" + type + "']", CONTEXT);
@@ -118,7 +120,8 @@ public class SA00010Validator extends Validator {
 				String definitionElement = NodeHelper.toElement(rightElement)
 						.getQualifiedName();
 
-				if (definitionType.equals(PrefixHelper.removePrefix(definitionElement))) {
+				if (definitionType.equals(PrefixHelper
+						.removePrefix(definitionElement))) {
 					return true;
 				}
 			}
@@ -135,7 +138,8 @@ public class SA00010Validator extends Validator {
 				String definitionElement = NodeHelper.toElement(rightElement)
 						.getQualifiedName();
 
-				if (definitionType.equals(PrefixHelper.removePrefix(definitionElement))) {
+				if (definitionType.equals(PrefixHelper
+						.removePrefix(definitionElement))) {
 					return true;
 				}
 			}

@@ -1,23 +1,23 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.wsdl.OperationElement;
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import nu.xom.Node;
-import nu.xom.Nodes;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import nu.xom.Node;
+import nu.xom.Nodes;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.wsdl.OperationElement;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 
 public class SA00047Validator extends Validator {
 
 	public SA00047Validator(BpelProcessFiles files,
-	                        ValidationCollector violationCollector) {
+			ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -108,7 +108,8 @@ public class SA00047Validator extends Validator {
 
 	private boolean isReceiveOnMessageOnEvent(Node messageActivity) {
 		NodeHelper nodeHelper = new NodeHelper(messageActivity);
-		return nodeHelper.hasLocalName("receive") || nodeHelper.hasLocalName("onMessage")
+		return nodeHelper.hasLocalName("receive")
+				|| nodeHelper.hasLocalName("onMessage")
 				|| nodeHelper.hasLocalName("onEvent");
 	}
 

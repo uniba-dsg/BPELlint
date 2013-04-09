@@ -1,33 +1,33 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.helper.wsdl;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import nu.xom.Node;
-
 import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import nu.xom.Node;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 
 public class OperationElement extends NodeHelper {
 
-    public OperationElement(Node operation) {
+	public OperationElement(Node operation) {
 		super(operation);
 
-        if(!getLocalName().equals("operation")){
-            throw new IllegalArgumentException("operation helper only works for wsdl:operation elements");
-        }
+		if (!getLocalName().equals("operation")) {
+			throw new IllegalArgumentException(
+					"operation helper only works for wsdl:operation elements");
+		}
 	}
 
-    public boolean isOneWay() {
-        return hasInput() && !hasOutput();
+	public boolean isOneWay() {
+		return hasInput() && !hasOutput();
 	}
 
-    public boolean isRequestResponse() {
+	public boolean isRequestResponse() {
 		return hasInput() && hasOutput() && !isFirstChildOutput();
 	}
 
-    public boolean isNotification() {
+	public boolean isNotification() {
 		return hasOutput() && !hasInput();
 	}
 
-    public boolean isSolicitResponse() {
+	public boolean isSolicitResponse() {
 		return hasOutput() && hasInput() && isFirstChildOutput();
 	}
 
@@ -44,7 +44,5 @@ public class OperationElement extends NodeHelper {
 	private boolean hasInput() {
 		return hasQueryResult("child::wsdl:input");
 	}
-
-
 
 }

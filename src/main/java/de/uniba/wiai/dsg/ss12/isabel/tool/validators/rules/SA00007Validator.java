@@ -1,12 +1,11 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 import nu.xom.Node;
 import nu.xom.Nodes;
-
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 
 public class SA00007Validator extends Validator {
 
@@ -17,23 +16,25 @@ public class SA00007Validator extends Validator {
 
 	@Override
 	public void validate() {
-        for (Node compensateScope : getAllCompensateScopes()) {
-            NodeHelper compensateScopeHelper = new NodeHelper(compensateScope);
+		for (Node compensateScope : getAllCompensateScopes()) {
+			NodeHelper compensateScopeHelper = new NodeHelper(compensateScope);
 
-            if (!compensateScopeHelper.hasAncestor("bpel:faultHandlers") &&
-                    !compensateScopeHelper.hasAncestor("bpel:compensationHandler") &&
-                    !compensateScopeHelper.hasAncestor("bpel:terminationHandlers")) {
-                addViolation(compensateScope);
-            }
+			if (!compensateScopeHelper.hasAncestor("bpel:faultHandlers")
+					&& !compensateScopeHelper
+							.hasAncestor("bpel:compensationHandler")
+					&& !compensateScopeHelper
+							.hasAncestor("bpel:terminationHandlers")) {
+				addViolation(compensateScope);
+			}
 		}
 	}
 
-    private Nodes getAllCompensateScopes() {
-        return fileHandler.getBpel().getDocument()
-                .query("//bpel:compensateScope", CONTEXT);
-    }
+	private Nodes getAllCompensateScopes() {
+		return fileHandler.getBpel().getDocument()
+				.query("//bpel:compensateScope", CONTEXT);
+	}
 
-    @Override
+	@Override
 	public int getSaNumber() {
 		return 7;
 	}

@@ -1,12 +1,12 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
+import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 
 public abstract class Validator {
 
@@ -16,7 +16,8 @@ public abstract class Validator {
 	protected final ValidatorNavigator navigator;
 	private final ValidationCollector validationCollector;
 
-	public Validator(BpelProcessFiles files, ValidationCollector validationCollector) {
+	public Validator(BpelProcessFiles files,
+			ValidationCollector validationCollector) {
 		this.fileHandler = files;
 		this.validationCollector = validationCollector;
 		navigator = new ValidatorNavigator(fileHandler);
@@ -28,13 +29,13 @@ public abstract class Validator {
 
 	private void addViolation(String fileName, Node node, int type) {
 		validationCollector.add(new Violation(fileName, getSaNumber(), type,
-                getLineNumber(node), getColumnNumber(node)));
+				getLineNumber(node), getColumnNumber(node)));
 	}
 
 	protected void addViolation(Node node) {
 		addViolation(node, DEFAULT_TYPE);
 	}
-	
+
 	protected void addViolation(Node node, int type) {
 		addViolation(new NodeHelper(node).getFilePath(), node, type);
 	}

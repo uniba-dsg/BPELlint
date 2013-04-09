@@ -1,10 +1,10 @@
 package de.uniba.wiai.dsg.ss12.isabel.io;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
-import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
-
 import java.io.PrintStream;
 import java.util.List;
+
+import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
+import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 
 public class ValidationResultPrinter {
 
@@ -20,7 +20,7 @@ public class ValidationResultPrinter {
 	}
 
 	public void printResults(VerbosityLevel verbosityLevel,
-	                         ValidationResult validationResult) {
+			ValidationResult validationResult) {
 		switch (verbosityLevel) {
 		case NORMAL:
 			printResults(validationResult);
@@ -81,7 +81,8 @@ public class ValidationResultPrinter {
 
 	private void printShortDescription(String SANumber, int type) {
 		try {
-			printer.println("\t\t" + errorMessageRepository.getShort(SANumber, type));
+			printer.println("\t\t"
+					+ errorMessageRepository.getShort(SANumber, type));
 		} catch (DescriptionNotFoundException e) {
 			printErrorDocumentFatal(e.getMessage());
 		}

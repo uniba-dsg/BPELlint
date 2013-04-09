@@ -1,15 +1,15 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.wsdl.OperationElement;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
-import nu.xom.Node;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 import java.util.List;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import nu.xom.Node;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.wsdl.OperationElement;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 
 public class SA00001Validator extends Validator {
 
@@ -17,7 +17,7 @@ public class SA00001Validator extends Validator {
 	private static final int NOTIFICATION_FAULT = 1;
 
 	public SA00001Validator(BpelProcessFiles files,
-	                        ValidationCollector violationCollector) {
+			ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -25,7 +25,8 @@ public class SA00001Validator extends Validator {
 	public void validate() {
 		for (DocumentEntry wsdlEntry : fileHandler.getAllWsdls()) {
 			for (Node currentOperation : getOperations(wsdlEntry)) {
-				OperationElement operationHelper = new OperationElement(currentOperation);
+				OperationElement operationHelper = new OperationElement(
+						currentOperation);
 				if (operationHelper.isNotification()) {
 					addViolation(currentOperation, NOTIFICATION_FAULT);
 				}

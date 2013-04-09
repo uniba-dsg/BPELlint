@@ -1,22 +1,21 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import nu.xom.Document;
+import nu.xom.Node;
+import nu.xom.Nodes;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.BPELHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
-import nu.xom.Document;
-import nu.xom.Node;
-import nu.xom.Nodes;
-
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00021Validator extends Validator {
 
 	public SA00021Validator(BpelProcessFiles files,
-	                        ValidationCollector violationCollector) {
+			ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -41,12 +40,14 @@ public class SA00021Validator extends Validator {
 		}
 	}
 
-	private Node getCorrespondingVariable(Node fromTo) throws NavigationException {
-		return BPELHelper.getVariableByName(fromTo, new NodeHelper(fromTo).getAttribute("variable"));
+	private Node getCorrespondingVariable(Node fromTo)
+			throws NavigationException {
+		return BPELHelper.getVariableByName(fromTo,
+				new NodeHelper(fromTo).getAttribute("variable"));
 	}
 
 	private void hasCorrespondingPropertyAlias(Node node, String property,
-	                                           Node partHolder) throws NavigationException {
+			Node partHolder) throws NavigationException {
 		String type = "";
 
 		if (NodeHelper.toElement(node).getLocalName().equals("onEvent")) {
@@ -66,7 +67,7 @@ public class SA00021Validator extends Validator {
 				if (PrefixHelper.removePrefix(property).equals(propertyName)) {
 					if (!(isOfThisMessageType(type, propertyAlias, partHolder)
 							|| isOfThisType(type, propertyAlias) || isOfThisElement(
-							type, propertyAlias))) {
+								type, propertyAlias))) {
 						addViolation(node);
 					}
 				} else {
@@ -87,7 +88,7 @@ public class SA00021Validator extends Validator {
 	}
 
 	private boolean isOfThisMessageType(String type, Node propertyAlias,
-	                                    Node partHolder) {
+			Node partHolder) {
 		NodeHelper nodeHelper = new NodeHelper(propertyAlias);
 		String messageType = PrefixHelper.removePrefix(nodeHelper
 				.getAttribute("messageType"));
@@ -95,8 +96,8 @@ public class SA00021Validator extends Validator {
 				.removePrefix(type));
 
 		if (isMessageType) {
-			return (new NodeHelper(partHolder).hasSameAttribute(nodeHelper, "part") || hasOneMessagePart(
-					propertyAlias, messageType));
+			return (new NodeHelper(partHolder).hasSameAttribute(nodeHelper,
+					"part") || hasOneMessagePart(propertyAlias, messageType));
 		} else {
 			return true;
 		}
@@ -143,11 +144,13 @@ public class SA00021Validator extends Validator {
 		} else if (variableHelper.hasAttribute("element")) {
 			return variableHelper.getAttribute("element");
 		} else {
-			throw new NavigationException("Node variable does not contain any messageType, type or element attribute");
+			throw new NavigationException(
+					"Node variable does not contain any messageType, type or element attribute");
 		}
 	}
 
-	private String getOnEventVariableType(Node onEvent) throws NavigationException {
+	private String getOnEventVariableType(Node onEvent)
+			throws NavigationException {
 
 		NodeHelper onEventHelper = new NodeHelper(onEvent);
 		if (onEventHelper.hasAttribute("messageType")) {
@@ -155,7 +158,8 @@ public class SA00021Validator extends Validator {
 		} else if (onEventHelper.hasAttribute("element")) {
 			return onEventHelper.getAttribute("element");
 		} else {
-			throw new NavigationException("Node onEvent does not contain any messageType or element attribute");
+			throw new NavigationException(
+					"Node onEvent does not contain any messageType or element attribute");
 		}
 	}
 

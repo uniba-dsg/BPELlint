@@ -4,8 +4,7 @@ public class PrefixHelper {
 
 	public static String removePrefix(String localAttribute) {
 		if (localAttribute.contains(":")) {
-			return localAttribute.substring(localAttribute
-					.indexOf(":") + 1);
+			return localAttribute.substring(localAttribute.indexOf(":") + 1);
 		} else {
 			return localAttribute;
 		}

@@ -1,26 +1,28 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.xsd;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
-import org.pmw.tinylog.Logger;
-import org.xml.sax.SAXException;
+import java.io.File;
 
 import javax.xml.XMLConstants;
 import javax.xml.validation.SchemaFactory;
-import java.io.File;
 
+import org.pmw.tinylog.Logger;
+import org.xml.sax.SAXException;
+
+import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
 
 class XSDValidator {
 
-    private static SchemaFactory sFactory = SchemaFactory
-            .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+	private static SchemaFactory sFactory = SchemaFactory
+			.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-    public void validate(String file) throws ValidationException {
-        // Load the main schema
-        try {
-            sFactory.newSchema(new File(file));
-            Logger.debug("File " + file + " is a valid XSD file");
-        } catch (SAXException e) {
-            throw new ValidationException("File " + file + " is no XML Schema",e);
-        }
-    }
+	public void validate(String file) throws ValidationException {
+		// Load the main schema
+		try {
+			sFactory.newSchema(new File(file));
+			Logger.debug("File " + file + " is a valid XSD file");
+		} catch (SAXException e) {
+			throw new ValidationException("File " + file + " is no XML Schema",
+					e);
+		}
+	}
 }

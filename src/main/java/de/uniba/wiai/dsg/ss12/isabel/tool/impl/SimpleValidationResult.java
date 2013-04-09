@@ -1,11 +1,16 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationResult;
 import de.uniba.wiai.dsg.ss12.isabel.tool.Violation;
 
-import java.util.*;
-
-public class SimpleValidationResult implements ValidationCollector, ValidationResult {
+public class SimpleValidationResult implements ValidationCollector,
+		ValidationResult {
 
 	private final List<Violation> violations = new ArrayList<>();
 

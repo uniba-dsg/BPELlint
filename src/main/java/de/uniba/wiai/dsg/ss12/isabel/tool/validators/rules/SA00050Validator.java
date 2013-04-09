@@ -1,14 +1,13 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import nu.xom.Node;
+import nu.xom.Nodes;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import nu.xom.Node;
-import nu.xom.Nodes;
-
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00050Validator extends Validator {
 
@@ -33,7 +32,8 @@ public class SA00050Validator extends Validator {
 						"bpel:toParts/bpel:toPart", CONTEXT);
 
 				Node message;
-				if ("invoke".equals(PrefixHelper.removePrefix(xPathOutgoingOperation))) {
+				if ("invoke".equals(PrefixHelper
+						.removePrefix(xPathOutgoingOperation))) {
 					message = navigator
 							.getCorrespondingIncomingMessage(outgoingOperation);
 				} else {

@@ -1,16 +1,27 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
-import nu.xom.*;
-import org.pmw.tinylog.Logger;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Paths;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import nu.xom.Builder;
+import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.Node;
+import nu.xom.Nodes;
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
+
+import org.pmw.tinylog.Logger;
+
+import de.uniba.wiai.dsg.ss12.isabel.tool.ValidationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
 
 public class XmlFileLoader {
 
@@ -35,16 +46,18 @@ public class XmlFileLoader {
 		} catch (ParsingException e) {
 			throw new ValidationException("Loading failed: Not Parsable", e);
 		} catch (FileNotFoundException e) {
-			throw new ValidationException(
-					"Loading failed: File was not found", e);
+			throw new ValidationException("Loading failed: File was not found",
+					e);
 		} catch (IOException e) {
-			throw new ValidationException(
-					"Loading failed: File-Reading Error", e);
+			throw new ValidationException("Loading failed: File-Reading Error",
+					e);
 		}
 
 	}
 
-	private BpelProcessFiles loadAllProcessFilesWithoutExceptions(String bpelFilePath) throws ParsingException, IOException, ValidationException {
+	private BpelProcessFiles loadAllProcessFilesWithoutExceptions(
+			String bpelFilePath) throws ParsingException, IOException,
+			ValidationException {
 		loadBpelFile(bpelFilePath);
 		loadXmlSchema();
 		loadBpelImports();
@@ -58,7 +71,8 @@ public class XmlFileLoader {
 		}
 	}
 
-	private void loadWsdlOrXsd(Node importNode) throws ParsingException, IOException {
+	private void loadWsdlOrXsd(Node importNode) throws ParsingException,
+			IOException {
 		Logger.debug("Loading <bpel:import> reference " + importNode.toXML());
 		DocumentEntry entry = createImportDocumentEntry(importNode);
 		if (entry.isWsdl()) {
@@ -66,21 +80,26 @@ public class XmlFileLoader {
 		} else if (entry.isXsd()) {
 			loadXSD(entry);
 		} else {
-			throw new IllegalStateException("Bad <import> found " + importNode.toXML());
+			throw new IllegalStateException("Bad <import> found "
+					+ importNode.toXML());
 		}
 	}
 
-	private void loadXmlSchema() throws ValidationException, ParsingException, IOException {
-		try (InputStream stream = XmlFileLoader.class.getResourceAsStream(XMLSCHEMA_XSD)) {
+	private void loadXmlSchema() throws ValidationException, ParsingException,
+			IOException {
+		try (InputStream stream = XmlFileLoader.class
+				.getResourceAsStream(XMLSCHEMA_XSD)) {
 			Document xmlSchemaDom = builder.build(stream);
-			Logger.debug("XML Schema Resource URL: " + xmlSchemaDom.getBaseURI());
+			Logger.debug("XML Schema Resource URL: "
+					+ xmlSchemaDom.getBaseURI());
 			DocumentEntry xmlSchemaEntry = new DocumentEntry(xmlSchemaDom);
 
 			result.addXsd(xmlSchemaEntry);
 		}
 	}
 
-	private DocumentEntry loadBpelFile(String bpelFilePath) throws ParsingException, IOException, ValidationException {
+	private DocumentEntry loadBpelFile(String bpelFilePath)
+			throws ParsingException, IOException, ValidationException {
 		try {
 			Document bpelDom = builder.build(new File(bpelFilePath));
 			DocumentEntry bpel = new DocumentEntry(bpelDom);
@@ -95,11 +114,13 @@ public class XmlFileLoader {
 		}
 	}
 
-	private void loadWSDL(DocumentEntry wsdlEntry) throws ParsingException, IOException {
+	private void loadWSDL(DocumentEntry wsdlEntry) throws ParsingException,
+			IOException {
 		if (!result.getAllWsdls().contains(wsdlEntry)) {
 			result.addWsdl(wsdlEntry);
 
-			for (Node importNode : wsdlEntry.getDocument().query("//wsdl:import", CONTEXT)) {
+			for (Node importNode : wsdlEntry.getDocument().query(
+					"//wsdl:import", CONTEXT)) {
 				loadWsdlOrXsd(importNode);
 			}
 
@@ -107,18 +128,20 @@ public class XmlFileLoader {
 		}
 	}
 
-	private void loadXSD(DocumentEntry entry) throws ParsingException, IOException {
+	private void loadXSD(DocumentEntry entry) throws ParsingException,
+			IOException {
 		if (!result.getAllXsds().contains(entry)) {
 			result.addXsd(entry);
 			// TODO check if this is the right xsd file
-			for (Node importNode : entry.getDocument().query("//xsd:import", CONTEXT)) {
+			for (Node importNode : entry.getDocument().query("//xsd:import",
+					CONTEXT)) {
 				loadWsdlOrXsd(importNode);
 			}
 		}
 	}
 
-	private void addWsdlXsd(DocumentEntry entry) throws
-			ParsingException, IOException {
+	private void addWsdlXsd(DocumentEntry entry) throws ParsingException,
+			IOException {
 		Nodes typesNodes = entry.getDocument().query("//wsdl:types/*", CONTEXT);
 
 		if (typesNodes.size() == 0) {
@@ -133,8 +156,8 @@ public class XmlFileLoader {
 		}
 	}
 
-	private void addXsdImports(Node schemaNode) throws
-			ParsingException, IOException {
+	private void addXsdImports(Node schemaNode) throws ParsingException,
+			IOException {
 		DocumentEntry xsdEntry;
 		Nodes schemaChildren = schemaNode.query("child::*", CONTEXT);
 		for (Node node : schemaChildren) {
@@ -170,7 +193,8 @@ public class XmlFileLoader {
 		Document importFileDom = builder.build(importFile);
 
 		DocumentEntry entry = new DocumentEntry(importFileDom);
-		Logger.debug("Loaded " + importFile + " (" + importNode.toXML() + ") as " + entry);
+		Logger.debug("Loaded " + importFile + " (" + importNode.toXML()
+				+ ") as " + entry);
 
 		return entry;
 	}
@@ -179,7 +203,8 @@ public class XmlFileLoader {
 		NodeHelper nodeHelper = new NodeHelper(node);
 
 		if (nodeHelper.hasAttribute("schemaLocation")) {
-			return Paths.get(nodeHelper.getAttribute("schemaLocation")).toString();
+			return Paths.get(nodeHelper.getAttribute("schemaLocation"))
+					.toString();
 		} else if (nodeHelper.hasAttribute("location")) {
 			return Paths.get(nodeHelper.getAttribute("location")).toString();
 		}

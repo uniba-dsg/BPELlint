@@ -1,15 +1,15 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import nu.xom.Node;
-import nu.xom.Nodes;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import nu.xom.Node;
+import nu.xom.Nodes;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 
 public class SA00044Validator extends Validator {
 
@@ -20,25 +20,28 @@ public class SA00044Validator extends Validator {
 
 	@Override
 	public void validate() {
-        for(Node correlationSetContainer : getCorrelationSetContainers()){
-            Set<String> names = new HashSet<>();
-            for(Node correlationSet : correlationSetContainer.query("bpel:correlationSet", CONTEXT)){
-                String name = new NodeHelper(correlationSet).getAttribute("name");
+		for (Node correlationSetContainer : getCorrelationSetContainers()) {
+			Set<String> names = new HashSet<>();
+			for (Node correlationSet : correlationSetContainer.query(
+					"bpel:correlationSet", CONTEXT)) {
+				String name = new NodeHelper(correlationSet)
+						.getAttribute("name");
 
-                if(names.contains(name)){
-                    addViolation(correlationSet);
-                } else {
-                    names.add(name);
-                }
-            }
-        }
+				if (names.contains(name)) {
+					addViolation(correlationSet);
+				} else {
+					names.add(name);
+				}
+			}
+		}
 	}
 
-    private Nodes getCorrelationSetContainers() {
-        return fileHandler.getBpel().getDocument().query("//bpel:correlationSets", CONTEXT);
-    }
+	private Nodes getCorrelationSetContainers() {
+		return fileHandler.getBpel().getDocument()
+				.query("//bpel:correlationSets", CONTEXT);
+	}
 
-    @Override
+	@Override
 	public int getSaNumber() {
 		return 44;
 	}

@@ -1,18 +1,20 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.bpel.ImportElement;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
+import java.util.List;
+
 import nu.xom.Node;
+
 import org.pmw.tinylog.Logger;
 
-import java.util.List;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.bpel.ImportElement;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 
 public class SA00011Validator extends Validator {
 
 	public SA00011Validator(BpelProcessFiles files,
-	                        ValidationCollector violationCollector) {
+			ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -37,15 +39,19 @@ public class SA00011Validator extends Validator {
 
 		ImportElement importElement = new ImportElement(node);
 
-		String absolutePath = importElement.getAbsoluteLocation(this.fileHandler.getAbsoluteBpelFolder());
+		String absolutePath = importElement
+				.getAbsoluteLocation(this.fileHandler.getAbsoluteBpelFolder());
 
 		for (DocumentEntry documentEntry : documentEntryList) {
 			String filePath = documentEntry.getFilePath();
-			Logger.debug("Comparing [" + filePath + "] with [" + absolutePath + "]");
+			Logger.debug("Comparing [" + filePath + "] with [" + absolutePath
+					+ "]");
 			if (filePath.equals(absolutePath)) {
 
-				Logger.debug("Comparing [" + importElement.getNamespace() + "] with [" + documentEntry.getTargetNamespace() + "]");
-				if (importElement.getNamespace().equals(documentEntry.getTargetNamespace())) {
+				Logger.debug("Comparing [" + importElement.getNamespace()
+						+ "] with [" + documentEntry.getTargetNamespace() + "]");
+				if (importElement.getNamespace().equals(
+						documentEntry.getTargetNamespace())) {
 					return true;
 				}
 			}

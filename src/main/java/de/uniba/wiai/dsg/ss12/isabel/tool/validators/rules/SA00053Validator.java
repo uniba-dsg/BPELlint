@@ -1,14 +1,13 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import nu.xom.Node;
+import nu.xom.Nodes;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
 import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
 import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import nu.xom.Node;
-import nu.xom.Nodes;
-
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00053Validator extends Validator {
 
@@ -32,7 +31,8 @@ public class SA00053Validator extends Validator {
 		for (Node incomingOperation : incomingOperations) {
 			try {
 				Node message;
-				if ("invoke".equals(PrefixHelper.removePrefix(xPathOutgoingOperation))) {
+				if ("invoke".equals(PrefixHelper
+						.removePrefix(xPathOutgoingOperation))) {
 					message = navigator
 							.getCorrespondingOutgoingMessage(incomingOperation);
 				} else {
@@ -65,7 +65,8 @@ public class SA00053Validator extends Validator {
 		Nodes messageParts = message.query("wsdl:part", CONTEXT);
 
 		if (messageParts.size() > 0) {
-			String partAttribute = new NodeHelper(fromPart).getAttribute("part");
+			String partAttribute = new NodeHelper(fromPart)
+					.getAttribute("part");
 
 			for (Node part : messageParts) {
 				String partName = new NodeHelper(part).getAttribute("name");

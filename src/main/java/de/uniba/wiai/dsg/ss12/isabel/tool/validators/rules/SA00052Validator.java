@@ -1,12 +1,11 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 import nu.xom.Node;
 import nu.xom.Nodes;
-
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 
 public class SA00052Validator extends Validator {
 	public SA00052Validator(BpelProcessFiles files,
@@ -21,7 +20,8 @@ public class SA00052Validator extends Validator {
 
 		for (Node invoke : invokeNodes) {
 			Nodes fromParts = invoke.query("bpel:fromParts", CONTEXT);
-			String outputVariable = new NodeHelper(invoke).getAttribute("outputVariable");
+			String outputVariable = new NodeHelper(invoke)
+					.getAttribute("outputVariable");
 
 			if (!outputVariable.isEmpty() && fromParts.size() > 0) {
 				addViolation(invoke);

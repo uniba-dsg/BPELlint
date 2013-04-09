@@ -1,27 +1,29 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
-import nu.xom.Node;
-import nu.xom.Nodes;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 
 import java.util.List;
 import java.util.Map;
 
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import nu.xom.Node;
+import nu.xom.Nodes;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.PrefixHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.DocumentEntry;
 
 public class SA00048Validator extends Validator {
-	public SA00048Validator(BpelProcessFiles files, ValidationCollector violationCollector) {
+	public SA00048Validator(BpelProcessFiles files,
+			ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
 	@Override
 	public void validate() {
-		Nodes invokes = fileHandler.getBpel().getDocument().query("//bpel:invoke", CONTEXT);
+		Nodes invokes = fileHandler.getBpel().getDocument()
+				.query("//bpel:invoke", CONTEXT);
 		for (Node invoke : invokes) {
 			try {
 				Map<String, Node> messages = getCorrespondingMessages(invoke);
@@ -29,12 +31,14 @@ public class SA00048Validator extends Validator {
 				Node variableForOutput = getOutputVariable(invoke);
 
 				if (variableForInput != null) {
-					if (!hasCorrespondingMessage(variableForInput, messages.get("input")))
+					if (!hasCorrespondingMessage(variableForInput,
+							messages.get("input")))
 						addViolation(invoke, 1);
 				}
 
 				if (variableForOutput != null) {
-					if (!hasCorrespondingMessage(variableForOutput, messages.get("output"))) {
+					if (!hasCorrespondingMessage(variableForOutput,
+							messages.get("output"))) {
 						addViolation(invoke, 2);
 					}
 				}
@@ -45,12 +49,14 @@ public class SA00048Validator extends Validator {
 	}
 
 	private Node getInputVariable(Node invokeActivity) {
-		String inputVariableName = new NodeHelper(invokeActivity).getAttribute("inputVariable");
+		String inputVariableName = new NodeHelper(invokeActivity)
+				.getAttribute("inputVariable");
 		return correspondingVariable(invokeActivity, inputVariableName);
 	}
 
 	private Node getOutputVariable(Node invokeActivity) {
-		String outputVariableName = new NodeHelper(invokeActivity).getAttribute("outputVariable");
+		String outputVariableName = new NodeHelper(invokeActivity)
+				.getAttribute("outputVariable");
 		return correspondingVariable(invokeActivity, outputVariableName);
 	}
 
@@ -63,11 +69,13 @@ public class SA00048Validator extends Validator {
 	}
 
 	private boolean hasCorrespondingMessage(Node variable, Node operationMessage) {
-		String messageTypeQName = new NodeHelper(variable).getAttribute("messageType");
+		String messageTypeQName = new NodeHelper(variable)
+				.getAttribute("messageType");
 		String typeQName = new NodeHelper(variable).getAttribute("type");
 
 		if (!messageTypeQName.isEmpty()) {
-			Node variableMessage = getVariableMessage(messageTypeQName, variable);
+			Node variableMessage = getVariableMessage(messageTypeQName,
+					variable);
 			if (equalsMessage(variableMessage, operationMessage)) {
 				return true;
 			}
@@ -85,20 +93,23 @@ public class SA00048Validator extends Validator {
 
 	private Node findMessageXsdElement(Node operationMessage) {
 		Node messagePartElement = getMessagePartAttributeElement(operationMessage);
-		Node xsdElement = findXsdType(messagePartElement.getValue(), messagePartElement);
-		String elementTypeQName = new NodeHelper(xsdElement).getAttribute("type");
+		Node xsdElement = findXsdType(messagePartElement.getValue(),
+				messagePartElement);
+		String elementTypeQName = new NodeHelper(xsdElement)
+				.getAttribute("type");
 		return findXsdType(elementTypeQName, messagePartElement);
 	}
 
 	private boolean messageHasOnlyOnePartWithElement(Node operationMessage) {
 		return operationMessage.query("child::*").size() == 1
-				&& operationMessage.query("child::wsdl:part[position()=1]/@element", CONTEXT)
+				&& operationMessage.query(
+						"child::wsdl:part[position()=1]/@element", CONTEXT)
 						.size() == 1;
 	}
 
 	private Node getMessagePartAttributeElement(Node operationMessage) {
-		Nodes partElement = operationMessage.query("child::wsdl:part[position()=1]/@element",
-				CONTEXT);
+		Nodes partElement = operationMessage.query(
+				"child::wsdl:part[position()=1]/@element", CONTEXT);
 		return (partElement.size() > 0) ? partElement.get(0) : null;
 	}
 
@@ -108,14 +119,17 @@ public class SA00048Validator extends Validator {
 	}
 
 	private Node findXsdType(String typeQName, Node variable) {
-		String variableTypeNamespaceURI = variable.getDocument().getRootElement()
+		String variableTypeNamespaceURI = variable.getDocument()
+				.getRootElement()
 				.getNamespaceURI(PrefixHelper.getPrefix(typeQName));
 		String xsdTypeName = PrefixHelper.removePrefix(typeQName);
 		Node xsdType = null;
 
 		for (Node node : fileHandler.getXsdSchema()) {
-			if (new NodeHelper(node).hasTargetNamespace(variableTypeNamespaceURI)) {
-				Nodes xsdTypes = node.getDocument().query("//*[@name='" + xsdTypeName + "']", CONTEXT);
+			if (new NodeHelper(node)
+					.hasTargetNamespace(variableTypeNamespaceURI)) {
+				Nodes xsdTypes = node.getDocument().query(
+						"//*[@name='" + xsdTypeName + "']", CONTEXT);
 				if (xsdTypes.size() > 0) {
 					xsdType = xsdTypes.get(0);
 					break;
@@ -144,8 +158,9 @@ public class SA00048Validator extends Validator {
 	}
 
 	private Node correspondingVariable(Node invokeActivity, String variableName) {
-		Nodes variable = invokeActivity.query("(ancestor::*/bpel:variables/bpel:variable[@name='"
-				+ variableName + "'])[last()]", CONTEXT);
+		Nodes variable = invokeActivity.query(
+				"(ancestor::*/bpel:variables/bpel:variable[@name='"
+						+ variableName + "'])[last()]", CONTEXT);
 
 		if (variable.size() > 0)
 			return variable.get(0);

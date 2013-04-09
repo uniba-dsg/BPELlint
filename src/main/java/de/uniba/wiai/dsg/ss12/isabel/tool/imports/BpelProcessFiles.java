@@ -1,18 +1,24 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.XSD_NAMESPACE;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;
+
 import org.pmw.tinylog.Logger;
 
-import java.io.File;
-import java.util.*;
-
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.XSD_NAMESPACE;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodesUtil;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
 
 public class BpelProcessFiles {
 
@@ -29,9 +35,12 @@ public class BpelProcessFiles {
 		Objects.requireNonNull(wsdl, "a wsdl reference is required");
 
 		// check namespace
-		String namespaceURI = wsdl.getDocument().getRootElement().getNamespaceURI();
-		if(!namespaceURI.equals(Standards.WSDL_NAMESPACE)){
-			throw new IllegalArgumentException("expected WSDL namespace for WSDL file but got " + namespaceURI + " in file " + wsdl.getFilePath());
+		String namespaceURI = wsdl.getDocument().getRootElement()
+				.getNamespaceURI();
+		if (!namespaceURI.equals(Standards.WSDL_NAMESPACE)) {
+			throw new IllegalArgumentException(
+					"expected WSDL namespace for WSDL file but got "
+							+ namespaceURI + " in file " + wsdl.getFilePath());
 		}
 
 		// add
@@ -43,9 +52,12 @@ public class BpelProcessFiles {
 		Objects.requireNonNull(xsd, "a xsd reference is required");
 
 		// check namespace
-		String namespaceURI = xsd.getDocument().getRootElement().getNamespaceURI();
-		if(!namespaceURI.equals(Standards.XSD_NAMESPACE)){
-			throw new IllegalArgumentException("expected XSD namespace for XSD file but got " + namespaceURI + " in file " + xsd.getFilePath());
+		String namespaceURI = xsd.getDocument().getRootElement()
+				.getNamespaceURI();
+		if (!namespaceURI.equals(Standards.XSD_NAMESPACE)) {
+			throw new IllegalArgumentException(
+					"expected XSD namespace for XSD file but got "
+							+ namespaceURI + " in file " + xsd.getFilePath());
 		}
 
 		// add
@@ -53,7 +65,8 @@ public class BpelProcessFiles {
 	}
 
 	public void addSchema(Node schema) {
-		xsdSchemaList.add(Objects.requireNonNull(schema, "a schema reference is required"));
+		xsdSchemaList.add(Objects.requireNonNull(schema,
+				"a schema reference is required"));
 	}
 
 	public void setBpel(DocumentEntry bpel) {
@@ -61,9 +74,12 @@ public class BpelProcessFiles {
 		Objects.requireNonNull(bpel, "a bpel reference is required");
 
 		// check namespace
-		String namespaceURI = bpel.getDocument().getRootElement().getNamespaceURI();
-		if(!namespaceURI.equals(Standards.BPEL_NAMESPACE)){
-			throw new IllegalArgumentException("expected BPEL namespace for BPEL file but got " + namespaceURI + " in file " + bpel.getFilePath());
+		String namespaceURI = bpel.getDocument().getRootElement()
+				.getNamespaceURI();
+		if (!namespaceURI.equals(Standards.BPEL_NAMESPACE)) {
+			throw new IllegalArgumentException(
+					"expected BPEL namespace for BPEL file but got "
+							+ namespaceURI + " in file " + bpel.getFilePath());
 		}
 
 		this.bpel = bpel;
@@ -102,8 +118,8 @@ public class BpelProcessFiles {
 				"XMLSchema should have been imported, but haven't.");
 	}
 
-	public Document getWsdlByTargetNamespace(
-			String searchedTargetNamespace) throws NavigationException {
+	public Document getWsdlByTargetNamespace(String searchedTargetNamespace)
+			throws NavigationException {
 		for (DocumentEntry wsdlEntry : getAllWsdls())
 			if (wsdlEntry.getTargetNamespace().equals(searchedTargetNamespace))
 				return wsdlEntry.getDocument();
@@ -114,8 +130,8 @@ public class BpelProcessFiles {
 	public List<Node> getAllPropertyAliases() {
 		List<Node> propertyAliases = new LinkedList<>();
 		for (DocumentEntry documentEntry : getAllWsdls()) {
-			propertyAliases.addAll(NodesUtil.toList(documentEntry.getDocument().query(
-					"//vprop:propertyAlias", CONTEXT)));
+			propertyAliases.addAll(NodesUtil.toList(documentEntry.getDocument()
+					.query("//vprop:propertyAlias", CONTEXT)));
 		}
 		return propertyAliases;
 	}
@@ -123,15 +139,14 @@ public class BpelProcessFiles {
 	public List<Node> getAllProperties() {
 		List<Node> propertyAliases = new LinkedList<>();
 		for (DocumentEntry documentEntry : getAllWsdls()) {
-			propertyAliases.addAll(NodesUtil.toList(documentEntry.getDocument().query(
-					"//vprop:property", CONTEXT)));
+			propertyAliases.addAll(NodesUtil.toList(documentEntry.getDocument()
+					.query("//vprop:property", CONTEXT)));
 		}
 		return propertyAliases;
 	}
 
 	public Nodes getCorrelationSets() {
-		return getBpel().getDocument()
-				.query("//bpel:correlationSet", CONTEXT);
+		return getBpel().getDocument().query("//bpel:correlationSet", CONTEXT);
 	}
 
 	public BpelProcessFiles createImmutable() {
@@ -142,14 +157,15 @@ public class BpelProcessFiles {
 		bpelProcessFiles.setBpel(bpel);
 		bpelProcessFiles.wsdlList = Collections.unmodifiableList(wsdlList);
 		bpelProcessFiles.xsdList = Collections.unmodifiableList(xsdList);
-		bpelProcessFiles.xsdSchemaList = Collections.unmodifiableList(xsdSchemaList);
+		bpelProcessFiles.xsdSchemaList = Collections
+				.unmodifiableList(xsdSchemaList);
 
 		return bpelProcessFiles;
 	}
 
 	public String getStatus() {
 		String result = "";
-		if(bpel != null){
+		if (bpel != null) {
 			result += "1";
 		} else {
 			result += "0";
@@ -169,7 +185,8 @@ public class BpelProcessFiles {
 	void validate() {
 		// assertion
 		if (getAllWsdls().isEmpty()) {
-			throw new IllegalStateException("At least one WSDL file is required");
+			throw new IllegalStateException(
+					"At least one WSDL file is required");
 		}
 	}
 }

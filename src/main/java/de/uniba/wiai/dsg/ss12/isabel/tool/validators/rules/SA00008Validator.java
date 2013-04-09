@@ -1,12 +1,11 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.validators.rules;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
-import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
-import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 import nu.xom.Node;
 import nu.xom.Nodes;
-
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import de.uniba.wiai.dsg.ss12.isabel.tool.helper.NodeHelper;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.ValidationCollector;
+import de.uniba.wiai.dsg.ss12.isabel.tool.imports.BpelProcessFiles;
 
 public class SA00008Validator extends Validator {
 
@@ -17,21 +16,23 @@ public class SA00008Validator extends Validator {
 
 	@Override
 	public void validate() {
-        for (Node compensateScope : getAllCompensates()) {
-            NodeHelper compensateScopeHelper = new NodeHelper(compensateScope);
+		for (Node compensateScope : getAllCompensates()) {
+			NodeHelper compensateScopeHelper = new NodeHelper(compensateScope);
 
-            if (!compensateScopeHelper.hasAncestor("bpel:faultHandlers") &&
-                    !compensateScopeHelper.hasAncestor("bpel:compensationHandler") &&
-                    !compensateScopeHelper.hasAncestor("bpel:terminationHandlers")) {
-                addViolation(compensateScope);
-            }
-        }
+			if (!compensateScopeHelper.hasAncestor("bpel:faultHandlers")
+					&& !compensateScopeHelper
+							.hasAncestor("bpel:compensationHandler")
+					&& !compensateScopeHelper
+							.hasAncestor("bpel:terminationHandlers")) {
+				addViolation(compensateScope);
+			}
+		}
 	}
 
-    private Nodes getAllCompensates() {
-        return fileHandler.getBpel().getDocument()
-                .query("//bpel:compensate", CONTEXT);
-    }
+	private Nodes getAllCompensates() {
+		return fileHandler.getBpel().getDocument()
+				.query("//bpel:compensate", CONTEXT);
+	}
 
 	@Override
 	public int getSaNumber() {

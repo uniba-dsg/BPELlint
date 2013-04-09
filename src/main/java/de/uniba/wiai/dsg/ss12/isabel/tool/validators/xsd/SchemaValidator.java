@@ -7,7 +7,7 @@ public class SchemaValidator {
 	private static SchemaValidator schemaValidator;
 
 	public static SchemaValidator newInstance() throws ValidationException {
-		if(schemaValidator == null){
+		if (schemaValidator == null) {
 			schemaValidator = new SchemaValidator();
 		}
 		return schemaValidator;

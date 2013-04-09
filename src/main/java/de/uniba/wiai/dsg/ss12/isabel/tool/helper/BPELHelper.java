@@ -1,10 +1,9 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.helper;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
+import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
 import nu.xom.Node;
 import nu.xom.Nodes;
-
-import static de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards.CONTEXT;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.NavigationException;
 
 public class BPELHelper {
 
@@ -17,7 +16,8 @@ public class BPELHelper {
 				if (nodeHelper.hasAttribute("messageType")
 						|| nodeHelper.hasAttribute("element"))
 					return startNode;
-		} else if ("scope".equals(NodeHelper.toElement(startNode).getLocalName())) {
+		} else if ("scope".equals(NodeHelper.toElement(startNode)
+				.getLocalName())) {
 			Nodes scopeVariableSet = startNode.query(
 					"child::bpel:variables/bpel:variable", CONTEXT);
 			for (Node variable : scopeVariableSet) {
@@ -25,7 +25,8 @@ public class BPELHelper {
 				if (name.equals(variableName))
 					return variable;
 			}
-		} else if ("process".equals(NodeHelper.toElement(startNode).getLocalName())) {
+		} else if ("process".equals(NodeHelper.toElement(startNode)
+				.getLocalName())) {
 			Nodes scopeVariableSet = startNode.query(
 					"child::bpel:variables/bpel:variable", CONTEXT);
 			for (Node variable : scopeVariableSet) {
@@ -39,7 +40,7 @@ public class BPELHelper {
 		}
 
 		return getVariableByName(
-				startNode.query("parent::*").get(startNode.query("parent::*").size() - 1),
-				variableName);
+				startNode.query("parent::*").get(
+						startNode.query("parent::*").size() - 1), variableName);
 	}
 }

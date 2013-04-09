@@ -1,35 +1,38 @@
 package de.uniba.wiai.dsg.ss12.isabel.tool.imports;
 
-import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
-import nu.xom.Document;
-
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
+
+import nu.xom.Document;
+import de.uniba.wiai.dsg.ss12.isabel.tool.impl.Standards;
 
 public class DocumentEntry {
 
 	private final Document document;
 
 	public DocumentEntry(Document document) {
-		this.document = Objects.requireNonNull(document, "document must not be null");
+		this.document = Objects.requireNonNull(document,
+				"document must not be null");
 	}
 
 	public String getFilePath() {
-		// special case required when loading from a resource - baseURI is empty string in that case
-		if("".equals(document.getBaseURI())){
+		// special case required when loading from a resource - baseURI is empty
+		// string in that case
+		if ("".equals(document.getBaseURI())) {
 			return "";
 		}
 
 		try {
 			// converting file path
-			return new File(new URL(document.getBaseURI()).toURI().getPath()).getAbsolutePath();
+			return new File(new URL(document.getBaseURI()).toURI().getPath())
+					.getAbsolutePath();
 		} catch (URISyntaxException | MalformedURLException e) {
 			// should not happen
-			throw new IllegalStateException("bad url found: " + document.getBaseURI());
+			throw new IllegalStateException("bad url found: "
+					+ document.getBaseURI());
 		}
 	}
 
@@ -83,12 +86,15 @@ public class DocumentEntry {
 
 	@Override
 	public String toString() {
-		if(isWsdl()){
-			return "WSDL at " + getFilePath() + " with targetNamespace " + getTargetNamespace();
-		} else if(isXsd()){
-			return "XSD at " + getFilePath() + " with targetNamespace " + getTargetNamespace();
+		if (isWsdl()) {
+			return "WSDL at " + getFilePath() + " with targetNamespace "
+					+ getTargetNamespace();
+		} else if (isXsd()) {
+			return "XSD at " + getFilePath() + " with targetNamespace "
+					+ getTargetNamespace();
 		} else {
-			return "XML at " + getFilePath() + " with targetNamespace " + getTargetNamespace();
+			return "XML at " + getFilePath() + " with targetNamespace "
+					+ getTargetNamespace();
 		}
 	}
 }
