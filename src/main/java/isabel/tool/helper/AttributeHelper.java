@@ -16,12 +16,8 @@ public class AttributeHelper {
 		// System.out.println("Comparing " + attribute.getValue() + " with " +
 		// other.getValue());
 
-		if (hasDifferentAttributeNamespace(other))
-			return false;
-		if (hasDifferentAttributeValue(other))
-			return false;
+		return !hasDifferentAttributeNamespace(other) && !hasDifferentAttributeValue(other);
 
-		return true;
 	}
 
 	public boolean hasDifferentAttributeNamespace(Attribute other) {
@@ -33,12 +29,7 @@ public class AttributeHelper {
 		// TODO debug logging
 		// System.out.println("Comparing namespaces [" + namespaceA + "] and ["
 		// + namespaceB + "]");
-		if (!namespaceA.equals(namespaceB)) {
-			// TODO debug logging
-			// System.out.println("Namespaces not identical");
-			return true;
-		}
-		return false;
+		return !namespaceA.equals(namespaceB);
 	}
 
 	public boolean hasDifferentAttributeValue(Attribute other) {
@@ -47,12 +38,7 @@ public class AttributeHelper {
 		// TODO debug logging
 		// System.out.println("Comparing values [" + valueA + "] and [" + valueA
 		// + "]");
-		if (!valueA.equals(valueB)) {
-			// TODO debug logging
-			// System.out.println("Values not identical");
-			return true;
-		}
-		return false;
+		return !valueA.equals(valueB);
 	}
 
 	public Attribute getAttribute() {

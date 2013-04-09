@@ -21,62 +21,28 @@ public class ProcessContainer {
 	private List<XmlFile> xsdList = new ArrayList<>();
 	private List<Node> xsdSchemaList = new ArrayList<>();
 
-	public ProcessContainer() {
+	public void addWsdl(XmlFile xmlFile) {
+		Objects.requireNonNull(xmlFile, "a xmlFile reference is required");
+		xmlFile.failUnlessWsdl();
+		wsdlList.add(xmlFile);
 	}
 
-	public void addWsdl(XmlFile wsdl) {
-		// check not null
-		Objects.requireNonNull(wsdl, "a wsdl reference is required");
-
-		// check namespace
-		String namespaceURI = wsdl.getDocument().getRootElement()
-				.getNamespaceURI();
-		if (!namespaceURI.equals(Standards.WSDL_NAMESPACE)) {
-			throw new IllegalArgumentException(
-					"expected WSDL namespace for WSDL file but got "
-							+ namespaceURI + " in file " + wsdl.getFilePath());
-		}
-
-		// add
-		wsdlList.add(wsdl);
-	}
-
-	public void addXsd(XmlFile xsd) {
-		// check not null
-		Objects.requireNonNull(xsd, "a xsd reference is required");
-
-		// check namespace
-		String namespaceURI = xsd.getDocument().getRootElement()
-				.getNamespaceURI();
-		if (!namespaceURI.equals(Standards.XSD_NAMESPACE)) {
-			throw new IllegalArgumentException(
-					"expected XSD namespace for XSD file but got "
-							+ namespaceURI + " in file " + xsd.getFilePath());
-		}
-
-		// add
-		xsdList.add(xsd);
+	public void addXsd(XmlFile xmlFile) {
+		Objects.requireNonNull(xmlFile, "a xmlFile reference is required");
+		xmlFile.failUnlessXsd();
+		xsdList.add(xmlFile);
 	}
 
 	public void addSchema(Node schema) {
+		Objects.requireNonNull(schema, "a schema reference is required");
 		xsdSchemaList.add(Objects.requireNonNull(schema,
 				"a schema reference is required"));
 	}
 
-	public void setBpel(XmlFile bpel) {
-		// check not null
+	public void setBpel(XmlFile xmlFile) {
 		Objects.requireNonNull(bpel, "a bpel reference is required");
-
-		// check namespace
-		String namespaceURI = bpel.getDocument().getRootElement()
-				.getNamespaceURI();
-		if (!namespaceURI.equals(Standards.BPEL_NAMESPACE)) {
-			throw new IllegalArgumentException(
-					"expected BPEL namespace for BPEL file but got "
-							+ namespaceURI + " in file " + bpel.getFilePath());
-		}
-
-		this.bpel = bpel;
+		xmlFile.failUnlessBpel();
+		this.bpel = xmlFile;
 	}
 
 	public String getAbsoluteBpelFolder() {

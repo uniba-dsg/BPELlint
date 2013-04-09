@@ -1,13 +1,13 @@
 package isabel.tool.imports;
 
+import isabel.tool.impl.Standards;
+import nu.xom.Document;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
-
-import nu.xom.Document;
-import isabel.tool.impl.Standards;
 
 public class XmlFile {
 
@@ -48,6 +48,57 @@ public class XmlFile {
 		return document.getRootElement().getAttributeValue("targetNamespace");
 	}
 
+	boolean isWsdl() {
+		return getDocument().getRootElement().getNamespaceURI()
+				.equals(Standards.WSDL_NAMESPACE);
+	}
+
+	public void failUnlessWsdl() {
+		if (!isWsdl()) {
+			throw new IllegalArgumentException("file " + getFilePath() + " is no WSDL file!");
+		}
+	}
+
+	public void failUnlessXsd() {
+		if (!isXsd()) {
+			throw new IllegalArgumentException("file " + getFilePath() + " is no XSD file!");
+		}
+	}
+
+	public void failUnlessBpel() {
+		if (!isBpel()) {
+			throw new IllegalArgumentException("file " + getFilePath() + " is no BPEL file!");
+		}
+	}
+
+	public boolean isXsd() {
+		return getDocument().getRootElement().getNamespaceURI()
+				.equals(Standards.XSD_NAMESPACE);
+	}
+
+	private boolean isBpel() {
+		return getDocument().getRootElement().getNamespaceURI()
+				.equals(Standards.BPEL_NAMESPACE);
+	}
+
+	private String getType() {
+		String type = "XML";
+		if (isWsdl()) {
+			type = "WSDL";
+		} else if (isXsd()) {
+			type = "XSD";
+		} else if (isBpel()) {
+			type = "BPEL";
+		}
+		return type;
+	}
+
+	@Override
+	public String toString() {
+		return getType() + " at [" + getFilePath() + "] with targetNamespace ["
+				+ getTargetNamespace() + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -74,25 +125,4 @@ public class XmlFile {
 		return true;
 	}
 
-	boolean isWsdl() {
-		return getDocument().getRootElement().getNamespaceURI()
-				.equals(Standards.WSDL_NAMESPACE);
-	}
-
-	boolean isXsd() {
-		return getDocument().getRootElement().getNamespaceURI()
-				.equals(Standards.XSD_NAMESPACE);
-	}
-
-	@Override
-	public String toString() {
-		String type = "XML";
-		if (isWsdl()) {
-			type = "WSDL";
-		} else if (isXsd()) {
-			type = "XSD";
-		}
-		return type + " at [" + getFilePath() + "] with targetNamespace ["
-				+ getTargetNamespace() + "]";
-	}
 }

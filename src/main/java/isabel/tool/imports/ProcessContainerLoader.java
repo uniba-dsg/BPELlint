@@ -74,7 +74,7 @@ public class ProcessContainerLoader {
 	private void loadWsdlOrXsd(Node importNode) throws ParsingException,
 			IOException {
 		Logger.debug("Loading <bpel:import> reference " + importNode.toXML());
-		XmlFile entry = createImportDocumentEntry(importNode);
+		XmlFile entry = new XmlFileLoader().loadImportNode(importNode);
 		if (entry.isWsdl()) {
 			loadWSDL(entry);
 		} else if (entry.isXsd()) {
@@ -158,23 +158,13 @@ public class ProcessContainerLoader {
 
 	private void addXsdImports(Node schemaNode) throws ParsingException,
 			IOException {
-		XmlFile xsdEntry;
 		Nodes schemaChildren = schemaNode.query("child::*", CONTEXT);
 		for (Node node : schemaChildren) {
 			if (isXsdNode(node)
 					&& new NodeHelper(schemaNode).hasLocalName("import")) {
-				xsdEntry = createImportDocumentEntry(node);
-				result.addXsd(xsdEntry);
+				result.addXsd(new XmlFileLoader().loadImportNode(node));
 			}
 		}
-	}
-
-	private String getNodeDirectory(Node node) {
-		if (node.getBaseURI().isEmpty()) {
-			return null;
-		}
-
-		return Paths.get(URI.create(node.getBaseURI())).getParent().toString();
 	}
 
 	private boolean isXsdNode(Node node) {
@@ -182,33 +172,5 @@ public class ProcessContainerLoader {
 				Standards.XSD_NAMESPACE);
 	}
 
-	private XmlFile createImportDocumentEntry(Node importNode)
-			throws ParsingException, IOException {
-		Logger.debug("Creating entry for " + importNode.toXML());
 
-		String locationPath = Paths.get(getNodeDirectory(importNode),
-				getImportPath(importNode)).toString();
-		// remove relative path elements like .. and .
-		File importFile = Paths.get(locationPath).toFile().getCanonicalFile();
-		Document importFileDom = builder.build(importFile);
-
-		XmlFile entry = new XmlFile(importFileDom);
-		Logger.debug("Loaded " + importFile + " (" + importNode.toXML()
-				+ ") as " + entry);
-
-		return entry;
-	}
-
-	private String getImportPath(Node node) {
-		NodeHelper nodeHelper = new NodeHelper(node);
-
-		if (nodeHelper.hasAttribute("schemaLocation")) {
-			return Paths.get(nodeHelper.getAttribute("schemaLocation"))
-					.toString();
-		} else if (nodeHelper.hasAttribute("location")) {
-			return Paths.get(nodeHelper.getAttribute("location")).toString();
-		}
-
-		return null;
-	}
 }

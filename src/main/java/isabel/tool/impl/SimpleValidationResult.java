@@ -1,10 +1,6 @@
 package isabel.tool.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import isabel.tool.ValidationResult;
 import isabel.tool.Violation;
@@ -40,5 +36,10 @@ public class SimpleValidationResult implements ValidationCollector,
 			}
 			return actualViolatedRules;
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "Violated Rules " + getViolatedRules();
 	}
 }
