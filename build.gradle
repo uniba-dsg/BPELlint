@@ -4,7 +4,7 @@ apply plugin: "idea"
 apply plugin: "application"
 apply from: "https://raw.github.com/breskeby/gradleplugins/master/emmaPlugin/emma.gradle"
 
-mainClassName = "de.uniba.wiai.dsg.ss12.isabel.IsabelTool"
+mainClassName = "isabel.IsabelTool"
 
 repositories {
     mavenCentral()
