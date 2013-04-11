@@ -20,7 +20,7 @@ public class SA00002Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (XmlFile wsdlEntry : fileHandler.getAllWsdls()) {
+		for (XmlFile wsdlEntry : fileHandler.getWsdls()) {
 			for (Node portType : getPortTypes(wsdlEntry)) {
 				Set<String> nameSet = new HashSet<>();
 				for (Node nameAttribute : getOperationNames(portType)) {

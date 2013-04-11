@@ -16,32 +16,66 @@ import static isabel.tool.impl.Standards.XSD_NAMESPACE;
 public class ProcessContainer {
 
 	private XmlFile bpel;
-	private List<XmlFile> wsdlList = new ArrayList<>();
-	private List<XmlFile> xsdList = new ArrayList<>();
-	private List<Node> xsdSchemaList = new ArrayList<>();
 
-	public void addWsdl(XmlFile xmlFile) {
+	private List<XmlFile> allFiles = new ArrayList<>();
+
+	private List<XmlFile> wsdls = new ArrayList<>();
+	private List<XmlFile> xsds = new ArrayList<>();
+
+	private List<XmlFile> directlyImportedWsdls = new ArrayList<>();
+	private List<XmlFile> directlyImportedXsds = new ArrayList<>();
+
+	private List<Node> schemas = new ArrayList<>();
+
+	private void addWsdl(XmlFile xmlFile) {
 		Objects.requireNonNull(xmlFile, "a xmlFile reference is required");
 		xmlFile.failUnlessWsdl();
-		wsdlList.add(xmlFile);
+		wsdls.add(xmlFile);
+		allFiles.add(xmlFile);
 	}
 
-	public void addXsd(XmlFile xmlFile) {
+	private void addXsd(XmlFile xmlFile) {
 		Objects.requireNonNull(xmlFile, "a xmlFile reference is required");
 		xmlFile.failUnlessXsd();
-		xsdList.add(xmlFile);
+		xsds.add(xmlFile);
+		allFiles.add(xmlFile);
+	}
+
+	public void add(XmlFile xmlFile) {
+		if(xmlFile.isWsdl()){
+			addWsdl(xmlFile);
+		} else if(xmlFile.isXsd()){
+			addXsd(xmlFile);
+		} else {
+			throw new IllegalArgumentException("Expected WSDL or XSD file, got something else for " + xmlFile);
+		}
+	}
+
+	public void addDirectlyImported(XmlFile xmlFile) {
+		if(xmlFile.isWsdl()){
+			addWsdl(xmlFile);
+			directlyImportedWsdls.add(xmlFile);
+		} else if(xmlFile.isXsd()){
+			addXsd(xmlFile);
+			directlyImportedXsds.add(xmlFile);
+		} else {
+			throw new IllegalArgumentException("Expected WSDL or XSD file, got something else for " + xmlFile);
+		}
 	}
 
 	public void addSchema(Node schema) {
-		Objects.requireNonNull(schema, "a schema reference is required");
-		xsdSchemaList.add(Objects.requireNonNull(schema,
-				"a schema reference is required"));
+		schemas.add(Objects.requireNonNull(schema, "a schema reference is required"));
 	}
 
 	public void setBpel(XmlFile xmlFile) {
 		Objects.requireNonNull(xmlFile, "a bpel reference is required");
 		xmlFile.failUnlessBpel();
 		this.bpel = xmlFile;
+		allFiles.add(xmlFile);
+	}
+
+	public boolean contains(XmlFile xmlFile){
+		return allFiles.contains(xmlFile);
 	}
 
 	public String getAbsoluteBpelFolder() {
@@ -52,54 +86,59 @@ public class ProcessContainer {
 		return bpel;
 	}
 
-	public List<XmlFile> getAllWsdls() {
-		return new ArrayList<>(wsdlList);
+	public List<XmlFile> getWsdls() {
+		return wsdls;
 	}
 
-	public List<XmlFile> getAllXsds() {
-		return new ArrayList<>(xsdList);
+	public List<XmlFile> getXsds() {
+		return xsds;
 	}
 
-	public List<Node> getXsdSchema() {
-		List<Node> xsdSchema = new ArrayList<>(xsdSchemaList);
-		for (XmlFile xsdNode : getAllXsds())
+	public List<XmlFile> getDirectlyImportedWsdls() {
+		return directlyImportedWsdls;
+	}
+
+	public List<XmlFile> getDirectlyImportedXsds() {
+		return directlyImportedXsds;
+	}
+
+	public List<Node> getSchemas() {
+		List<Node> xsdSchema = new ArrayList<>(schemas);
+		for (XmlFile xsdNode : getXsds())
 			xsdSchema.add(xsdNode.getDocument().getChild(0));
 
 		return xsdSchema;
 	}
 
 	public Document getXmlSchema() throws NavigationException {
-		for (XmlFile xmlFile : getAllXsds())
+		for (XmlFile xmlFile : getXsds())
 			if (XSD_NAMESPACE.equals(xmlFile.getTargetNamespace()))
 				return xmlFile.getDocument();
 
-		throw new NavigationException(
-				"XMLSchema should have been imported, but haven't.");
+		throw new NavigationException("XMLSchema should have been imported, but haven't.");
 	}
 
 	public Document getWsdlByTargetNamespace(String searchedTargetNamespace)
 			throws NavigationException {
-		for (XmlFile wsdlEntry : getAllWsdls())
+		for (XmlFile wsdlEntry : getWsdls())
 			if (wsdlEntry.getTargetNamespace().equals(searchedTargetNamespace))
 				return wsdlEntry.getDocument();
 
 		throw new NavigationException("Document does not exist");
 	}
 
-	public List<Node> getAllPropertyAliases() {
+	public List<Node> getPropertyAliases() {
 		List<Node> propertyAliases = new LinkedList<>();
-		for (XmlFile xmlFile : getAllWsdls()) {
-			propertyAliases.addAll(NodesUtil.toList(xmlFile.getDocument()
-					.query("//vprop:propertyAlias", CONTEXT)));
+		for (XmlFile xmlFile : getDirectlyImportedWsdls()) {
+			propertyAliases.addAll(NodesUtil.toList(xmlFile.getDocument().query("//vprop:propertyAlias", CONTEXT)));
 		}
 		return propertyAliases;
 	}
 
-	public List<Node> getAllProperties() {
+	public List<Node> getProperties() {
 		List<Node> propertyAliases = new LinkedList<>();
-		for (XmlFile xmlFile : getAllWsdls()) {
-			propertyAliases.addAll(NodesUtil.toList(xmlFile.getDocument()
-					.query("//vprop:property", CONTEXT)));
+		for (XmlFile xmlFile : getDirectlyImportedWsdls()) {
+			propertyAliases.addAll(NodesUtil.toList(xmlFile.getDocument().query("//vprop:property", CONTEXT)));
 		}
 		return propertyAliases;
 	}
@@ -108,19 +147,16 @@ public class ProcessContainer {
 		return getBpel().getDocument().query("//bpel:correlationSet", CONTEXT);
 	}
 
-	public ProcessContainer createImmutable() {
-		Logger.info("Creating immutable ProcessContainer: " + this);
+	public ProcessContainer validateAndFinalize() {
+		Logger.info("Creating immutable ProcessContainer {0}", this);
 
 		validate();
 
-		ProcessContainer processContainer = new ProcessContainer();
-		processContainer.setBpel(bpel);
-		processContainer.wsdlList = Collections.unmodifiableList(wsdlList);
-		processContainer.xsdList = Collections.unmodifiableList(xsdList);
-		processContainer.xsdSchemaList = Collections
-				.unmodifiableList(xsdSchemaList);
+		wsdls = Collections.unmodifiableList(wsdls);
+		xsds = Collections.unmodifiableList(xsds);
+		schemas = Collections.unmodifiableList(schemas);
 
-		return processContainer;
+		return this;
 	}
 
 	public Nodes getImports() {
@@ -129,9 +165,8 @@ public class ProcessContainer {
 
 	void validate() {
 		// assertion
-		if (getAllWsdls().isEmpty()) {
-			throw new IllegalStateException(
-					"At least one WSDL file is required");
+		if (getWsdls().isEmpty()) {
+			throw new IllegalStateException("At least one WSDL file is required");
 		}
 	}
 

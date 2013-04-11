@@ -1,6 +1,6 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.helper.bpel.ReceiveElement;
+import isabel.model.bpel.ReceiveElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
 import nu.xom.Node;

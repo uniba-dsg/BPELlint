@@ -44,11 +44,10 @@ public class SA00053Validator extends Validator {
 				Nodes fromParts = incomingOperation.query(
 						"bpel:fromParts/bpel:fromPart", CONTEXT);
 
-				if (fromParts.size() > 0) {
+				if (fromParts.hasAny()) {
 					for (Node fromPart : fromParts) {
 
-						if (!hasFromPartCorrespondingMessagePart(fromPart,
-								message)) {
+						if (!hasFromPartCorrespondingMessagePart(fromPart, message)) {
 							addViolation(fromPart);
 						}
 					}
@@ -65,9 +64,8 @@ public class SA00053Validator extends Validator {
 	                                                    Node message) {
 		Nodes messageParts = message.query("wsdl:part", CONTEXT);
 
-		if (messageParts.size() > 0) {
-			String partAttribute = new NodeHelper(fromPart)
-					.getAttribute("part");
+		if (messageParts.hasAny()) {
+			String partAttribute = new NodeHelper(fromPart).getAttribute("part");
 
 			for (Node part : messageParts) {
 				String partName = new NodeHelper(part).getAttribute("name");

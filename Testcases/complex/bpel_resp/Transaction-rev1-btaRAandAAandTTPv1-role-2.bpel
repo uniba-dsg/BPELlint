@@ -16,7 +16,7 @@
 	xmlns:timer="http://lspi.wiai.uniba.de/prototype/xsd/service/TimerMessages/1-0"
 	>
 
-	<import namespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/partner/responder/1-0" location="wsdl/PartnerRequestor.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+	<import namespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/partner/requestor/1-0" location="wsdl/PartnerRequestor.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
 	<import namespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/timer/client/1-0" location="wsdl/TimerClient.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
 	<import namespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/rac/callback/1-0" location="wsdl/RACCallback.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
 	<import namespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/monitoring/1-0" location="wsdl/Monitoring.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>

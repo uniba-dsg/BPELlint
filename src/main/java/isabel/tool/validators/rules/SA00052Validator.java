@@ -24,7 +24,7 @@ public class SA00052Validator extends Validator {
 			String outputVariable = new NodeHelper(invoke)
 					.getAttribute("outputVariable");
 
-			if (!outputVariable.isEmpty() && fromParts.size() > 0) {
+			if (!outputVariable.isEmpty() && fromParts.hasAny()) {
 				addViolation(invoke);
 			}
 		}

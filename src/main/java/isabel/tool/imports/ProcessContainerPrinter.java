@@ -20,9 +20,9 @@ public class ProcessContainerPrinter {
 			result += "0";
 		}
 		result += " bpel";
-		result += " " + model.getAllWsdls().size() + " wsdl(s)";
-		result += " " + model.getAllXsds().size() + " xsd(s)";
-		result += " " + model.getXsdSchema().size() + " schema(s)";
+		result += " " + model.getWsdls().size() + " wsdl(s)";
+		result += " " + model.getXsds().size() + " xsd(s)";
+		result += " " + model.getSchemas().size() + " schema(s)";
 
 		return result;
 	}
@@ -30,10 +30,10 @@ public class ProcessContainerPrinter {
 	public String getDetailedStatus() {
 		String result = model.getBpel().toString();
 		result += "\n";
-		for (XmlFile entry : model.getAllWsdls()) {
+		for (XmlFile entry : model.getWsdls()) {
 			result += entry + "\n";
 		}
-		for (XmlFile entry : model.getAllXsds()) {
+		for (XmlFile entry : model.getXsds()) {
 			result += entry + "\n";
 		}
 

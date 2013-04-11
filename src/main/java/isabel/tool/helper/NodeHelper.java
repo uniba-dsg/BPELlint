@@ -1,5 +1,6 @@
 package isabel.tool.helper;
 
+import isabel.model.ElementIdentifier;
 import isabel.tool.impl.Standards;
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -57,7 +58,7 @@ public class NodeHelper {
 	public Attribute getAttributeNode(String name) {
 		Nodes attributes = node.query("@" + name);
 
-		if (attributes.size() > 0) {
+		if (attributes.hasAny()) {
 			return (Attribute) attributes.get(0);
 		}
 		return null;
@@ -67,10 +68,8 @@ public class NodeHelper {
 		if (hasAttribute(attributeName)
 				&& otherNode.hasAttribute(attributeName)) {
 
-			AttributeHelper otherAttribute = new AttributeHelper(
-					otherNode.getAttributeNode(attributeName));
-			AttributeHelper attribute = new AttributeHelper(
-					getAttributeNode(attributeName));
+			AttributeHelper otherAttribute = new AttributeHelper(otherNode.getAttributeNode(attributeName));
+			AttributeHelper attribute = new AttributeHelper(getAttributeNode(attributeName));
 			if (attribute.isEqualTo(otherAttribute.getAttribute())) {
 				return true;
 			}
@@ -88,11 +87,11 @@ public class NodeHelper {
 	}
 
 	public boolean hasQueryResult(String query) {
-		return node.query(query, Standards.CONTEXT).size() > 0;
+		return node.query(query, Standards.CONTEXT).hasAny();
 	}
 
 	public boolean hasEmptyQueryResult(String query) {
-		return node.query(query, Standards.CONTEXT).size() == 0;
+		return node.query(query, Standards.CONTEXT).isEmpty();
 	}
 
 	public boolean hasAncestor(String name) {
@@ -101,8 +100,7 @@ public class NodeHelper {
 
 	public Element asElement() {
 		if (!(node instanceof Element)) {
-			throw new IllegalArgumentException(
-					"Given Node must not be null or an attribute.");
+			throw new IllegalArgumentException("Given Node must not be null or an attribute.");
 		}
 
 		return (Element) node;
@@ -114,5 +112,9 @@ public class NodeHelper {
 
 	public static Element toElement(Node node) {
 		return new NodeHelper(node).asElement();
+	}
+
+	public String getIdentifier() {
+		return new ElementIdentifier(asElement()).toIdentifier();
 	}
 }

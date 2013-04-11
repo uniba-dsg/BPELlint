@@ -13,7 +13,7 @@ repositories {
 dependencies {
     compile files(fileTree(dir: 'lib', includes: ['*.jar']))
     compile 'com.google.guava:guava:14.0-rc1'
-    testCompile "junit:junit:4.11"
+    compile "junit:junit:4.11"
 }
 
 run {

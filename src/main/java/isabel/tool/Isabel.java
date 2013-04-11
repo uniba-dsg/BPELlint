@@ -56,7 +56,7 @@ public class Isabel {
 			throws ValidationException {
 		SchemaValidator schemaValidator = SchemaValidator.newInstance();
 
-		for (XmlFile xsdXmlFile : processContainer.getAllXsds()) {
+		for (XmlFile xsdXmlFile : processContainer.getXsds()) {
 			// do not validate XMLSchema as this does not work somehow
 			if (xsdXmlFile.getFilePath().equals("")) {
 				continue;
@@ -64,7 +64,7 @@ public class Isabel {
 			schemaValidator.validateXsd(xsdXmlFile.getFilePath());
 		}
 
-		for (XmlFile wsdlXmlFile : processContainer.getAllWsdls()) {
+		for (XmlFile wsdlXmlFile : processContainer.getWsdls()) {
 			schemaValidator.validateWsdl(wsdlXmlFile.getFilePath());
 		}
 	}

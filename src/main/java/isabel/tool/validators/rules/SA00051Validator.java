@@ -24,7 +24,7 @@ public class SA00051Validator extends Validator {
 
 			Nodes toPartsSet = invoke.query("bpel:toParts", CONTEXT);
 			Nodes inputVariableSet = invoke.query("@inputVariable", CONTEXT);
-			if ((toPartsSet.size() > 0) && (inputVariableSet.size() > 0)) {
+			if (toPartsSet.hasAny() && inputVariableSet.hasAny()) {
 				addViolation(invoke);
 			}
 		}

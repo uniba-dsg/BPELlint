@@ -20,7 +20,7 @@ public class SA00022Validator extends Validator {
 
 	@Override
 	public void validate() {
-		List<Node> allPropertyAliases = fileHandler.getAllPropertyAliases();
+		List<Node> allPropertyAliases = fileHandler.getPropertyAliases();
 		for (int i = 0, allPropertyAliasesSize = allPropertyAliases.size(); i < allPropertyAliasesSize; i++) {
 
 			Node propertyAlias = allPropertyAliases.get(i);

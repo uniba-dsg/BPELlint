@@ -4,8 +4,8 @@
 	xmlns="http://schemas.xmlsoap.org/wsdl/"
 	name="PartnerRequestor"
 		   
-	xmlns:tns="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/partner/responder/1-0" 
-	targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/partner/responder/1-0"
+	xmlns:tns="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/partner/requestor/1-0"
+	targetNamespace="http://lspi.wiai.uniba.de/prototype/wsdl/collaboration/transaction/partner/requestor/1-0"
 	 
 	xmlns:transactionControlMessages="http://lspi.wiai.uniba.de/prototype/xsd/transaction/controlMessages/1-0"
 	xmlns:businessDocumentEnvelopes="http://lspi.wiai.uniba.de/prototype/xsd/businessDocumentEnvelopes/1-0"

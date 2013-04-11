@@ -32,17 +32,15 @@ public class SA00025Validator extends Validator {
 			Nodes typeSet = variable.query("@type", CONTEXT);
 			Nodes elementSet = variable.query("@element", CONTEXT);
 
-			if ((messageTypeSet.size() == 0) && (typeSet.size() == 0)
-					&& (elementSet.size() == 0)) {
+			if (messageTypeSet.isEmpty() && typeSet.isEmpty() && elementSet.isEmpty()) {
 				addViolation(variable, MESSAGE_TYPE_OR_TYPE_OR_ELEMENT_MISSING);
-			} else if (messageTypeSet.size() > 0 && typeSet.size() > 0) {
+			} else if (messageTypeSet.hasAny() && typeSet.hasAny()) {
 				addViolation(variable, MESSAGE_TYPE_AND_TYPE);
-			} else if (messageTypeSet.size() > 0 && elementSet.size() > 0) {
+			} else if (messageTypeSet.hasAny() && elementSet.hasAny()) {
 				addViolation(variable, MESSAGE_TYPE_AND_ELEMENT);
-			} else if (typeSet.size() > 0 && elementSet.size() > 0) {
+			} else if (typeSet.hasAny() && elementSet.hasAny()) {
 				addViolation(variable, TYPE_AND_ELEMENT);
-			} else if (messageTypeSet.size() > 0 && typeSet.size() > 0
-					&& elementSet.size() > 0) {
+			} else if (messageTypeSet.hasAny() && typeSet.hasAny() && elementSet.hasAny()) {
 				addViolation(variable, MESSAGE_TYPE_AND_TYPE_AND_ELEMENT);
 			}
 		}

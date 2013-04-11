@@ -8,6 +8,7 @@ import nu.xom.Node;
 import nu.xom.Nodes;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static isabel.tool.impl.Standards.CONTEXT;
@@ -21,11 +22,10 @@ public class SA00012Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes imports = fileHandler.getBpel().getDocument()
-				.query("//bpel:import", CONTEXT);
+		Nodes imports = fileHandler.getBpel().getDocument().query("//bpel:import", CONTEXT);
 
-		List<XmlFile> allWsdls = fileHandler.getAllWsdls();
-		List<XmlFile> allXsds = fileHandler.getAllXsds();
+		List<XmlFile> allWsdls = fileHandler.getDirectlyImportedWsdls();
+		List<XmlFile> allXsds = fileHandler.getDirectlyImportedXsds();
 
 		for (Node node : imports) {
 			boolean importedFileIsValid = isValidFile(allWsdls, node)
@@ -46,10 +46,15 @@ public class SA00012Validator extends Validator {
 			for (XmlFile xmlFile : xmlFileList) {
 
 				String location = new NodeHelper(node).getAttribute("location");
-				File path = new File(fileHandler.getAbsoluteBpelFolder() + "/"
-						+ location);
+				File path = new File(fileHandler.getAbsoluteBpelFolder() + "/" + location);
 
-				if (xmlFile.getFilePath().equals(path.getAbsolutePath())) {
+				String canonicalPath = null;
+				try {
+					canonicalPath = path.getCanonicalPath();
+				} catch (IOException e) {
+					throw new IllegalArgumentException("SHOULD NEVER OCCUR", e);
+				}
+				if (xmlFile.getFilePath().equals(canonicalPath)) {
 
 					if (!"".equals(xmlFile.getTargetNamespace())) {
 						validFile = false;

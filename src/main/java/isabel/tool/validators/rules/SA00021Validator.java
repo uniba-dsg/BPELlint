@@ -1,15 +1,19 @@
 package isabel.tool.validators.rules;
 
+import isabel.model.ElementIdentifier;
+import isabel.model.bpel.CorrelationSetElement;
 import isabel.tool.helper.BPELHelper;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.helper.PrefixHelper;
 import isabel.tool.impl.NavigationException;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
-import isabel.tool.imports.XmlFile;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;
+import org.pmw.tinylog.Logger;
+
+import java.util.List;
 
 import static isabel.tool.impl.Standards.CONTEXT;
 
@@ -22,7 +26,8 @@ public class SA00021Validator extends Validator {
 
 	@Override
 	public void validate() {
-		hasEachCorrelationSetExistingProperty();
+		verifyThatEachCorrelationSetHasAnExistingProperty();
+
 		validateFor("//bpel:from[@property]");
 		validateFor("//bpel:to[@property]");
 	}
@@ -118,18 +123,16 @@ public class SA00021Validator extends Validator {
 		return fileHandler.getWsdlByTargetNamespace(targetNamespace);
 	}
 
-	private void hasEachCorrelationSetExistingProperty() {
-		Nodes correlationSets = fileHandler.getBpel().getDocument()
-				.query("//bpel:correlationSet", CONTEXT);
+	private void verifyThatEachCorrelationSetHasAnExistingProperty() {
+		Nodes correlationSets = fileHandler.getCorrelationSets();
+		List<String> properties = ElementIdentifier.toIdentifiers(fileHandler.getProperties());
 
-		for (Node correlationSet : correlationSets) {
-			try {
-				XmlFile wsdl = navigator
-						.getCorrespondingWsdlToCorrelationSet(correlationSet);
-				Node propertyAlias = navigator.getCorrespondingPropertyAlias(
-						correlationSet, wsdl.getDocument());
-				navigator.getCorrespondingProperty(propertyAlias);
-			} catch (NavigationException e) {
+		for(Node correlationSet : correlationSets){
+			List<String> propertyIdentifiers = new CorrelationSetElement(correlationSet).getPropertyIdentifiers();
+			propertyIdentifiers.removeAll(properties);
+
+			if(!propertyIdentifiers.isEmpty()) {
+				Logger.warn("Could not find any wsdl:property elements for bpel:correlationSet@properties {0}",propertyIdentifiers);
 				addViolation(correlationSet);
 			}
 		}

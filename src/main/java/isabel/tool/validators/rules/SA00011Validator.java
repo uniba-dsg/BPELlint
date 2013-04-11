@@ -1,6 +1,6 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.helper.bpel.ImportElement;
+import isabel.model.bpel.ImportElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
 import isabel.tool.imports.XmlFile;
@@ -18,8 +18,8 @@ public class SA00011Validator extends Validator {
 
 	@Override
 	public void validate() {
-		List<XmlFile> allWsdls = fileHandler.getAllWsdls();
-		List<XmlFile> allXsds = fileHandler.getAllXsds();
+		List<XmlFile> allWsdls = fileHandler.getWsdls();
+		List<XmlFile> allXsds = fileHandler.getXsds();
 
 		for (Node node : fileHandler.getImports()) {
 			Logger.debug("Checking <import> Element " + node.toXML());

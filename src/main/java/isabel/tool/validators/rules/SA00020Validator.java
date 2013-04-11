@@ -18,7 +18,7 @@ public class SA00020Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (XmlFile xmlFile : fileHandler.getAllWsdls()) {
+		for (XmlFile xmlFile : fileHandler.getWsdls()) {
 			for (Node propertyAlias : getPropertyAliases(xmlFile)) {
 				boolean messageTypeAndPart = messageTypeExists(propertyAlias)
 						&& partExists(propertyAlias)

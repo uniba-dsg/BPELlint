@@ -1,7 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.tool.helper.NodesUtil;
-import isabel.tool.helper.wsdl.OperationElement;
+import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
 import isabel.tool.imports.XmlFile;
@@ -23,7 +23,7 @@ public class SA00001Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (XmlFile wsdlEntry : fileHandler.getAllWsdls()) {
+		for (XmlFile wsdlEntry : fileHandler.getWsdls()) {
 			for (Node currentOperation : getOperations(wsdlEntry)) {
 				OperationElement operationHelper = new OperationElement(
 						currentOperation);

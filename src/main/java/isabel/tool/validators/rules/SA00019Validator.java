@@ -20,7 +20,7 @@ public class SA00019Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (XmlFile wsdl : fileHandler.getAllWsdls()) {
+		for (XmlFile wsdl : fileHandler.getWsdls()) {
 			Nodes properties = wsdl.getDocument().query("//vprop:property",
 					Standards.CONTEXT);
 			for (Node property : properties) {

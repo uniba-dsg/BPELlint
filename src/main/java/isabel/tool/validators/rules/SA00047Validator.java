@@ -1,7 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.tool.helper.NodeHelper;
-import isabel.tool.helper.wsdl.OperationElement;
+import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.NavigationException;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
@@ -75,25 +75,19 @@ public class SA00047Validator extends Validator {
 			throws NavigationException {
 		Node operation = navigator.correspondingOperation(messageActivity);
 		if (operation == null)
-			throw new NavigationException(
-					"WARNING: could not found an associated operation "
-							+ getBpelFileName());
+			throw new NavigationException("WARNING: could not found an associated operation " + getBpelFileName());
 
-		Map<String, Node> messages = navigator.getOperationMessages(
-				fileHandler.getAllWsdls(), operation);
-		if (messages == null || messages.size() < 1)
-			throw new NavigationException(
-					"WARNING: could not found an associated message in "
-							+ getBpelFileName());
+		Map<String, Node> messages = navigator.getOperationMessages(fileHandler.getWsdls(), operation);
+		if (messages == null || messages.isEmpty())
+			throw new NavigationException("WARNING: could not found an associated message in " + getBpelFileName());
 
 		if (isInvoke(messageActivity)
 				|| isReceiveOnMessageOnEvent(messageActivity)) {
-			return messages.get("input").query("child::*").size() > 0;
+			return messages.get("input").query("child::*").hasAny();
 		} else if (isReply(messageActivity)) {
-			return messages.get("output").query("child::*").size() > 0;
+			return messages.get("output").query("child::*").hasAny();
 		} else {
-			throw new NavigationException("WARNING: not a message activity..."
-					+ getBpelFileName());
+			throw new NavigationException("WARNING: not a message activity..." + getBpelFileName());
 		}
 
 	}
@@ -115,16 +109,11 @@ public class SA00047Validator extends Validator {
 
 	private List<Nodes> getMessageActivities() {
 		List<Nodes> messageActivities = new ArrayList<>();
-		Nodes invokeNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:invoke", CONTEXT);
-		Nodes replyNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:reply", CONTEXT);
-		Nodes receiveNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:receive", CONTEXT);
-		Nodes onMessageNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:onMessage", CONTEXT);
-		Nodes onEventNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:onEvent", CONTEXT);
+		Nodes invokeNodes = fileHandler.getBpel().getDocument().query("//bpel:invoke", CONTEXT);
+		Nodes replyNodes = fileHandler.getBpel().getDocument().query("//bpel:reply", CONTEXT);
+		Nodes receiveNodes = fileHandler.getBpel().getDocument().query("//bpel:receive", CONTEXT);
+		Nodes onMessageNodes = fileHandler.getBpel().getDocument().query("//bpel:onMessage", CONTEXT);
+		Nodes onEventNodes = fileHandler.getBpel().getDocument().query("//bpel:onEvent", CONTEXT);
 
 		messageActivities.add(invokeNodes);
 		messageActivities.add(replyNodes);
@@ -141,17 +130,17 @@ public class SA00047Validator extends Validator {
 
 	private boolean hasToPart(Node messageActivity) {
 		Nodes toPart = messageActivity.query("child::bpel:toParts", CONTEXT);
-		return toPart.size() > 0;
+		return toPart.hasAny();
 	}
 
 	private boolean hasFromPart(Node msgActivity) {
 		Nodes fromPart = msgActivity.query("child::bpel:fromParts", CONTEXT);
-		return fromPart.size() > 0;
+		return fromPart.hasAny();
 	}
 
 	private boolean hasVariable(Node msgActivity) {
 		Nodes variable = msgActivity.query("attribute::variable", CONTEXT);
-		return variable.size() > 0;
+		return variable.hasAny();
 	}
 
 	private boolean hasVariableOrFromPart(Node messageActivity) {

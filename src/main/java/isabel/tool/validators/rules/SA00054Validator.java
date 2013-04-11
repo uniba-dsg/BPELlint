@@ -58,7 +58,7 @@ public class SA00054Validator extends Validator {
 	private boolean hasToPartCorrespondingMessagePart(Node toPart, Node message) {
 		Nodes messageParts = message.query("wsdl:part", CONTEXT);
 
-		if (messageParts.size() > 0) {
+		if (messageParts.hasAny()) {
 			String partAttribute = new NodeHelper(toPart).getAttribute("part");
 
 			for (Node part : messageParts) {

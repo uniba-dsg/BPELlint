@@ -22,11 +22,11 @@ public class XmlFileLoader {
 		return new XmlFile(builder.build(new File(file)));
 	}
 
-	public XmlFile loadImportNode(Node importNode)
-			throws ParsingException, IOException {
+	public XmlFile loadImportNode(Node importNode) throws ParsingException, IOException {
 		// remove relative path elements like .. and .
-		String canonicalPath = Paths.get(getNodeDirectory(importNode),
-				getImportPath(importNode)).toFile().getCanonicalPath();
+		String nodeDirectory = getNodeDirectory(importNode);
+		String importPath = getImportPath(importNode);
+		String canonicalPath = Paths.get(nodeDirectory, importPath).toFile().getCanonicalPath();
 
 		return load(canonicalPath);
 	}
@@ -35,8 +35,7 @@ public class XmlFileLoader {
 		NodeHelper nodeHelper = new NodeHelper(node);
 
 		if (nodeHelper.hasAttribute("schemaLocation")) {
-			return Paths.get(nodeHelper.getAttribute("schemaLocation"))
-					.toString();
+			return Paths.get(nodeHelper.getAttribute("schemaLocation")).toString();
 		} else if (nodeHelper.hasAttribute("location")) {
 			return Paths.get(nodeHelper.getAttribute("location")).toString();
 		}
@@ -54,8 +53,7 @@ public class XmlFileLoader {
 
 
 	public XmlFile loadFromResourceStream(String xmlschemaXsd) throws IOException, ParsingException {
-		try (InputStream stream = ProcessContainerLoader.class
-				.getResourceAsStream(xmlschemaXsd)) {
+		try (InputStream stream = ProcessContainerLoader.class.getResourceAsStream(xmlschemaXsd)) {
 			Logger.info("Loading XML document via stream from {0}", xmlschemaXsd);
 
 			Document document = builder.build(stream);

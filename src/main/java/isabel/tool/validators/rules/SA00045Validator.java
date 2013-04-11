@@ -40,8 +40,7 @@ public class SA00045Validator extends Validator {
 
 	private boolean isSimpleType(Node correlationSet)
 			throws NavigationException {
-		XmlFile wsdlEntry = navigator
-				.getCorrespondingWsdlToCorrelationSet(correlationSet);
+		XmlFile wsdlEntry = navigator.getCorrespondingWsdlToCorrelationSet(correlationSet);
 		Document wsdlFile = wsdlEntry.getDocument();
 		Node propertyAlias = navigator.getCorrespondingPropertyAlias(
 				correlationSet, wsdlFile);

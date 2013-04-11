@@ -43,7 +43,7 @@ public class SA00050Validator extends Validator {
 				}
 				Nodes messageParts = message.query("wsdl:part", CONTEXT);
 
-				if (toParts.size() > 0) {
+				if (toParts.hasAny()) {
 					for (Node part : messageParts) {
 
 						if (!hasMessagePartCorrespondingToPart(part, toParts)) {

@@ -107,7 +107,7 @@ public class SA00010Validator extends Validator {
 	}
 
 	private boolean isInAnyWsdl(String definitionType, String type) {
-		return inAnyFile(definitionType, type, fileHandler.getAllWsdls());
+		return inAnyFile(definitionType, type, fileHandler.getWsdls());
 	}
 
 	private boolean inAnyFile(String definitionType, String type,
@@ -130,7 +130,7 @@ public class SA00010Validator extends Validator {
 	}
 
 	private boolean isInAnyXsd(String definitionType, String type) {
-		for (Node domEntry : fileHandler.getXsdSchema()) {
+		for (Node domEntry : fileHandler.getSchemas()) {
 			Nodes rightNamedElements = domEntry.getDocument().query(
 					"//*[@name='" + type + "']", CONTEXT);
 

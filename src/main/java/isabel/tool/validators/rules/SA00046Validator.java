@@ -1,6 +1,6 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.helper.wsdl.OperationElement;
+import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.NavigationException;
 import isabel.tool.impl.Standards;
 import isabel.tool.impl.ValidationCollector;

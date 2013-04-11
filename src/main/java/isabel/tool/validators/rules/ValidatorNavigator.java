@@ -58,7 +58,7 @@ public class ValidatorNavigator {
 				Nodes messageNodes = wsdlEntry.getDocument().query(
 						"//wsdl:message[@name='" + messageName + "']", CONTEXT);
 
-				if (messageNodes.size() > 0) {
+				if (messageNodes.hasAny()) {
 					message = messageNodes.get(0);
 					break;
 				}
@@ -97,7 +97,7 @@ public class ValidatorNavigator {
 				"//bpel:partnerLinks/bpel:partnerLink[@name='"
 						+ partnerLinkName + "']", CONTEXT);
 
-		if (partnerLink.size() > 0)
+		if (partnerLink.hasAny())
 			return partnerLink.get(0);
 
 		throw new NavigationException("PartnerLink not defined");
@@ -127,7 +127,7 @@ public class ValidatorNavigator {
 							+ "']/" + "plink:role[@name='" + partnerRoleName
 							+ "']/@portType", CONTEXT);
 
-			if (partnerRolePortType.size() > 0) {
+			if (partnerRolePortType.hasAny()) {
 				String portTypeQName = partnerRolePortType.get(0).getValue();
 				String portTypeNamespaceURI = getPrefixNamespaceURI(
 						correspondingWsdlDom,
@@ -138,7 +138,7 @@ public class ValidatorNavigator {
 						"//plink:partnerLinkType[@name='" + partnerLinkTypeName
 								+ "']/" + "plink:role[@name='" + myRoleName
 								+ "']/@portType", CONTEXT);
-				if (myRolePortType.size() > 0) {
+				if (myRolePortType.hasAny()) {
 					String portTypeQName = myRolePortType.get(0).getValue();
 					String portTypeNamespaceURI = getPrefixNamespaceURI(
 							correspondingWsdlDom,
@@ -156,7 +156,7 @@ public class ValidatorNavigator {
 		Nodes operations = portType.query(
 				"child::wsdl:operation[attribute::name='" + operationName
 						+ "']", CONTEXT);
-		if (operations.size() > 0)
+		if (operations.hasAny())
 			return operations.get(0);
 
 		throw new NavigationException("Operation not defined");
@@ -165,13 +165,13 @@ public class ValidatorNavigator {
 	public Node getPortType(String portTypeQName, String portTypeNamespaceURI)
 			throws NavigationException {
 		String portTypeName = PrefixHelper.removePrefix(portTypeQName);
-		for (XmlFile wsdlEntry : fileHandler.getAllWsdls()) {
+		for (XmlFile wsdlEntry : fileHandler.getWsdls()) {
 			String targetNamespace = wsdlEntry.getTargetNamespace();
 			if (targetNamespace.equals(portTypeNamespaceURI)) {
 				Nodes portTypes = wsdlEntry.getDocument().query(
 						"//wsdl:portType[@name='" + portTypeName + "']",
 						CONTEXT);
-				if (portTypes.size() > 0) {
+				if (portTypes.hasAny()) {
 					return portTypes.get(0);
 				}
 			}
@@ -189,7 +189,7 @@ public class ValidatorNavigator {
 		Nodes inputNodes = operation.query("child::wsdl:input/@message",
 				CONTEXT);
 
-		if (inputNodes.size() <= 0) {
+		if (inputNodes.isEmpty()) {
 			return null;
 		}
 
@@ -206,7 +206,7 @@ public class ValidatorNavigator {
 				Nodes messageNodes = wsdlEntry.getDocument().query(
 						"//wsdl:message[@name='" + messageName + "']", CONTEXT);
 
-				if (messageNodes.size() > 0) {
+				if (messageNodes.hasAny()) {
 					message = messageNodes.get(0);
 					break;
 				}
@@ -253,23 +253,21 @@ public class ValidatorNavigator {
 
 	public boolean hasInputVariable(Node msgActivity) {
 		Nodes inputVar = msgActivity.query("attribute::inputVariable", CONTEXT);
-		return inputVar.size() > 0;
+		return inputVar.hasAny();
 	}
 
 	public boolean hasOutputVariable(Node msgActivity) {
 		Nodes outVar = msgActivity.query("attribute::outputVariable", CONTEXT);
-		return outVar.size() > 0;
+		return outVar.hasAny();
 	}
 
 	public XmlFile getCorrespondingWsdlToCorrelationSet(
 			Node correlationSet) throws NavigationException {
 		String namespacePrefix = getCorrelationPropertyAliasPrefix(correlationSet);
-		String correspondingTargetNamespace = getImportNamespace(
-				correlationSet, namespacePrefix);
-		for (XmlFile wsdlFile : fileHandler.getAllWsdls()) {
-			if (wsdlFile.getTargetNamespace().equals(
-					correspondingTargetNamespace)) {
+		String correspondingTargetNamespace = getImportNamespace(correlationSet, namespacePrefix);
 
+		for (XmlFile wsdlFile : fileHandler.getWsdls()) {
+			if (wsdlFile.getTargetNamespace().equals(correspondingTargetNamespace)) {
 				return wsdlFile;
 			}
 		}
@@ -279,8 +277,7 @@ public class ValidatorNavigator {
 	public String getCorrelationPropertyAliasPrefix(Node correlationSet)
 			throws NavigationException {
 
-		String propertyAliasName = new NodeHelper(correlationSet)
-				.getAttribute("properties");
+		String propertyAliasName = new NodeHelper(correlationSet).getAttribute("properties");
 		String namespacePrefix = PrefixHelper.getPrefix(propertyAliasName);
 
 		if (namespacePrefix != null) {
@@ -351,9 +348,8 @@ public class ValidatorNavigator {
 	}
 
 	public static String getAttributeValue(Nodes attributes) {
-		Node attribute;
-		if (attributes.size() > 0) {
-			attribute = attributes.get(0);
+		if (attributes.hasAny()) {
+			Node attribute = attributes.get(0);
 			if (attribute instanceof Attribute) {
 				return attribute.getValue();
 			}

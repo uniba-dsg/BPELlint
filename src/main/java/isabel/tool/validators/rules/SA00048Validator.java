@@ -62,7 +62,7 @@ public class SA00048Validator extends Validator {
 
 	private Map<String, Node> getCorrespondingMessages(Node invokeActivity)
 			throws NavigationException {
-		List<XmlFile> wsdlImports = fileHandler.getAllWsdls();
+		List<XmlFile> wsdlImports = fileHandler.getWsdls();
 		Node operation;
 		operation = navigator.correspondingOperation(invokeActivity);
 		return navigator.getOperationMessages(wsdlImports, operation);
@@ -110,7 +110,7 @@ public class SA00048Validator extends Validator {
 	private Node getMessagePartAttributeElement(Node operationMessage) {
 		Nodes partElement = operationMessage.query(
 				"child::wsdl:part[position()=1]/@element", CONTEXT);
-		return (partElement.size() > 0) ? partElement.get(0) : null;
+		return (partElement.hasAny()) ? partElement.get(0) : null;
 	}
 
 	private boolean hasSameNameAttribute(Node xsdType, Node xsdSecType) {
@@ -125,12 +125,12 @@ public class SA00048Validator extends Validator {
 		String xsdTypeName = PrefixHelper.removePrefix(typeQName);
 		Node xsdType = null;
 
-		for (Node node : fileHandler.getXsdSchema()) {
+		for (Node node : fileHandler.getSchemas()) {
 			if (new NodeHelper(node)
 					.hasTargetNamespace(variableTypeNamespaceURI)) {
 				Nodes xsdTypes = node.getDocument().query(
 						"//*[@name='" + xsdTypeName + "']", CONTEXT);
-				if (xsdTypes.size() > 0) {
+				if (xsdTypes.hasAny()) {
 					xsdType = xsdTypes.get(0);
 					break;
 				}
@@ -154,7 +154,7 @@ public class SA00048Validator extends Validator {
 		String messageName = PrefixHelper.removePrefix(messageTypeQName);
 
 		return navigator.getMessage(messageName, namespaceURI,
-				fileHandler.getAllWsdls());
+				fileHandler.getWsdls());
 	}
 
 	private Node correspondingVariable(Node invokeActivity, String variableName) {
@@ -162,7 +162,7 @@ public class SA00048Validator extends Validator {
 				"(ancestor::*/bpel:variables/bpel:variable[@name='"
 						+ variableName + "'])[last()]", CONTEXT);
 
-		if (variable.size() > 0)
+		if (variable.hasAny())
 			return variable.get(0);
 		else
 			return null;

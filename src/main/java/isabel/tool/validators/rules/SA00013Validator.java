@@ -1,7 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.tool.helper.NodeHelper;
-import isabel.tool.helper.bpel.ImportElement;
+import isabel.model.bpel.ImportElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
 import isabel.tool.imports.XmlFile;
@@ -35,9 +35,9 @@ public class SA00013Validator extends Validator {
 
 	private boolean hasCorrectType(Node fileImport) {
 		return isImportTypedWithinThisFiles(fileImport,
-				fileHandler.getAllWsdls())
+				fileHandler.getWsdls())
 				|| isImportTypedWithinThisFiles(fileImport,
-				fileHandler.getAllXsds());
+				fileHandler.getXsds());
 	}
 
 	private boolean isImportTypedWithinThisFiles(Node fileImport,

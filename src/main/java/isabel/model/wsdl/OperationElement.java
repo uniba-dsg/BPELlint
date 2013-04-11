@@ -1,4 +1,4 @@
-package isabel.tool.helper.wsdl;
+package isabel.model.wsdl;
 
 import isabel.tool.helper.NodeHelper;
 import nu.xom.Node;

@@ -4,7 +4,6 @@ import isabel.tool.ValidationException;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.impl.Standards;
 import nu.xom.*;
-import org.pmw.tinylog.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,79 +33,46 @@ public class ProcessContainerLoader {
 
 	private ProcessContainer loadAllProcessFilesWithoutExceptions(String bpelFilePath)
 			throws ParsingException, IOException, ValidationException {
+		result = new ProcessContainer();
 
-		loadBpelFile(bpelFilePath);
-		loadXmlSchema();
+		result.setBpel(xmlFileLoader.load(bpelFilePath));
+		result.add(xmlFileLoader.loadFromResourceStream(XMLSCHEMA_XSD));
 		loadBpelImports();
 
-		return result.createImmutable();
+		return result.validateAndFinalize();
 	}
 
 	private void loadBpelImports() throws ParsingException, IOException {
 		for (Node importNode : result.getImports()) {
-			loadWsdlOrXsd(importNode);
+			XmlFile entry = xmlFileLoader.loadImportNode(importNode);
+			this.result.addDirectlyImported(entry);
+			loadImports(entry);
 		}
 	}
 
-	private void loadWsdlOrXsd(Node importNode) throws ParsingException, IOException {
-		Logger.debug("Loading <bpel:import> reference " + importNode.toXML());
-		XmlFile entry = xmlFileLoader.loadImportNode(importNode);
+	private void loadImports(XmlFile entry) throws ParsingException, IOException {
 		if (entry.isWsdl()) {
-			loadWSDL(entry);
+			loadWsdlImports(entry);
+			loadXsdImportsInWsdl(entry);
 		} else if (entry.isXsd()) {
-			loadXSD(entry);
-		} else {
-			throw new IllegalStateException("Bad <import> found "
-					+ importNode.toXML());
+			loadXsdImports(entry);
 		}
 	}
 
-	private void loadXmlSchema() throws ValidationException, ParsingException,
-			IOException {
-		result.addXsd(xmlFileLoader.loadFromResourceStream(XMLSCHEMA_XSD));
-	}
-
-	private XmlFile loadBpelFile(String bpelFilePath)
-			throws ParsingException, IOException, ValidationException {
-		try {
-			XmlFile bpel = xmlFileLoader.load(bpelFilePath);
-
-			// create and set result
-			result = new ProcessContainer();
-			result.setBpel(bpel);
-
-			return bpel;
-		} catch (Exception e) {
-			throw new ValidationException("Error with file " + bpelFilePath, e);
-		}
-	}
-
-	private void loadWSDL(XmlFile wsdlEntry) throws ParsingException, IOException {
-		if (!result.getAllWsdls().contains(wsdlEntry)) {
-			result.addWsdl(wsdlEntry);
-
-			for (Node importNode : wsdlEntry.getDocument().query("//wsdl:import", CONTEXT)) {
-				loadWsdlOrXsd(importNode);
-			}
-
-			addWsdlXsd(wsdlEntry);
-		}
-	}
-
-	private void loadXSD(XmlFile entry) throws ParsingException, IOException {
-		if (!result.getAllXsds().contains(entry)) {
-			result.addXsd(entry);
-			// TODO check if this is the right xsd file
-			for (Node importNode : entry.getDocument().query("//xsd:import", CONTEXT)) {
-				loadWsdlOrXsd(importNode);
+	private void loadXsdImports(XmlFile entry) throws ParsingException, IOException {
+		for (Node importNode : entry.getDocument().query("//xsd:import", CONTEXT)) {
+			XmlFile xmlFile = xmlFileLoader.loadImportNode(importNode);
+			if (!result.contains(xmlFile)) {
+				result.add(xmlFile);
+				loadImports(xmlFile);
 			}
 		}
 	}
 
-	private void addWsdlXsd(XmlFile entry) throws ParsingException, IOException {
+	private void loadXsdImportsInWsdl(XmlFile entry) throws ParsingException, IOException {
 		Nodes typesNodes = entry.getDocument().query("//wsdl:types/*", CONTEXT);
 
-		if (typesNodes.size() == 0) {
+		if (typesNodes.isEmpty()) {
 			return;
 		}
 
@@ -117,11 +83,21 @@ public class ProcessContainerLoader {
 		}
 	}
 
+	private void loadWsdlImports(XmlFile entry) throws ParsingException, IOException {
+		for (Node importNode : entry.getDocument().query("//wsdl:import", CONTEXT)) {
+			XmlFile xmlFile = xmlFileLoader.loadImportNode(importNode);
+			if (!result.contains(xmlFile)) {
+				result.add(xmlFile);
+				loadImports(xmlFile);
+			}
+		}
+	}
+
 	private void addXsdImports(Node schemaNode) throws ParsingException, IOException {
 		Nodes schemaChildren = schemaNode.query("child::*", CONTEXT);
 		for (Node node : schemaChildren) {
 			if (isXsdNode(node) && new NodeHelper(schemaNode).hasLocalName("import")) {
-				result.addXsd(xmlFileLoader.loadImportNode(node));
+				result.add(xmlFileLoader.loadImportNode(node));
 			}
 		}
 	}
