@@ -40,7 +40,7 @@ public class ProcessContainer {
 	}
 
 	public void setBpel(XmlFile xmlFile) {
-		Objects.requireNonNull(bpel, "a bpel reference is required");
+		Objects.requireNonNull(xmlFile, "a bpel reference is required");
 		xmlFile.failUnlessBpel();
 		this.bpel = xmlFile;
 	}

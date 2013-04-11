@@ -5,8 +5,11 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.ParsingException;
+import org.pmw.tinylog.Logger;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Paths;
 
@@ -14,15 +17,18 @@ public class XmlFileLoader {
 
 	private final Builder builder = new Builder(new LocationAwareNodeFactory());
 
+	public XmlFile load(String file) throws ParsingException, IOException {
+		Logger.info("Loading XML document from {0}", file);
+		return new XmlFile(builder.build(new File(file)));
+	}
+
 	public XmlFile loadImportNode(Node importNode)
 			throws ParsingException, IOException {
 		// remove relative path elements like .. and .
 		String canonicalPath = Paths.get(getNodeDirectory(importNode),
 				getImportPath(importNode)).toFile().getCanonicalPath();
 
-		Document document = builder.build(canonicalPath);
-
-		return new XmlFile(document);
+		return load(canonicalPath);
 	}
 
 	private String getImportPath(Node node) {
@@ -47,4 +53,15 @@ public class XmlFileLoader {
 	}
 
 
+	public XmlFile loadFromResourceStream(String xmlschemaXsd) throws IOException, ParsingException {
+		try (InputStream stream = ProcessContainerLoader.class
+				.getResourceAsStream(xmlschemaXsd)) {
+			Logger.info("Loading XML document via stream from {0}", xmlschemaXsd);
+
+			Document document = builder.build(stream);
+			Logger.debug("Loaded XML document via stream from {0}", document.getBaseURI());
+
+			return new XmlFile(document);
+		}
+	}
 }
