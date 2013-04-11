@@ -18,19 +18,11 @@ public class ProcessContainerLoader {
 
 	private ProcessContainer result;
 
-	public ProcessContainer load(String bpelFilePath)
-			throws ValidationException {
-
-		if (bpelFilePath == null) {
-			throw new ValidationException(new IllegalArgumentException(
-					"parameter bpelFilePath must not be null"));
-		}
-
+	public ProcessContainer load(String bpelFilePath) throws ValidationException {
 		try {
 			return loadAllProcessFilesWithoutExceptions(bpelFilePath);
 		} catch (ValidityException e) {
-			throw new ValidationException(
-					"Loading failed: Not a valid BPEL-File", e);
+			throw new ValidationException("Loading failed: Not a valid BPEL-File", e);
 		} catch (ParsingException e) {
 			throw new ValidationException("Loading failed: Not Parsable", e);
 		} catch (FileNotFoundException e) {
@@ -38,12 +30,11 @@ public class ProcessContainerLoader {
 		} catch (IOException e) {
 			throw new ValidationException("Loading failed: File-Reading Error", e);
 		}
-
 	}
 
-	private ProcessContainer loadAllProcessFilesWithoutExceptions(
-			String bpelFilePath) throws ParsingException, IOException,
-			ValidationException {
+	private ProcessContainer loadAllProcessFilesWithoutExceptions(String bpelFilePath)
+			throws ParsingException, IOException, ValidationException {
+
 		loadBpelFile(bpelFilePath);
 		loadXmlSchema();
 		loadBpelImports();
@@ -57,8 +48,7 @@ public class ProcessContainerLoader {
 		}
 	}
 
-	private void loadWsdlOrXsd(Node importNode) throws ParsingException,
-			IOException {
+	private void loadWsdlOrXsd(Node importNode) throws ParsingException, IOException {
 		Logger.debug("Loading <bpel:import> reference " + importNode.toXML());
 		XmlFile entry = xmlFileLoader.loadImportNode(importNode);
 		if (entry.isWsdl()) {
@@ -91,8 +81,7 @@ public class ProcessContainerLoader {
 		}
 	}
 
-	private void loadWSDL(XmlFile wsdlEntry) throws ParsingException,
-			IOException {
+	private void loadWSDL(XmlFile wsdlEntry) throws ParsingException, IOException {
 		if (!result.getAllWsdls().contains(wsdlEntry)) {
 			result.addWsdl(wsdlEntry);
 
@@ -104,8 +93,7 @@ public class ProcessContainerLoader {
 		}
 	}
 
-	private void loadXSD(XmlFile entry) throws ParsingException,
-			IOException {
+	private void loadXSD(XmlFile entry) throws ParsingException, IOException {
 		if (!result.getAllXsds().contains(entry)) {
 			result.addXsd(entry);
 			// TODO check if this is the right xsd file
@@ -115,8 +103,7 @@ public class ProcessContainerLoader {
 		}
 	}
 
-	private void addWsdlXsd(XmlFile entry) throws ParsingException,
-			IOException {
+	private void addWsdlXsd(XmlFile entry) throws ParsingException, IOException {
 		Nodes typesNodes = entry.getDocument().query("//wsdl:types/*", CONTEXT);
 
 		if (typesNodes.size() == 0) {
@@ -130,8 +117,7 @@ public class ProcessContainerLoader {
 		}
 	}
 
-	private void addXsdImports(Node schemaNode) throws ParsingException,
-			IOException {
+	private void addXsdImports(Node schemaNode) throws ParsingException, IOException {
 		Nodes schemaChildren = schemaNode.query("child::*", CONTEXT);
 		for (Node node : schemaChildren) {
 			if (isXsdNode(node) && new NodeHelper(schemaNode).hasLocalName("import")) {
