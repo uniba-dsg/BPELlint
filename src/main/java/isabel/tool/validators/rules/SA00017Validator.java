@@ -1,17 +1,17 @@
 package isabel.tool.validators.rules;
 
+import isabel.tool.helper.NodeHelper;
+import isabel.tool.impl.Standards;
+import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.impl.Standards;
-import isabel.tool.impl.ValidationCollector;
 
 public class SA00017Validator extends Validator {
 
 	public SA00017Validator(ProcessContainer files,
-			ValidationCollector violationCollector) {
+	                        ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 

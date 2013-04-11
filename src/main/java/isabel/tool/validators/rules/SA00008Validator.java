@@ -1,17 +1,17 @@
 package isabel.tool.validators.rules;
 
-import static isabel.tool.impl.Standards.CONTEXT;
-
+import isabel.tool.helper.NodeHelper;
+import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
 import nu.xom.Node;
 import nu.xom.Nodes;
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.impl.ValidationCollector;
+
+import static isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00008Validator extends Validator {
 
 	public SA00008Validator(ProcessContainer files,
-			ValidationCollector violationCollector) {
+	                        ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -22,9 +22,9 @@ public class SA00008Validator extends Validator {
 
 			if (!compensateScopeHelper.hasAncestor("bpel:faultHandlers")
 					&& !compensateScopeHelper
-							.hasAncestor("bpel:compensationHandler")
+					.hasAncestor("bpel:compensationHandler")
 					&& !compensateScopeHelper
-							.hasAncestor("bpel:terminationHandlers")) {
+					.hasAncestor("bpel:terminationHandlers")) {
 				addViolation(compensateScope);
 			}
 		}

@@ -1,8 +1,5 @@
 package isabel.tool;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import isabel.tool.impl.SimpleValidationResult;
 import isabel.tool.imports.ProcessContainer;
 import isabel.tool.imports.ProcessContainerLoader;
@@ -11,22 +8,23 @@ import isabel.tool.validators.rules.ValidatorsHandler;
 import isabel.tool.validators.xsd.SchemaValidator;
 import isabel.tool.validators.xsd.XMLValidator;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * Isabel, a static analyzer for BPEL processes
- * 
+ *
  * @author David Bimamisa, Christian Preißinger, Stephan Schuberth; Project
  *         Distributed Systems Group - University of Bamberg - SS 2012
  */
 public class Isabel {
 
 	/**
-	 * @param bpelPath
-	 *            The BPEL file of the process, which should be analyzed
-	 *            statically.
+	 * @param bpelPath The BPEL file of the process, which should be analyzed
+	 *                 statically.
 	 * @return A ValidationCollector, which is a collection of occurred
 	 *         rule-violations.
-	 * @throws ValidationException
-	 *             If loading is not working correctly
+	 * @throws ValidationException If loading is not working correctly
 	 */
 	public ValidationResult validate(String bpelPath)
 			throws ValidationException {

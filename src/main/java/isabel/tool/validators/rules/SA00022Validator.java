@@ -1,11 +1,11 @@
 package isabel.tool.validators.rules;
 
-import java.util.List;
-
-import isabel.tool.imports.ProcessContainer;
-import nu.xom.Node;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.impl.ValidationCollector;
+import isabel.tool.imports.ProcessContainer;
+import nu.xom.Node;
+
+import java.util.List;
 
 public class SA00022Validator extends Validator {
 
@@ -14,7 +14,7 @@ public class SA00022Validator extends Validator {
 	private static final int SAME_TYPE = 1;
 
 	public SA00022Validator(ProcessContainer files,
-			ValidationCollector violationCollector) {
+	                        ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 

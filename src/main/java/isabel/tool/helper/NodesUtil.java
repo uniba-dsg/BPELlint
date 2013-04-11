@@ -1,10 +1,10 @@
 package isabel.tool.helper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nu.xom.Node;
 import nu.xom.Nodes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NodesUtil {
 

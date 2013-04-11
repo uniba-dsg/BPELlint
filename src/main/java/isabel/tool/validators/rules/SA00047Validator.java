@@ -1,23 +1,23 @@
 package isabel.tool.validators.rules;
 
-import static isabel.tool.impl.Standards.CONTEXT;
+import isabel.tool.helper.NodeHelper;
+import isabel.tool.helper.wsdl.OperationElement;
+import isabel.tool.impl.NavigationException;
+import isabel.tool.impl.ValidationCollector;
+import isabel.tool.imports.ProcessContainer;
+import nu.xom.Node;
+import nu.xom.Nodes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import isabel.tool.imports.ProcessContainer;
-import nu.xom.Node;
-import nu.xom.Nodes;
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.helper.wsdl.OperationElement;
-import isabel.tool.impl.NavigationException;
-import isabel.tool.impl.ValidationCollector;
+import static isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00047Validator extends Validator {
 
 	public SA00047Validator(ProcessContainer files,
-			ValidationCollector violationCollector) {
+	                        ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 

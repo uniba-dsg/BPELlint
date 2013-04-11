@@ -1,9 +1,5 @@
 package isabel.tool.validators.rules;
 
-import static isabel.tool.impl.Standards.CONTEXT;
-import nu.xom.Document;
-import nu.xom.Node;
-import nu.xom.Nodes;
 import isabel.tool.helper.BPELHelper;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.helper.PrefixHelper;
@@ -11,11 +7,16 @@ import isabel.tool.impl.NavigationException;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
 import isabel.tool.imports.XmlFile;
+import nu.xom.Document;
+import nu.xom.Node;
+import nu.xom.Nodes;
+
+import static isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00021Validator extends Validator {
 
 	public SA00021Validator(ProcessContainer files,
-			ValidationCollector violationCollector) {
+	                        ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -47,7 +48,7 @@ public class SA00021Validator extends Validator {
 	}
 
 	private void hasCorrespondingPropertyAlias(Node node, String property,
-			Node partHolder) throws NavigationException {
+	                                           Node partHolder) throws NavigationException {
 		String type = "";
 
 		if (NodeHelper.toElement(node).getLocalName().equals("onEvent")) {
@@ -67,7 +68,7 @@ public class SA00021Validator extends Validator {
 				if (PrefixHelper.removePrefix(property).equals(propertyName)) {
 					if (!(isOfThisMessageType(type, propertyAlias, partHolder)
 							|| isOfThisType(type, propertyAlias) || isOfThisElement(
-								type, propertyAlias))) {
+							type, propertyAlias))) {
 						addViolation(node);
 					}
 				} else {
@@ -88,7 +89,7 @@ public class SA00021Validator extends Validator {
 	}
 
 	private boolean isOfThisMessageType(String type, Node propertyAlias,
-			Node partHolder) {
+	                                    Node partHolder) {
 		NodeHelper nodeHelper = new NodeHelper(propertyAlias);
 		String messageType = PrefixHelper.removePrefix(nodeHelper
 				.getAttribute("messageType"));

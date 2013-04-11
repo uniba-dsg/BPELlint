@@ -34,11 +34,9 @@ public class ProcessContainerLoader {
 		} catch (ParsingException e) {
 			throw new ValidationException("Loading failed: Not Parsable", e);
 		} catch (FileNotFoundException e) {
-			throw new ValidationException("Loading failed: File was not found",
-					e);
+			throw new ValidationException("Loading failed: File was not found", e);
 		} catch (IOException e) {
-			throw new ValidationException("Loading failed: File-Reading Error",
-					e);
+			throw new ValidationException("Loading failed: File-Reading Error", e);
 		}
 
 	}
@@ -98,8 +96,7 @@ public class ProcessContainerLoader {
 		if (!result.getAllWsdls().contains(wsdlEntry)) {
 			result.addWsdl(wsdlEntry);
 
-			for (Node importNode : wsdlEntry.getDocument().query(
-					"//wsdl:import", CONTEXT)) {
+			for (Node importNode : wsdlEntry.getDocument().query("//wsdl:import", CONTEXT)) {
 				loadWsdlOrXsd(importNode);
 			}
 
@@ -112,8 +109,7 @@ public class ProcessContainerLoader {
 		if (!result.getAllXsds().contains(entry)) {
 			result.addXsd(entry);
 			// TODO check if this is the right xsd file
-			for (Node importNode : entry.getDocument().query("//xsd:import",
-					CONTEXT)) {
+			for (Node importNode : entry.getDocument().query("//xsd:import", CONTEXT)) {
 				loadWsdlOrXsd(importNode);
 			}
 		}
@@ -128,8 +124,7 @@ public class ProcessContainerLoader {
 		}
 
 		Node schemaNode = typesNodes.get(0);
-		if (isXsdNode(schemaNode)
-				&& new NodeHelper(schemaNode).hasLocalName("schema")) {
+		if (isXsdNode(schemaNode) && new NodeHelper(schemaNode).hasLocalName("schema")) {
 			result.addSchema(schemaNode);
 			addXsdImports(schemaNode);
 		}
@@ -139,16 +134,14 @@ public class ProcessContainerLoader {
 			IOException {
 		Nodes schemaChildren = schemaNode.query("child::*", CONTEXT);
 		for (Node node : schemaChildren) {
-			if (isXsdNode(node)
-					&& new NodeHelper(schemaNode).hasLocalName("import")) {
+			if (isXsdNode(node) && new NodeHelper(schemaNode).hasLocalName("import")) {
 				result.addXsd(xmlFileLoader.loadImportNode(node));
 			}
 		}
 	}
 
 	private boolean isXsdNode(Node node) {
-		return ((Element) node).getNamespaceURI().equals(
-				Standards.XSD_NAMESPACE);
+		return ((Element) node).getNamespaceURI().equals(Standards.XSD_NAMESPACE);
 	}
 
 

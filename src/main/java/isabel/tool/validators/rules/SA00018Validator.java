@@ -1,19 +1,19 @@
 package isabel.tool.validators.rules;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import nu.xom.Node;
-import nu.xom.Nodes;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.impl.Standards;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
+import nu.xom.Node;
+import nu.xom.Nodes;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class SA00018Validator extends Validator {
 
 	public SA00018Validator(ProcessContainer files,
-			ValidationCollector validationCollector) {
+	                        ValidationCollector validationCollector) {
 		super(files, validationCollector);
 	}
 

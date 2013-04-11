@@ -1,7 +1,8 @@
 package isabel.tool.validators.xsd;
 
-import java.io.File;
-import java.io.IOException;
+import isabel.tool.ValidationException;
+import org.pmw.tinylog.Logger;
+import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
@@ -9,11 +10,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-
-import org.pmw.tinylog.Logger;
-import org.xml.sax.SAXException;
-
-import isabel.tool.ValidationException;
+import java.io.File;
+import java.io.IOException;
 
 class BPELValidator {
 
@@ -25,7 +23,7 @@ class BPELValidator {
 	public BPELValidator() throws ValidationException {
 		try {
 			Logger.debug("Loading BPEL schemas");
-			Schema schema = sFactory.newSchema(new Source[] {
+			Schema schema = sFactory.newSchema(new Source[]{
 					new StreamSource(getClass().getResourceAsStream(
 							"/xsd/xml.xsd")),
 					new StreamSource(getClass().getResourceAsStream(
@@ -35,7 +33,7 @@ class BPELValidator {
 					new StreamSource(getClass().getResourceAsStream(
 							"/xsd/XMLSchema.xsd")),
 					new StreamSource(getClass().getResourceAsStream(
-							"/bpel2/ws-bpel_serviceref.xsd")) });
+							"/bpel2/ws-bpel_serviceref.xsd"))});
 			validator = schema.newValidator();
 			Logger.debug("Loading BPEL schemas DONE");
 		} catch (SAXException e) {

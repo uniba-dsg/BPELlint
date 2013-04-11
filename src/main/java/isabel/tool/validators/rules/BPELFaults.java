@@ -2,7 +2,7 @@ package isabel.tool.validators.rules;
 
 public class BPELFaults {
 
-	public static final String[] VALUES = { "bpel:ambiguousReceive",
+	public static final String[] VALUES = {"bpel:ambiguousReceive",
 			"bpel:completionConditionFailure", "bpel:conflictingReceive",
 			"bpel:conflictingRequest", "bpel:correlationViolation",
 			"bpel:invalidBranchCondition ", "bpel:invalidExpressionValue",
@@ -11,6 +11,6 @@ public class BPELFaults {
 			"bpel:scopeInitializationFailure", "bpel:selectionFailure ",
 			"bpel:subLanguageExecutionFault", "bpel:uninitializedPartnerRole",
 			"bpel:uninitializedVariable", "bpel:unsupportedReference",
-			"bpel:xsltInvalidSource", "bpel:xsltStylesheetNotFound" };
+			"bpel:xsltInvalidSource", "bpel:xsltStylesheetNotFound"};
 
 }

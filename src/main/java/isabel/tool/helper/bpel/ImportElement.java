@@ -1,16 +1,14 @@
 package isabel.tool.helper.bpel;
 
+import isabel.tool.impl.Standards;
+import nu.xom.Element;
+import nu.xom.Node;
+import org.pmw.tinylog.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Objects;
-
-import nu.xom.Element;
-import nu.xom.Node;
-
-import org.pmw.tinylog.Logger;
-
-import isabel.tool.impl.Standards;
 
 public class ImportElement {
 

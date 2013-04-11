@@ -1,11 +1,10 @@
 package isabel;
 
-import static org.junit.Assert.assertEquals;
-
+import isabel.io.ErrorMessageRepository;
 import org.junit.Before;
 import org.junit.Test;
 
-import isabel.io.ErrorMessageRepository;
+import static org.junit.Assert.assertEquals;
 
 public class ErrorMessagesTest {
 

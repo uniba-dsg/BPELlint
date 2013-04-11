@@ -1,15 +1,15 @@
 package isabel.tool.validators.rules;
 
-import static isabel.tool.impl.Standards.CONTEXT;
-
-import java.util.List;
-
-import isabel.tool.imports.ProcessContainer;
-import nu.xom.Node;
 import isabel.tool.helper.NodesUtil;
 import isabel.tool.helper.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
+import isabel.tool.imports.ProcessContainer;
 import isabel.tool.imports.XmlFile;
+import nu.xom.Node;
+
+import java.util.List;
+
+import static isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00001Validator extends Validator {
 
@@ -17,7 +17,7 @@ public class SA00001Validator extends Validator {
 	private static final int NOTIFICATION_FAULT = 1;
 
 	public SA00001Validator(ProcessContainer files,
-			ValidationCollector violationCollector) {
+	                        ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 

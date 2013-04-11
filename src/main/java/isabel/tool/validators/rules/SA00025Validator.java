@@ -1,11 +1,11 @@
 package isabel.tool.validators.rules;
 
-import static isabel.tool.impl.Standards.CONTEXT;
-
+import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
 import nu.xom.Node;
 import nu.xom.Nodes;
-import isabel.tool.impl.ValidationCollector;
+
+import static isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00025Validator extends Validator {
 
@@ -16,7 +16,7 @@ public class SA00025Validator extends Validator {
 	private static final int MESSAGE_TYPE_OR_TYPE_OR_ELEMENT_MISSING = 1;
 
 	public SA00025Validator(ProcessContainer files,
-			ValidationCollector violationCollector) {
+	                        ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 

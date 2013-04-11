@@ -1,13 +1,11 @@
 package isabel.tool.validators.xsd;
 
-import java.io.File;
+import isabel.tool.ValidationException;
+import org.pmw.tinylog.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.pmw.tinylog.Logger;
-
-import isabel.tool.ValidationException;
+import java.io.File;
 
 public class XMLValidator {
 

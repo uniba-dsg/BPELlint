@@ -2,7 +2,6 @@ package isabel.tool.imports;
 
 import isabel.tool.helper.NodesUtil;
 import isabel.tool.impl.NavigationException;
-import isabel.tool.impl.Standards;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;

@@ -1,22 +1,22 @@
 package isabel.tool.validators.rules;
 
-import static isabel.tool.impl.Standards.CONTEXT;
-
-import java.util.List;
-import java.util.Map;
-
-import isabel.tool.imports.ProcessContainer;
-import nu.xom.Node;
-import nu.xom.Nodes;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.helper.PrefixHelper;
 import isabel.tool.impl.NavigationException;
 import isabel.tool.impl.ValidationCollector;
+import isabel.tool.imports.ProcessContainer;
 import isabel.tool.imports.XmlFile;
+import nu.xom.Node;
+import nu.xom.Nodes;
+
+import java.util.List;
+import java.util.Map;
+
+import static isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00048Validator extends Validator {
 	public SA00048Validator(ProcessContainer files,
-			ValidationCollector violationCollector) {
+	                        ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -103,8 +103,8 @@ public class SA00048Validator extends Validator {
 	private boolean messageHasOnlyOnePartWithElement(Node operationMessage) {
 		return operationMessage.query("child::*").size() == 1
 				&& operationMessage.query(
-						"child::wsdl:part[position()=1]/@element", CONTEXT)
-						.size() == 1;
+				"child::wsdl:part[position()=1]/@element", CONTEXT)
+				.size() == 1;
 	}
 
 	private Node getMessagePartAttributeElement(Node operationMessage) {

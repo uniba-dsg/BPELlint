@@ -1,12 +1,12 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.imports.ProcessContainer;
-import nu.xom.Node;
-import nu.xom.Nodes;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.impl.Standards;
 import isabel.tool.impl.ValidationCollector;
+import isabel.tool.imports.ProcessContainer;
 import isabel.tool.imports.XmlFile;
+import nu.xom.Node;
+import nu.xom.Nodes;
 
 public class SA00019Validator extends Validator {
 
@@ -14,7 +14,7 @@ public class SA00019Validator extends Validator {
 	public static final int TYPE_AND_ELEMENT = 2;
 
 	public SA00019Validator(ProcessContainer files,
-			ValidationCollector validationCollector) {
+	                        ValidationCollector validationCollector) {
 		super(files, validationCollector);
 	}
 

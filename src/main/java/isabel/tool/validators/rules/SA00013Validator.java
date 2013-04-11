@@ -1,21 +1,21 @@
 package isabel.tool.validators.rules;
 
-import static isabel.tool.impl.Standards.CONTEXT;
-
-import java.util.List;
-
-import isabel.tool.imports.ProcessContainer;
-import nu.xom.Node;
-import nu.xom.Nodes;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.helper.bpel.ImportElement;
 import isabel.tool.impl.ValidationCollector;
+import isabel.tool.imports.ProcessContainer;
 import isabel.tool.imports.XmlFile;
+import nu.xom.Node;
+import nu.xom.Nodes;
+
+import java.util.List;
+
+import static isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00013Validator extends Validator {
 
 	public SA00013Validator(ProcessContainer files,
-			ValidationCollector violationCollector) {
+	                        ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -37,11 +37,11 @@ public class SA00013Validator extends Validator {
 		return isImportTypedWithinThisFiles(fileImport,
 				fileHandler.getAllWsdls())
 				|| isImportTypedWithinThisFiles(fileImport,
-						fileHandler.getAllXsds());
+				fileHandler.getAllXsds());
 	}
 
 	private boolean isImportTypedWithinThisFiles(Node fileImport,
-			List<XmlFile> allFiles) {
+	                                             List<XmlFile> allFiles) {
 		for (XmlFile xmlFile : allFiles) {
 			String importType = new NodeHelper(fileImport)
 					.getAttribute("importType");
@@ -55,7 +55,7 @@ public class SA00013Validator extends Validator {
 	}
 
 	private boolean isCorrespondingFile(Node fileImport,
-			XmlFile xmlFile) {
+	                                    XmlFile xmlFile) {
 		String location = new ImportElement(fileImport)
 				.getAbsoluteLocation(fileHandler.getAbsoluteBpelFolder());
 		return xmlFile.getFilePath().equals(location);

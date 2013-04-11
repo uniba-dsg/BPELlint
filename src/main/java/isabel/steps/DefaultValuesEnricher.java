@@ -1,20 +1,13 @@
 package isabel.steps;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -22,9 +15,11 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class DefaultValuesEnricher {
 
@@ -44,7 +39,7 @@ public class DefaultValuesEnricher {
 		SchemaFactory sFactory = SchemaFactory
 				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = sFactory
-				.newSchema(new Source[] {
+				.newSchema(new Source[]{
 						new StreamSource(getClass().getResourceAsStream(
 								"/xsd/xml.xsd")),
 						new StreamSource(getClass().getResourceAsStream(
@@ -54,7 +49,7 @@ public class DefaultValuesEnricher {
 						new StreamSource(getClass().getResourceAsStream(
 								"/xsd/XMLSchema.xsd")),
 						new StreamSource(getClass().getResourceAsStream(
-								"/bpel2/ws-bpel_serviceref.xsd")) });
+								"/bpel2/ws-bpel_serviceref.xsd"))});
 
 		Validator validator = schema.newValidator();
 

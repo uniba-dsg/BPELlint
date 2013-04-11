@@ -1,7 +1,7 @@
 package isabel.tool.helper.bpel;
 
-import nu.xom.Node;
 import isabel.tool.helper.NodeHelper;
+import nu.xom.Node;
 
 public class ReceiveElement extends NodeHelper {
 

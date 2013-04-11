@@ -1,10 +1,10 @@
 package isabel.io;
 
-import java.io.PrintStream;
-import java.util.List;
-
 import isabel.tool.ValidationResult;
 import isabel.tool.Violation;
+
+import java.io.PrintStream;
+import java.util.List;
 
 public class ValidationResultPrinter {
 
@@ -20,14 +20,14 @@ public class ValidationResultPrinter {
 	}
 
 	public void printResults(VerbosityLevel verbosityLevel,
-			ValidationResult validationResult) {
+	                         ValidationResult validationResult) {
 		switch (verbosityLevel) {
-		case NORMAL:
-			printResults(validationResult);
-			break;
-		case FULL:
-			printResultsFull(validationResult);
-			break;
+			case NORMAL:
+				printResults(validationResult);
+				break;
+			case FULL:
+				printResultsFull(validationResult);
+				break;
 		}
 	}
 
@@ -71,7 +71,7 @@ public class ValidationResultPrinter {
 	}
 
 	private void printLineRowSA(Violation violation, String saNumber,
-			String previousSourceFile) {
+	                            String previousSourceFile) {
 		if (!violation.fileName.equals(previousSourceFile))
 			printer.println(violation.fileName + ":");
 

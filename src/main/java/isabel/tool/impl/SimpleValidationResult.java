@@ -1,9 +1,9 @@
 package isabel.tool.impl;
 
-import java.util.*;
-
 import isabel.tool.ValidationResult;
 import isabel.tool.Violation;
+
+import java.util.*;
 
 public class SimpleValidationResult implements ValidationCollector,
 		ValidationResult {

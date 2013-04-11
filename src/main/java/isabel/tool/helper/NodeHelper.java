@@ -1,10 +1,10 @@
 package isabel.tool.helper;
 
+import isabel.tool.impl.Standards;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
-import isabel.tool.impl.Standards;
 
 public class NodeHelper {
 

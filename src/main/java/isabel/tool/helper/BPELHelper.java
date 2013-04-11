@@ -1,9 +1,10 @@
 package isabel.tool.helper;
 
-import static isabel.tool.impl.Standards.CONTEXT;
+import isabel.tool.impl.NavigationException;
 import nu.xom.Node;
 import nu.xom.Nodes;
-import isabel.tool.impl.NavigationException;
+
+import static isabel.tool.impl.Standards.CONTEXT;
 
 public class BPELHelper {
 

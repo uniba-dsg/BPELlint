@@ -94,14 +94,14 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00015/NoActivityWithCreateInstanceSetToYes.bpel", "15"},
 				{"Testcases/rules/SA00015/OnlyActivityWithCreateInstanceSetToNo.bpel", "15"},
 
-				{"Testcases/rules/SA00016/PartnerLinkWithoutMyRoleAndPartnerRole.bpel","16"},
+				{"Testcases/rules/SA00016/PartnerLinkWithoutMyRoleAndPartnerRole.bpel", "16"},
 
-				{"Testcases/rules/SA00017/InitializePartnerRoleUsedOnPartnerLinkWithoutPartnerRole.bpel","17"},
+				{"Testcases/rules/SA00017/InitializePartnerRoleUsedOnPartnerLinkWithoutPartnerRole.bpel", "17"},
 
-				{"Testcases/rules/SA00018/TwoPartnerLinksWithSameName.bpel","18"},
+				{"Testcases/rules/SA00018/TwoPartnerLinksWithSameName.bpel", "18"},
 
-				{"Testcases/rules/SA00019/PropertyWithoutTypeOrElement.bpel","19"},
-				{"Testcases/rules/SA00019/PropertyWithTypeAndElement.bpel","19"},
+				{"Testcases/rules/SA00019/PropertyWithoutTypeOrElement.bpel", "19"},
+				{"Testcases/rules/SA00019/PropertyWithTypeAndElement.bpel", "19"},
 
 				{"Testcases/rules/SA00020/PropertyAlias-AllOptionalAttributes.bpel", "20"},
 				{"Testcases/rules/SA00020/PropertyAlias-MessageTypeAttribute.bpel", "20"},
@@ -334,14 +334,14 @@ public class FunctionalValidatorTests {
 				{"Testcases/betsy/structured-activities/Sequence.bpel", ""},
 				{"Testcases/betsy/structured-activities/While.bpel", ""},
 
-				{"Testcases/complex/requestor/prototype-ebBP-BT-Requestor.bpel",""},
-				{"Testcases/complex/responder/prototype-ebBP-BT-Responder.bpel",""},
+				{"Testcases/complex/requestor/prototype-ebBP-BT-Requestor.bpel", ""},
+				{"Testcases/complex/responder/prototype-ebBP-BT-Responder.bpel", ""},
 
-				{"Testcases/complex/bpel_req/Transaction-rev1-btaRAandAAandTTPv1-role-1.bpel",""},
-				{"Testcases/complex/bpel_resp/Transaction-rev1-btaRAandAAandTTPv1-role-2.bpel",""},
+				{"Testcases/complex/bpel_req/Transaction-rev1-btaRAandAAandTTPv1-role-1.bpel", ""},
+				{"Testcases/complex/bpel_resp/Transaction-rev1-btaRAandAAandTTPv1-role-2.bpel", ""},
 
-				{"Testcases/calculator/CalculatorService.bpel",""},
-				{"Testcases/calculator/fluentCalculatorService.bpel",""},
+				{"Testcases/calculator/CalculatorService.bpel", ""},
+				{"Testcases/calculator/fluentCalculatorService.bpel", ""},
 
 		};
 		return Arrays.asList(data);

@@ -1,20 +1,18 @@
 package isabel.tool.validators.rules;
 
-import java.util.List;
-
-import isabel.tool.imports.ProcessContainer;
-import nu.xom.Node;
-
-import org.pmw.tinylog.Logger;
-
 import isabel.tool.helper.bpel.ImportElement;
 import isabel.tool.impl.ValidationCollector;
+import isabel.tool.imports.ProcessContainer;
 import isabel.tool.imports.XmlFile;
+import nu.xom.Node;
+import org.pmw.tinylog.Logger;
+
+import java.util.List;
 
 public class SA00011Validator extends Validator {
 
 	public SA00011Validator(ProcessContainer files,
-			ValidationCollector violationCollector) {
+	                        ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 

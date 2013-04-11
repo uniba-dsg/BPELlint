@@ -9,7 +9,7 @@ public class Violation implements Comparable<Violation> {
 	public final String fileName;
 
 	public Violation(String fileName, int ruleNumber, int type, int row,
-			int column) {
+	                 int column) {
 		if (fileName == null) {
 			throw new IllegalArgumentException("fileName must not be null");
 		}

@@ -1,12 +1,12 @@
 package isabel.tool.validators.rules;
 
-import nu.xom.Attribute;
-import nu.xom.Element;
-import nu.xom.Node;
 import isabel.tool.Violation;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
+import nu.xom.Attribute;
+import nu.xom.Element;
+import nu.xom.Node;
 
 public abstract class Validator {
 
@@ -17,7 +17,7 @@ public abstract class Validator {
 	private final ValidationCollector validationCollector;
 
 	public Validator(ProcessContainer files,
-			ValidationCollector validationCollector) {
+	                 ValidationCollector validationCollector) {
 		this.fileHandler = files;
 		this.validationCollector = validationCollector;
 		navigator = new ValidatorNavigator(fileHandler);

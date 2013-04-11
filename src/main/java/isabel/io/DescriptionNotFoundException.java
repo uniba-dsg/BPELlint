@@ -3,7 +3,7 @@ package isabel.io;
 public class DescriptionNotFoundException extends Exception {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -6396020760714942253L;
 
@@ -12,7 +12,7 @@ public class DescriptionNotFoundException extends Exception {
 	}
 
 	public DescriptionNotFoundException(String arg0, Throwable arg1,
-			boolean arg2, boolean arg3) {
+	                                    boolean arg2, boolean arg3) {
 		super(arg0, arg1, arg2, arg3);
 	}
 

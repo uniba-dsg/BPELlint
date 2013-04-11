@@ -16,20 +16,19 @@ package isabel;
  *#####################################################################
  */
 
-import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import org.pmw.tinylog.Logger;
-
 import isabel.io.CommandLineInterpreter;
 import isabel.io.ValidationResultPrinter;
 import isabel.io.VerbosityLevel;
 import isabel.tool.Isabel;
 import isabel.tool.ValidationException;
 import isabel.tool.ValidationResult;
+import org.pmw.tinylog.Logger;
+
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class IsabelTool {
 

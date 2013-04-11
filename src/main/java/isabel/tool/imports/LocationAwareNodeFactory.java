@@ -2,7 +2,6 @@ package isabel.tool.imports;
 
 import nu.xom.Element;
 import nu.xom.NodeFactory;
-
 import org.xml.sax.Locator;
 
 final class LocationAwareNodeFactory extends NodeFactory {

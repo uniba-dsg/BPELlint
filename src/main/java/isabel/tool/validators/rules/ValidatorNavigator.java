@@ -1,20 +1,16 @@
 package isabel.tool.validators.rules;
 
-import static isabel.tool.impl.Standards.CONTEXT;
+import isabel.tool.helper.NodeHelper;
+import isabel.tool.helper.PrefixHelper;
+import isabel.tool.impl.NavigationException;
+import isabel.tool.imports.ProcessContainer;
+import isabel.tool.imports.XmlFile;
+import nu.xom.*;
 
 import java.util.HashMap;
 import java.util.List;
 
-import isabel.tool.imports.ProcessContainer;
-import nu.xom.Attribute;
-import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Node;
-import nu.xom.Nodes;
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.helper.PrefixHelper;
-import isabel.tool.impl.NavigationException;
-import isabel.tool.imports.XmlFile;
+import static isabel.tool.impl.Standards.CONTEXT;
 
 public class ValidatorNavigator {
 
@@ -54,7 +50,7 @@ public class ValidatorNavigator {
 	}
 
 	public Node getMessage(String messageName, String namespaceURI,
-			List<XmlFile> wsdlImports) {
+	                       List<XmlFile> wsdlImports) {
 		Node message = null;
 		for (XmlFile wsdlEntry : wsdlImports) {
 			String targetNamespace = wsdlEntry.getTargetNamespace();
@@ -73,7 +69,7 @@ public class ValidatorNavigator {
 	}
 
 	public String getPrefixNamespaceURI(Document document,
-			String namespacePrefix) throws NavigationException {
+	                                    String namespacePrefix) throws NavigationException {
 		if (namespacePrefix.isEmpty()) {
 			throw new NavigationException(
 					"Document has no namespace for this prefix");
@@ -185,7 +181,7 @@ public class ValidatorNavigator {
 	}
 
 	public Node operationToMessage(List<XmlFile> wsdlImports,
-			Node operation) throws NavigationException {
+	                               Node operation) throws NavigationException {
 
 		if (operation == null)
 			throw new NavigationException("Operation not defined");
@@ -310,7 +306,7 @@ public class ValidatorNavigator {
 	}
 
 	public Node getCorrespondingPropertyAlias(Node correlationSet,
-			Document wsdlFile) throws NavigationException {
+	                                          Document wsdlFile) throws NavigationException {
 		Nodes propertyAliases = wsdlFile
 				.query("//vprop:propertyAlias", CONTEXT);
 		String propertyAliasAttribute = PrefixHelper
@@ -322,7 +318,7 @@ public class ValidatorNavigator {
 	}
 
 	public Node navigateFromPropertyAliasNameToPropertyAlias(Nodes aliases,
-			String propertyAliasAttribute) throws NavigationException {
+	                                                         String propertyAliasAttribute) throws NavigationException {
 		for (Node propertyAlias : aliases) {
 			String propertyAliasName = PrefixHelper
 					.removePrefix(new NodeHelper(propertyAlias)
