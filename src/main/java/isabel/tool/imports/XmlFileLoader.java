@@ -12,12 +12,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class XmlFileLoader {
 
 	private final Builder builder = new Builder(new LocationAwareNodeFactory());
 
 	public XmlFile load(String file) throws ParsingException, IOException {
+		Objects.requireNonNull(file, "file must not be null");
+
 		Logger.info("Loading XML document from {0}", file);
 		return new XmlFile(builder.build(new File(file)));
 	}

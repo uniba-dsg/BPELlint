@@ -14,7 +14,7 @@ public class XmlFileLoaderTests {
 		fileHandler = new ProcessContainerLoader();
 	}
 
-	@Test(expected = ValidationException.class)
+	@Test(expected = NullPointerException.class)
 	public void whenCalledLoadAllProcessFilesWithNull_shouldThrowIllegalArgumentException()
 			throws Exception {
 		fileHandler.load(null);
