@@ -1,11 +1,11 @@
 package isabel.steps;
 
 import com.google.common.io.CharStreams;
-import com.sun.org.apache.xml.internal.security.Init;
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
 import nu.xom.ParsingException;
+import org.apache.xml.security.Init;
+import org.apache.xml.security.c14n.CanonicalizationException;
+import org.apache.xml.security.c14n.Canonicalizer;
+import org.apache.xml.security.c14n.InvalidCanonicalizerException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -21,7 +21,7 @@ public class StepsTests {
 	@Test
 	public void testAddingDefaults() throws IOException, TransformerException,
 			SAXException, ParserConfigurationException,
-			InvalidCanonicalizerException, CanonicalizationException {
+            InvalidCanonicalizerException, CanonicalizationException {
 		String result = new DefaultValuesEnricher()
 				.validateAndApplyDefaultValuesToBpelFile(getClass()
 						.getResource("/steps/process.bpel").openStream());
