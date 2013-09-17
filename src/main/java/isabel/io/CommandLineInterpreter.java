@@ -1,7 +1,7 @@
 package isabel.io;
 
 public class CommandLineInterpreter {
-	public static final String USAGE = "Usage: [--verbose|--full] PATH\nPATH can be a BPEL file or a Folder containing BPEL files";
+	public static final String USAGE = "Usage: [--full] PATH\nPATH can be a BPEL file or a Folder containing BPEL files";
 	public final VerbosityLevel verbosityLevel;
 	public final String path;
 

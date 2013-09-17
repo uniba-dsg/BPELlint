@@ -14,24 +14,22 @@ LGPL Version 3: http://www.gnu.org/licenses/lgpl-3.0.html
 
 ## Usage
 
-Requirements have to be fulfilled in order to execute any of these `gradlew` tasks.
+Requirements (see above) have to be fulfilled to execute `isabel`.
 
 ```bash
-# Validates the <empty.bpel> file.
-$ gradlew run -Pargs="empty.bpel"
+$ isabel [options] <PATH>
+# -f,--full                  Prints out the definitions of the violated rules as well
 
-# Validates *.bpel files within the <folder> and all its subfolders.
-$ gradlew run -Pargs="folder"
+Examples:
+$ isabel empty.bpel # Validates the <empty.bpel> file.
+$ isabel folder # Validates *.bpel files within the <folder> and all its subfolders.
 
-# Validates the <empty.bpel> file including rule description.
-$ gradlew run -Pargs="empty.bpel --full"
-$ gradlew run -Pargs="empty.bpel -f" # same as --full
+$ isabel -f empty.bpel # Validates the <empty.bpel> file including rule definition.
 ```
 
 Only the .bpel file path or directory has to be given as parameter, all needed and referenced files will be loaded.
 With no further parameters the output consists of error position and a short message.
 Parameter order is not important, only the last used parameter is of importance.
-
 
 ## Development
 
