@@ -5,34 +5,46 @@ For <assign>, the <from> and <to> element MUST be one of the specified variants.
 $fromTo = <assign><copy><from> | <to>
 
 FOREACH $fromTo
-	FAIL UNLESS isMessageVariableAssignment($fromTo) OR isPartnerLinkAssignment($fromTo) OR isVariableAssignment($fromTo) OR isQueryResultAssignment($fromTo) OR isLiteralAssignment($fromTo)
+	FAIL UNLESS isEmpty($fromTo) OR isMessageVariableAssignment($fromTo) OR isPartnerLinkAssignment($fromTo) OR isVariableAssignment($fromTo) OR isQueryResultAssignment($fromTo) OR isLiteralAssignment($fromTo)
+
+isEmpty: $fromTo -> boolean
+	RETURN $fromTo<*> COUNT EQUALS '0' AND $fromTo@* COUNT EQUALS '0' AND $fromTo
+TODO evtl ckeck inhalt ist leer
 	
 isMessageVariableAssignment: $fromTo -> boolean
 	UNLESS $fromTo@variable EXISTS
+		RETURN 'false'
+	UNLESS $fromTo@* COUNT LESS_THAN '3'
 		RETURN 'false'
 	UNLESS $fromTo<*> COUNT LESS_THAN '2'
 		RETURN 'false'
 	IF $fromTo<query> EXISTS 
 		IF $fromTo<query>@* GREATER_THAN '1' 
 			RETURN 'false'
-		UNLESS $fromTo<query>@* EQUALS '1' AND $fromTo<query>@queryLanguage EXIST
+		UNLESS $fromTo<query>@* EQUALS '0' OR $fromTo<query>@queryLanguage EXIST
 			RETURN 'false'
-	RETURN  $fromTo@part EXISTS AND $fromTo@* COUNT EQUALS '2' 
+	RETURN  $fromTo@* COUNT EQUALS '1' OR $fromTo@part EXIST 
 TODO evtl querry nicht leer checken
 TODO evtl überprüfen ob variable existiert
 TODO evtl überprüfen ob variable part hat
 
 isPartnerLinkAssignment: $fromTo -> boolean
 	IF $fromTo EQUALS <assign><copy><from>
-		UNLESS ($fromTo@endpointReference EQUALS 'myRole' OR $fromTo@endpointReference EQUALS 'partnerRole') AND $fromTo@* COUNT EQUALS '2'
+		UNLESS $fromTo@* COUNT EQUALS '2'
+			RETURN 'false'
+		UNLESS $fromTo@endpointReference EQUALS 'myRole' OR $fromTo@endpointReference EQUALS 'partnerRole'
 			RETURN 'false'
 	IF $fromTo EQUALS <assign><copy><to>
 		UNLESS $fromTo@* COUNT EQUALS '1'
 			RETURN 'false'
+	IF $fromTo<*> COUNT GREATER_THAN '0'
+		RETURN 'false'
 	RETURN $fromTo@partnerLink EXISTS
 
 isVariableAssignment: $fromTo -> boolean
 	UNLESS $fromTo@variable EXISTS
+		RETURN 'false'
+	UNLESS $fromTo<*> COUNT EQUALS '0'
 		RETURN 'false'
 	RETURN $fromTo@property EXISTS AND $fromTo@* COUNT EQUALS '2'
 TODO evtl überprüfen ob variable property hat
@@ -40,37 +52,42 @@ TODO evtl überprüfen ob variable property hat
 isQueryResultAssignment: $fromTo -> boolean
 	UNLESS $fromTo@* COUNT LESS_THAN '2'
 		RETURN 'false'
+	UNLESS $fromTo<*> COUNT EQUALS '0'
+		RETURN 'false'
 	RETURN $fromTo@* COUNT EQUALS '0' OR $fromTo@expressionLanguage EXISTS 
 TODO evtl expression nicht leer checken
 
 isLiteralAssignment: $fromTo -> boolean
+	UNLESS $fromTo EQUALS <from>
+		RETURN 'false'
 	UNLESS $fromTo@* COUNT EQUALS '0' AND $fromTo<*> COUNT EQUALS '1'
 		RETURN 'false'
 	RETURN $fromTo<literal> EXISTS
 TODO evtl literal checken
 @@@
-FromWithVariableAndPartAndSuperfliciousAttributes.bpel
-ToWithVariableAndPartAndSuperfliciousAttributes.bpel
-FromWithVariableAndPropertyAndSuperfliciousAttributes.bpel
-ToWithVariableAndPropertyAndSuperfliciousAttributes.bpel
-FromWithVariableAttributeWithoutPartOrPortTypeAttribute.bpel
-ToWithVariableAttributeWithoutPartOrPortTypeAttribute.bpel
-ToWithPartnerLinkAndEndpointReferenceAttributes.bpel
-ToWithPartnerLinkAndSuperfliciousAttribute.bpel
-FromWithPartnerLinkAndSuperfliciousAttribute.bpel
-FromWithPartnerLinkAttributeAndWithoutEndpointReferenceAttribute.bpel
-FromWithExpressionLanguageAndSuperfliciousAttributes.bpel
-ToWithExpressionLanguageAndSuperfliciousAttributes.bpel
-EmptyFrom.bpel
-EmptyTo.bpel
-FromWithVariableAttributeAndQueryWithSuperfliciousAttributeChild.bpel
-ToWithVariableAttributeAndQueryWithSuperfliciousAttributeChild.bpel
-FromWithVariableAttributeAndSuperfliciousChild.bpel
-ToWithVariableAttributeAndSuperfliciousChild.bpel
-FromWithExpressionLanguageAndSuperfliciousChild.bpel
-ToWithExpressionLanguageAndSuperfliciousChild.bpel
-FromWithPartnerLinkAttributeAndSuperfliciousChild.bpel
-ToWithPartnerLinkAttributeAndSuperfliciousChild.bpel
+FromMessageTypeVariableSuperfluousAttribute.bpel
+ToMessageTypeVariableSuperfluousAttribute.bpel
+FromVariableQuerySuperfluousAttribute.bpel
+ToVariableQuerySuperfluousAttribute.bpel
+FromVariableSuperfluousChild.bpel
+ToVariableSuperfluousChild.bpel
+
+FromPartnerLinkSuperfluousChild.bpel
+ToPartnerLinkSuperfluousChild.bpel
+ToPartnerLinkEndpointReferenceAttribute.bpel
+ToPartnerLinkSuperfluousAttribute.bpel
+FromPartnerLinkSuperfluousAttribute.bpel
+FromPartnerLinkAttributeMissingEndpointReferenceAttribute.bpel
+
+FromVariablePropertySuperfluousChild.bpel
+ToVariablePropertySuperfluousChild.bpel
+FromVariablePropertySuperfluousAttribute.bpel
+ToVariablePropertySuperfluousAttribute.bpel
+
+FromExpressionLanguageSuperfluousAttributes.bpel
+ToExpressionLanguageSuperfluousAttributes.bpel
+FromExpressionLanguageSuperfluousChild.bpel
+ToWithExpressionLanguageSuperfluousChild.bpel
 
 TODO literal
 
