@@ -86,6 +86,19 @@ public class NodeHelper {
 		return !hasAttribute(name);
 	}
 
+	public int getAmountOfAttributes() {
+		Nodes attributes = node.query("@*");
+		return attributes.size();
+	}
+
+	public boolean hasAttributes() {
+		return getAmountOfAttributes() > 0;
+	}
+
+	public boolean hasNoAttributes() {
+		return !hasAttributes();
+	}
+
 	public boolean hasQueryResult(String query) {
 		return node.query(query, Standards.CONTEXT).hasAny();
 	}
