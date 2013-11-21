@@ -17,7 +17,9 @@
         <assign name="AssignReplyData" >
             <copy>
                 <from>$InitData.inputPart</from>
-                <to variable="ReplyData" part="outputPart" expressionLanguage="http://superfluous.com"/>
+                <to variable="ReplyData" part="outputPart">
+					<documentation/>
+				</to>
             </copy>
         </assign>
         <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>

@@ -136,6 +136,13 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00025/Variable-havingTypeAndMessageTypeAndElement.bpel", "25"},
 				{"Testcases/rules/SA00025/Variable-missingMessageTypeAndTypeAndElement.bpel", "25"},
 
+				{"Testcases/rules/SA00032/ToMessageTypeVariableSuperfluousAttribute.bpel", "32"},
+				{"Testcases/rules/SA00032/ToVariableSuperfliciousChild.bpel", "32"},
+				{"Testcases/rules/SA00032/FromMessageTypeVariableSuperfliciousAttribute.bpel", "32"},
+				{"Testcases/rules/SA00032/FromVariableSuperfliciousChild.bpel", "32"},
+				{"Testcases/rules/SA00032/ToPartnerLinkSuperfliciousChild.bpel", "32"},
+				{"Testcases/rules/SA00032/ToPartnerLinkSuperfliciousAttribute.bpel", "32"},
+				
 				{"Testcases/rules/SA00044/Process-CorrelationSet-Ambiguous.bpel", "44"},
 				{"Testcases/rules/SA00044/Scope-CorrelationSets-Ambiguous.bpel", "44"},
 
