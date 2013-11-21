@@ -144,7 +144,10 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00032/ToPartnerLinkSuperfliciousAttribute.bpel", "32"},
 				{"Testcases/rules/SA00032/FromVariableQuerySuperfliciousAttribute.bpel", "32"},
 				{"Testcases/rules/SA00032/ToVariableQuerySuperfliciousAttribute.bpel", "32"},
-						
+				{"Testcases/rules/SA00032/FromPartnerLinkSuperfliciousAttribute.bpel", "32"},
+				{"Testcases/rules/SA00032/FromPartnerLinkSuperfliciousChild.bpel", "32"},
+				{"Testcases/rules/SA00032/FromPartnerLinkMissingEndpointReferenceAttribute.bpel", "32"},
+				
 				{"Testcases/rules/SA00044/Process-CorrelationSet-Ambiguous.bpel", "44"},
 				{"Testcases/rules/SA00044/Scope-CorrelationSets-Ambiguous.bpel", "44"},
 
