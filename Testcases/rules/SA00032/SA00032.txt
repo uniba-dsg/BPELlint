@@ -1,0 +1,85 @@
+Place Short Description Here.
+@@@
+For <assign>, the <from> and <to> element MUST be one of the specified variants. The <assign> activity copies a type-compatible value from the source ('from-spec') to the destination ('to-spec'), using the <copy> element. Except in Abstract Processes, the fromspec MUST be one of the following variants:  <from variable='BPELVariableName' part='NCName'?>    <query queryLanguage='anyURI'?>?queryContent </query> </from> <from partnerLink='NCName'  endpointReference='myRole|partnerRole' /><from variable='BPELVariableName'  property='QName' /><from expressionLanguage='anyURI'?> expression </from><from>    <literal>literal value</literal> </from> <from/>In Abstract Processes, the from-spec MUST be either one of the above or the opaque variant described in section 13.1.3. Hiding Syntactic Elements The to-spec MUST be one of the following variants: <to variable='BPELVariableName' part='NCName'?>   <query queryLanguage='anyURI'?>?queryContent </query> </to> <to partnerLink='NCName' /><to variable='BPELVariableName'  property='QName' /><to expressionLanguage='anyURI'?> expression </to> <to/>
+@@@
+$fromTo = <assign><copy><from> | <to>
+
+FOREACH $fromTo
+	FAIL UNLESS isMessageVariableAssignment($fromTo) OR isPartnerLinkAssignment($fromTo) OR isVariableAssignment($fromTo) OR isQueryResultAssignment($fromTo) OR isLiteralAssignment($fromTo)
+	
+isMessageVariableAssignment: $fromTo -> boolean
+	UNLESS $fromTo@variable EXISTS
+		RETURN 'false'
+	UNLESS $fromTo<*> COUNT LESS_THAN '2'
+		RETURN 'false'
+	IF $fromTo<query> EXISTS 
+		IF $fromTo<query>@* GREATER_THAN '1' 
+			RETURN 'false'
+		UNLESS $fromTo<query>@* EQUALS '1' AND $fromTo<query>@queryLanguage EXIST
+			RETURN 'false'
+	RETURN  $fromTo@part EXISTS AND $fromTo@* COUNT EQUALS '2' 
+TODO evtl querry nicht leer checken
+TODO evtl überprüfen ob variable existiert
+TODO evtl überprüfen ob variable part hat
+
+isPartnerLinkAssignment: $fromTo -> boolean
+	IF $fromTo EQUALS <assign><copy><from>
+		UNLESS ($fromTo@endpointReference EQUALS 'myRole' OR $fromTo@endpointReference EQUALS 'partnerRole') AND $fromTo@* COUNT EQUALS '2'
+			RETURN 'false'
+	IF $fromTo EQUALS <assign><copy><to>
+		UNLESS $fromTo@* COUNT EQUALS '1'
+			RETURN 'false'
+	RETURN $fromTo@partnerLink EXISTS
+
+isVariableAssignment: $fromTo -> boolean
+	UNLESS $fromTo@variable EXISTS
+		RETURN 'false'
+	RETURN $fromTo@property EXISTS AND $fromTo@* COUNT EQUALS '2'
+TODO evtl überprüfen ob variable property hat
+
+isQueryResultAssignment: $fromTo -> boolean
+	UNLESS $fromTo@* COUNT LESS_THAN '2'
+		RETURN 'false'
+	RETURN $fromTo@* COUNT EQUALS '0' OR $fromTo@expressionLanguage EXISTS 
+TODO evtl expression nicht leer checken
+
+isLiteralAssignment: $fromTo -> boolean
+	UNLESS $fromTo@* COUNT EQUALS '0' AND $fromTo<*> COUNT EQUALS '1'
+		RETURN 'false'
+	RETURN $fromTo<literal> EXISTS
+TODO evtl literal checken
+@@@
+FromWithVariableAndPartAndSuperfliciousAttributes.bpel
+ToWithVariableAndPartAndSuperfliciousAttributes.bpel
+FromWithVariableAndPropertyAndSuperfliciousAttributes.bpel
+ToWithVariableAndPropertyAndSuperfliciousAttributes.bpel
+FromWithVariableAttributeWithoutPartOrPortTypeAttribute.bpel
+ToWithVariableAttributeWithoutPartOrPortTypeAttribute.bpel
+ToWithPartnerLinkAndEndpointReferenceAttributes.bpel
+ToWithPartnerLinkAndSuperfliciousAttribute.bpel
+FromWithPartnerLinkAndSuperfliciousAttribute.bpel
+FromWithPartnerLinkAttributeAndWithoutEndpointReferenceAttribute.bpel
+FromWithExpressionLanguageAndSuperfliciousAttributes.bpel
+ToWithExpressionLanguageAndSuperfliciousAttributes.bpel
+EmptyFrom.bpel
+EmptyTo.bpel
+FromWithVariableAttributeAndQueryWithSuperfliciousAttributeChild.bpel
+ToWithVariableAttributeAndQueryWithSuperfliciousAttributeChild.bpel
+FromWithVariableAttributeAndSuperfliciousChild.bpel
+ToWithVariableAttributeAndSuperfliciousChild.bpel
+FromWithExpressionLanguageAndSuperfliciousChild.bpel
+ToWithExpressionLanguageAndSuperfliciousChild.bpel
+FromWithPartnerLinkAttributeAndSuperfliciousChild.bpel
+ToWithPartnerLinkAttributeAndSuperfliciousChild.bpel
+
+TODO literal
+
+evtl. FromWithVariableAttributeWithoutCorrespondingVariable.bpel <process>|<scope>|<eventHandler>
+evtl. FromWithVariableAndPartAttributesWithoutCorrespondingPart.bpel <process>|<scope>|<eventHandler>
+evtl. FromWithVariableAndPropertyAttributesWithoutCorrespondingProperty.bpel <process>|<scope>|<eventHandler>
+evtl. FromWithVariableAttributeAndQueryChildEmpty.bpel
+evtl. ToWithVariableAttributeAndQueryChildEmpty.bpel
+evtl. FromWithExpressionLanguageAttributeEmpty.bpel
+evtl. ToWithExpressionLanguageAttributeEmpty.bpel
+@@@
+algo desc
