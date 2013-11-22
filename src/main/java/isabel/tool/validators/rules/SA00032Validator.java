@@ -42,19 +42,6 @@ public class SA00032Validator extends Validator {
 
 	private void equalsConformantVariant(List<Node> fromTos) {
 		for (Node fromTo : fromTos) {
-			
-			
-			
-			NodeHelper fromToAsdf = new NodeHelper(fromTo);
-			if (fromToAsdf.getFilePath().endsWith(
-					"FromMessageTypeVariableSuperfliciousAttribute.bpel")) {
-				System.out.println(fromTos.size());
-			}
-			
-			
-			
-			
-			
 			if (!(isEmpty(fromTo) || isMessageVariableAssignment(fromTo)
 					|| isPartnerLinkAssignment(fromTo)
 					|| isVariableAssignment(fromTo)
