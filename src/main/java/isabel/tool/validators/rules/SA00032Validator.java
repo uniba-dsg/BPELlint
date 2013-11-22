@@ -1,6 +1,7 @@
 package isabel.tool.validators.rules;
 
 import static isabel.tool.impl.Standards.CONTEXT;
+import isabel.tool.ValidationException;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.helper.NodesUtil;
 import isabel.tool.impl.ValidationCollector;
@@ -21,40 +22,39 @@ public class SA00032Validator extends Validator {
 
 	@Override
 	public void validate() {
-		List<Node> tos = getTos();
-		List<Node> froms = getFroms();
+		List<Node> fromTos = getFroms();
+		fromTos.addAll(getTos());
 
-		equalsConformantVariant(froms);
-		equalsConformantVariant(tos);
+		equalsConformantVariant(fromTos);
 	}
 
 	private List<Node> getTos() {
 		Nodes toNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:from", CONTEXT);
-		List<Node> tos = NodesUtil.toList(toNodes);
-		return tos;
+				.query("//bpel:to", CONTEXT);
+		return NodesUtil.toList(toNodes);
 	}
 
 	private List<Node> getFroms() {
-		List<Node> froms = new LinkedList<>();
 		Nodes fromNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:from", CONTEXT);
-		for (Node from : fromNodes) {
-			if (!isWithinCopy(from)) {
-				froms.add(from);
-			}
-		}
-		return froms;
-	}
-
-	private boolean isWithinCopy(Node from) {
-		String parentName = new NodeHelper(from.getParent()).getLocalName();
-
-		return "copy".equals(parentName.toLowerCase());
+				.query("//bpel:copy/bpel:from", CONTEXT);
+		return NodesUtil.toList(fromNodes);
 	}
 
 	private void equalsConformantVariant(List<Node> fromTos) {
 		for (Node fromTo : fromTos) {
+			
+			
+			
+			NodeHelper fromToAsdf = new NodeHelper(fromTo);
+			if (fromToAsdf.getFilePath().endsWith(
+					"FromMessageTypeVariableSuperfliciousAttribute.bpel")) {
+				System.out.println(fromTos.size());
+			}
+			
+			
+			
+			
+			
 			if (!(isEmpty(fromTo) || isMessageVariableAssignment(fromTo)
 					|| isPartnerLinkAssignment(fromTo)
 					|| isVariableAssignment(fromTo)
@@ -67,7 +67,7 @@ public class SA00032Validator extends Validator {
 	private boolean isEmpty(Node fromToNode) {
 		NodeHelper fromTo = new NodeHelper(fromToNode);
 
-		boolean noChildren = fromToNode.getChildCount() == 0;
+		boolean noChildren = fromTo.getAmountOfChildern() == 0;
 		boolean noAttributes = fromTo.hasNoAttributes();
 		boolean noContent = fromToNode.getValue().trim().isEmpty();
 
@@ -83,19 +83,24 @@ public class SA00032Validator extends Validator {
 		if (fromTo.getAmountOfAttributes() > 2) {
 			return false;
 		}
-		if (fromToNode.getChildCount() > 1) {
+		if (fromTo.getAmountOfChildern() > 1) {
 			return false;
 		}
-		if (fromToNode.getChildCount() == 1) {
-			NodeHelper query = new NodeHelper(fromToNode.getChild(0));
-			if (!"query".equals(query.getLocalName())) {
-				return false;
-			}
-			if (query.getAmountOfAttributes() > 1) {
-				return false;
-			}
-			if (!query.hasAttribute("queryLanguage")
-					&& query.getAmountOfAttributes() == 0) {
+		if (fromTo.getAmountOfChildern() == 1) {
+			NodeHelper query;
+			try {
+				query = fromTo.getFirstChildElement();
+				if (!"query".equals(query.getLocalName())) {
+					return false;
+				}
+				if (query.getAmountOfAttributes() > 1) {
+					return false;
+				}
+				if (!(query.hasAttribute("queryLanguage") || query
+						.getAmountOfAttributes() == 0)) {
+					return false;
+				}
+			} catch (ValidationException e) {
 				return false;
 			}
 		}
@@ -121,7 +126,7 @@ public class SA00032Validator extends Validator {
 				return false;
 			}
 		}
-		if (fromToNode.getChildCount() > 0) {
+		if (fromTo.getAmountOfChildern() > 0) {
 			return false;
 		}
 
@@ -134,7 +139,7 @@ public class SA00032Validator extends Validator {
 		if (!fromTo.hasAttribute("variable")) {
 			return false;
 		}
-		if (fromToNode.getChildCount() > 0) {
+		if (fromTo.getAmountOfChildern() > 0) {
 			return false;
 		}
 
@@ -148,25 +153,29 @@ public class SA00032Validator extends Validator {
 		if (fromTo.getAmountOfAttributes() > 1) {
 			return false;
 		}
-		if (fromToNode.getChildCount() > 0) {
+		if (fromTo.getAmountOfChildern() > 0) {
 			return false;
 		}
-
-		return fromTo.getAmountOfAttributes() == 0  || fromTo.hasAttribute("expressionLanguage");
+		return fromTo.getAmountOfAttributes() == 0
+				|| fromTo.hasAttribute("expressionLanguage");
 	}
 
 	private boolean isLiteralAssignment(Node fromToNode) {
 		NodeHelper fromTo = new NodeHelper(fromToNode);
-		
+
 		if (!"from".equals(fromTo.getLocalName())) {
 			return false;
 		}
-		if(!(fromTo.getAmountOfAttributes() == 0 && fromToNode.getChildCount() == 1)){
+		if (!(fromTo.getAmountOfAttributes() == 0 && fromToNode.getChildCount() > 0)) {
 			return false;
 		}
-		
-		NodeHelper literal = new NodeHelper(fromToNode.getChild(0));
-		return "literal".equals(literal.getLocalName());
+
+		try {
+			NodeHelper literal = fromTo.getFirstChildElement();
+			return "literal".equals(literal.getLocalName());
+		} catch (ValidationException e) {
+			return false;
+		}
 	}
 
 	@Override

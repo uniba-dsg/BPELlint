@@ -1,6 +1,7 @@
 package isabel.tool.helper;
 
 import isabel.model.ElementIdentifier;
+import isabel.tool.ValidationException;
 import isabel.tool.impl.Standards;
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -93,6 +94,24 @@ public class NodeHelper {
 
 	public boolean hasAttributes() {
 		return getAmountOfAttributes() > 0;
+	}
+
+	public NodeHelper getFirstChildElement() throws ValidationException {
+		int amountOfChildren = getAmountOfChildern();
+		if (amountOfChildren == 0) {
+			throw new ValidationException("Node has no child.");
+		}
+		Node child = node.query("./*").get(0);
+		if (!(child instanceof Element)) {
+			throw new ValidationException("Node is not an element.");
+		}
+
+		return new NodeHelper(child);
+	}
+	
+	public int getAmountOfChildern() {
+		Nodes directChildren = node.query("./*");
+		return directChildren.size();
 	}
 
 	public boolean hasNoAttributes() {
