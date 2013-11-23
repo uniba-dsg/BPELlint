@@ -7,7 +7,6 @@ import isabel.tool.helper.NodesUtil;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import nu.xom.Node;

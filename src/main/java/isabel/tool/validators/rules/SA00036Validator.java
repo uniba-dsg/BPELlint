@@ -1,13 +1,13 @@
 package isabel.tool.validators.rules;
 
 import static isabel.tool.impl.Standards.CONTEXT;
-import nu.xom.Document;
-import nu.xom.Node;
-import nu.xom.Nodes;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.impl.NavigationException;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
+import nu.xom.Document;
+import nu.xom.Node;
+import nu.xom.Nodes;
 
 public class SA00036Validator extends Validator {
 
@@ -24,7 +24,7 @@ public class SA00036Validator extends Validator {
 		Nodes endpointReferenceFroms = getEndpoinReferenceFroms();
 		for (Node from : endpointReferenceFroms) {
 			if (!correspondingPartnerLinkHasPartnerRole(from)) {
-				addViolation(from,errorType);
+				addViolation(from, errorType);
 			}
 		}
 	}
@@ -42,7 +42,7 @@ public class SA00036Validator extends Validator {
 			Node partnerLink = navigator.getPartnerLink(from.getDocument(), partnerLinkName);
 			return hasPartnerRole(partnerLink);
 		} catch (NavigationException e) {
-			errorType  = PARTNER_LINK_IS_MISSING;
+			errorType = PARTNER_LINK_IS_MISSING;
 			return false;
 		}
 	}
@@ -50,6 +50,7 @@ public class SA00036Validator extends Validator {
 	private boolean hasPartnerRole(Node partnerLink) {
 		return new NodeHelper(partnerLink).hasAttribute("partnerRole");
 	}
+
 	@Override
 	public int getSaNumber() {
 		return 36;

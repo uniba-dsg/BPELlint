@@ -24,7 +24,7 @@ public class SA00035Validator extends Validator {
 		Nodes endpointReferenceFroms = getEndpoinReferenceFroms();
 		for (Node from : endpointReferenceFroms) {
 			if (!correspondingPartnerLinkHasMyRole(from)) {
-				addViolation(from,errorType);
+				addViolation(from, errorType);
 			}
 		}
 	}
@@ -42,7 +42,7 @@ public class SA00035Validator extends Validator {
 			Node partnerLink = navigator.getPartnerLink(from.getDocument(), partnerLinkName);
 			return hasMyRole(partnerLink);
 		} catch (NavigationException e) {
-			errorType  = PARTNER_LINK_IS_MISSING;
+			errorType = PARTNER_LINK_IS_MISSING;
 			return false;
 		}
 	}
