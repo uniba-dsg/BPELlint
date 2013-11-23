@@ -160,6 +160,8 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00036/FromPartnerRoleWithoutPartnerRolePartnerLink.bpel", "36"},
 
+				{"Testcases/rules/SA00037/ToLinkTypeWithoutPartnerRolePartnerLink.bpel", "37"},
+
 				{"Testcases/rules/SA00044/Process-CorrelationSet-Ambiguous.bpel", "44"},
 				{"Testcases/rules/SA00044/Scope-CorrelationSets-Ambiguous.bpel", "44"},
 

@@ -1,11 +1,12 @@
-Place Short Description Here.
+corresponding partnerLink has no partnerRole attribute
+corresponding partnerLink is missing
 @@@
 In the to-spec of the partnerLink variant of assign only partnerLinks are permitted which specify the attribute partnerRole.
 @@@
 $scopes = <process> | <scope>
 
 FOREACH <to>@partnerLink
-	FAIL UNLESS <to>@endpointReference EQUALS isCorrespondingRoleType(<to>, <to>@partnerLink)
+	FAIL UNLESS isCorrespondingRoleType(<to>, <to>@partnerLink)
 
 isCorrespondingRoleType: $node, $partnerLinkName -> boolean
 	IF $node EQUALS ANY $scopes
@@ -15,5 +16,5 @@ isCorrespondingRoleType: $node, $partnerLinkName -> boolean
 		RETURN 'false'
 	RETURN correspondingRoleType(PARENT $node, $partnerLinkName)
 @@@
-ToLinkTypeAndPartnerLinkWithoutPartnerRoleAttribute.bpel
+ToLinkTypeWithoutPartnerRolePartnerLink.bpel
 @@@
