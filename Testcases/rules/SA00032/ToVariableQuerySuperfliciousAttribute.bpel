@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-    name="Assign-Expression-From"
-    targetNamespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/bpel/assignExpressionFrom"
+    name="Assign-To-Query"
+    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/assignToQuery"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:ti="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface">
     <import namespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface" location="../TestInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
@@ -14,15 +14,14 @@
     </variables>
     <sequence>
         <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData"/>
-        <assign name="AssignReplyData" >
+        <assign name="AssignReplyData">
             <copy>
-                <from>$InitData.inputPart</from>
+                <from variable="InitData" part="inputPart"/>
                 <to variable="ReplyData" part="outputPart">
-					<query ti:testElementSyncFault="1"/>
-				</to>
+					<query ti:testElementSyncFault="1">.</query>
+                </to>
             </copy>
         </assign>
         <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
     </sequence>
 </process>
-
