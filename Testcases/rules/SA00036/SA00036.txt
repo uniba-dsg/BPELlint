@@ -1,12 +1,13 @@
-Place Short Description Here.
+corresponding partnerLink has no partnerRole attribute
+corresponding partnerLink is missing
 @@@
 In the from-spec of the partnerLink variant of <assign> the value "partnerRole" for attribute endpointReference is only permitted when the partnerLink specifies the attribute partnerRole.
 @@@
 $scopes = <process> | <scope>
 
-FOREACH <assign><copy><from>@partnerLink
+FOREACH <assign><copy><from>@endpointReference
 	IF <assign><copy><from>@endpointReference EQUALS 'partnerRole'
-		FAIL UNLESS <to>@endpointReference EQUALS isCorrespondingRoleType(<assign><copy><from>, <assign><copy><from>@partnerLink)
+		FAIL UNLESS isCorrespondingRoleType(<assign><copy><from>, <assign><copy><from>@partnerLink)
 
 isCorrespondingRoleType: $node, $partnerLinkName -> boolean
 	IF $node EQUALS ANY $scopes
@@ -16,5 +17,5 @@ isCorrespondingRoleType: $node, $partnerLinkName -> boolean
 		RETURN 'false'
 	RETURN correspondingRoleType(PARENT $node, $partnerLinkName)
 @@@
-FromLinkTypeWithPartnerRoleAndPartnerLinkWithoutPartnerRoleAttribute.bpel
+FromPartnerRoleWithoutPartnerRolePartnerLink.bpel
 @@@
