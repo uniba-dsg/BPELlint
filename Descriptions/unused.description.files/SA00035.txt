@@ -1,3 +1,0 @@
-In Place Short Description Here.
-@@@
-In the from-spec of the partnerLink variant of <assign> the value "myRole" for attribute endpointReference is only permitted when the partnerLink specifies the attribute myRole.

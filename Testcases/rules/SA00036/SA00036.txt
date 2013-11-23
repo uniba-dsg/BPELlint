@@ -1,0 +1,20 @@
+Place Short Description Here.
+@@@
+In the from-spec of the partnerLink variant of <assign> the value "partnerRole" for attribute endpointReference is only permitted when the partnerLink specifies the attribute partnerRole.
+@@@
+$scopes = <process> | <scope>
+
+FOREACH <assign><copy><from>@partnerLink
+	IF <assign><copy><from>@endpointReference EQUALS 'partnerRole'
+		FAIL UNLESS <to>@endpointReference EQUALS isCorrespondingRoleType(<assign><copy><from>, <assign><copy><from>@partnerLink)
+
+isCorrespondingRoleType: $node, $partnerLinkName -> boolean
+	IF $node EQUALS ANY $scopes
+		IF $partnerLinkName EQUALS ANY $node<partnerLinks><partnerLink>@name
+			RETURN $node<partnerLinks><partnerLink>@partnerRole EXSITS
+	IF $node EQUALS <process>
+		RETURN 'false'
+	RETURN correspondingRoleType(PARENT $node, $partnerLinkName)
+@@@
+FromLinkTypeWithPartnerRoleAndPartnerLinkWithoutPartnerRoleAttribute.bpel
+@@@

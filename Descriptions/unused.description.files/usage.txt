@@ -1,0 +1,16 @@
+Error type 1 Error message (short Description)
+If required error type 2 Error message
+...
+@@@
+Description out of the standard
+@@@
+PSEUDO CODE Alogrithm
+@@@
+TestCase1.bpel:
+Description of the Test cases. What is bad in the process?
+If required TestCase2.bpel:
+Description
+...
+@@@
+PSEUDO CODE Alogrithm description
+The algorithm searches ...

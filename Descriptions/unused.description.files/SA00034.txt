@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-When the variable used in <from> or <to> is defined using XML Schema types (simple or complex) or element, the part attribute MUST NOT be used.

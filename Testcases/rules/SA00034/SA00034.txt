@@ -1,0 +1,45 @@
+variable type is not a message type, thus, has no part
+@@@
+When the variable used in <from> or <to> is defined using XML Schema types (simple or complex) or element, the part attribute MUST NOT be used.
+@@@
+$fromTo = <assign><copy><from> | <to>
+$scopes = <process> | <scope>
+
+FOREACH $fromTo@variable
+	FAIL IF hasVariableTypeFromXsd($fromTo, $fromTo@variable) AND $fromTo@part EXISTS
+
+hasVariableTypeFromXsd: $node, $variableName -> booelan
+	IF ($node EQUALS <onEvent>)
+		RETURN hasOnEventVariableTypeFromXsd($node, $variableName)
+	IF ($node EQUALS ANY $scopes)
+		RETURN hasScopeVariableTypeFromXsd($node, $variableName)
+	RETURN getScopeVariable(PARENT $node, $variableName)
+
+hasOnEventVariableTypeFromXsd: $node, $variableName -> booelan
+	IF ($node@variable EQUALS $variableName)
+		IF ($node@messageType EXISTS)
+			RETURN 'false'
+		IF ($node@element EXISTS)
+			RETURN 'true'
+	RETURN getScopeVariable(PARENT $node, $variableName)
+
+hasScopeVariableTypeFromXsd: $node, $variableName -> booelan
+	FOREACH $node<variable>
+		IF $node<variable>@name EQUALS $fromTo@variable
+			IF ($node<variable>@messageType EXISTS)
+				RETURN 'false'
+			IF ($node<variable>@type EXISTS)
+				RETURN 'true'
+			IF ($node<variable>@element EXISTS)
+				RETURN 'true'
+	IF $node EQUALS <process>
+		RETURN 'false'
+	RETURN getScopeVariable(PARENT $node, $variableName)
+@@@
+FromWithPartAttributeAndVariableAttributeHasVariableTypeElement.bpel
+FromWithPartAttributeAndVariableAttributeHasVariableTypeType.bpel
+FromWithPartAttributeAndVariableAttributeHasOnEventTypeElement.bpel
+ToWithPartAttributeAndVariableAttributeHasVariableTypeElement.bpel
+ToFromWithPartAttributeAndVariableAttributeHasVariableTypeType.bpel
+ToFromWithPartAttributeAndVariableAttributeHasOnEventTypeElement.bpel
+@@@
