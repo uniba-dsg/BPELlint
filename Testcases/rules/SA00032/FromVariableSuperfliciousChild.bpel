@@ -17,8 +17,8 @@
         <assign name="AssignReplyData" >
             <copy>
                 <from variable="InitData" part="inputPart">
-					<literal/>
-				</from>
+                    <literal/>
+                </from>
                 <to>$ReplyData.outputPart</to>
             </copy>
         </assign>

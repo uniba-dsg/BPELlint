@@ -11,7 +11,7 @@
     <import namespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testpartner" location="../TestPartner.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
-		<partnerLink name="OverwritePartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"/>
+        <partnerLink name="OverwritePartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"/>
         <partnerLink name="TestPartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"/>
     </partnerLinks>
     <variables>
@@ -28,7 +28,7 @@
                 <to variable="PartnerInitData" part="inputPart"/>
             </copy>
             <copy>
-                <from partnerLink="TestPartnerLink" endpointReference="partnerRole" part="inputPart"/>				
+                <from partnerLink="TestPartnerLink" endpointReference="partnerRole" part="inputPart"/>
                 <to partnerLink="OverwritePartnerLink"/>
             </copy>
         </assign>

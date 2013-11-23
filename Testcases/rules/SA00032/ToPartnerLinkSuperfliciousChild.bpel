@@ -39,8 +39,8 @@
                     </literal>
                 </from>
                 <to partnerLink="TestPartnerLink">
-					<query/>
-				</to>
+                    <query/>
+                </to>
             </copy>
         </assign>
         <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessSync" portType="tp:TestPartnerPortType" inputVariable="PartnerInitData" outputVariable="PartnerReplyData"/>

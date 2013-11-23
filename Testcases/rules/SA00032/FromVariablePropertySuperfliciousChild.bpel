@@ -17,8 +17,8 @@
         <assign name="AssignReplyData" validate="yes">
             <copy>
                 <from variable="InitData" property="ti:correlationId">
-					<query/>
-				</from>
+                    <query/>
+                </from>
                 <to variable="ReplyData" part="outputPart"/>
             </copy>
         </assign>

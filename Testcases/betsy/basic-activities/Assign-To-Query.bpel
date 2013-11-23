@@ -18,7 +18,7 @@
             <copy>
                 <from variable="InitData" part="inputPart"/>
                 <to variable="ReplyData" part="outputPart">
-					<query>.</query>
+                    <query>.</query>
                 </to>
             </copy>
         </assign>

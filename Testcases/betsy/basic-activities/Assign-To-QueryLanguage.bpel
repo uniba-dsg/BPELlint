@@ -17,8 +17,8 @@
         <assign name="AssignReplyData">
             <copy>
                 <from variable="InitData" part="inputPart"/>
-				<to variable="ReplyData" part="outputPart">
-					<query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">.</query>
+                <to variable="ReplyData" part="outputPart">
+                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">.</query>
                 </to>
             </copy>
         </assign>

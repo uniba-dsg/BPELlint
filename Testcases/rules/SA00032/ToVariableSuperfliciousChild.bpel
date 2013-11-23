@@ -18,8 +18,8 @@
             <copy>
                 <from>$InitData.inputPart</from>
                 <to variable="ReplyData" part="outputPart">
-					<documentation/>
-				</to>
+                    <documentation/>
+                </to>
             </copy>
         </assign>
         <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
