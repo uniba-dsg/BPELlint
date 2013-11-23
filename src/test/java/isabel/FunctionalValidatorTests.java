@@ -149,7 +149,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00032/FromPartnerLinkMissingEndpointReferenceAttribute.bpel", "32"},
 				{"Testcases/rules/SA00032/FromVariablePropertySuperfliciousAttribute.bpel", "32"},
 				{"Testcases/rules/SA00032/FromVariablePropertySuperfliciousChild.bpel", "32"},
-				
+
 				{"Testcases/rules/SA00044/Process-CorrelationSet-Ambiguous.bpel", "44"},
 				{"Testcases/rules/SA00044/Scope-CorrelationSets-Ambiguous.bpel", "44"},
 
@@ -216,6 +216,12 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
 
 				// betsy tests
+				{"Testcases/betsy/basic-activities/Assign-Copy-QueryLanguage.bpel", ""},
+				{"Testcases/betsy/basic-activities/Assign-ExpressionLanguage-From.bpel", ""},
+				{"Testcases/betsy/basic-activities/Assign-ExpressionLanguage-To.bpel", ""},
+				{"Testcases/betsy/basic-activities/Assign-PartnerLink-PartnerRole.bpel", ""},
+				{"Testcases/betsy/basic-activities/Assign-To-Query.bpel", ""},
+				{"Testcases/betsy/basic-activities/Assign-To-QueryLanguage.bpel", ""},
 				{"Testcases/betsy/basic-activities/Assign-Copy-DoXslTransform-InvalidSourceFault.bpel", ""},
 				{"Testcases/betsy/basic-activities/Assign-Copy-DoXslTransform-SubLanguageExecutionFault.bpel", ""},
 				{"Testcases/betsy/basic-activities/Assign-Copy-DoXslTransform-XsltStylesheetNotFound.bpel", ""},
