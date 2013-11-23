@@ -36,10 +36,10 @@ hasScopeVariableTypeFromXsd: $node, $variableName -> booelan
 		RETURN 'false'
 	RETURN getScopeVariable(PARENT $node, $variableName)
 @@@
-FromWithPartAttributeAndVariableAttributeHasVariableTypeElement.bpel
-FromWithPartAttributeAndVariableAttributeHasVariableTypeType.bpel
-FromWithPartAttributeAndVariableAttributeHasOnEventTypeElement.bpel
-ToWithPartAttributeAndVariableAttributeHasVariableTypeElement.bpel
-ToFromWithPartAttributeAndVariableAttributeHasVariableTypeType.bpel
-ToFromWithPartAttributeAndVariableAttributeHasOnEventTypeElement.bpel
+FromElementVariablePartAttribute.bpel
+FromTypeVariablePartAttribute.bpel
+FromOnEventElementVariablePartAttribute.bpel
+ToElementVariablePartAttribute.bpel
+ToTypeVariablePartAttribute.bpel
+ToOnEventElementVariablePartAttribute.bpel
 @@@
