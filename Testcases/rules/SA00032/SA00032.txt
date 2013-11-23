@@ -88,7 +88,9 @@ ToExpressionLanguageSuperfliciousAttributes.bpel
 FromExpressionLanguageSuperfliciousChild.bpel
 ToExpressionLanguageSuperfliciousChild.bpel
 
-TODO literal
+FromLiteralSuperfliciousAttribute.bpel
+FromLiteralSuperfliciousChild.bpel
+
 
 evtl. FromWithVariableAttributeWithoutCorrespondingVariable.bpel <process>|<scope>|<eventHandler>
 evtl. FromWithVariableAndPartAttributesWithoutCorrespondingPart.bpel <process>|<scope>|<eventHandler>
