@@ -149,6 +149,10 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00032/FromPartnerLinkMissingEndpointReferenceAttribute.bpel", "32"},
 				{"Testcases/rules/SA00032/FromVariablePropertySuperfliciousAttribute.bpel", "32"},
 				{"Testcases/rules/SA00032/FromVariablePropertySuperfliciousChild.bpel", "32"},
+				{"Testcases/rules/SA00032/FromExpressionLanguageSuperfliciousAttributes.bpel", "32"},
+				{"Testcases/rules/SA00032/ToExpressionLanguageSuperfliciousAttributes.bpel", "32"},
+				{"Testcases/rules/SA00032/FromExpressionLanguageSuperfliciousChild.bpel", "32"},
+				{"Testcases/rules/SA00032/ToExpressionLanguageSuperfliciousChild.bpel", "32"},
 
 				{"Testcases/rules/SA00044/Process-CorrelationSet-Ambiguous.bpel", "44"},
 				{"Testcases/rules/SA00044/Scope-CorrelationSets-Ambiguous.bpel", "44"},

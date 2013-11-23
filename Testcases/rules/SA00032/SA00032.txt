@@ -66,7 +66,7 @@ isLiteralAssignment: $fromTo -> boolean
 TODO evtl literal checken
 @@@
 FromMessageTypeVariableSuperfliciousAttribute.bpel
-ToMessageTypeVariableSuperfliciousAttribute.bpel
+ToMessageTypeVariableSuperfluousAttribute.bpel
 FromVariableSuperfliciousChild.bpel
 ToVariableSuperfliciousChild.bpel
 FromVariableQuerySuperfliciousAttribute.bpel
@@ -86,7 +86,7 @@ ToVariablePropertySuperfliciousAttribute.bpel
 FromExpressionLanguageSuperfliciousAttributes.bpel
 ToExpressionLanguageSuperfliciousAttributes.bpel
 FromExpressionLanguageSuperfliciousChild.bpel
-ToWithExpressionLanguageSuperfliciousChild.bpel
+ToExpressionLanguageSuperfliciousChild.bpel
 
 TODO literal
 
