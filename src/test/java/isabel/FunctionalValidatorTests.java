@@ -234,6 +234,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/betsy/basic-activities/Assign-PartnerLink-PartnerRole.bpel", ""},
 				{"Testcases/betsy/basic-activities/Assign-To-Query.bpel", ""},
 				{"Testcases/betsy/basic-activities/Assign-To-QueryLanguage.bpel", ""},
+				{"Testcases/betsy/basic-activities/Assign-To-Property.bpel", ""},
 				{"Testcases/betsy/basic-activities/Assign-Copy-DoXslTransform-InvalidSourceFault.bpel", ""},
 				{"Testcases/betsy/basic-activities/Assign-Copy-DoXslTransform-SubLanguageExecutionFault.bpel", ""},
 				{"Testcases/betsy/basic-activities/Assign-Copy-DoXslTransform-XsltStylesheetNotFound.bpel", ""},
