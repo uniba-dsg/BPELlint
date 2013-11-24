@@ -155,7 +155,9 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00032/ToExpressionLanguageSuperfliciousChild.bpel", "32"},
 				{"Testcases/rules/SA00032/FromLiteralSuperfliciousAttribute.bpel", "32"},
 				{"Testcases/rules/SA00032/FromLiteralSuperfliciousChild.bpel", "32"},
-
+				{"Testcases/rules/SA00032/ToVariablePropertySuperfliciousAttribute.bpel", "32"},
+				{"Testcases/rules/SA00032/ToVariablePropertySuperfliciousChild.bpel", "32"},
+				
 				{"Testcases/rules/SA00035/FromLinkTypeMyRolePartnerLinkWithoutMyRole.bpel", "35"},
 
 				{"Testcases/rules/SA00036/FromPartnerRoleWithoutPartnerRolePartnerLink.bpel", "36"},
