@@ -230,6 +230,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
 
 				// betsy tests
+				{"Testcases/betsy/basic-activities/Assign-Element-Variable.bpel", ""},
 				{"Testcases/betsy/basic-activities/Assign-Copy-QueryLanguage.bpel", ""},
 				{"Testcases/betsy/basic-activities/Assign-ExpressionLanguage-From.bpel", ""},
 				{"Testcases/betsy/basic-activities/Assign-ExpressionLanguage-To.bpel", ""},
