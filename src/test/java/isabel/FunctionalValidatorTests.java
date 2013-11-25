@@ -303,6 +303,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/betsy/basic-activities/Wait-For-InvalidExpressionValue.bpel", ""},
 				{"Testcases/betsy/basic-activities/Wait-For.bpel", ""},
 				{"Testcases/betsy/basic-activities/Wait-Until.bpel", ""},
+				{"Testcases/betsy/scopes/Scope-OnEvent-Element-InitAsync.bpel", ""},
 				{"Testcases/betsy/scopes/MissingReply.bpel", ""},
 				{"Testcases/betsy/scopes/MissingRequest.bpel", ""},
 				{"Testcases/betsy/scopes/Scope-Compensate.bpel", ""},
