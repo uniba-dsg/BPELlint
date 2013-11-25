@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
     name="Scope-EventHandlers-Parts"
-    targetNamespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/bpel/scopeEventHandlersParts"
+    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeEventHandlersParts"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-    xmlns:ti="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface"
+    xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
+    xmlns:tns="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <import namespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface" location="../TestInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- xmlns:tns is REQUIRED for CoreBPEL which needs this namespace for making TempInt explicit -->
+    <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="../TestInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>

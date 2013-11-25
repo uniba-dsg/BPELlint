@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions name="TestPartner"
-             targetNamespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testpartner"
+             targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner"
              xmlns="http://schemas.xmlsoap.org/wsdl/"
              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-             xmlns:tns="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testpartner"
-             xmlns:ti="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testinterface"
+             xmlns:tns="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner"
+             xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
              xmlns:plink="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
              xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
              xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
@@ -18,10 +18,11 @@
     <vprop:propertyAlias messageType="tns:executeProcessAsyncRequest" part="inputPart" propertyName="ti:correlationId"/>
 
     <types>
-        <xsd:schema targetNamespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testpartner" xmlns:tns="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/wsdl/testpartner">
+        <xsd:schema targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner" xmlns:tns="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner">
             <xsd:element name="testElementSyncRequest" type="xsd:int"/>
             <xsd:element name="testElementAsyncRequest" type="xsd:int"/>
             <xsd:element name="testElementSyncResponse" type="xsd:int"/>
+            <xsd:element name="testElementFault" type="xsd:int" />
         </xsd:schema>
     </types>
 
@@ -35,6 +36,9 @@
         <part name="outputPart" element="tns:testElementSyncResponse"/>
     </message>
     <message name="emptyMessage"/>
+    <message name="faultMessage">
+        <part name="outputPart" element="tns:testElementFault" />
+    </message>
 
     <portType name="TestPartnerPortType">
         <operation name="startProcessAsync">
@@ -43,6 +47,7 @@
         <operation name="startProcessSync">
             <input name="syncInput" message="tns:executeProcessSyncRequest"/>
             <output name="syncOutput" message="tns:executeProcessSyncResponse"/>
+            <fault name="CustomFault" message="tns:faultMessage" />
         </operation>
         <operation name="startProcessWithEmptyMessage">
             <input name="emptyInput" message="tns:emptyMessage"/>
@@ -65,6 +70,9 @@
             <output name="syncOutput">
                 <soap:body use="literal"/>
             </output>
+            <fault name="CustomFault">
+                <soap:fault name="CustomFault" use="literal" />
+            </fault>
         </operation>
         <operation name="startProcessWithEmptyMessage">
             <soap:operation/>
@@ -76,7 +84,7 @@
 
     <service name="TestService">
         <port name="TestPort" binding="tns:TestPartnerPortTypeBinding">
-            <soap:address location="http://localhost:2000/bpel-testpartner"/>
+            <soap:address location="http://PARTNER_IP_AND_PORT/bpel-testpartner"/>
         </port>
     </service>
 
