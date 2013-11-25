@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-    name="Invoke-Correlation-InitAsync"
-    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/invokeCorrelationInitAsync"
+    name="Invoke-Correlation-Pattern-InitAsync"
+    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/invokeCorrelationPatternInitAsync"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" 
     xmlns:tp="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner">
@@ -17,7 +17,6 @@
         <variable name="syncReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="PartnerInitData" messageType="tp:executeProcessSyncRequest"/>
         <variable name="PartnerReplyData" messageType="tp:executeProcessSyncResponse"/>
-        <variable name="noDefinedPropertyAlias" messageType="ti:noMessageType"/>
     </variables>
     <correlationSets>
         <correlationSet name="CorrelationSet" properties="ti:correlationId"/>
@@ -32,7 +31,7 @@
             <copy>
                 <from variable="InitData" part="inputPart"/>
                <!-- property "undefined" is not defined in wsdl -->
-                <to variable="noDefinedPropertyAlias" part="inputPart" property="ti:undefined" />
+                <to variable="PartnerInitData" property="ti:undefined" />
             </copy>
         </assign>
         <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessSync" portType="tp:TestPartnerPortType" inputVariable="PartnerInitData" outputVariable="PartnerReplyData">
@@ -47,7 +46,7 @@
         </receive>
         <assign name="AssignReplyData">
             <copy>
-                <from variable="InitData" part="inputPart" />
+                <from part="outputPart" variable="PartnerReplyData"></from>
                 <to variable="syncReplyData" part="outputPart"/>
             </copy>
         </assign>

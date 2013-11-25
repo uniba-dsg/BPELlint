@@ -11,6 +11,7 @@ import isabel.tool.imports.ProcessContainer;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;
+
 import org.pmw.tinylog.Logger;
 
 import java.util.List;
@@ -71,15 +72,14 @@ public class SA00021Validator extends Validator {
 						propertyAlias).getAttribute("propertyName"));
 
 				if (PrefixHelper.removePrefix(property).equals(propertyName)) {
-					if (!(isOfThisMessageType(type, propertyAlias, partHolder)
+					if (isOfThisMessageType(type, propertyAlias, partHolder)
 							|| isOfThisType(type, propertyAlias) || isOfThisElement(
-							type, propertyAlias))) {
-						addViolation(node);
+							type, propertyAlias)) {
+						return;
 					}
-				} else {
-					addViolation(node);
 				}
 			}
+			addViolation(node);
 		}
 	}
 
@@ -104,9 +104,9 @@ public class SA00021Validator extends Validator {
 		if (isMessageType) {
 			return (new NodeHelper(partHolder).hasSameAttribute(nodeHelper,
 					"part") || hasOneMessagePart(propertyAlias, messageType));
-		} else {
-			return true;
-		}
+		} 
+		
+		return false;
 	}
 
 	private boolean hasOneMessagePart(Node propertyAlias, String messageType) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-    name="Invoke-Correlation-InitAsync"
-    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/invokeCorrelationInitAsync"
+    name="Invoke-Correlation-Pattern-InitAsync"
+    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/invokeCorrelationPatternInitAsync"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" 
     xmlns:tp="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner">
@@ -17,7 +17,6 @@
         <variable name="syncReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="PartnerInitData" messageType="tp:executeProcessSyncRequest"/>
         <variable name="PartnerReplyData" messageType="tp:executeProcessSyncResponse"/>
-        <variable name="noDefinedPropertyAlias" messageType="ti:noMessageType"/>
     </variables>
     <correlationSets>
         <correlationSet name="CorrelationSet" properties="ti:correlationId"/>
@@ -47,7 +46,7 @@
         <assign name="AssignReplyData">
             <copy>
             	<!-- property "undefined" is not defined in wsdl -->
-                <from variable="noDefinedPropertyAlias" part="inputPart" property="ti:undefined"/>
+                <from variable="PartnerReplyData" property="ti:undefined"/>
                 <to variable="syncReplyData" part="outputPart"/>
             </copy>
         </assign>
