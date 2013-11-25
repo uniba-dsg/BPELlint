@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
     name="Invoke-Sync"
-    targetNamespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/activities/bpel/invokeSync"
+    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/invokeSync"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
     xmlns:tp="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner"
