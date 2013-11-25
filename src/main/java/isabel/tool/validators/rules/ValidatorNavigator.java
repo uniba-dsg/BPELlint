@@ -1,5 +1,6 @@
 package isabel.tool.validators.rules;
 
+import isabel.tool.ValidationException;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.helper.PrefixHelper;
 import isabel.tool.impl.NavigationException;
@@ -9,6 +10,7 @@ import nu.xom.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static isabel.tool.impl.Standards.CONTEXT;
 
@@ -286,6 +288,40 @@ public class ValidatorNavigator {
 
 		throw new NavigationException(
 				"<correlationSet>@properties prefix does not exist.");
+	}
+
+	public Node getCorrespondingVariable(Node node, String variableName)
+			throws ValidationException {
+		Objects.requireNonNull(node, "Node must not be null!");
+		Objects.requireNonNull(node, "VariableName must not be null!");
+		NodeHelper element = new NodeHelper(node);
+
+		if ("scope".equals(element.getLocalName())
+				|| "process".equals(element.getLocalName())) {
+			Nodes variable = node.query(
+					"./bpel:variables/bpel:variable[@name='" + variableName
+							+ "']", CONTEXT);
+			if (variable != null && !variable.isEmpty()) {
+				return variable.get(0);
+			}
+			if ("process".equals(element.getLocalName())) {
+				System.out.println();
+				throw new ValidationException("Variable does not exist.");
+			}
+		}
+
+		if ("onEvent".equals(element.getLocalName())) {
+			if (variableName.equals(element.getAttribute("variable"))) {
+				return node;
+			}
+		}
+		if ("catch".equals(element.getLocalName())) {
+			if (variableName.equals(element.getAttribute("faultVariable"))) {
+				return node;
+			}
+		}
+
+		return getCorrespondingVariable(node.getParent(), variableName);
 	}
 
 	public String getImportNamespace(Node node, String namespacePrefix) {

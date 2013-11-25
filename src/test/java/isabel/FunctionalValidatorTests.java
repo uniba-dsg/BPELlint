@@ -158,6 +158,13 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00032/ToVariablePropertySuperfliciousAttribute.bpel", "32"},
 				{"Testcases/rules/SA00032/ToVariablePropertySuperfliciousChild.bpel", "32"},
 				
+				{"Testcases/rules/SA00034/FromElementVariablePartAttribute.bpel", "34"},
+				{"Testcases/rules/SA00034/FromOnEventElementVariablePartAttribute.bpel", "34"},
+				{"Testcases/rules/SA00034/FromTypeVariablePartAttribute.bpel", "34"},
+				{"Testcases/rules/SA00034/ToElementVariablePartAttribute.bpel", "34"},
+				{"Testcases/rules/SA00034/ToOnEventElementVariablePartAttribute.bpel", "34"},
+				{"Testcases/rules/SA00034/ToTypeVariablePartAttribute.bpel", "34"},
+				
 				{"Testcases/rules/SA00035/FromLinkTypeMyRolePartnerLinkWithoutMyRole.bpel", "35"},
 
 				{"Testcases/rules/SA00036/FromPartnerRoleWithoutPartnerRolePartnerLink.bpel", "36"},

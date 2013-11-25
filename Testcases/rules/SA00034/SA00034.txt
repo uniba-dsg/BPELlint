@@ -1,4 +1,5 @@
 variable type is not a message type, thus, has no part
+variable is not defined
 @@@
 When the variable used in <from> or <to> is defined using XML Schema types (simple or complex) or element, the part attribute MUST NOT be used.
 @@@
@@ -13,7 +14,7 @@ hasVariableTypeFromXsd: $node, $variableName -> booelan
 		RETURN hasOnEventVariableTypeFromXsd($node, $variableName)
 	IF ($node EQUALS ANY $scopes)
 		RETURN hasScopeVariableTypeFromXsd($node, $variableName)
-	RETURN getScopeVariable(PARENT $node, $variableName)
+	RETURN hasVariableTypeFromXsd(PARENT $node, $variableName)
 
 hasOnEventVariableTypeFromXsd: $node, $variableName -> booelan
 	IF ($node@variable EQUALS $variableName)
@@ -21,7 +22,7 @@ hasOnEventVariableTypeFromXsd: $node, $variableName -> booelan
 			RETURN 'false'
 		IF ($node@element EXISTS)
 			RETURN 'true'
-	RETURN getScopeVariable(PARENT $node, $variableName)
+	RETURN hasVariableTypeFromXsd(PARENT $node, $variableName)
 
 hasScopeVariableTypeFromXsd: $node, $variableName -> booelan
 	FOREACH $node<variable>
@@ -34,7 +35,7 @@ hasScopeVariableTypeFromXsd: $node, $variableName -> booelan
 				RETURN 'true'
 	IF $node EQUALS <process>
 		RETURN 'false'
-	RETURN getScopeVariable(PARENT $node, $variableName)
+	RETURN hasVariableTypeFromXsd(PARENT $node, $variableName)
 @@@
 FromElementVariablePartAttribute.bpel
 FromTypeVariablePartAttribute.bpel
