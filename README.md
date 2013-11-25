@@ -40,6 +40,9 @@ $ gradlew eclipse # Generating Eclipse project files
 $ gradlew javadoc # Generating JavaDoc
 ```
 
+The folder `Testcases/betsy` is copied by hand for convenience from *betsy* `src/main/tests/files`.
+Checkout https://github.com/uniba-dsg/betsy to get the latest version.
+
 # Authors (in alphabetical order)
 
 David Bimamisa, Christian Preissinger, Stephan Schuberth
