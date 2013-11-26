@@ -34,10 +34,10 @@
                 <correlations>
                     <correlation set="CorrelationSet" initiate="no"/>
                 </correlations>
-				<fromParts>
-           			<fromPart part="inputPart" toVariable="InitData"/>
-           			<fromPart part="invalidNonExisitentPart" toVariable="InitData" />
-           		</fromParts>
+                <fromParts>
+                    <fromPart part="inputPart" toVariable="InitData"/>
+                    <fromPart part="invalidNonExisitentPart" toVariable="InitData" />
+                </fromParts>
                 <sequence name="Sequence">
                     <assign name="AssignReplyData">
                         <copy>

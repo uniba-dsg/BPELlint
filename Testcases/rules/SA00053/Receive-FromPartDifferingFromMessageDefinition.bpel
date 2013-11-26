@@ -14,10 +14,10 @@
     </variables>
     <sequence>
         <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType">
-       		<fromParts>
-        		<fromPart part="invalidNonExisitentPart" toVariable="InitData"/>
-        		<fromPart part="outputPart" toVariable="InitData"/>
-        	</fromParts>
+            <fromParts>
+                <fromPart part="invalidNonExisitentPart" toVariable="InitData"/>
+                <fromPart part="outputPart" toVariable="InitData"/>
+            </fromParts>
         </receive>
         <assign name="AssignReplyData">
             <copy>
