@@ -10,7 +10,7 @@
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
     <variables>
-      	<variable name="ReplyData" messageType="ti:executeProcessSyncResponse" element="xs:attribute"/>
+        <variable name="ReplyData" messageType="ti:executeProcessSyncResponse" element="xs:attribute"/>
         <variable name="SimpleInt" type="xs:int" >
             <from>
                 10

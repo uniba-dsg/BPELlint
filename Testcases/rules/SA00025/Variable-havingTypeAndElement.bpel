@@ -10,7 +10,7 @@
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
     <variables>
-      	<variable name="ReplyData" type="xs:int"  element="xs:attribute"/>
+        <variable name="ReplyData" type="xs:int"  element="xs:attribute"/>
         <variable name="SimpleInt" type="xs:int" >
             <from>
                 10
@@ -23,7 +23,7 @@
         <assign name="AssignReplyData">
             <copy>
                 <from variable="SimpleInt"/>
-                <to variable="ReplyData" part="outputPart"/>
+                <to variable="ReplyData"/>
             </copy>
         </assign>
         <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>

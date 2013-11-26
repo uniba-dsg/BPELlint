@@ -4,14 +4,14 @@
         targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/variablesDefaultInitialization"
         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
         xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
-        >
+        xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="../TestInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
     <variables>
-      	<variable name="ReplyData" />
-        <variable name="SimpleInt">
+        <variable name="ReplyData"/>
+        <variable name="SimpleInt" type="xs:int" >
             <from>
                 10
             </from>
@@ -23,7 +23,7 @@
         <assign name="AssignReplyData">
             <copy>
                 <from variable="SimpleInt"/>
-                <to variable="ReplyData" part="outputPart"/>
+                <to variable="ReplyData"/>
             </copy>
         </assign>
         <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
