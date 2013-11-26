@@ -9,10 +9,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -44,9 +47,17 @@ public class FunctionalValidatorTests {
 	}
 
 	@Parameterized.Parameters(name = "{index}: {0} violates {1}")
-	public static Collection<Object[]> data() {
+	public static Collection<Object[]> data() throws IOException {
+		List<Object[]> bpelFiles = new LinkedList<>();
+		bpelFiles.addAll(saViolationTests());
+		bpelFiles.addAll(new BetsyTests().list());
+
+		return bpelFiles;
+	}
+
+	private static List<Object[]> saViolationTests() {
 		Object[][] data = new Object[][]{
-// SA violation tests
+
 				{"Testcases/rules/SA00001/Notification.bpel", "1"},
 				{"Testcases/rules/SA00001/SolicitResponse.bpel", "1"},
 
@@ -234,154 +245,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00080/EmptyFaultHandlersInProcess.bpel", "80"},
 
 				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
-				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
-
-				// betsy tests
-				{"Testcases/betsy/basic/Assign-Element-Variable.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Copy-QueryLanguage.bpel", ""},
-				{"Testcases/betsy/basic/Assign-ExpressionLanguage-From.bpel", ""},
-				{"Testcases/betsy/basic/Assign-ExpressionLanguage-To.bpel", ""},
-				{"Testcases/betsy/basic/Assign-PartnerLink-PartnerRole.bpel", ""},
-				{"Testcases/betsy/basic/Assign-To-Query.bpel", ""},
-				{"Testcases/betsy/basic/Assign-To-QueryLanguage.bpel", ""},
-				{"Testcases/betsy/basic/Assign-To-Property.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Copy-DoXslTransform-InvalidSourceFault.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Copy-DoXslTransform-SubLanguageExecutionFault.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Copy-DoXslTransform-XsltStylesheetNotFound.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Copy-DoXslTransform.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Copy-GetVariableProperty.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Copy-IgnoreMissingFromData.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Copy-KeepSrcElementName.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Copy-Query.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Expression-From.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Expression-To.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Literal.bpel", ""},
-				{"Testcases/betsy/basic/Assign-PartnerLink-UnsupportedReference.bpel", ""},
-				{"Testcases/betsy/basic/Assign-PartnerLink.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Property.bpel", ""},
-				{"Testcases/betsy/basic/Assign-SelectionFailure.bpel", ""},
-				{"Testcases/betsy/basic/Assign-Validate.bpel", ""},
-				{"Testcases/betsy/basic/Assign-VariablesUnchangedInspiteOfFault.bpel", ""},
-				{"Testcases/betsy/basic/Empty.bpel", ""},
-				{"Testcases/betsy/basic/Exit.bpel", ""},
-				{"Testcases/betsy/basic/Invoke-Async.bpel", ""},
-				{"Testcases/betsy/basic/Invoke-Catch.bpel", ""},
-				{"Testcases/betsy/basic/Invoke-CatchAll.bpel", ""},
-				{"Testcases/betsy/basic/Invoke-CompensationHandler.bpel", ""},
-				{"Testcases/betsy/basic/Invoke-Correlation-Pattern-InitAsync.bpel", ""},
-				{"Testcases/betsy/basic/Invoke-Correlation-Pattern-InitSync.bpel", ""},
-				{"Testcases/betsy/basic/Invoke-Empty.bpel", ""},
-				{"Testcases/betsy/basic/Invoke-FromParts.bpel", ""},
-				{"Testcases/betsy/basic/Invoke-Sync-Fault.bpel", ""},
-				{"Testcases/betsy/basic/Invoke-Sync.bpel", ""},
-				{"Testcases/betsy/basic/Invoke-ToParts.bpel", ""},
-				{"Testcases/betsy/basic/Receive-AmbiguousReceiveFault.bpel", ""},
-				{"Testcases/betsy/basic/Receive-ConflictingReceiveFault.bpel", ""},
-				{"Testcases/betsy/basic/Receive-Correlation-InitAsync.bpel", ""},
-				{"Testcases/betsy/basic/Receive-Correlation-InitSync.bpel", ""},
-				{"Testcases/betsy/basic/Receive.bpel", ""},
-				{"Testcases/betsy/basic/ReceiveReply-ConflictingRequestFault.bpel", ""},
-				{"Testcases/betsy/basic/ReceiveReply-Correlation-InitAsync.bpel", ""},
-				{"Testcases/betsy/basic/ReceiveReply-Correlation-InitSync.bpel", ""},
-				{"Testcases/betsy/basic/ReceiveReply-CorrelationViolation-Join.bpel", ""},
-				{"Testcases/betsy/basic/ReceiveReply-CorrelationViolation-No.bpel", ""},
-				{"Testcases/betsy/basic/ReceiveReply-CorrelationViolation-Yes.bpel", ""},
-				{"Testcases/betsy/basic/ReceiveReply-Fault.bpel", ""},
-				{"Testcases/betsy/basic/ReceiveReply-FromParts.bpel", ""},
-				{"Testcases/betsy/basic/ReceiveReply-MessageExchanges.bpel", ""},
-				{"Testcases/betsy/basic/ReceiveReply-ToParts.bpel", ""},
-				{"Testcases/betsy/basic/ReceiveReply.bpel", ""},
-				{"Testcases/betsy/basic/Rethrow-FaultData.bpel", ""},
-				{"Testcases/betsy/basic/Rethrow-FaultDataUnmodified.bpel", ""},
-				{"Testcases/betsy/basic/Rethrow.bpel", ""},
-				{"Testcases/betsy/basic/Throw-CustomFault.bpel", ""},
-				{"Testcases/betsy/basic/Throw-CustomFaultInWsdl.bpel", ""},
-				{"Testcases/betsy/basic/Throw-FaultData.bpel", ""},
-				{"Testcases/betsy/basic/Throw-WithoutNamespace.bpel", ""},
-				{"Testcases/betsy/basic/Throw.bpel", ""},
-				{"Testcases/betsy/basic/Validate-InvalidVariables.bpel", ""},
-				{"Testcases/betsy/basic/Validate.bpel", ""},
-				{"Testcases/betsy/basic/Variables-DefaultInitialization.bpel", ""},
-				{"Testcases/betsy/basic/Variables-UninitializedVariableFault-Invoke.bpel", ""},
-				{"Testcases/betsy/basic/Variables-UninitializedVariableFault-Reply.bpel", ""},
-				{"Testcases/betsy/basic/Wait-For-InvalidExpressionValue.bpel", ""},
-				{"Testcases/betsy/basic/Wait-For.bpel", ""},
-				{"Testcases/betsy/basic/Wait-Until.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-OnEvent-Element-InitAsync.bpel", ""},
-				{"Testcases/betsy/scopes/MissingReply.bpel", ""},
-				{"Testcases/betsy/scopes/MissingRequest.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-Compensate.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-CompensateScope.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-ComplexCompensation.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-CorrelationSets-InitAsync.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-CorrelationSets-InitSync.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-EventHandlers-InitAsync.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-EventHandlers-InitSync.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-EventHandlers-OnAlarm-For.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-EventHandlers-OnAlarm-RepeatEvery-For.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-EventHandlers-OnAlarm-RepeatEvery-Until.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-EventHandlers-OnAlarm-RepeatEvery.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-EventHandlers-OnAlarm-Until.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-EventHandlers-Parts.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-ExitOnStandardFault-JoinFailure.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-ExitOnStandardFault.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-FaultHandlers-CatchAll.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-FaultHandlers-CatchOrder.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-FaultHandlers-FaultElement.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-FaultHandlers-FaultMessageType.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-FaultHandlers-VariableData.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-FaultHandlers.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-Isolated.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-MessageExchanges.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-PartnerLinks.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-RepeatableConstructCompensation.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-RepeatedCompensation.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-TerminationHandlers-FaultNotPropagating.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-TerminationHandlers.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-Variables-Overwriting.bpel", ""},
-				{"Testcases/betsy/scopes/Scope-Variables.bpel", ""},
-				{"Testcases/betsy/scopes/Variables-DefaultInitialization.bpel", ""},
-				{"Testcases/betsy/structured/Flow-BoundaryLinks.bpel", ""},
-				{"Testcases/betsy/structured/Flow-GraphExample.bpel", ""},
-				{"Testcases/betsy/structured/Flow-Links-JoinCondition.bpel", ""},
-				{"Testcases/betsy/structured/Flow-Links-JoinFailure.bpel", ""},
-				{"Testcases/betsy/structured/Flow-Links-ReceiveCreatingInstances.bpel", ""},
-				{"Testcases/betsy/structured/Flow-Links-SuppressJoinFailure.bpel", ""},
-				{"Testcases/betsy/structured/Flow-Links-TransitionCondition.bpel", ""},
-				{"Testcases/betsy/structured/Flow-Links.bpel", ""},
-				{"Testcases/betsy/structured/Flow.bpel", ""},
-				{"Testcases/betsy/structured/ForEach-CompletionCondition-NegativeBranches.bpel", ""},
-				{"Testcases/betsy/structured/ForEach-CompletionCondition-Parallel.bpel", ""},
-				{"Testcases/betsy/structured/ForEach-CompletionCondition-SuccessfulBranchesOnly.bpel", ""},
-				{"Testcases/betsy/structured/ForEach-CompletionCondition.bpel", ""},
-				{"Testcases/betsy/structured/ForEach-CompletionConditionFailure.bpel", ""},
-				{"Testcases/betsy/structured/ForEach-NegativeStartCounter.bpel", ""},
-				{"Testcases/betsy/structured/ForEach-NegativeStopCounter.bpel", ""},
-				{"Testcases/betsy/structured/ForEach-Parallel.bpel", ""},
-				{"Testcases/betsy/structured/ForEach-TooLargeStartCounter.bpel", ""},
-				{"Testcases/betsy/structured/ForEach.bpel", ""},
-				{"Testcases/betsy/structured/If-Else.bpel", ""},
-				{"Testcases/betsy/structured/If-ElseIf-Else.bpel", ""},
-				{"Testcases/betsy/structured/If-ElseIf.bpel", ""},
-				{"Testcases/betsy/structured/If.bpel", ""},
-				{"Testcases/betsy/structured/Pick-Correlations-InitAsync.bpel", ""},
-				{"Testcases/betsy/structured/Pick-Correlations-InitSync.bpel", ""},
-				{"Testcases/betsy/structured/Pick-CreateInstance.bpel", ""},
-				{"Testcases/betsy/structured/Pick-OnAlarm-For.bpel", ""},
-				{"Testcases/betsy/structured/Pick-OnAlarm-Until.bpel", ""},
-				{"Testcases/betsy/structured/RepeatUntil.bpel", ""},
-				{"Testcases/betsy/structured/RepeatUntilEquality.bpel", ""},
-				{"Testcases/betsy/structured/Sequence.bpel", ""},
-				{"Testcases/betsy/structured/While.bpel", ""},
-
-				{"Testcases/complex/requestor/prototype-ebBP-BT-Requestor.bpel", ""},
-				{"Testcases/complex/responder/prototype-ebBP-BT-Responder.bpel", ""},
-
-				{"Testcases/complex/bpel_req/Transaction-rev1-btaRAandAAandTTPv1-role-1.bpel", ""},
-				{"Testcases/complex/bpel_resp/Transaction-rev1-btaRAandAAandTTPv1-role-2.bpel", ""},
-
-				{"Testcases/calculator/CalculatorService.bpel", ""},
-				{"Testcases/calculator/fluentCalculatorService.bpel", ""},
+				{ "Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel","83" },
 
 		};
 		return Arrays.asList(data);
