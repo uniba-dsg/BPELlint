@@ -12,7 +12,6 @@
         <partnerLink name="TestPartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"/>
     </partnerLinks>
     <variables>
-  
         <variable name="PartnerReplyData" messageType="tp:executeProcessSyncRequest"/>
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>

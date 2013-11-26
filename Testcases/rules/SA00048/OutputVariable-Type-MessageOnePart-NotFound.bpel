@@ -13,7 +13,6 @@
         <partnerLink name="TestPartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"/>
     </partnerLinks>
     <variables>
-  
         <variable name="PartnerReplyData" messageType="tp:executeProcessSyncRequest"/>
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
@@ -24,7 +23,7 @@
         <assign name="AssignPartnerInitData">
             <copy>
                 <from variable="InitData" part="inputPart"/>
-                <to variable="PartnerInitData" part="inputPart"/>
+                <to variable="PartnerInitData"/>
             </copy>
         </assign>
         <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessSync" portType="tp:TestPartnerPortType" inputVariable="PartnerInitData" outputVariable="PartnerReplyData"/>

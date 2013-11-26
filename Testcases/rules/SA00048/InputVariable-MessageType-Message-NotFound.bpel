@@ -14,7 +14,6 @@
     <variables>
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
-        <!--  change messageType -->
         <variable name="PartnerInitData" messageType="ti:executeProcessSyncResponse"/>
     </variables>
     <sequence>
