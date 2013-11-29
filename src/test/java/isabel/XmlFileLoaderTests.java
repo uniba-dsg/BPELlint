@@ -5,6 +5,8 @@ import isabel.tool.imports.ProcessContainerLoader;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.nio.file.Paths;
+
 public class XmlFileLoaderTests {
 
 	private ProcessContainerLoader fileHandler;
@@ -23,6 +25,6 @@ public class XmlFileLoaderTests {
 	@Test(expected = ValidationException.class)
 	public void whenCalledLoadAllProcessFilesWithNonExistentFile_shouldThrowIllegalArgumentException()
 			throws Exception {
-		fileHandler.load("nowhere/nonexistent/file");
+		fileHandler.load(Paths.get("nowhere/nonexistent/file"));
 	}
 }

@@ -10,6 +10,7 @@ import org.junit.runners.Parameterized;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -349,7 +350,7 @@ public class FunctionalValidatorTests {
 
 	@Test
 	public void testValidators() throws Exception {
-		ValidationResult validationResult = new Isabel().validate(bpel);
+		ValidationResult validationResult = new Isabel().validate(Paths.get(bpel));
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(baos);

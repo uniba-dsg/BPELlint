@@ -7,66 +7,59 @@ import isabel.tool.imports.XmlFile;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import java.io.File;
-import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import static isabel.tool.impl.Standards.CONTEXT;
 
 public class SA00012Validator extends Validator {
 
-	public SA00012Validator(ProcessContainer files,
-	                        ValidationCollector violationCollector) {
-		super(files, violationCollector);
-	}
+    public SA00012Validator(ProcessContainer files,
+                            ValidationCollector violationCollector) {
+        super(files, violationCollector);
+    }
 
-	@Override
-	public void validate() {
-		Nodes imports = fileHandler.getBpel().getDocument().query("//bpel:import", CONTEXT);
+    @Override
+    public void validate() {
+        Nodes imports = fileHandler.getBpel().getDocument().query("//bpel:import", CONTEXT);
 
-		List<XmlFile> allWsdls = fileHandler.getDirectlyImportedWsdls();
-		List<XmlFile> allXsds = fileHandler.getDirectlyImportedXsds();
+        List<XmlFile> allWsdls = fileHandler.getDirectlyImportedWsdls();
+        List<XmlFile> allXsds = fileHandler.getDirectlyImportedXsds();
 
-		for (Node node : imports) {
-			boolean importedFileIsValid = isValidFile(allWsdls, node)
-					&& isValidFile(allXsds, node);
+        for (Node node : imports) {
+            boolean importedFileIsValid = isValidFile(allWsdls, node)
+                    && isValidFile(allXsds, node);
 
-			if (!importedFileIsValid) {
-				addViolation(node);
-			}
-		}
-	}
+            if (!importedFileIsValid) {
+                addViolation(node);
+            }
+        }
+    }
 
-	private boolean isValidFile(List<XmlFile> xmlFileList, Node node) {
+    private boolean isValidFile(List<XmlFile> xmlFileList, Node node) {
 
-		boolean validFile = true;
+        boolean validFile = true;
 
-		if (new NodeHelper(node).hasNoAttribute("namespace")) {
+        if (new NodeHelper(node).hasNoAttribute("namespace")) {
 
-			for (XmlFile xmlFile : xmlFileList) {
+            for (XmlFile xmlFile : xmlFileList) {
 
-				String location = new NodeHelper(node).getAttribute("location");
-				File path = new File(fileHandler.getAbsoluteBpelFolder() + "/" + location);
+                String location = new NodeHelper(node).getAttribute("location");
 
-				String canonicalPath = null;
-				try {
-					canonicalPath = path.getCanonicalPath();
-				} catch (IOException e) {
-					throw new IllegalArgumentException("SHOULD NEVER OCCUR", e);
-				}
-				if (xmlFile.getFilePath().equals(canonicalPath)) {
+                Path canonicalPath = fileHandler.getAbsoluteBpelFolder().resolve(location).toAbsolutePath().normalize();
+                if (xmlFile.getFilePath().equals(canonicalPath)) {
 
-					if (!"".equals(xmlFile.getTargetNamespace())) {
-						validFile = false;
-					}
-				}
-			}
-		}
-		return validFile;
-	}
+                    if (!"".equals(xmlFile.getTargetNamespace())) {
+                        validFile = false;
+                    }
+                }
+            }
+        }
+        return validFile;
+    }
 
-	@Override
-	public int getSaNumber() {
-		return 12;
-	}
+    @Override
+    public int getSaNumber() {
+        return 12;
+    }
 }
