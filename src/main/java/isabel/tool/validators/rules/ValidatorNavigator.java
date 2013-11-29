@@ -290,38 +290,38 @@ public class ValidatorNavigator {
 				"<correlationSet>@properties prefix does not exist.");
 	}
 
-	public Node getCorrespondingVariable(Node node, String variableName)
-			throws ValidationException {
+	public Node getVariableByName(Node node, String variableName)
+			throws NavigationException {
 		Objects.requireNonNull(node, "Node must not be null!");
 		Objects.requireNonNull(node, "VariableName must not be null!");
 		NodeHelper element = new NodeHelper(node);
-
-		if ("scope".equals(element.getLocalName())
-				|| "process".equals(element.getLocalName())) {
+		String elementName = element.getLocalName();
+		
+		if ("scope".equals(elementName)
+				|| "process".equals(elementName)) {
 			Nodes variable = node.query(
 					"./bpel:variables/bpel:variable[@name='" + variableName
 							+ "']", CONTEXT);
 			if (variable != null && !variable.isEmpty()) {
 				return variable.get(0);
 			}
-			if ("process".equals(element.getLocalName())) {
-				System.out.println();
-				throw new ValidationException("Variable does not exist.");
+			if ("process".equals(elementName)) {
+				throw new NavigationException("Variable does not exist.");
 			}
 		}
 
-		if ("onEvent".equals(element.getLocalName())) {
+		if ("onEvent".equals(elementName)) {
 			if (variableName.equals(element.getAttribute("variable"))) {
 				return node;
 			}
 		}
-		if ("catch".equals(element.getLocalName())) {
+		if ("catch".equals(elementName)) {
 			if (variableName.equals(element.getAttribute("faultVariable"))) {
 				return node;
 			}
 		}
 
-		return getCorrespondingVariable(node.getParent(), variableName);
+		return getVariableByName(node.getParent(), variableName);
 	}
 
 	public String getImportNamespace(Node node, String namespacePrefix) {

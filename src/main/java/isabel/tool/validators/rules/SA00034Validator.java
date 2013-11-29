@@ -1,16 +1,16 @@
 package isabel.tool.validators.rules;
 
 import static isabel.tool.impl.Standards.CONTEXT;
+import isabel.tool.helper.NodeHelper;
+import isabel.tool.helper.NodesUtil;
+import isabel.tool.impl.NavigationException;
+import isabel.tool.impl.ValidationCollector;
+import isabel.tool.imports.ProcessContainer;
 
 import java.util.List;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
-import isabel.tool.ValidationException;
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.helper.NodesUtil;
-import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
 
 public class SA00034Validator extends Validator {
 
@@ -53,15 +53,15 @@ public class SA00034Validator extends Validator {
 	private boolean isCorrespondingVariableOfMessageType(Node fromTo,
 			String variableName) {
 		try {
-			Node variableNode = navigator.getCorrespondingVariable(fromTo,
+			Node variableNode = navigator.getVariableByName(fromTo,
 					variableName);
 			NodeHelper variable = new NodeHelper(variableNode);
 			if ("catch".equals(variable.getLocalName())) {
 				return variable.hasAttribute("faultMessageType");
 			}
+	
 			return variable.hasAttribute("messageType");
-
-		} catch (ValidationException e) {
+		} catch (NavigationException e) {
 			addViolation(fromTo, 2);
 			return false;
 		}

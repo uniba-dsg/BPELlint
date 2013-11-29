@@ -13,7 +13,7 @@ class BetsyTests {
 
 	private List<Object[]> betsyTests;
 
-	public BetsyTests() throws IOException {
+	BetsyTests() throws IOException {
 		Path baseDir = Paths.get("Testcases/betsy");
 		betsyTests = new LinkedList<>();
 		
