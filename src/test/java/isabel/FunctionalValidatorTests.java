@@ -171,6 +171,8 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00032/ToVariablePropertySuperfliciousChild.bpel", "32"},
 				{"Testcases/rules/SA00032/FromVariableQueryAdditionalAttribute.bpel", "32"},
 				{"Testcases/rules/SA00032/FromVariableQueryAdditionalChild.bpel", "32"},
+				{"Testcases/rules/SA00032/ToVariableQueryAdditionalAttribute.bpel", "32"},
+				{"Testcases/rules/SA00032/ToVariableQueryAdditionalChild.bpel", "32"},
 				
 				{"Testcases/rules/SA00034/FromElementVariablePartAttribute.bpel", "34"},
 				{"Testcases/rules/SA00034/FromOnEventElementVariablePartAttribute.bpel", "34"},
