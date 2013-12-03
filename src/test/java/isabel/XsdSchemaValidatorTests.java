@@ -11,6 +11,7 @@ import org.junit.runners.Parameterized;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -29,7 +30,6 @@ public class XsdSchemaValidatorTests {
 		this.bpel = bpel;
 	}
 
-
 	@Parameterized.Parameters(name = "{index}: {0}")
 	public static Collection<Object[]> data() {
 		Object[][] data = new Object[][]{
@@ -42,14 +42,12 @@ public class XsdSchemaValidatorTests {
 	@Test
 	public void testValidators() throws Exception {
 		try {
-			ValidationResult validationResult = new Isabel().validate(bpel);
+			ValidationResult validationResult = new Isabel().validate(Paths.get(bpel));
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(baos);
 			new ValidationResultPrinter(ps).printResults(VerbosityLevel.NORMAL,
 					validationResult);
-			String data = "\n" + baos.toString() + "\n";
-
 			fail("BPEL: " + bpel + " must throw an XSD error!");
 		} catch (ValidationException e) {
 			assertTrue(true);

@@ -8,6 +8,7 @@ import nu.xom.Nodes;
 import org.pmw.tinylog.Logger;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.*;
 
 import static isabel.tool.impl.Standards.CONTEXT;
@@ -78,8 +79,8 @@ public class ProcessContainer {
 		return allFiles.contains(xmlFile);
 	}
 
-	public String getAbsoluteBpelFolder() {
-		return new File(this.bpel.getFilePath()).getParent();
+	public Path getAbsoluteBpelFolder() {
+		return this.bpel.getFilePath().getParent();
 	}
 
 	public XmlFile getBpel() {

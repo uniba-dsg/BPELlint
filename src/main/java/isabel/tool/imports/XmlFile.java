@@ -7,6 +7,8 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 public class XmlFile {
@@ -18,17 +20,16 @@ public class XmlFile {
 				"document must not be null");
 	}
 
-	public String getFilePath() {
+	public Path getFilePath() {
 		// special case required when loading from a resource - baseURI is empty
 		// string in that case
 		if ("".equals(document.getBaseURI())) {
-			return "";
+			return Paths.get("");
 		}
 
 		try {
 			// converting file path
-			return new File(new URL(document.getBaseURI()).toURI().getPath())
-					.getAbsolutePath();
+			return Paths.get(new URL(document.getBaseURI()).toURI());
 		} catch (URISyntaxException | MalformedURLException e) {
 			// should not happen
 			throw new IllegalStateException("bad url found: "

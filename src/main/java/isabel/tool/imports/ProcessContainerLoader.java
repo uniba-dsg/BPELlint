@@ -7,6 +7,7 @@ import nu.xom.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import static isabel.tool.impl.Standards.CONTEXT;
 
@@ -17,7 +18,7 @@ public class ProcessContainerLoader {
 
 	private ProcessContainer result;
 
-	public ProcessContainer load(String bpelFilePath) throws ValidationException {
+	public ProcessContainer load(Path bpelFilePath) throws ValidationException {
 		try {
 			return loadAllProcessFilesWithoutExceptions(bpelFilePath);
 		} catch (ValidityException e) {
@@ -31,7 +32,7 @@ public class ProcessContainerLoader {
 		}
 	}
 
-	private ProcessContainer loadAllProcessFilesWithoutExceptions(String bpelFilePath)
+	private ProcessContainer loadAllProcessFilesWithoutExceptions(Path bpelFilePath)
 			throws ParsingException, IOException, ValidationException {
 		result = new ProcessContainer();
 

@@ -2,6 +2,8 @@ package isabel.tool.validators.xsd;
 
 import isabel.tool.ValidationException;
 
+import java.nio.file.Path;
+
 public class SchemaValidator {
 
 	private static SchemaValidator schemaValidator;
@@ -23,15 +25,15 @@ public class SchemaValidator {
 		bpelValidator = new BPELValidator();
 	}
 
-	public void validateBpel(String file) throws ValidationException {
+	public void validateBpel(Path file) throws ValidationException {
 		bpelValidator.validate(file);
 	}
 
-	public void validateWsdl(String file) throws ValidationException {
+	public void validateWsdl(Path file) throws ValidationException {
 		wsdlValidator.validate(file);
 	}
 
-	public void validateXsd(String file) throws ValidationException {
+	public void validateXsd(Path file) throws ValidationException {
 		xsdValidator.validate(file);
 	}
 }

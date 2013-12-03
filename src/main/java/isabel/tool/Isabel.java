@@ -9,6 +9,7 @@ import isabel.tool.validators.xsd.SchemaValidator;
 import isabel.tool.validators.xsd.XMLValidator;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -19,63 +20,61 @@ import java.nio.file.Paths;
  */
 public class Isabel {
 
-	/**
-	 * @param bpelPath The BPEL file of the process, which should be analyzed
-	 *                 statically.
-	 * @return A ValidationCollector, which is a collection of occurred
-	 *         rule-violations.
-	 * @throws ValidationException If loading is not working correctly
-	 */
-	public ValidationResult validate(String bpelPath)
-			throws ValidationException {
-		if (bpelPath == null) {
-			throw new ValidationException("Path is no BPEL file");
-		}
-		if (!Files.exists(Paths.get(bpelPath))) {
-			throw new ValidationException("File " + bpelPath
-					+ " does not exist");
-		}
+    /**
+     * @param bpelPath The BPEL file of the process, which should be analyzed
+     *                 statically.
+     * @return A ValidationCollector, which is a collection of occurred
+     * rule-violations.
+     * @throws ValidationException If loading is not working correctly
+     */
+    public ValidationResult validate(Path bpelPath)
+            throws ValidationException {
+        if (bpelPath == null) {
+            throw new ValidationException("Path is no BPEL file");
+        }
+        if (!Files.exists(bpelPath)) {
+            throw new ValidationException("File " + bpelPath
+                    + " does not exist");
+        }
 
-		// validate well-formedness and correct schema of bpel file
-		new XMLValidator().validate(bpelPath);
-		SchemaValidator schemaValidator = SchemaValidator.newInstance();
-		schemaValidator.validateBpel(bpelPath);
+        // validate well-formedness and correct schema of bpel file
+        new XMLValidator().validate(bpelPath);
+        SchemaValidator schemaValidator = SchemaValidator.newInstance();
+        schemaValidator.validateBpel(bpelPath);
 
-		// load files
-		ProcessContainer processContainer = new ProcessContainerLoader()
-				.load(bpelPath);
+        // load files
+        ProcessContainer processContainer = new ProcessContainerLoader().load(bpelPath);
 
-		// validate XML Schema
-		validateWsdlAndXsdFiles(processContainer);
+        // validate XML Schema
+        validateWsdlAndXsdFiles(processContainer);
 
-		// validate SA rules
-		return validateAgainstSARules(processContainer);
-	}
+        // validate SA rules
+        return validateAgainstSARules(processContainer);
+    }
 
-	private void validateWsdlAndXsdFiles(ProcessContainer processContainer)
-			throws ValidationException {
-		SchemaValidator schemaValidator = SchemaValidator.newInstance();
+    private void validateWsdlAndXsdFiles(ProcessContainer processContainer) throws ValidationException {
+        SchemaValidator schemaValidator = SchemaValidator.newInstance();
 
-		for (XmlFile xsdXmlFile : processContainer.getXsds()) {
-			// do not validate XMLSchema as this does not work somehow
-			if (xsdXmlFile.getFilePath().equals("")) {
-				continue;
-			}
-			schemaValidator.validateXsd(xsdXmlFile.getFilePath());
-		}
+        for (XmlFile xsdXmlFile : processContainer.getXsds()) {
+            // do not validate XMLSchema as this does not work somehow
+            if (xsdXmlFile.getFilePath().equals(Paths.get(""))) {
+                continue;
+            }
+            schemaValidator.validateXsd(xsdXmlFile.getFilePath());
+        }
 
-		for (XmlFile wsdlXmlFile : processContainer.getWsdls()) {
-			schemaValidator.validateWsdl(wsdlXmlFile.getFilePath());
-		}
-	}
+        for (XmlFile wsdlXmlFile : processContainer.getWsdls()) {
+            schemaValidator.validateWsdl(wsdlXmlFile.getFilePath());
+        }
+    }
 
-	private SimpleValidationResult validateAgainstSARules(
-			ProcessContainer processContainer) {
-		SimpleValidationResult validationResult = new SimpleValidationResult();
-		ValidatorsHandler validators = new ValidatorsHandler(processContainer,
-				validationResult);
-		validators.validate();
-		return validationResult;
-	}
+    private SimpleValidationResult validateAgainstSARules(
+            ProcessContainer processContainer) {
+        SimpleValidationResult validationResult = new SimpleValidationResult();
+        ValidatorsHandler validators = new ValidatorsHandler(processContainer,
+                validationResult);
+        validators.validate();
+        return validationResult;
+    }
 
 }

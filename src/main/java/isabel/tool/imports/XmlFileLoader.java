@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
@@ -18,20 +19,19 @@ public class XmlFileLoader {
 
 	private final Builder builder = new Builder(new LocationAwareNodeFactory());
 
-	public XmlFile load(String file) throws ParsingException, IOException {
-		Objects.requireNonNull(file, "file must not be null");
+	public XmlFile load(Path path) throws ParsingException, IOException {
+		Objects.requireNonNull(path, "file must not be null");
 
-		Logger.info("Loading XML document from {0}", file);
-		return new XmlFile(builder.build(new File(file)));
+		Logger.info("Loading XML document from {0}", path);
+		return new XmlFile(builder.build(path.toFile()));
 	}
 
 	public XmlFile loadImportNode(Node importNode) throws ParsingException, IOException {
 		// remove relative path elements like .. and .
-		String nodeDirectory = getNodeDirectory(importNode);
+		Path nodeDirectory = getNodeDirectory(importNode);
 		String importPath = getImportPath(importNode);
-		String canonicalPath = Paths.get(nodeDirectory, importPath).toFile().getCanonicalPath();
 
-		return load(canonicalPath);
+		return load(nodeDirectory.resolve(importPath).normalize());
 	}
 
 	private String getImportPath(Node node) {
@@ -46,12 +46,12 @@ public class XmlFileLoader {
 		return null;
 	}
 
-	private String getNodeDirectory(Node node) {
+	private Path getNodeDirectory(Node node) {
 		if (node.getBaseURI().isEmpty()) {
 			return null;
 		}
 
-		return Paths.get(URI.create(node.getBaseURI())).getParent().toString();
+		return Paths.get(URI.create(node.getBaseURI())).getParent();
 	}
 
 

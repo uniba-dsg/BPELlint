@@ -8,6 +8,7 @@ import isabel.tool.imports.XmlFile;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
+import java.nio.file.Path;
 import java.util.List;
 
 import static isabel.tool.impl.Standards.CONTEXT;
@@ -56,7 +57,7 @@ public class SA00013Validator extends Validator {
 
 	private boolean isCorrespondingFile(Node fileImport,
 	                                    XmlFile xmlFile) {
-		String location = new ImportElement(fileImport)
+		Path location = new ImportElement(fileImport)
 				.getAbsoluteLocation(fileHandler.getAbsoluteBpelFolder());
 		return xmlFile.getFilePath().equals(location);
 	}
