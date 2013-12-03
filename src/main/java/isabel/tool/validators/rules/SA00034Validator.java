@@ -14,6 +14,9 @@ import nu.xom.Nodes;
 
 public class SA00034Validator extends Validator {
 
+	private static final int VARIABLE_IS_MISSING = 2;
+	private static final int PART_IS_PROHIBITED_FOR_NON_MESSAGE_TYPES = 1;
+
 	public SA00034Validator(ProcessContainer files,
 			ValidationCollector validationCollector) {
 		super(files, validationCollector);
@@ -45,7 +48,7 @@ public class SA00034Validator extends Validator {
 			String variableName = fromTo.getAttribute("variable");
 			if (!isCorrespondingVariableOfMessageType(fromToNode, variableName)
 					&& fromTo.hasAttribute("part")) {
-				addViolation(fromToNode, 1);
+				addViolation(fromToNode, PART_IS_PROHIBITED_FOR_NON_MESSAGE_TYPES);
 			}
 		}
 	}
@@ -62,7 +65,7 @@ public class SA00034Validator extends Validator {
 	
 			return variable.hasAttribute("messageType");
 		} catch (NavigationException e) {
-			addViolation(fromTo, 2);
+			addViolation(fromTo, VARIABLE_IS_MISSING);
 			return false;
 		}
 	}
