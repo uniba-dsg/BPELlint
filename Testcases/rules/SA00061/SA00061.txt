@@ -8,29 +8,29 @@ $scope = <scope> | <process>
 FOREACH $messageActivity@messageExchange
 	FAIL UNLESS hasCorrespondingPartnerInScope($messageActivity, <reply>, $messageActivity@messageExchange)
 FOREACH <reply>@messageExchange
-    FAIL UNLESS hasCorrespondingPartnerInScope(<reply>, $messageActivity, <reply>@messageExchange)
+	FAIL UNLESS hasCorrespondingPartnerInScope(<reply>, $messageActivity, <reply>@messageExchange)
 FOREACH <*>@messageExchange
-    FAIL UNLESS messageExchangeExist(<*>, <*>@messageExchange)
+	FAIL UNLESS messageExchangeExist(<*>, <*>@messageExchange)
 
 hasCorrespondingPartnerInScope: $node, $partner, $activity@messageExchange -> boolean
 	UNLESS $node EQUALS $scope
 		hasCorrespondingPartnerInScope(PARENT $node, $activity@messageExchange)
 	UNLESS ANY $node$partner@messageExchange EQUALS $activity@messageExchange 
-        IF $node EQUALS <process>
-            RETURN 'false'
-        ELSE
-            hasCorrespondingPartnerInScope(PARENT $node, $activity@messageExchange)
-    RETURN 'true'
+		IF $node EQUALS <process>
+			RETURN 'false'
+		ELSE
+			hasCorrespondingPartnerInScope(PARENT $node, $activity@messageExchange)
+	RETURN 'true'
 
 messageExchangeExist: $node, $activity@messageExchange -> boolean
-    UNLESS $node EQUALS $scope
+	UNLESS $node EQUALS $scope
 		messageExchangeExist(PARENT $node, $activity@messageExchange)
 	UNLESS ANY $node<messageExchanges><messageExchange>@name EQUALS $activity@messageExchange 
-        IF $node EQUALS <process>
-            RETURN 'false'
-        ELSE
-            messageExchangeExist(PARENT $node, $activity@messageExchange)
-    RETURN 'true'
+		IF $node EQUALS <process>
+			RETURN 'false'
+		ELSE
+			messageExchangeExist(PARENT $node, $activity@messageExchange)
+	RETURN 'true'
 @@@
 ReceiveMessageExchangeNotInProcess.bpel
 ReceiveMessageExchangeNotInScope.bpel
