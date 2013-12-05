@@ -6,12 +6,31 @@ $messageActivity = <receive> | <onMessage> | <onEvent>
 $scope = <scope> | <process>
 
 FOREACH $messageActivity@messageExchange
-	FAIL UNLESS hasCorrespondingReplyInScope($messageActivity, $messageActivity@messageExchange) AND hasMessage
+	FAIL UNLESS hasCorrespondingPartnerInScope($messageActivity, <reply>, $messageActivity@messageExchange)
+FOREACH <reply>@messageExchange
+    FAIL UNLESS hasCorrespondingPartnerInScope(<reply>, $messageActivity, <reply>@messageExchange)
+FOREACH <*>@messageExchange
+    FAIL UNLESS messageExchangeExist(<*>, <*>@messageExchange)
 
-hasCorrespondingReplyInScope: $node, $messageActivity@messageExchange -> boolean
+hasCorrespondingPartnerInScope: $node, $partner, $activity@messageExchange -> boolean
 	UNLESS $node EQUALS $scope
-		hasCorrespondingReplyInScope(PARENT $node, $messageActivity@messageExchange)
-	RETURN ANY $node<reply>@messageExchange EQUALS $messageActivity@messageExchange
+		hasCorrespondingPartnerInScope(PARENT $node, $activity@messageExchange)
+	UNLESS ANY $node$partner@messageExchange EQUALS $activity@messageExchange 
+        IF $node EQUALS <process>
+            RETURN 'false'
+        ELSE
+            hasCorrespondingPartnerInScope(PARENT $node, $activity@messageExchange)
+    RETURN 'true'
+
+messageExchangeExist: $node, $activity@messageExchange -> boolean
+    UNLESS $node EQUALS $scope
+		messageExchangeExist(PARENT $node, $activity@messageExchange)
+	UNLESS ANY $node<messageExchanges><messageExchange>@name EQUALS $activity@messageExchange 
+        IF $node EQUALS <process>
+            RETURN 'false'
+        ELSE
+            messageExchangeExist(PARENT $node, $activity@messageExchange)
+    RETURN 'true'
 @@@
 ReceiveMessageExchangeNotInProcess.bpel
 ReceiveMessageExchangeNotInScope.bpel
