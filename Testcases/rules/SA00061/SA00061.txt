@@ -6,7 +6,7 @@ $messageActivity = <receive> | <onMessage> | <onEvent>
 $scope = <scope> | <process>
 
 FOREACH $messageActivity@messageExchange
-	FAIL UNLESS hasCorrespondingReplyInScope($messageActivity, $messageActivity@messageExchange)
+	FAIL UNLESS hasCorrespondingReplyInScope($messageActivity, $messageActivity@messageExchange) AND hasMessage
 
 hasCorrespondingReplyInScope: $node, $messageActivity@messageExchange -> boolean
 	UNLESS $node EQUALS $scope
