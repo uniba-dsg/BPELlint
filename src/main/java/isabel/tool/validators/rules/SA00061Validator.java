@@ -114,7 +114,7 @@ public class SA00061Validator extends Validator {
 			return isMessageExchangeInScope(node.getParent(), 
 					messageExchange);
 		}
-		Nodes messageExchangeDefinition = node.query("//bpel:messageExchanges/bpel:messageExchange[@name='" + messageExchange + "']",
+		Nodes messageExchangeDefinition = node.query("./bpel:messageExchanges/bpel:messageExchange[@name='" + messageExchange + "']",
 				Standards.CONTEXT);
 		if (!(messageExchangeDefinition.size() == 1)) {
 			if ("process".equals(nodeHelper.getLocalName())) {
