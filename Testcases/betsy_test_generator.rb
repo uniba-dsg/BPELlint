@@ -44,9 +44,8 @@ Dir.glob("rules/SA000*").each do |rule_path|
 			location = import[:location]
 			location_filename = location.gsub("../","")
 
-			if(location_filename != "TestInterface.wsdl" and location_filename != "TestPartner.wsdl")
-			   location_filename = "TestInterface.wsdl"
-			end
+            location_filename = "TestInterface.wsdl" if location_filename.include? "TestInterface"
+            location_filename = "TestPartner.wsdl" if location_filename.include? "TestPartner"
 
 			FileUtils.cp File.join(rule_path,location), File.join(target_bpel_path,location_filename)
 
