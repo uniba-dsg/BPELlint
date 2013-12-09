@@ -1,4 +1,4 @@
-﻿package isabel;
+package isabel;
 
 import isabel.io.ValidationResultPrinter;
 import isabel.io.VerbosityLevel;
