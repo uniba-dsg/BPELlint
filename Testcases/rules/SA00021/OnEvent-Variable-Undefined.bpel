@@ -5,7 +5,7 @@
         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
         xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
         >
-    <import importType="http://schemas.xmlsoap.org/wsdl/" location="OnEvent-Variable-Undefined.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"/>
+    <import importType="http://schemas.xmlsoap.org/wsdl/" location="TestInterface-OnEvent-Variable-Undefined.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"/>
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
