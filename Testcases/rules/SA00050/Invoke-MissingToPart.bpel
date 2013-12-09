@@ -7,7 +7,7 @@
     xmlns:tp="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="../TestInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
-    <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner" location="Invoke-MissingToPart.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner" location="TestPartner-Invoke-MissingToPart.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
         <partnerLink name="TestPartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"/>
