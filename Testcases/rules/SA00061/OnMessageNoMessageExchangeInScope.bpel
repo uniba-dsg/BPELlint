@@ -15,7 +15,7 @@
     <sequence>
         <scope>
             <messageExchanges>
-                <messageExchange name="theOnlyExchange" />
+                <messageExchange name="anotherExchange" />
             </messageExchanges>
             <pick name="Pick" createInstance="yes">
                 <onMessage messageExchange="theOnlyExchange" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData">
@@ -26,10 +26,10 @@
                                 <to variable="ReplyData" part="outputPart"/>
                             </copy>
                         </assign>
+                        <reply messageExchange="theOnlyExchange" name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
                     </sequence>
                 </onMessage>
             </pick>
         </scope>
-        <reply messageExchange="theOnlyExchange" name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
     </sequence>
 </process>

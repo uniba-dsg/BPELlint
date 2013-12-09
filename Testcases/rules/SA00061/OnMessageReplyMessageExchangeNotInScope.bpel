@@ -26,10 +26,10 @@
                                 <to variable="ReplyData" part="outputPart"/>
                             </copy>
                         </assign>
+                        <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
                     </sequence>
                 </onMessage>
             </pick>
         </scope>
-        <reply messageExchange="theOnlyExchange" name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
     </sequence>
 </process>
