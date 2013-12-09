@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-        name="Scope-EventHandlers-MessageExchange-InitSync"
-        targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeEventHandlersMessageExchange-sync"
+        name="Scope-EventHandlers-Scope-MessageExchange-InitSync"
+        targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeEventHandlersScopeMessageExchange-sync"
         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
         xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
         >
@@ -10,9 +10,6 @@
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
-    <messageExchanges>
-        <messageExchange name="theOnlyExchange"/>
-    </messageExchanges>
     <variables>
         <variable name="replyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
@@ -37,6 +34,9 @@
         <reply name="CorrelatedReply" partnerLink="MyRoleLink" operation="startProcessSync"
                portType="ti:TestInterfacePortType" variable="replyData"/>
         <scope name="OuterScope">
+            <messageExchanges>
+                <messageExchange name="theOnlyExchange"/>
+            </messageExchanges>
             <eventHandlers>
                 <onEvent partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType"
                          variable="InitDataSync" messageType="ti:executeProcessSyncRequest">
