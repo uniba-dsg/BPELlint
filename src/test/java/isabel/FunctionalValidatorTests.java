@@ -1,4 +1,4 @@
-package isabel;
+﻿package isabel;
 
 import isabel.io.ValidationResultPrinter;
 import isabel.io.VerbosityLevel;
@@ -173,7 +173,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00032/FromVariableQueryAdditionalChild.bpel", "32"},
 				{"Testcases/rules/SA00032/ToVariableQueryAdditionalAttribute.bpel", "32"},
 				{"Testcases/rules/SA00032/ToVariableQueryAdditionalChild.bpel", "32"},
-				
+
 				{"Testcases/rules/SA00034/FromElementVariablePartAttribute.bpel", "34"},
 				{"Testcases/rules/SA00034/FromOnEventElementVariablePartAttribute.bpel", "34"},
 				{"Testcases/rules/SA00034/FromTypeVariablePartAttribute.bpel", "34"},
@@ -239,6 +239,21 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00055/Receive-WithFromPartElementAndVariableAttribute.bpel", "55"},
 
 				{"Testcases/rules/SA00059/Reply-WithToPartElementAndVariableAttribute.bpel", "59"},
+
+				{"Testcases/rules/SA00061/OnEventMessageExchangeNotInScope.bpel", "61"},
+				{"Testcases/rules/SA00061/OnEventNoMessageExchangeInScope.bpel", "61"},
+				{"Testcases/rules/SA00061/OnEventReplyMessageExchangeNotInScope.bpel", "61"},
+				{"Testcases/rules/SA00061/OnMessageMessageExchangeNotInProcess.bpel", "61"},
+				{"Testcases/rules/SA00061/OnMessageMessageExchangeOutOfScope.bpel", "61"},
+				{"Testcases/rules/SA00061/OnMessageNoMessageExchangeInProcess.bpel", "61"},
+				{"Testcases/rules/SA00061/OnMessageReplyMessageExchangeNotInProcess.bpel", "61"},
+				{"Testcases/rules/SA00061/ReceiveMessageExchangeNotInProcess.bpel", "61"},
+				{"Testcases/rules/SA00061/ReceiveMessageExchangeNotInScope.bpel", "61"},
+				{"Testcases/rules/SA00061/ReceiveMessageExchangeOutOfScope.bpel", "61"},
+				{"Testcases/rules/SA00061/ReceiveNoMessageExchangeInProcess.bpel", "61"},
+				{"Testcases/rules/SA00061/ReceiveNoMessageExchangeInScope.bpel", "61"},
+				{"Testcases/rules/SA00061/ReceiveReplyMessageExchangeNotInProcess.bpel", "61"},
+				{"Testcases/rules/SA00061/ReceiveReplyMessageExchangeNotInScope.bpel", "61"},
 
 				{"Testcases/rules/SA00062/Pick-CreateInstanceWithOnAlarm.bpel", "62"},
 
