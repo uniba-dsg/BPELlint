@@ -3,6 +3,7 @@ package isabel.tool.validators.rules;
 import nu.xom.Node;
 import nu.xom.Nodes;
 import nu.xom.ParentNode;
+import isabel.tool.helper.NodeHelper;
 import isabel.tool.impl.Standards;
 import isabel.tool.impl.ValidationCollector;
 import isabel.tool.imports.ProcessContainer;
@@ -41,11 +42,12 @@ public class SA00066Validator extends Validator {
 
 	}
 
-	private int count(String string, Node link) {
-		int counter = 0;
+	private int count(String linkEntity, Node link) {
+		String linkName = new NodeHelper(link).getAttribute("name");
 		ParentNode flow = link.getParent().getParent();
+		Nodes linkEntities = flow.query(".//bpel:"+linkEntity + "[@linkName='"+linkName+"']", Standards.CONTEXT);
 		
-		return 1;
+		return linkEntities.size();
 	}
 
 	@Override
