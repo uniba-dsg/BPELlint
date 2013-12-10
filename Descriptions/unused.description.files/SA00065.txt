@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-The value of the linkName attribute of <source> or <target> MUST be the name of a <link> declared in an enclosing <flow> activity.
