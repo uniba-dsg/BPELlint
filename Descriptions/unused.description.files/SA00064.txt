@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-For <flow>, a declared link’s name MUST be unique among all <link> names defined within the same immediately enclosing <flow>.

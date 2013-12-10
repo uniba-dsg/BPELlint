@@ -264,6 +264,8 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00062/Pick-CreateInstanceWithOnAlarm.bpel", "62"},
 
 				{"Testcases/rules/SA00063/OnMessage-With-FromPartAndAttributeVariable.bpel", "63"},
+				
+				{"Testcases/rules/SA00064/LinkNameDuplicate.bpel", "64"},
 
 				{"Testcases/rules/SA00076/ForEach-DuplicateCounterVariable.bpel", "76"},
 
