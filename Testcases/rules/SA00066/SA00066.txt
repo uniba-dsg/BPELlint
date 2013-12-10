@@ -1,0 +1,25 @@
+<link> has too many sources in <flow>
+<link> has no source in <flow>
+<link> has too many targets in <flow>
+<link> has no target in <flow>
+@@@
+Every link declared within a <flow> activity MUST have exactly one activity within the <flow> as its source and exactly one activity within the <flow> as its target.
+@@@
+FOREACH <link>
+	FAIL UNLESS hasExactlyOne('<source>', <link>) AND hasExactlyOne('<target>', <link>)
+
+hasExactlyOne: $linkEntity, <link> -> boolean
+	SET $flow TO PARENT PARENT <link>
+	SET $entitySet TO EMPTY_LIST
+	FORECH $linkEntity
+		IF <link>@name EQUALS $linkEntity@linkName AND $flow ANCESTOR_OF $linkEntity
+			ADD $linkEntity TO $entitySet 
+	RETURN COUNT $entitySet EQUALS '1'
+@@@
+LinkTwoSources.bpel
+LinkTwoTargets.bpel
+LinkSourceTwice.bpel
+LinkTargetTwice.bpel
+LinkNoSource.bpel
+LinkNoTarget.bpel
+@@@
