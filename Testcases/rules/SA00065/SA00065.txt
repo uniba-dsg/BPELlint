@@ -1,4 +1,4 @@
-Place Short Description Here.
+no <link> with that link name in any parent <flow>
 @@@
 The value of the linkName attribute of <source> or <target> MUST be the name of a <link> declared in an enclosing <flow> activity.
 @@@
