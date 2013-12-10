@@ -180,7 +180,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00034/ToElementVariablePartAttribute.bpel", "34"},
 				{"Testcases/rules/SA00034/ToOnEventElementVariablePartAttribute.bpel", "34"},
 				{"Testcases/rules/SA00034/ToTypeVariablePartAttribute.bpel", "34"},
-				
+
 				{"Testcases/rules/SA00035/FromLinkTypeMyRolePartnerLinkWithoutMyRole.bpel", "35"},
 
 				{"Testcases/rules/SA00036/FromPartnerRoleWithoutPartnerRolePartnerLink.bpel", "36"},
@@ -264,14 +264,21 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00062/Pick-CreateInstanceWithOnAlarm.bpel", "62"},
 
 				{"Testcases/rules/SA00063/OnMessage-With-FromPartAndAttributeVariable.bpel", "63"},
-				
+
 				{"Testcases/rules/SA00064/LinkNameDuplicate.bpel", "64"},
-				
+
 				{"Testcases/rules/SA00065/NoLink.bpel", "65"},
 				{"Testcases/rules/SA00065/SourceLinkIsMissing.bpel", "65"},
 				{"Testcases/rules/SA00065/SourceLinkOutOfFlow.bpel", "65"},
 				{"Testcases/rules/SA00065/TargetLinkIsMissing.bpel", "65"},
 				{"Testcases/rules/SA00065/TargetLinkOutOfFlow.bpel", "65"},
+
+				{"Testcases/rules/SA00066/LinkTwoSources.bpel", "66"},
+				{"Testcases/rules/SA00066/LinkTwoTargets.bpel", "66"},
+				{"Testcases/rules/SA00066/LinkSourceTwice.bpel", "66"},
+				{"Testcases/rules/SA00066/LinkTargetTwice.bpel", "66"},
+				{"Testcases/rules/SA00066/LinkNoSource.bpel", "66"},
+				{"Testcases/rules/SA00066/LinkNoTarget.bpel", "66"},
 
 				{"Testcases/rules/SA00076/ForEach-DuplicateCounterVariable.bpel", "76"},
 
