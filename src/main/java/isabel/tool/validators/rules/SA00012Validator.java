@@ -1,6 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.NodeHelper;
+import isabel.model.bpel.ImportElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import isabel.model.XmlFile;
@@ -21,12 +22,12 @@ public class SA00012Validator extends Validator {
 
     @Override
     public void validate() {
-        Nodes imports = fileHandler.getBpel().getDocument().query("//bpel:import", CONTEXT);
+        List<ImportElement> imports = fileHandler.getAllImports();
 
         List<XmlFile> allWsdls = fileHandler.getDirectlyImportedWsdls();
         List<XmlFile> allXsds = fileHandler.getDirectlyImportedXsds();
 
-        for (Node node : imports) {
+        for (ImportElement node : imports) {
             boolean importedFileIsValid = isValidFile(allWsdls, node)
                     && isValidFile(allXsds, node);
 
@@ -36,17 +37,15 @@ public class SA00012Validator extends Validator {
         }
     }
 
-    private boolean isValidFile(List<XmlFile> xmlFileList, Node node) {
+    private boolean isValidFile(List<XmlFile> xmlFileList, ImportElement node) {
 
         boolean validFile = true;
 
-        if (new NodeHelper(node).hasNoAttribute("namespace")) {
+        if (node.hasNamespaceAttribute()) {
 
             for (XmlFile xmlFile : xmlFileList) {
 
-                String location = new NodeHelper(node).getAttribute("location");
-
-                Path canonicalPath = fileHandler.getAbsoluteBpelFolder().resolve(location).toAbsolutePath().normalize();
+                Path canonicalPath = fileHandler.getAbsoluteBpelFolder().resolve(node.getLocation()).toAbsolutePath().normalize();
                 if (xmlFile.getFilePath().equals(canonicalPath)) {
 
                     if (!"".equals(xmlFile.getTargetNamespace())) {

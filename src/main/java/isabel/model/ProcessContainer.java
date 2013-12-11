@@ -162,10 +162,6 @@ public class ProcessContainer {
         return this;
     }
 
-    public Nodes getImports() {
-        return getBpel().getDocument().query("//bpel:import", CONTEXT);
-    }
-
     public List<RethrowElement> getAllRethrows() {
         List<RethrowElement> result = new LinkedList<>();
 
@@ -191,6 +187,16 @@ public class ProcessContainer {
 
         for (Node node : getBpel().getDocument().query("//bpel:compensate", CONTEXT)) {
             result.add(new CompensateElement(node));
+        }
+
+        return result;
+    }
+
+    public List<PartnerLinkElement> getAllPartnerLinks() {
+        List<PartnerLinkElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:partnerLink", CONTEXT)) {
+            result.add(new PartnerLinkElement(node));
         }
 
         return result;

@@ -13,14 +13,17 @@ public class ImportElement implements Referable {
     private final Element element;
 
     public ImportElement(Element element) {
-        Objects.requireNonNull(element,
-                "<bpel:import> element must not be null");
+        Objects.requireNonNull(element, "<bpel:import> element must not be null");
 
         this.element = element;
     }
 
     public ImportElement(Node element) {
         this((Element) element);
+    }
+
+    public boolean hasNamespaceAttribute() {
+        return element.getAttributeValue("namespace") != null;
     }
 
     public String getNamespace() {
