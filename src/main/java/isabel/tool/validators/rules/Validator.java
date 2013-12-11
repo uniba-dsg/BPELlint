@@ -1,5 +1,6 @@
 package isabel.tool.validators.rules;
 
+import isabel.model.Referable;
 import isabel.tool.Violation;
 import isabel.model.NodeHelper;
 import isabel.tool.impl.ValidationCollector;
@@ -32,8 +33,8 @@ public abstract class Validator {
 				getLineNumber(node), getColumnNumber(node)));
 	}
 
-    protected void addViolation(NodeHelper node) {
-        addViolation(node.asElement(), DEFAULT_TYPE);
+    protected void addViolation(Referable node) {
+        addViolation(node.toXOM(), DEFAULT_TYPE);
     }
 
 	protected void addViolation(Node node) {
