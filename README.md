@@ -10,7 +10,7 @@ This software is licensed under the LGPL Version 3 Open Source License.
   - `PATH` should include `JAVA_HOME/bin`
 
 ## Licensing
-LGPL Version 3: http://www.gnu.org/licenses/lgpl-3.0.html
+Dual licensed under [LGPL Version 3](http://www.gnu.org/licenses/lgpl-3.0.html) and [EPL 1.0](http://opensource.org/licenses/EPL-1.0)
 
 ## Usage
 
