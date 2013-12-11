@@ -1,9 +1,9 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.impl.Standards;
+import isabel.model.NodeHelper;
+import isabel.model.ProcessContainer;
+import isabel.model.Standards;
 import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
 
 import java.util.HashSet;
 import java.util.Set;
