@@ -30,4 +30,8 @@ public class CorrelationSetElement extends NodeHelper {
 
         return result;
     }
+
+    public String getName() {
+        return getAttribute("name");
+    }
 }

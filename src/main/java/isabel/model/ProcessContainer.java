@@ -223,6 +223,16 @@ public class ProcessContainer {
         return result;
     }
 
+    public List<CorrelationSetsElement> getAllCorrelationSetsContainer() {
+        List<CorrelationSetsElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:correlationSets", CONTEXT)) {
+            result.add(new CorrelationSetsElement(node));
+        }
+
+        return result;
+    }
+
 
     void validate() {
         // assertion

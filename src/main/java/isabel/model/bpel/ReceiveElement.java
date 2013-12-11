@@ -3,7 +3,7 @@ package isabel.model.bpel;
 import isabel.model.NodeHelper;
 import nu.xom.Node;
 
-public class ReceiveElement extends NodeHelper {
+public class ReceiveElement extends NodeHelper implements StartActivity{
 
 	public ReceiveElement(Node receive) {
 		super(receive);
@@ -21,4 +21,10 @@ public class ReceiveElement extends NodeHelper {
 	public boolean hasVariable() {
 		return hasAttribute("variable");
 	}
+
+    @Override
+    public boolean isStartActivity() {
+        return hasAttribute("createInstance") && "true".equals(getAttribute("createInstance"));
+    }
+
 }
