@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +13,7 @@ class HappyPathTests {
 
     private final Path baseDir;
 
-    public HappyPathTests(Path baseDir) {
+    HappyPathTests(Path baseDir) {
         this.baseDir = Objects.requireNonNull(baseDir, "baseDir must not be null");
     }
 
@@ -22,12 +21,12 @@ class HappyPathTests {
 
         List<Object[]> result = new LinkedList<>();
 
-        try (DirectoryStream<Path> fileStream = Files.newDirectoryStream(folder, "*.bpel")) {
+        try (DirectoryStream<Path> fileStream = Files.newDirectoryStream(folder)) {
             for (Path path : fileStream) {
                 if (Files.isDirectory(path)) {
                     // recursion
                     result.addAll(aggregateBpelFiles(path));
-                } else if (Files.isRegularFile(path)) {
+                } else if (Files.isRegularFile(path) && path.toString().endsWith(".bpel")) {
                     result.add(new Object[]{path.toString(), ""});
                 }
             }
