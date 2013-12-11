@@ -5,6 +5,7 @@ import isabel.model.PrefixHelper;
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
 import isabel.model.XmlFile;
+import isabel.model.wsdl.OperationElement;
 import nu.xom.*;
 
 import java.util.HashMap;
@@ -21,20 +22,20 @@ public class ValidatorNavigator {
 	}
 
 	public HashMap<String, Node> getOperationMessages(
-			List<XmlFile> wsdlImports, Node operation)
+			List<XmlFile> wsdlImports, OperationElement operation)
 			throws NavigationException {
 
 		if (operation == null)
 			return null;
 
-		Nodes operationChildren = operation.query("child::*", CONTEXT);
+		Nodes operationChildren = operation.asElement().query("child::*", CONTEXT);
 		HashMap<String, Node> messages = new HashMap<>();
 		for (Node child : operationChildren) {
 
 			NodeHelper childHelper = new NodeHelper(child);
 			String messageQName = childHelper.getAttribute("message");
 			String childName = childHelper.getLocalName();
-			String namespaceURI = operation.getDocument().getRootElement()
+			String namespaceURI = operation.asElement().getDocument().getRootElement()
 					.getNamespaceURI(PrefixHelper.getPrefix(messageQName));
 			String messageName = PrefixHelper.removePrefix(messageQName);
 
@@ -78,7 +79,7 @@ public class ValidatorNavigator {
 		return document.getRootElement().getNamespaceURI(namespacePrefix);
 	}
 
-	public Node correspondingOperation(Node messageActivity)
+	public OperationElement correspondingOperation(Node messageActivity)
 			throws NavigationException {
 		Element invokeElement = (Element) messageActivity;
 		String partnerLinkName = invokeElement.getAttributeValue("partnerLink");
@@ -151,13 +152,13 @@ public class ValidatorNavigator {
 		throw new NavigationException("PortType not defined");
 	}
 
-	public Node portTypeToOperation(Node portType, String operationName)
+	public OperationElement portTypeToOperation(Node portType, String operationName)
 			throws NavigationException {
 		Nodes operations = portType.query(
 				"child::wsdl:operation[attribute::name='" + operationName
 						+ "']", CONTEXT);
 		if (operations.hasAny())
-			return operations.get(0);
+			return new OperationElement(operations.get(0));
 
 		throw new NavigationException("Operation not defined");
 	}
@@ -220,7 +221,7 @@ public class ValidatorNavigator {
 	public Node getCorrespondingOutgoingMessage(Node invoke)
 			throws NavigationException {
 
-		Node operation = correspondingOperation(invoke);
+		Node operation = correspondingOperation(invoke).asElement();
 		String messageAttribute = getAttributeValue(operation.query(
 				"wsdl:output/@message", CONTEXT));
 		Document correspondingWsdl = operation.getDocument();
@@ -237,7 +238,7 @@ public class ValidatorNavigator {
 	public Node getCorrespondingIncomingMessage(Node invoke)
 			throws NavigationException {
 
-		Node operation = correspondingOperation(invoke);
+		Node operation = correspondingOperation(invoke).asElement();
 		String messageAttribute = getAttributeValue(operation.query(
 				"wsdl:input/@message", CONTEXT));
 		Document correspondingWsdl = operation.getDocument();

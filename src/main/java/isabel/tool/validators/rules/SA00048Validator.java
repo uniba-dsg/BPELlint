@@ -3,6 +3,7 @@ package isabel.tool.validators.rules;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
 import isabel.model.NavigationException;
+import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import isabel.model.XmlFile;
@@ -63,8 +64,7 @@ public class SA00048Validator extends Validator {
 	private Map<String, Node> getCorrespondingMessages(Node invokeActivity)
 			throws NavigationException {
 		List<XmlFile> wsdlImports = fileHandler.getWsdls();
-		Node operation;
-		operation = navigator.correspondingOperation(invokeActivity);
+		OperationElement operation = navigator.correspondingOperation(invokeActivity);
 		return navigator.getOperationMessages(wsdlImports, operation);
 	}
 

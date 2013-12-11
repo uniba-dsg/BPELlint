@@ -23,12 +23,12 @@ public class SA00046Validator extends Validator {
 
 		for (Node node : invokeCorrelationsNodes) {
 			try {
-				Node operation = navigator.correspondingOperation(node
+				OperationElement operation = navigator.correspondingOperation(node
 						.getParent());
 
-				if (new OperationElement(operation).isRequestResponse()) {
+				if (operation.isRequestResponse()) {
 					reportViolation(getCorrelationWithoutPattern(node), 1);
-				} else if (new OperationElement(operation).isOneWay()) {
+				} else if (operation.isOneWay()) {
 					reportViolation(getCorrelationWithPattern(node), 2);
 				}
 			} catch (NavigationException e) {

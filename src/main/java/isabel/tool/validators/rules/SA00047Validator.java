@@ -56,11 +56,11 @@ public class SA00047Validator extends Validator {
 
 	private void validateInvokeMessagePartConstraint(Node messageActivity)
 			throws NavigationException {
-		Node operation = navigator.correspondingOperation(messageActivity);
-		if (new OperationElement(operation).isOneWay()
+		OperationElement operation = navigator.correspondingOperation(messageActivity);
+		if (operation.isOneWay()
 				&& !hasInputVariableOrToPart(messageActivity)) {
 			addViolation(messageActivity, 4);
-		} else if (new OperationElement(operation).isRequestResponse()
+		} else if (operation.isRequestResponse()
 				&& (!hasInputVariableOrToPart(messageActivity) || !hasOutputVariableOrFromPart(messageActivity))) {
 			addViolation(messageActivity, 5);
 		}
@@ -73,7 +73,7 @@ public class SA00047Validator extends Validator {
 
 	private boolean hasMessagePart(Node messageActivity)
 			throws NavigationException {
-		Node operation = navigator.correspondingOperation(messageActivity);
+        OperationElement operation = navigator.correspondingOperation(messageActivity);
 		if (operation == null)
 			throw new NavigationException("WARNING: could not found an associated operation " + getBpelFileName());
 
