@@ -193,4 +193,12 @@ public class NodeHelper implements Referable{
     public Node toXOM() {
         return asElement();
     }
+
+    public boolean hasNoChildren() {
+        return getAmountOfChildern() == 0;
+    }
+
+    public boolean hasNoContent() {
+        return asElement().getValue().trim().isEmpty();
+    }
 }

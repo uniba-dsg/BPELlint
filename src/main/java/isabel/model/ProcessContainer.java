@@ -233,6 +233,26 @@ public class ProcessContainer {
         return result;
     }
 
+    public List<ToElement> getAllTos() {
+        List<ToElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:to", CONTEXT)) {
+            result.add(new ToElement(node));
+        }
+
+        return result;
+    }
+
+    public List<FromElement> getAllFroms() {
+        List<FromElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:from", CONTEXT)) {
+            result.add(new FromElement(node));
+        }
+
+        return result;
+    }
+
 
     void validate() {
         // assertion
