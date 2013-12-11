@@ -1,17 +1,12 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
-import isabel.model.bpel.ImportElement;
-import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import isabel.model.XmlFile;
-import nu.xom.Node;
-import nu.xom.Nodes;
+import isabel.model.bpel.ImportElement;
+import isabel.tool.impl.ValidationCollector;
 
 import java.nio.file.Path;
 import java.util.List;
-
-import static isabel.model.Standards.CONTEXT;
 
 public class SA00012Validator extends Validator {
 
@@ -28,8 +23,7 @@ public class SA00012Validator extends Validator {
         List<XmlFile> allXsds = fileHandler.getDirectlyImportedXsds();
 
         for (ImportElement node : imports) {
-            boolean importedFileIsValid = isValidFile(allWsdls, node)
-                    && isValidFile(allXsds, node);
+            boolean importedFileIsValid = isValidFile(allWsdls, node) && isValidFile(allXsds, node);
 
             if (!importedFileIsValid) {
                 addViolation(node);
@@ -41,7 +35,7 @@ public class SA00012Validator extends Validator {
 
         boolean validFile = true;
 
-        if (node.hasNamespaceAttribute()) {
+        if (!node.hasNamespaceAttribute()) {
 
             for (XmlFile xmlFile : xmlFileList) {
 

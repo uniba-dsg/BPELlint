@@ -4,6 +4,7 @@ import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.Standards;
 import isabel.model.XmlFile;
+import isabel.model.bpel.ImportElement;
 import nu.xom.*;
 
 import java.io.FileNotFoundException;
@@ -45,8 +46,8 @@ public class ProcessContainerLoader {
     }
 
     private void loadBpelImports() throws ParsingException, IOException {
-        for (Node importNode : result.getImports()) {
-            XmlFile entry = xmlFileLoader.loadImportNode(importNode);
+        for (ImportElement importNode : result.getAllImports()) {
+            XmlFile entry = xmlFileLoader.loadImportNode(importNode.toXOM());
             this.result.addDirectlyImported(entry);
             loadImports(entry);
         }

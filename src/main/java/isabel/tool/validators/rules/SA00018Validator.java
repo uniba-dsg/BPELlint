@@ -2,6 +2,7 @@ package isabel.tool.validators.rules;
 
 import isabel.model.NodeHelper;
 import isabel.model.Standards;
+import isabel.model.bpel.PartnerLinkElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import nu.xom.Node;
@@ -25,7 +26,7 @@ public class SA00018Validator extends Validator {
 			Set<String> uniqueNames = new HashSet<>();
 			for (Node partnerLink : partnerLinks.query("bpel:partnerLink",
 					Standards.CONTEXT)) {
-				String name = new NodeHelper(partnerLink).getAttribute("name");
+				String name = new PartnerLinkElement(partnerLink).getName();
 				if (uniqueNames.contains(name)) {
 					addViolation(partnerLink);
 				} else {

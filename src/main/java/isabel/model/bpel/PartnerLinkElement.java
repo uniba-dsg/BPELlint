@@ -20,4 +20,8 @@ public class PartnerLinkElement extends NodeHelper {
     public boolean hasInitializePartnerRole() {
         return hasAttribute("initializePartnerRole");
     }
+
+    public String getName() {
+        return getAttribute("name");
+    }
 }

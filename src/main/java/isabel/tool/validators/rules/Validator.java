@@ -37,6 +37,10 @@ public abstract class Validator {
         addViolation(node.toXOM(), DEFAULT_TYPE);
     }
 
+    protected void addViolation(Referable node, int type) {
+        addViolation(node.toXOM(), type);
+    }
+
 	protected void addViolation(Node node) {
 		addViolation(node, DEFAULT_TYPE);
 	}

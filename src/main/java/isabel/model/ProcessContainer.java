@@ -1,6 +1,7 @@
 package isabel.model;
 
 import isabel.model.bpel.*;
+import isabel.tool.validators.rules.VariablesElement;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -197,6 +198,26 @@ public class ProcessContainer {
 
         for (Node node : getBpel().getDocument().query("//bpel:partnerLink", CONTEXT)) {
             result.add(new PartnerLinkElement(node));
+        }
+
+        return result;
+    }
+
+    public List<VariableElement> getAllVariables() {
+        List<VariableElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:variable", CONTEXT)) {
+            result.add(new VariableElement(node));
+        }
+
+        return result;
+    }
+
+    public List<VariablesElement> getAllVariablesContainer() {
+        List<VariablesElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:variables", CONTEXT)) {
+            result.add(new VariablesElement(node));
         }
 
         return result;
