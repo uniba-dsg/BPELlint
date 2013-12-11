@@ -52,6 +52,8 @@ public class FunctionalValidatorTests {
 		List<Object[]> bpelFiles = new LinkedList<>();
 		bpelFiles.addAll(saViolationTests());
 		bpelFiles.addAll(new HappyPathTests(Paths.get("Testcases/betsy")).list());
+        bpelFiles.addAll(new HappyPathTests(Paths.get("Testcases/calculator")).list());
+        bpelFiles.addAll(new HappyPathTests(Paths.get("Testcases/complex")).list());
 
 		return bpelFiles;
 	}
