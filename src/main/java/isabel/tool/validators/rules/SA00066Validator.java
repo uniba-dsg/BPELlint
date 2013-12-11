@@ -43,11 +43,21 @@ public class SA00066Validator extends Validator {
 	}
 
 	private int count(String linkEntity, Node link) {
+		int amountOfActivities = 0;
 		String linkName = new NodeHelper(link).getAttribute("name");
 		ParentNode flow = link.getParent().getParent();
-		Nodes linkEntities = flow.query(".//bpel:"+linkEntity + "[@linkName='"+linkName+"']", Standards.CONTEXT);
-		
-		return linkEntities.size();
+		Nodes linkEntityContainers = flow.query(".//bpel:" + linkEntity + "s",
+				Standards.CONTEXT);
+		for (Node linkEntityContainer : linkEntityContainers) {
+			Nodes linkEntities = linkEntityContainer.query(".//bpel:"
+					+ linkEntity + "[@linkName='" + linkName + "']",
+					Standards.CONTEXT);
+			if (linkEntities.hasAny()) {
+				amountOfActivities++;
+			}
+		}
+
+		return amountOfActivities;
 	}
 
 	@Override

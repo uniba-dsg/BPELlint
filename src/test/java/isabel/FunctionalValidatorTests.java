@@ -277,8 +277,6 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00066/LinkTwoSources.bpel", "66"},
 				{"Testcases/rules/SA00066/LinkTwoTargets.bpel", "66"},
-				{"Testcases/rules/SA00066/LinkSourceTwice.bpel", "66"},
-				{"Testcases/rules/SA00066/LinkTargetTwice.bpel", "66"},
 				{"Testcases/rules/SA00066/LinkNoSource.bpel", "66"},
 				{"Testcases/rules/SA00066/LinkNoTarget.bpel", "66"},
 
