@@ -365,23 +365,7 @@ public class ValidatorNavigator {
 				"Referenced <propertyAlias> does not exist.");
 	}
 
-	public Node getCorrespondingProperty(Node propertyAlias)
-			throws NavigationException {
-		Document wsdlDom = propertyAlias.getDocument();
-		String propertyAttribute = new NodeHelper(propertyAlias)
-				.getAttribute("propertyName");
-		Nodes properties = wsdlDom.query("//vprop:property", CONTEXT);
 
-		for (Node property : properties) {
-			String propertyName = new NodeHelper(property).getAttribute("name");
-
-			if (propertyName.equals(PrefixHelper
-					.removePrefix(propertyAttribute))) {
-				return property;
-			}
-		}
-		throw new NavigationException("Referenced <property> does not exist.");
-	}
 
 	public static String getAttributeValue(Nodes attributes) {
 		if (attributes.hasAny()) {

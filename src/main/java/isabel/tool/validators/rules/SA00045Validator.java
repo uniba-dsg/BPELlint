@@ -1,5 +1,7 @@
 package isabel.tool.validators.rules;
 
+import isabel.model.wsdl.PropertyAliasElement;
+import isabel.model.wsdl.PropertyElement;
 import isabel.tool.helper.NodeHelper;
 import isabel.tool.helper.PrefixHelper;
 import isabel.tool.impl.NavigationException;
@@ -44,12 +46,12 @@ public class SA00045Validator extends Validator {
 		Document wsdlFile = wsdlEntry.getDocument();
 		Node propertyAlias = navigator.getCorrespondingPropertyAlias(
 				correlationSet, wsdlFile);
-		Node property = navigator.getCorrespondingProperty(propertyAlias);
+		PropertyElement property = new PropertyAliasElement(propertyAlias).getCorrespondingProperty();
 
-		String propertyType = new NodeHelper(property).getAttribute("type");
+		String propertyType = property.getAttribute("type");
 		String namespacePrefix = PrefixHelper.getPrefix(propertyType);
 		String propertyTypeTargetNamespace = navigator.getImportNamespace(
-				property, namespacePrefix);
+				property.asElement(), namespacePrefix);
 
 		if (XSD_NAMESPACE.equals(propertyTypeTargetNamespace)) {
 			Document xmlSchema = fileHandler.getXmlSchema();
