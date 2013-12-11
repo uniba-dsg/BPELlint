@@ -1,4 +1,4 @@
-package isabel.tool.helper;
+package isabel.model;
 
 public class PrefixHelper {
 

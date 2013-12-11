@@ -1,18 +1,16 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.ValidationException;
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.helper.PrefixHelper;
-import isabel.tool.impl.NavigationException;
-import isabel.tool.imports.ProcessContainer;
-import isabel.tool.imports.XmlFile;
+import isabel.model.NodeHelper;
+import isabel.model.PrefixHelper;
+import isabel.model.NavigationException;
+import isabel.model.ProcessContainer;
+import isabel.model.XmlFile;
 import nu.xom.*;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
-import static isabel.tool.impl.Standards.CONTEXT;
+import static isabel.model.Standards.CONTEXT;
 
 public class ValidatorNavigator {
 

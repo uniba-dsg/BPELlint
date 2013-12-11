@@ -1,9 +1,9 @@
 package isabel.model.wsdl;
 
-import isabel.tool.helper.NodeHelper;
+import isabel.model.NodeHelper;
 import nu.xom.Node;
 
-import static isabel.tool.impl.Standards.CONTEXT;
+import static isabel.model.Standards.CONTEXT;
 
 public class OperationElement extends NodeHelper {
 

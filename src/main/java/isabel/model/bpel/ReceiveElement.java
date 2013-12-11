@@ -1,6 +1,6 @@
 package isabel.model.bpel;
 
-import isabel.tool.helper.NodeHelper;
+import isabel.model.NodeHelper;
 import nu.xom.Node;
 
 public class ReceiveElement extends NodeHelper {

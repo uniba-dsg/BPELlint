@@ -1,10 +1,10 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.impl.Standards;
+import isabel.model.NodeHelper;
+import isabel.model.Standards;
 import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
-import isabel.tool.imports.XmlFile;
+import isabel.model.ProcessContainer;
+import isabel.model.XmlFile;
 import nu.xom.Node;
 import nu.xom.Nodes;
 

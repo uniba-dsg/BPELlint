@@ -2,18 +2,18 @@ package isabel.tool.validators.rules;
 
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.model.wsdl.PropertyElement;
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.helper.PrefixHelper;
-import isabel.tool.impl.NavigationException;
+import isabel.model.NodeHelper;
+import isabel.model.PrefixHelper;
+import isabel.model.NavigationException;
 import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
-import isabel.tool.imports.XmlFile;
+import isabel.model.ProcessContainer;
+import isabel.model.XmlFile;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import static isabel.tool.impl.Standards.CONTEXT;
-import static isabel.tool.impl.Standards.XSD_NAMESPACE;
+import static isabel.model.Standards.CONTEXT;
+import static isabel.model.Standards.XSD_NAMESPACE;
 
 public class SA00045Validator extends Validator {
 

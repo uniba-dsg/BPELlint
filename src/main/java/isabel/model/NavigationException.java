@@ -1,4 +1,4 @@
-package isabel.tool.impl;
+package isabel.model;
 
 public class NavigationException extends Exception {
 

@@ -1,4 +1,4 @@
-package isabel.tool.helper;
+package isabel.model;
 
 import nu.xom.Node;
 import nu.xom.Nodes;

@@ -1,11 +1,13 @@
 package isabel.tool.validators.rules;
 
-import static isabel.tool.impl.Standards.CONTEXT;
+import static isabel.model.Standards.CONTEXT;
+
+import isabel.model.NavigationException;
 import isabel.tool.ValidationException;
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.helper.NodesUtil;
+import isabel.model.NodeHelper;
+import isabel.model.NodesUtil;
 import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
+import isabel.model.ProcessContainer;
 
 import java.util.List;
 
@@ -86,7 +88,7 @@ public class SA00032Validator extends Validator {
 						.getAmountOfAttributes() == 0)) {
 					return false;
 				}
-			} catch (ValidationException e) {
+			} catch (NavigationException e) {
 				return false;
 			}
 		}
@@ -159,7 +161,7 @@ public class SA00032Validator extends Validator {
 		try {
 			NodeHelper literal = fromTo.getFirstChildElement();
 			return "literal".equals(literal.getLocalName());
-		} catch (ValidationException e) {
+		} catch (NavigationException e) {
 			return false;
 		}
 	}

@@ -1,18 +1,15 @@
-package isabel.tool.imports;
+package isabel.model;
 
-import isabel.tool.helper.NodesUtil;
-import isabel.tool.impl.NavigationException;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;
 import org.pmw.tinylog.Logger;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.*;
 
-import static isabel.tool.impl.Standards.CONTEXT;
-import static isabel.tool.impl.Standards.XSD_NAMESPACE;
+import static isabel.model.Standards.CONTEXT;
+import static isabel.model.Standards.XSD_NAMESPACE;
 
 public class ProcessContainer {
 

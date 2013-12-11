@@ -1,6 +1,6 @@
 package isabel.model.bpel;
 
-import isabel.tool.impl.Standards;
+import isabel.model.Standards;
 import nu.xom.Element;
 import nu.xom.Node;
 

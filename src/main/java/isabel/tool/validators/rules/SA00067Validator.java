@@ -1,16 +1,14 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.impl.Standards;
+import isabel.model.NodeHelper;
+import isabel.model.Standards;
 import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
+import isabel.model.ProcessContainer;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.google.common.collect.Sets.SetView;
 
 import nu.xom.Node;
 import nu.xom.Nodes;

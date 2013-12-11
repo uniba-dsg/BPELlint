@@ -2,11 +2,11 @@ package isabel.tool.validators.rules;
 
 import isabel.model.ElementIdentifier;
 import isabel.model.bpel.CorrelationSetElement;
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.helper.PrefixHelper;
-import isabel.tool.impl.NavigationException;
+import isabel.model.NodeHelper;
+import isabel.model.PrefixHelper;
+import isabel.model.NavigationException;
 import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
+import isabel.model.ProcessContainer;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
@@ -15,7 +15,7 @@ import org.pmw.tinylog.Logger;
 
 import java.util.List;
 
-import static isabel.tool.impl.Standards.CONTEXT;
+import static isabel.model.Standards.CONTEXT;
 
 public class SA00021Validator extends Validator {
 

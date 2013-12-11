@@ -1,8 +1,8 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.helper.NodeHelper;
+import isabel.model.NodeHelper;
 import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
+import isabel.model.ProcessContainer;
 import nu.xom.Node;
 
 import java.util.List;

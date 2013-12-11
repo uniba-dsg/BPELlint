@@ -1,18 +1,18 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.helper.NodesUtil;
-import isabel.tool.helper.PrefixHelper;
-import isabel.tool.impl.NavigationException;
+import isabel.model.NodeHelper;
+import isabel.model.NodesUtil;
+import isabel.model.PrefixHelper;
+import isabel.model.NavigationException;
 import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
+import isabel.model.ProcessContainer;
 import nu.xom.Document;
 import nu.xom.Node;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static isabel.tool.impl.Standards.CONTEXT;
+import static isabel.model.Standards.CONTEXT;
 
 public class SA00005Validator extends Validator {
 

@@ -1,4 +1,4 @@
-package isabel.tool.impl;
+package isabel.model;
 
 import nu.xom.XPathContext;
 

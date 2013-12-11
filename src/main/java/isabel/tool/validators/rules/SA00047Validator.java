@@ -1,10 +1,10 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.helper.NodeHelper;
+import isabel.model.NodeHelper;
 import isabel.model.wsdl.OperationElement;
-import isabel.tool.impl.NavigationException;
+import isabel.model.NavigationException;
 import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
+import isabel.model.ProcessContainer;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static isabel.tool.impl.Standards.CONTEXT;
+import static isabel.model.Standards.CONTEXT;
 
 public class SA00047Validator extends Validator {
 

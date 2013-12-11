@@ -1,6 +1,5 @@
 package isabel.model;
 
-import isabel.tool.helper.NodeHelper;
 import nu.xom.Node;
 
 import java.util.ArrayList;

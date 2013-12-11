@@ -1,6 +1,6 @@
 package isabel.model.wsdl;
 
-import isabel.tool.helper.NodeHelper;
+import isabel.model.NodeHelper;
 import nu.xom.Node;
 
 public class PropertyElement extends NodeHelper {

@@ -1,15 +1,17 @@
 package isabel.tool.imports;
 
+import isabel.model.ProcessContainer;
+import isabel.model.XmlFile;
 import isabel.tool.ValidationException;
-import isabel.tool.helper.NodeHelper;
-import isabel.tool.impl.Standards;
+import isabel.model.NodeHelper;
+import isabel.model.Standards;
 import nu.xom.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import static isabel.tool.impl.Standards.CONTEXT;
+import static isabel.model.Standards.CONTEXT;
 
 public class ProcessContainerLoader {
 

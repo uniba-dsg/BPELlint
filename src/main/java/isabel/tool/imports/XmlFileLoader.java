@@ -1,13 +1,13 @@
 package isabel.tool.imports;
 
-import isabel.tool.helper.NodeHelper;
+import isabel.model.XmlFile;
+import isabel.model.NodeHelper;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.ParsingException;
 import org.pmw.tinylog.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;

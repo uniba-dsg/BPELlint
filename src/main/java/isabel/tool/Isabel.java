@@ -1,9 +1,9 @@
 package isabel.tool;
 
 import isabel.tool.impl.SimpleValidationResult;
-import isabel.tool.imports.ProcessContainer;
+import isabel.model.ProcessContainer;
 import isabel.tool.imports.ProcessContainerLoader;
-import isabel.tool.imports.XmlFile;
+import isabel.model.XmlFile;
 import isabel.tool.validators.rules.ValidatorsHandler;
 import isabel.tool.validators.xsd.SchemaValidator;
 import isabel.tool.validators.xsd.XMLValidator;

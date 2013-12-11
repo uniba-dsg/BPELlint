@@ -1,9 +1,7 @@
-package isabel.tool.imports;
+package isabel.model;
 
-import isabel.tool.impl.Standards;
 import nu.xom.Document;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -49,7 +47,7 @@ public class XmlFile {
 		return document.getRootElement().getAttributeValue("targetNamespace");
 	}
 
-	boolean isWsdl() {
+	public boolean isWsdl() {
 		return getDocument().getRootElement().getNamespaceURI()
 				.equals(Standards.WSDL_NAMESPACE);
 	}
@@ -77,7 +75,7 @@ public class XmlFile {
 				.equals(Standards.XSD_NAMESPACE);
 	}
 
-	private boolean isBpel() {
+    public boolean isBpel() {
 		return getDocument().getRootElement().getNamespaceURI()
 				.equals(Standards.BPEL_NAMESPACE);
 	}

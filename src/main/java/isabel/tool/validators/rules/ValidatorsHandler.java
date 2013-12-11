@@ -1,7 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
+import isabel.model.ProcessContainer;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,12 +1,12 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.helper.NodeHelper;
+import isabel.model.NodeHelper;
 import isabel.tool.impl.ValidationCollector;
-import isabel.tool.imports.ProcessContainer;
+import isabel.model.ProcessContainer;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import static isabel.tool.impl.Standards.CONTEXT;
+import static isabel.model.Standards.CONTEXT;
 
 public class SA00063Validator extends Validator {
 
