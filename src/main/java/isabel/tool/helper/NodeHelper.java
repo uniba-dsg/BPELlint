@@ -1,12 +1,18 @@
 package isabel.tool.helper;
 
 import isabel.model.ElementIdentifier;
+import isabel.model.bpel.VariableElement;
 import isabel.tool.ValidationException;
+import isabel.tool.impl.NavigationException;
 import isabel.tool.impl.Standards;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
+
+import java.util.Objects;
+
+import static isabel.tool.impl.Standards.CONTEXT;
 
 public class NodeHelper {
 
@@ -149,4 +155,41 @@ public class NodeHelper {
 	public String getIdentifier() {
 		return new ElementIdentifier(asElement()).toIdentifier();
 	}
+
+    public VariableElement getVariableByName(String variableName) throws NavigationException {
+        Objects.requireNonNull(variableName, "VariableName must not be null!");
+
+        isabel.tool.helper.NodeHelper element = new isabel.tool.helper.NodeHelper(node);
+        String elementName = element.getLocalName();
+
+        if ("scope".equals(elementName)
+                || "process".equals(elementName)) {
+            Nodes variable = node.query(
+                    "./bpel:variables/bpel:variable[@name='" + variableName
+                            + "']", CONTEXT);
+            if (variable != null && !variable.isEmpty()) {
+                return new VariableElement(variable.get(0));
+            }
+            if ("process".equals(elementName)) {
+                throw new NavigationException("Variable does not exist.");
+            }
+        }
+
+        if ("onEvent".equals(elementName)) {
+            if (variableName.equals(element.getAttribute("variable"))) {
+                return new VariableElement(node);
+            }
+        }
+        if ("catch".equals(elementName)) {
+            if (variableName.equals(element.getAttribute("faultVariable"))) {
+                return new VariableElement(node);
+            }
+        }
+
+        return getParent().getVariableByName(variableName);
+    }
+
+    public NodeHelper getParent() {
+        return new NodeHelper(node.getParent());
+    }
 }
