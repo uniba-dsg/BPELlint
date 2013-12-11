@@ -22,7 +22,7 @@ public class SA00003Validator extends Validator {
 	@Override
 	public void validate() {
 		List<Node> processAndScopeNodes = new ArrayList<>();
-		processAndScopeNodes.add(getBpelProcessNode());
+		processAndScopeNodes.add(fileHandler.getProcess().asElement());
 		processAndScopeNodes.addAll(getScopes());
 
 		for (Node processOrScope : processAndScopeNodes) {
@@ -36,11 +36,6 @@ public class SA00003Validator extends Validator {
 	private List<Node> getScopes() {
 		return NodesUtil.toList(fileHandler.getBpel().getDocument()
 				.query("//bpel:scope", CONTEXT));
-	}
-
-	private Node getBpelProcessNode() {
-		return fileHandler.getBpel().getDocument().query("/bpel:*", CONTEXT)
-				.get(0);
 	}
 
 	private boolean hasExitOnStandardFault(String bool, Node enclosingScopes) {

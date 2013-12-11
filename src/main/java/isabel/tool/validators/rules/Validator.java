@@ -32,6 +32,10 @@ public abstract class Validator {
 				getLineNumber(node), getColumnNumber(node)));
 	}
 
+    protected void addViolation(NodeHelper node) {
+        addViolation(node.asElement(), DEFAULT_TYPE);
+    }
+
 	protected void addViolation(Node node) {
 		addViolation(node, DEFAULT_TYPE);
 	}

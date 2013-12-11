@@ -1,12 +1,8 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
+import isabel.model.bpel.CompensateScopeElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
-import nu.xom.Node;
-import nu.xom.Nodes;
-
-import static isabel.model.Standards.CONTEXT;
 
 public class SA00007Validator extends Validator {
 
@@ -17,25 +13,17 @@ public class SA00007Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (Node compensateScope : getAllCompensateScopes()) {
-			NodeHelper compensateScopeHelper = new NodeHelper(compensateScope);
+		for (CompensateScopeElement compensateScope : fileHandler.getAllCompensateScopes()) {
 
-			if (!compensateScopeHelper.hasAncestor("bpel:faultHandlers")
-					&& !compensateScopeHelper
-					.hasAncestor("bpel:compensationHandler")
-					&& !compensateScopeHelper
-					.hasAncestor("bpel:terminationHandlers")) {
+			if (!compensateScope.isWithinFaultHandler()
+					&& !compensateScope.isWithinCompensationHandler()
+					&& !compensateScope.isWithinTerminationHandler()) {
 				addViolation(compensateScope);
 			}
 		}
 	}
 
-	private Nodes getAllCompensateScopes() {
-		return fileHandler.getBpel().getDocument()
-				.query("//bpel:compensateScope", CONTEXT);
-	}
-
-	@Override
+    @Override
 	public int getSaNumber() {
 		return 7;
 	}

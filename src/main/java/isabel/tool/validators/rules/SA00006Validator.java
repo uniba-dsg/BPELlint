@@ -1,12 +1,8 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
+import isabel.model.bpel.RethrowElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
-import nu.xom.Node;
-import nu.xom.Nodes;
-
-import static isabel.model.Standards.CONTEXT;
 
 public class SA00006Validator extends Validator {
 
@@ -17,21 +13,16 @@ public class SA00006Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (Node rethrow : getAllRethrows()) {
-			NodeHelper rethrowHelper = new NodeHelper(rethrow);
+		for (RethrowElement rethrow : fileHandler.getAllRethrows()) {
 
-			if (!rethrowHelper.hasAncestor("bpel:faultHandlers")) {
+			if (!rethrow.isWithinFaultHandler()) {
 				addViolation(rethrow);
 			}
+
 		}
 	}
 
-	private Nodes getAllRethrows() {
-		return fileHandler.getBpel().getDocument()
-				.query("//bpel:rethrow", CONTEXT);
-	}
-
-	@Override
+    @Override
 	public int getSaNumber() {
 		return 6;
 	}
