@@ -1,4 +1,4 @@
-package isabel.tool.imports;
+package isabel.imports;
 
 import isabel.model.XmlFile;
 import isabel.model.NodeHelper;

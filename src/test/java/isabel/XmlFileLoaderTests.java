@@ -1,7 +1,7 @@
 package isabel;
 
 import isabel.tool.ValidationException;
-import isabel.tool.imports.ProcessContainerLoader;
+import isabel.imports.ProcessContainerLoader;
 import org.junit.Before;
 import org.junit.Test;
 

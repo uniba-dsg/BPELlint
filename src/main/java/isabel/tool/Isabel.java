@@ -2,7 +2,8 @@ package isabel.tool;
 
 import isabel.tool.impl.SimpleValidationResult;
 import isabel.model.ProcessContainer;
-import isabel.tool.imports.ProcessContainerLoader;
+import isabel.imports.ImportException;
+import isabel.imports.ProcessContainerLoader;
 import isabel.model.XmlFile;
 import isabel.tool.validators.rules.ValidatorsHandler;
 import isabel.tool.validators.xsd.SchemaValidator;
@@ -43,13 +44,21 @@ public class Isabel {
         schemaValidator.validateBpel(bpelPath);
 
         // load files
-        ProcessContainer processContainer = new ProcessContainerLoader().load(bpelPath);
+        ProcessContainer processContainer = loadProcessContainer(bpelPath);
 
         // validate XML Schema
         validateWsdlAndXsdFiles(processContainer);
 
         // validate SA rules
         return validateAgainstSARules(processContainer);
+    }
+
+    private ProcessContainer loadProcessContainer(Path bpelPath) throws ValidationException {
+        try {
+            return new ProcessContainerLoader().load(bpelPath);
+        } catch (ImportException e) {
+            throw new ValidationException("could not import process", e);
+        }
     }
 
     private void validateWsdlAndXsdFiles(ProcessContainer processContainer) throws ValidationException {
