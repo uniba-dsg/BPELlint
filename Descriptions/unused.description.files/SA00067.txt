@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-Two different links MUST NOT share the same source and target activities; that is, at most one link may be used to connect two activities.

@@ -280,6 +280,8 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00066/LinkNoSource.bpel", "66"},
 				{"Testcases/rules/SA00066/LinkNoTarget.bpel", "66"},
 
+				{"Testcases/rules/SA00067/DoubleLink.bpel", "67"},
+
 				{"Testcases/rules/SA00076/ForEach-DuplicateCounterVariable.bpel", "76"},
 
 				{"Testcases/rules/SA00080/EmptyFaultHandlersInProcess.bpel", "80"},
