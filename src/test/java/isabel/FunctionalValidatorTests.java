@@ -51,7 +51,7 @@ public class FunctionalValidatorTests {
 	public static Collection<Object[]> data() throws IOException {
 		List<Object[]> bpelFiles = new LinkedList<>();
 		bpelFiles.addAll(saViolationTests());
-		bpelFiles.addAll(new BetsyTests().list());
+		bpelFiles.addAll(new HappyPathTests(Paths.get("Testcases/betsy")).list());
 
 		return bpelFiles;
 	}
