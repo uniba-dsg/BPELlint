@@ -1,6 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.NodeHelper;
+import isabel.model.bpel.CompensateElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import nu.xom.Node;
@@ -17,22 +18,14 @@ public class SA00008Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (Node compensateScope : getAllCompensates()) {
-			NodeHelper compensateScopeHelper = new NodeHelper(compensateScope);
+		for (CompensateElement compensate : fileHandler.getAllCompensates()) {
 
-			if (!compensateScopeHelper.hasAncestor("bpel:faultHandlers")
-					&& !compensateScopeHelper
-					.hasAncestor("bpel:compensationHandler")
-					&& !compensateScopeHelper
-					.hasAncestor("bpel:terminationHandlers")) {
-				addViolation(compensateScope);
-			}
+            if (!compensate.isWithinFaultHandler()
+                    && !compensate.isWithinCompensationHandler()
+                    && !compensate.isWithinTerminationHandler()) {
+                addViolation(compensate);
+            }
 		}
-	}
-
-	private Nodes getAllCompensates() {
-		return fileHandler.getBpel().getDocument()
-				.query("//bpel:compensate", CONTEXT);
 	}
 
 	@Override

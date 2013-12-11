@@ -1,5 +1,6 @@
 package isabel.model.bpel;
 
+import isabel.model.Referable;
 import isabel.model.Standards;
 import nu.xom.Element;
 import nu.xom.Node;
@@ -7,7 +8,7 @@ import nu.xom.Node;
 import java.nio.file.Path;
 import java.util.Objects;
 
-public class ImportElement {
+public class ImportElement implements Referable {
 
     private final Element element;
 
@@ -50,5 +51,10 @@ public class ImportElement {
 
     public boolean isWsdlImport() {
         return Standards.WSDL_NAMESPACE.equals(getImportType());
+    }
+
+    @Override
+    public Node toXOM() {
+        return element;
     }
 }

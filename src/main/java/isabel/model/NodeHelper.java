@@ -10,7 +10,7 @@ import java.util.Objects;
 
 import static isabel.model.Standards.CONTEXT;
 
-public class NodeHelper {
+public class NodeHelper implements Referable{
 
     protected Node node;
 
@@ -187,5 +187,10 @@ public class NodeHelper {
 
     public NodeHelper getParent() {
         return new NodeHelper(node.getParent());
+    }
+
+    @Override
+    public Node toXOM() {
+        return asElement();
     }
 }

@@ -1,8 +1,6 @@
 package isabel.model;
 
-import isabel.model.bpel.CompensateScopeElement;
-import isabel.model.bpel.ProcessElement;
-import isabel.model.bpel.RethrowElement;
+import isabel.model.bpel.*;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -188,6 +186,17 @@ public class ProcessContainer {
         return result;
     }
 
+    public List<CompensateElement> getAllCompensates() {
+        List<CompensateElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:compensate", CONTEXT)) {
+            result.add(new CompensateElement(node));
+        }
+
+        return result;
+    }
+
+
     void validate() {
         // assertion
         if (getWsdls().isEmpty()) {
@@ -199,4 +208,13 @@ public class ProcessContainer {
         return new ProcessContainerPrinter(this).toString();
     }
 
+    public List<ImportElement> getAllImports() {
+        List<ImportElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:import", CONTEXT)) {
+            result.add(new ImportElement(node));
+        }
+
+        return result;
+    }
 }
