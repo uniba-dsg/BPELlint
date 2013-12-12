@@ -3,6 +3,7 @@ package isabel.tool.validators.rules;
 import static isabel.model.Standards.CONTEXT;
 import isabel.model.NodeHelper;
 import isabel.model.NavigationException;
+import isabel.model.bpel.PartnerLinkElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import nu.xom.Document;
@@ -23,7 +24,7 @@ public class SA00037Validator extends Validator {
 	public void validate() {
 		Nodes partnerLinkTos = getPartnerLinkTos();
 		for (Node to : partnerLinkTos) {
-			if (!correspondingPartnerLinkHasPartnerRole(to)) {
+			if (!correspondingPartnerLinkHasPartnerRole(new NodeHelper(to))) {
 				addViolation(to, errorType);
 			}
 		}
@@ -31,26 +32,21 @@ public class SA00037Validator extends Validator {
 
 	private Nodes getPartnerLinkTos() {
 		Document bpelDocument = fileHandler.getBpel().getDocument();
-		Nodes endpointReferenceFroms = bpelDocument.query("//bpel:to[@partnerLink]", CONTEXT);
-		return endpointReferenceFroms;
+        return bpelDocument.query("//bpel:to[@partnerLink]", CONTEXT);
 	}
 
-	private boolean correspondingPartnerLinkHasPartnerRole(Node to) {
+	private boolean correspondingPartnerLinkHasPartnerRole(NodeHelper to) {
 		try {
-			String partnerLinkName = new NodeHelper(to).getAttribute("partnerLink");
-			Node partnerLink = navigator.getPartnerLink(to.getDocument(), partnerLinkName);
-			return hasPartnerRole(partnerLink);
-		} catch (NavigationException e) {
+			String partnerLinkName = to.getAttribute("partnerLink");
+			PartnerLinkElement partnerLink = to.getPartnerLink(partnerLinkName);
+            return partnerLink.hasPartnerRole();
+        } catch (NavigationException e) {
 			errorType = PARTNER_LINK_IS_MISSING;
 			return false;
 		}
 	}
 
-	private boolean hasPartnerRole(Node partnerLink) {
-		return new NodeHelper(partnerLink).hasAttribute("partnerRole");
-	}
-
-	@Override
+    @Override
 	public int getSaNumber() {
 		return 37;
 	}

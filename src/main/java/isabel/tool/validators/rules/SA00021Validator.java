@@ -1,12 +1,8 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.ElementIdentifier;
+import isabel.model.*;
 import isabel.model.bpel.CorrelationSetElement;
-import isabel.model.NodeHelper;
-import isabel.model.PrefixHelper;
-import isabel.model.NavigationException;
 import isabel.tool.impl.ValidationCollector;
-import isabel.model.ProcessContainer;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
@@ -115,7 +111,7 @@ public class SA00021Validator extends Validator {
 
     private Document getCorrespondingWsdl(String property, Node node)
             throws NavigationException {
-        String targetNamespace = navigator.getPrefixNamespaceURI(
+        String targetNamespace = PrefixHelper.getPrefixNamespaceURI(
                 node.getDocument(), PrefixHelper.getPrefix(property));
         return fileHandler.getWsdlByTargetNamespace(targetNamespace);
     }

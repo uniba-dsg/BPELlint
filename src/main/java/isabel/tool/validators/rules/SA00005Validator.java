@@ -1,80 +1,38 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
-import isabel.model.NodesUtil;
-import isabel.model.PrefixHelper;
 import isabel.model.NavigationException;
-import isabel.tool.impl.ValidationCollector;
+import isabel.model.PrefixHelper;
 import isabel.model.ProcessContainer;
-import nu.xom.Document;
-import nu.xom.Node;
-
-import java.util.LinkedList;
-import java.util.List;
-
-import static isabel.model.Standards.CONTEXT;
+import isabel.model.bpel.mex.MessageActivity;
+import isabel.model.wsdl.PortTypeElement;
+import isabel.tool.impl.ValidationCollector;
 
 public class SA00005Validator extends Validator {
 
-	public SA00005Validator(ProcessContainer files,
-	                        ValidationCollector violationCollector) {
-		super(files, violationCollector);
-	}
+    public SA00005Validator(ProcessContainer files,
+                            ValidationCollector violationCollector) {
+        super(files, violationCollector);
+    }
 
-	@Override
-	public void validate() {
-		List<Node> messageActivities = getMessageActivities();
+    @Override
+    public void validate() {
+        for (MessageActivity messageActivity : fileHandler.getMessageActivities()) {
+            try {
+                PortTypeElement portType = messageActivity.getPortType();
 
-		for (Node messageActivity : messageActivities) {
-			try {
-				String partnerLinkAttribute = new NodeHelper(messageActivity)
-						.getAttribute("partnerLink");
+                String localPortTypeDefinition = PrefixHelper.removePrefix(messageActivity.getPortTypeAttribute());
 
-				Node partnerLink = navigator.getPartnerLink(fileHandler
-						.getBpel().getDocument(), partnerLinkAttribute);
+                if (!portType.getName().equals(localPortTypeDefinition)) {
+                    addViolation(messageActivity);
+                }
+            } catch (NavigationException e) {
+                // This node could not be validated
+            }
+        }
+    }
 
-				Node correspondingPortType = navigator
-						.partnerLinkToPortType(partnerLink);
-
-				String localPortTypeDefinition = getLocalPortTypeDefinition(messageActivity);
-				String correspondingPortTypeName = new NodeHelper(
-						correspondingPortType).getAttribute("name");
-
-				if (!correspondingPortTypeName.equals(localPortTypeDefinition)) {
-					addViolation(messageActivity);
-				}
-			} catch (NavigationException e) {
-				// This node could not be validated
-			}
-		}
-	}
-
-	private List<Node> getMessageActivities() {
-		Document bpelDom = fileHandler.getBpel().getDocument();
-
-		List<Node> messageActivities = new LinkedList<>();
-		messageActivities.addAll(NodesUtil.toList(bpelDom.query(
-				"//bpel:receive", CONTEXT)));
-		messageActivities.addAll(NodesUtil.toList(bpelDom.query("//bpel:reply",
-				CONTEXT)));
-		messageActivities.addAll(NodesUtil.toList(bpelDom.query(
-				"//bpel:invoke", CONTEXT)));
-		messageActivities.addAll(NodesUtil.toList(bpelDom.query(
-				"//bpel:onEvent", CONTEXT)));
-		messageActivities.addAll(NodesUtil.toList(bpelDom.query(
-				"//bpel:onMessage", CONTEXT)));
-
-		return messageActivities;
-	}
-
-	private String getLocalPortTypeDefinition(Node messageActivity) {
-		String localPortTypeDefinition = new NodeHelper(messageActivity)
-				.getAttribute("portType");
-		return PrefixHelper.removePrefix(localPortTypeDefinition);
-	}
-
-	@Override
-	public int getSaNumber() {
-		return 5;
-	}
+    @Override
+    public int getSaNumber() {
+        return 5;
+    }
 }

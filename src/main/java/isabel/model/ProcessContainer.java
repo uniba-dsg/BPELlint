@@ -1,6 +1,7 @@
 package isabel.model;
 
 import isabel.model.bpel.*;
+import isabel.model.bpel.mex.*;
 import isabel.tool.validators.rules.VariablesElement;
 import nu.xom.Document;
 import nu.xom.Node;
@@ -203,6 +204,16 @@ public class ProcessContainer {
         return result;
     }
 
+    public List<PartnerLinksElement> getAllPartnerLinksContainer() {
+        List<PartnerLinksElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:partnerLinks", CONTEXT)) {
+            result.add(new PartnerLinksElement(node));
+        }
+
+        return result;
+    }
+
     public List<VariableElement> getAllVariables() {
         List<VariableElement> result = new LinkedList<>();
 
@@ -228,6 +239,86 @@ public class ProcessContainer {
 
         for (Node node : getBpel().getDocument().query("//bpel:correlationSets", CONTEXT)) {
             result.add(new CorrelationSetsElement(node));
+        }
+
+        return result;
+    }
+
+    public List<InvokeElement> getAllInvokes() {
+        List<InvokeElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:invoke", CONTEXT)) {
+            result.add(new InvokeElement(node, this));
+        }
+
+        return result;
+    }
+
+    public List<ReplyElement> getAllReplies() {
+        List<ReplyElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:reply", CONTEXT)) {
+            result.add(new ReplyElement(node, this));
+        }
+
+        return result;
+    }
+
+    public List<ReceiveElement> getAllReceives() {
+        List<ReceiveElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:receive", CONTEXT)) {
+            result.add(new ReceiveElement(node, this));
+        }
+
+        return result;
+    }
+
+    public List<OnMessageElement> getAllOnMessages() {
+        List<OnMessageElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:onMessage", CONTEXT)) {
+            result.add(new OnMessageElement(node, this));
+        }
+
+        return result;
+    }
+
+    public List<MessageActivity> getMessageActivities() {
+        List<MessageActivity> messageActivities = new ArrayList<>();
+        messageActivities.addAll(getAllInvokes());
+        messageActivities.addAll(getAllReplies());
+        messageActivities.addAll(getAllReceives());
+        messageActivities.addAll(getAllOnMessages());
+        messageActivities.addAll(getAllOnEvents());
+        return messageActivities;
+    }
+
+    public List<OnEventElement> getAllOnEvents() {
+        List<OnEventElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:onEvent", CONTEXT)) {
+            result.add(new OnEventElement(node, this));
+        }
+
+        return result;
+    }
+
+    public List<ToElement> getAllTos() {
+        List<ToElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:to", CONTEXT)) {
+            result.add(new ToElement(node));
+        }
+
+        return result;
+    }
+
+    public List<FromElement> getAllFroms() {
+        List<FromElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:from", CONTEXT)) {
+            result.add(new FromElement(node));
         }
 
         return result;

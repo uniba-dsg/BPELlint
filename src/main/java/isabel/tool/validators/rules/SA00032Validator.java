@@ -1,174 +1,140 @@
 package isabel.tool.validators.rules;
 
-import static isabel.model.Standards.CONTEXT;
-
 import isabel.model.NavigationException;
-import isabel.tool.ValidationException;
 import isabel.model.NodeHelper;
-import isabel.model.NodesUtil;
-import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
+import isabel.tool.impl.ValidationCollector;
 
+import java.util.LinkedList;
 import java.util.List;
-
-import nu.xom.Node;
-import nu.xom.Nodes;
 
 public class SA00032Validator extends Validator {
 
-	public SA00032Validator(ProcessContainer files,
-			ValidationCollector validationCollector) {
-		super(files, validationCollector);
-	}
+    public SA00032Validator(ProcessContainer files, ValidationCollector validationCollector) {
+        super(files, validationCollector);
+    }
 
-	@Override
-	public void validate() {
-		List<Node> fromTos = getFroms();
-		fromTos.addAll(getTos());
+    @Override
+    public void validate() {
+        List<NodeHelper> fromAndToElements = new LinkedList<>();
+        fromAndToElements.addAll(fileHandler.getAllTos());
+        fromAndToElements.addAll(fileHandler.getAllFroms());
 
-		equalsConformantVariant(fromTos);
-	}
+        equalsConformantVariant(fromAndToElements);
+    }
 
-	private List<Node> getTos() {
-		Nodes toNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:to", CONTEXT);
-		return NodesUtil.toList(toNodes);
-	}
+    private void equalsConformantVariant(List<NodeHelper> fromTos) {
+        for (NodeHelper fromTo : fromTos) {
+            if (!(isEmpty(fromTo) || isMessageVariableAssignment(fromTo)
+                    || isPartnerLinkAssignment(fromTo)
+                    || isVariableAssignment(fromTo)
+                    || isQueryResultAssignment(fromTo) || isLiteralAssignment(fromTo))) {
+                addViolation(fromTo);
+            }
+        }
+    }
 
-	private List<Node> getFroms() {
-		Nodes fromNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:copy/bpel:from", CONTEXT);
-		return NodesUtil.toList(fromNodes);
-	}
+    private boolean isEmpty(NodeHelper fromTo) {
+        return fromTo.hasNoChildren() && fromTo.hasNoAttributes() && fromTo.hasNoContent();
+    }
 
-	private void equalsConformantVariant(List<Node> fromTos) {
-		for (Node fromTo : fromTos) {
-			if (!(isEmpty(fromTo) || isMessageVariableAssignment(fromTo)
-					|| isPartnerLinkAssignment(fromTo)
-					|| isVariableAssignment(fromTo)
-					|| isQueryResultAssignment(fromTo) || isLiteralAssignment(fromTo))) {
-				addViolation(fromTo);
-			}
-		}
-	}
+    private boolean isMessageVariableAssignment(NodeHelper fromTo) {
+        if (!fromTo.hasAttribute("variable")) {
+            return false;
+        }
+        if (fromTo.getAmountOfAttributes() > 2) {
+            return false;
+        }
+        if (fromTo.getAmountOfChildern() > 1) {
+            return false;
+        }
+        if (fromTo.getAmountOfChildern() == 1) {
+            NodeHelper query;
+            try {
+                query = fromTo.getFirstChildElement();
+                if (!"query".equals(query.getLocalName())) {
+                    return false;
+                }
+                if (query.getAmountOfAttributes() > 1) {
+                    return false;
+                }
+                if (!(query.hasAttribute("queryLanguage") || query
+                        .getAmountOfAttributes() == 0)) {
+                    return false;
+                }
+            } catch (NavigationException e) {
+                return false;
+            }
+        }
 
-	private boolean isEmpty(Node fromToNode) {
-		NodeHelper fromTo = new NodeHelper(fromToNode);
+        return fromTo.getAmountOfAttributes() == 1
+                || fromTo.hasAttribute("part");
+    }
 
-		boolean noChildren = fromTo.getAmountOfChildern() == 0;
-		boolean noAttributes = fromTo.hasNoAttributes();
-		boolean noContent = fromToNode.getValue().trim().isEmpty();
+    private boolean isPartnerLinkAssignment(NodeHelper fromTo) {
+        if ("from".equals(fromTo.getLocalName())) {
+            if (fromTo.getAmountOfAttributes() != 2) {
+                return false;
+            }
+            if (!"partnerRole".equals(fromTo.getAttribute("endpointReference"))
+                    && !"myRole".equals(fromTo
+                    .getAttribute("endpointReference"))) {
+                return false;
+            }
+        } else {
+            if (fromTo.getAmountOfAttributes() != 1) {
+                return false;
+            }
+        }
+        if (fromTo.getAmountOfChildern() > 0) {
+            return false;
+        }
 
-		return noChildren && noAttributes && noContent;
-	}
+        return fromTo.hasAttribute("partnerLink");
+    }
 
-	private boolean isMessageVariableAssignment(Node fromToNode) {
-		NodeHelper fromTo = new NodeHelper(fromToNode);
+    private boolean isVariableAssignment(NodeHelper fromTo) {
+        if (!fromTo.hasAttribute("variable")) {
+            return false;
+        }
+        if (fromTo.getAmountOfChildern() > 0) {
+            return false;
+        }
 
-		if (!fromTo.hasAttribute("variable")) {
-			return false;
-		}
-		if (fromTo.getAmountOfAttributes() > 2) {
-			return false;
-		}
-		if (fromTo.getAmountOfChildern() > 1) {
-			return false;
-		}
-		if (fromTo.getAmountOfChildern() == 1) {
-			NodeHelper query;
-			try {
-				query = fromTo.getFirstChildElement();
-				if (!"query".equals(query.getLocalName())) {
-					return false;
-				}
-				if (query.getAmountOfAttributes() > 1) {
-					return false;
-				}
-				if (!(query.hasAttribute("queryLanguage") || query
-						.getAmountOfAttributes() == 0)) {
-					return false;
-				}
-			} catch (NavigationException e) {
-				return false;
-			}
-		}
+        return fromTo.hasAttribute("property")
+                && fromTo.getAmountOfAttributes() == 2;
+    }
 
-		return fromTo.getAmountOfAttributes() == 1
-				|| fromTo.hasAttribute("part");
-	}
+    private boolean isQueryResultAssignment(NodeHelper fromTo) {
+        if (fromTo.getAmountOfAttributes() > 1) {
+            return false;
+        }
+        if (fromTo.getAmountOfChildern() > 0) {
+            return false;
+        }
+        return fromTo.getAmountOfAttributes() == 0
+                || fromTo.hasAttribute("expressionLanguage");
+    }
 
-	private boolean isPartnerLinkAssignment(Node fromToNode) {
-		NodeHelper fromTo = new NodeHelper(fromToNode);
+    private boolean isLiteralAssignment(NodeHelper fromTo) {
+        if (!"from".equals(fromTo.getLocalName())) {
+            return false;
+        }
+        if (!(fromTo.getAmountOfAttributes() == 0 && fromTo.asElement().getChildCount() > 0)) {
+            return false;
+        }
 
-		if ("from".equals(fromTo.getLocalName())) {
-			if (fromTo.getAmountOfAttributes() != 2) {
-				return false;
-			}
-			if (!"partnerRole".equals(fromTo.getAttribute("endpointReference"))
-					&& !"myRole".equals(fromTo
-							.getAttribute("endpointReference"))) {
-				return false;
-			}
-		} else {
-			if (fromTo.getAmountOfAttributes() != 1) {
-				return false;
-			}
-		}
-		if (fromTo.getAmountOfChildern() > 0) {
-			return false;
-		}
+        try {
+            NodeHelper literal = fromTo.getFirstChildElement();
+            return "literal".equals(literal.getLocalName());
+        } catch (NavigationException e) {
+            return false;
+        }
+    }
 
-		return fromTo.hasAttribute("partnerLink");
-	}
-
-	private boolean isVariableAssignment(Node fromToNode) {
-		NodeHelper fromTo = new NodeHelper(fromToNode);
-
-		if (!fromTo.hasAttribute("variable")) {
-			return false;
-		}
-		if (fromTo.getAmountOfChildern() > 0) {
-			return false;
-		}
-
-		return fromTo.hasAttribute("property")
-				&& fromTo.getAmountOfAttributes() == 2;
-	}
-
-	private boolean isQueryResultAssignment(Node fromToNode) {
-		NodeHelper fromTo = new NodeHelper(fromToNode);
-
-		if (fromTo.getAmountOfAttributes() > 1) {
-			return false;
-		}
-		if (fromTo.getAmountOfChildern() > 0) {
-			return false;
-		}
-		return fromTo.getAmountOfAttributes() == 0
-				|| fromTo.hasAttribute("expressionLanguage");
-	}
-
-	private boolean isLiteralAssignment(Node fromToNode) {
-		NodeHelper fromTo = new NodeHelper(fromToNode);
-
-		if (!"from".equals(fromTo.getLocalName())) {
-			return false;
-		}
-		if (!(fromTo.getAmountOfAttributes() == 0 && fromToNode.getChildCount() > 0)) {
-			return false;
-		}
-
-		try {
-			NodeHelper literal = fromTo.getFirstChildElement();
-			return "literal".equals(literal.getLocalName());
-		} catch (NavigationException e) {
-			return false;
-		}
-	}
-
-	@Override
-	public int getSaNumber() {
-		return 32;
-	}
+    @Override
+    public int getSaNumber() {
+        return 32;
+    }
 
 }
