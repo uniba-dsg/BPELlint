@@ -123,11 +123,11 @@ public class ProcessContainer {
         throw new NavigationException("XMLSchema should have been imported, but haven't.");
     }
 
-    public Document getWsdlByTargetNamespace(String searchedTargetNamespace)
+    public XmlFile getWsdlByTargetNamespace(String searchedTargetNamespace)
             throws NavigationException {
         for (XmlFile wsdlEntry : getWsdls())
             if (wsdlEntry.getTargetNamespace().equals(searchedTargetNamespace))
-                return wsdlEntry.getDocument();
+                return wsdlEntry;
 
         throw new NavigationException("Document does not exist");
     }
@@ -207,6 +207,26 @@ public class ProcessContainer {
 
         for (Node node : getBpel().getDocument().query("//bpel:compensateScope", CONTEXT)) {
             result.add(new CompensateScopeElement(node));
+        }
+
+        return result;
+    }
+
+    public List<CorrelationsElement> getAllCorrelations() {
+        List<CorrelationsElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:correlations", CONTEXT)) {
+            result.add(new CorrelationsElement(node));
+        }
+
+        return result;
+    }
+
+    public List<CorrelationsElement> getAllCorrelationsWithinInvokes() {
+        List<CorrelationsElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:invoke/bpel:correlations", CONTEXT)) {
+            result.add(new CorrelationsElement(node));
         }
 
         return result;

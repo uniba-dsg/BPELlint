@@ -2,6 +2,8 @@ package isabel.tool.validators.rules;
 
 import isabel.model.*;
 import isabel.model.bpel.CorrelationSetElement;
+import isabel.model.bpel.VariableElement;
+import isabel.model.wsdl.PropertyAliasElement;
 import isabel.tool.impl.ValidationCollector;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -51,23 +53,18 @@ public class SA00021Validator extends Validator {
         String type = "";
 
         if (element.getLocalName().equals("onEvent")) {
-            type = getOnEventVariableType(element);
+            type = getOnEventVariableType(new NodeHelper(element));
         } else if (element.getLocalName().equals("variable")) {
-            type = getEnclosingScopeVariableType(element);
+            type = getEnclosingScopeVariableType(new VariableElement(element));
         }
 
         if (!type.isEmpty()) {
-            Document wsdl = getCorrespondingWsdl(property, element);
-            Nodes wsdlPropertyAliasSet = wsdl.query("//vprop:propertyAlias",
-                    CONTEXT);
-            for (Node propertyAlias : wsdlPropertyAliasSet) {
-                String propertyName = PrefixHelper.removePrefix(new NodeHelper(
-                        propertyAlias).getAttribute("propertyName"));
+            XmlFile wsdl = getCorrespondingWsdl(property, element);
+            for (PropertyAliasElement propertyAlias : wsdl.getPropertyAliases()) {
+                String propertyName = PrefixHelper.removePrefix(propertyAlias.getAttribute("propertyName"));
 
                 if (PrefixHelper.removePrefix(property).equals(propertyName)) {
-                    if (isOfThisMessageType(type, propertyAlias, partHolder)
-                            || isOfThisType(type, propertyAlias) || isOfThisElement(
-                            type, propertyAlias)) {
+                    if (isOfThisMessageType(type, propertyAlias, partHolder) || isOfThisType(type, propertyAlias) || isOfThisElement(type, propertyAlias)) {
                         return;
                     }
                 }
@@ -76,40 +73,33 @@ public class SA00021Validator extends Validator {
         }
     }
 
-    private boolean isOfThisElement(String type, Node propertyAlias) {
-        return new NodeHelper(propertyAlias).getAttribute("element").equals(
-                PrefixHelper.removePrefix(type));
+    private boolean isOfThisElement(String type, PropertyAliasElement propertyAlias) {
+        return propertyAlias.getAttribute("element").equals(PrefixHelper.removePrefix(type));
     }
 
-    private boolean isOfThisType(String type, Node propertyAlias) {
-        return new NodeHelper(propertyAlias).getAttribute("type").equals(
-                PrefixHelper.removePrefix(type));
+    private boolean isOfThisType(String type, PropertyAliasElement propertyAlias) {
+        return propertyAlias.getAttribute("type").equals(PrefixHelper.removePrefix(type));
     }
 
-    private boolean isOfThisMessageType(String type, Node propertyAlias,
+    private boolean isOfThisMessageType(String type, PropertyAliasElement propertyAlias,
                                         Node partHolder) {
-        NodeHelper nodeHelper = new NodeHelper(propertyAlias);
-        String messageType = PrefixHelper.removePrefix(nodeHelper
+        String messageType = PrefixHelper.removePrefix(propertyAlias
                 .getAttribute("messageType"));
         boolean isMessageType = messageType.equals(PrefixHelper
                 .removePrefix(type));
 
         if (isMessageType) {
-            return (new NodeHelper(partHolder).hasSameAttribute(nodeHelper,
-                    "part") || hasOneMessagePart(propertyAlias, messageType));
+            return (new NodeHelper(partHolder).hasSameAttribute(propertyAlias, "part") || hasOneMessagePart(propertyAlias, messageType));
         }
 
         return false;
     }
 
-    private boolean hasOneMessagePart(Node propertyAlias, String messageType) {
-        return propertyAlias
-                .getDocument()
-                .query("//wsdl:message[@name=\"" + messageType
-                        + "\"]/wsdl:part", CONTEXT).size() == 1;
+    private boolean hasOneMessagePart(PropertyAliasElement propertyAlias, String messageType) {
+        return propertyAlias.toXOM().getDocument().query("//wsdl:message[@name=\"" + messageType + "\"]/wsdl:part", CONTEXT).size() == 1;
     }
 
-    private Document getCorrespondingWsdl(String property, Node node)
+    private XmlFile getCorrespondingWsdl(String property, Node node)
             throws NavigationException {
         String targetNamespace = PrefixHelper.getPrefixNamespaceURI(
                 node.getDocument(), PrefixHelper.getPrefix(property));
@@ -131,29 +121,26 @@ public class SA00021Validator extends Validator {
         }
     }
 
-    private String getEnclosingScopeVariableType(Node variable)
+    private String getEnclosingScopeVariableType(VariableElement variable)
             throws NavigationException {
-        NodeHelper variableHelper = new NodeHelper(variable);
-        if (variableHelper.hasAttribute("messageType")) {
-            return variableHelper.getAttribute("messageType");
-        } else if (variableHelper.hasAttribute("type")) {
-            return variableHelper.getAttribute("type");
-        } else if (variableHelper.hasAttribute("element")) {
-            return variableHelper.getAttribute("element");
+        if (variable.hasAttribute("messageType")) {
+            return variable.getAttribute("messageType");
+        } else if (variable.hasAttribute("type")) {
+            return variable.getAttribute("type");
+        } else if (variable.hasAttribute("element")) {
+            return variable.getAttribute("element");
         } else {
-            throw new NavigationException(
-                    "Node variable does not contain any messageType, type or element attribute");
+            throw new NavigationException("Node variable does not contain any messageType, type or element attribute");
         }
     }
 
-    private String getOnEventVariableType(Node onEvent)
+    private String getOnEventVariableType(NodeHelper onEvent)
             throws NavigationException {
 
-        NodeHelper onEventHelper = new NodeHelper(onEvent);
-        if (onEventHelper.hasAttribute("messageType")) {
-            return onEventHelper.getAttribute("messageType");
-        } else if (onEventHelper.hasAttribute("element")) {
-            return onEventHelper.getAttribute("element");
+        if (onEvent.hasAttribute("messageType")) {
+            return onEvent.getAttribute("messageType");
+        } else if (onEvent.hasAttribute("element")) {
+            return onEvent.getAttribute("element");
         } else {
             throw new NavigationException(
                     "Node onEvent does not contain any messageType or element attribute");

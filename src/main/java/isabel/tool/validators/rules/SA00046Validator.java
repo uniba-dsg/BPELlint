@@ -2,14 +2,13 @@ package isabel.tool.validators.rules;
 
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
-import isabel.model.Standards;
+import isabel.model.bpel.CorrelationElement;
+import isabel.model.bpel.CorrelationsElement;
 import isabel.model.bpel.mex.InvokeElement;
 import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
-import nu.xom.Node;
-import nu.xom.Nodes;
 
-import static isabel.model.Standards.CONTEXT;
+import java.util.List;
 
 public class SA00046Validator extends Validator {
     public SA00046Validator(ProcessContainer files,
@@ -19,17 +18,14 @@ public class SA00046Validator extends Validator {
 
     @Override
     public void validate() {
-        Nodes invokeCorrelationsNodes = fileHandler.getBpel().getDocument()
-                .query("//bpel:invoke/bpel:correlations", CONTEXT);
-
-        for (Node node : invokeCorrelationsNodes) {
+        for (CorrelationsElement node : fileHandler.getAllCorrelationsWithinInvokes()) {
             try {
-                OperationElement operation = new InvokeElement(node.getParent(), fileHandler).getOperation();
+                OperationElement operation = new InvokeElement(node.toXOM().getParent(), fileHandler).getOperation();
 
                 if (operation.isRequestResponse()) {
-                    reportViolation(getCorrelationWithoutPattern(node), 1);
+                    reportViolation(node.getCorrelationWithoutPattern(), 1);
                 } else if (operation.isOneWay()) {
-                    reportViolation(getCorrelationWithPattern(node), 2);
+                    reportViolation(node.getCorrelationWithPattern(), 2);
                 }
             } catch (NavigationException e) {
                 // This node could not be validated
@@ -38,22 +34,10 @@ public class SA00046Validator extends Validator {
         }
     }
 
-    private void reportViolation(Nodes correlations, int type) {
-        for (Node node : correlations) {
-            addViolation(node, type);
+    private void reportViolation(List<CorrelationElement> correlations, int type) {
+        for (CorrelationElement correlation : correlations) {
+            addViolation(correlation, type);
         }
-    }
-
-    private Nodes getCorrelationWithPattern(Node correlationsElement) {
-        return correlationsElement.query(
-                "child::bpel:correlation[attribute::pattern]",
-                Standards.CONTEXT);
-    }
-
-    private Nodes getCorrelationWithoutPattern(Node correlationsElement) {
-        return correlationsElement.query(
-                "child::bpel:correlation[not(attribute::pattern)]",
-                Standards.CONTEXT);
     }
 
     @Override

@@ -51,7 +51,7 @@ public class PartnerLinkElement extends NodeHelper {
         String partnerLinkTypeAttribute = getPartnerLinkType();
         String wsdlImportNamespace = PrefixHelper.getPrefixNamespaceURI(toXOM().getDocument(),
                 PrefixHelper.getPrefix(partnerLinkTypeAttribute));
-        Document correspondingWsdlDom = fileHandler.getWsdlByTargetNamespace(wsdlImportNamespace);
+        Document correspondingWsdlDom = fileHandler.getWsdlByTargetNamespace(wsdlImportNamespace).getDocument();
 
         if (correspondingWsdlDom != null) {
             String partnerLinkTypeName = PrefixHelper
