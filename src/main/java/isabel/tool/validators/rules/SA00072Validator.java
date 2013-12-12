@@ -31,8 +31,8 @@ public class SA00072Validator extends Validator {
 		for (Node node : sourceNodes) {
 			SourceElement source = new SourceElement(node);
 			linkNames = new HashSet<>();
-			isReachedAgain(source);
-			if (isCyclic(source, source.getLinkName())) {
+			linkNames.add(source.getLinkName());
+			if (isCreatingControlCycle(source)) {
 				addViolation(node);
 				break;
 			}
@@ -40,17 +40,17 @@ public class SA00072Validator extends Validator {
 		}
 	}
 
-	private boolean isCyclic(SourceElement source, String linkName) {
+	private boolean isCreatingControlCycle(SourceElement source) {
 		boolean cyclic = false;
 		try {
 			FlowElement flow = source.getLink().getFlow();
-			TargetElement target = flow.getTargetElement(linkName);
+			TargetElement target = flow.getTargetElement(source.getLinkName());
 			LinkedActivity activity = target.getActivity();
 			for (SourceElement sourceElement : activity.getSourceElements()) {
 				if (isReachedAgain(sourceElement)) {
 					return true;
 				}
-				cyclic = cyclic	|| isCyclic(sourceElement, sourceElement.getLinkName());
+				cyclic = cyclic	|| isCreatingControlCycle(sourceElement);
 			}
 		} catch (OptionalElementNotPresentException e) {
 			// no source => reached an end of the graph => no cycles so far
