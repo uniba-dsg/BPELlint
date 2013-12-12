@@ -11,8 +11,11 @@ import isabel.tool.impl.ValidationCollector;
 import java.util.List;
 
 public class SA00046Validator extends Validator {
-    public SA00046Validator(ProcessContainer files,
-                            ValidationCollector violationCollector) {
+
+    public static final int PATTERN_REQUIRED_IN_REQUEST_RESPONSE_INVOKE = 1;
+    public static final int PATTERN_NOT_ALLOWED_IN_ONE_WAY_INVOKE = 2;
+
+    public SA00046Validator(ProcessContainer files, ValidationCollector violationCollector) {
         super(files, violationCollector);
     }
 
@@ -23,9 +26,9 @@ public class SA00046Validator extends Validator {
                 OperationElement operation = new InvokeElement(node.toXOM().getParent(), fileHandler).getOperation();
 
                 if (operation.isRequestResponse()) {
-                    reportViolation(node.getCorrelationWithoutPattern(), 1);
+                    reportViolation(node.getCorrelationWithoutPattern(), PATTERN_REQUIRED_IN_REQUEST_RESPONSE_INVOKE);
                 } else if (operation.isOneWay()) {
-                    reportViolation(node.getCorrelationWithPattern(), 2);
+                    reportViolation(node.getCorrelationWithPattern(), PATTERN_NOT_ALLOWED_IN_ONE_WAY_INVOKE);
                 }
             } catch (NavigationException e) {
                 // This node could not be validated
