@@ -4,7 +4,6 @@ import isabel.model.ProcessContainer;
 import isabel.model.bpel.CorrelationSetElement;
 import isabel.model.bpel.CorrelationSetsElement;
 import isabel.tool.impl.ValidationCollector;
-import nu.xom.Nodes;
 
 import java.util.HashSet;
 import java.util.Set;

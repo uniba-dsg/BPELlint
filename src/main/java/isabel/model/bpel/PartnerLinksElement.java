@@ -1,9 +1,7 @@
 package isabel.model.bpel;
 
 import isabel.model.NodeHelper;
-import isabel.model.Standards;
 import nu.xom.Node;
-import nu.xom.Nodes;
 
 import java.util.LinkedList;
 import java.util.List;

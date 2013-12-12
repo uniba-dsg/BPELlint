@@ -1,13 +1,8 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
 import isabel.model.bpel.CompensateElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
-import nu.xom.Node;
-import nu.xom.Nodes;
-
-import static isabel.model.Standards.CONTEXT;
 
 public class SA00008Validator extends Validator {
 
