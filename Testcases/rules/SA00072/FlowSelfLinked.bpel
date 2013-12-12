@@ -27,12 +27,12 @@
                 </copy>
             </assign>
             <assign name="SetBranch1">
-                <sources>
-                    <source linkName="FromFirstToSecond" />
-                </sources>
                 <targets>
                     <target linkName="FromFirstToSecond" />
                 </targets>
+                <sources>
+                    <source linkName="FromFirstToSecond" />
+                </sources>
                 <copy>
                     <from>1</from>
                     <to variable="BranchVariable"/>

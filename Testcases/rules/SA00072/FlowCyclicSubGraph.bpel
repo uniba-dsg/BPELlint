@@ -46,12 +46,12 @@
             <!-- Buyer and seller information in parallel -->
             <sequence>
                 <receive name="receiveBuyerInformation"  partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="BuyerInformationRequest">
-                    <sources>
-                        <source linkName="buyToSettle" />
-                    </sources>
                     <targets>
                         <target linkName="toBuyConfirm" />
                     </targets>
+                    <sources>
+                        <source linkName="buyToSettle" />
+                    </sources>
                     <correlations>
                         <correlation set="CorrelationSet" initiate="no"/>
                     </correlations>

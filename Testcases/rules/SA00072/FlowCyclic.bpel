@@ -22,24 +22,24 @@
                 <link name="andBackAgain"/>
             </links>
             <assign name="SetBranch2">
-                <sources>
-                    <source linkName="andBackAgain" />
-                </sources>
                 <targets>
                     <target linkName="FromFirstToSecond" />
                 </targets>
+                <sources>
+                    <source linkName="andBackAgain" />
+                </sources>
                 <copy>
                     <from>2</from>
                     <to variable="BranchVariable"/>
                 </copy>
             </assign>
             <assign name="SetBranch1">
-                <sources>
-                    <source linkName="FromFirstToSecond" />
-                </sources>
                 <targets>
                     <target linkName="andBackAgain" />
                 </targets>
+                <sources>
+                    <source linkName="FromFirstToSecond" />
+                </sources>
                 <copy>
                     <from>1</from>
                     <to variable="BranchVariable"/>
