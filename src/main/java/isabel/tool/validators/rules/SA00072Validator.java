@@ -17,8 +17,6 @@ import isabel.tool.impl.ValidationCollector;
 
 public class SA00072Validator extends Validator {
 
-	private static final int CYCLIC = 1;
-	private static final int NOT_VALIDLY_LINKED = 2;
 	private Set<String> linkNames;
 
 	public SA00072Validator(ProcessContainer files,
@@ -28,16 +26,17 @@ public class SA00072Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes sourceNodes = fileHandler.getBpel().getDocument().query("//bpel:source", Standards.CONTEXT);
+		Nodes sourceNodes = fileHandler.getBpel().getDocument()
+				.query("//bpel:source", Standards.CONTEXT);
 		for (Node node : sourceNodes) {
 			SourceElement source = new SourceElement(node);
-				linkNames = new HashSet<>();
-				linkNames.add(source.getLinkName());
-				if (isCyclic(source, source.getLinkName())) {
-					addViolation(node, CYCLIC);
-					break;
-				}
-			
+			linkNames = new HashSet<>();
+			isReachedAgain(source);
+			if (isCyclic(source, source.getLinkName())) {
+				addViolation(node);
+				break;
+			}
+
 		}
 	}
 
@@ -47,24 +46,23 @@ public class SA00072Validator extends Validator {
 			FlowElement flow = source.getLink().getFlow();
 			TargetElement target = flow.getTargetElement(linkName);
 			LinkedActivity activity = target.getActivity();
-			try {
-				for (SourceElement sourceElement : activity.getSourceElements()) {
-					if (!linkNames.add(sourceElement.getLinkName())) {
-						return true;
-					}
-					cyclic = cyclic
-							|| isCyclic(sourceElement,
-									sourceElement.getLinkName());
+			for (SourceElement sourceElement : activity.getSourceElements()) {
+				if (isReachedAgain(sourceElement)) {
+					return true;
 				}
-			} catch (OptionalElementNotPresentException e) {
-				// no source => reached an end of the graph => no cycles so far
-				return false;
+				cyclic = cyclic	|| isCyclic(sourceElement, sourceElement.getLinkName());
 			}
+		} catch (OptionalElementNotPresentException e) {
+			// no source => reached an end of the graph => no cycles so far
 		} catch (NavigationException e) {
-			// ignore navigation error because a cycle can not exist without a target
+			// ignore navigation error because a cycle can not exist without a working link
 		}
-		
+
 		return cyclic;
+	}
+
+	private boolean isReachedAgain(SourceElement sourceElement) {
+		return !linkNames.add(sourceElement.getLinkName());
 	}
 
 	@Override
