@@ -1,5 +1,6 @@
 package isabel.model.bpel;
 
+import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
 import nu.xom.Node;
@@ -33,5 +34,22 @@ public class CorrelationSetElement extends NodeHelper {
 
     public String getName() {
         return getAttribute("name");
+    }
+
+    public String getPropertiesAttribute() {
+        return getAttribute("properties");
+    }
+
+    public String getCorrelationPropertyAliasPrefix()
+            throws NavigationException {
+
+        String propertyAliasName = getPropertiesAttribute();
+        String namespacePrefix = PrefixHelper.getPrefix(propertyAliasName);
+
+        if (namespacePrefix != null) {
+            return namespacePrefix;
+        }
+
+        throw new NavigationException("<correlationSet>@properties prefix does not exist.");
     }
 }

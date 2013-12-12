@@ -118,7 +118,7 @@ public class SA00021Validator extends Validator {
 
     private void verifyThatEachCorrelationSetHasAnExistingProperty() {
         Nodes correlationSets = fileHandler.getCorrelationSets();
-        List<String> properties = ElementIdentifier.toIdentifiers(fileHandler.getProperties());
+        List<String> properties = ElementIdentifier.toIdentifiers(fileHandler.getAllProperties());
 
         for (Node correlationSet : correlationSets) {
             List<String> propertyIdentifiers = new CorrelationSetElement(correlationSet).getPropertyIdentifiers();

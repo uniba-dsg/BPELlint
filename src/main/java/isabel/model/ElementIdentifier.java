@@ -29,14 +29,14 @@ public class ElementIdentifier {
 		return "{" + targetNamespace + "}" + name;
 	}
 
-	public static List<String> toIdentifiers(List<Node> nodes){
-		List<String> identifiers = new ArrayList<>();
+    public static <T extends Referable> List<String> toIdentifiers(List<T> nodes){
+        List<String> identifiers = new ArrayList<>();
 
-		for(Node node : nodes){
-			identifiers.add(new ElementIdentifier(node).toIdentifier());
-		}
+        for(T node : nodes){
+            identifiers.add(new ElementIdentifier(node.toXOM()).toIdentifier());
+        }
 
-		return identifiers;
-	}
+        return identifiers;
+    }
 
 }

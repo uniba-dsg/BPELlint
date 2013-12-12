@@ -132,22 +132,6 @@ public class ProcessContainer {
         throw new NavigationException("Document does not exist");
     }
 
-    public List<Node> getPropertyAliases() {
-        List<Node> propertyAliases = new LinkedList<>();
-        for (XmlFile xmlFile : getDirectlyImportedWsdls()) {
-            propertyAliases.addAll(NodesUtil.toList(xmlFile.getDocument().query("//vprop:propertyAlias", CONTEXT)));
-        }
-        return propertyAliases;
-    }
-
-    public List<Node> getProperties() {
-        List<Node> propertyAliases = new LinkedList<>();
-        for (XmlFile xmlFile : getDirectlyImportedWsdls()) {
-            propertyAliases.addAll(NodesUtil.toList(xmlFile.getDocument().query("//vprop:property", CONTEXT)));
-        }
-        return propertyAliases;
-    }
-
     public Nodes getCorrelationSets() {
         return getBpel().getDocument().query("//bpel:correlationSet", CONTEXT);
     }
@@ -159,7 +143,7 @@ public class ProcessContainer {
     public List<OperationElement> getAllOperations() {
         List<OperationElement> result = new LinkedList<>();
 
-        for (XmlFile wsdlEntry : getWsdls()) {
+        for (XmlFile wsdlEntry : getDirectlyImportedWsdls()) {
             result.addAll(wsdlEntry.getOperations());
         }
 
@@ -169,7 +153,7 @@ public class ProcessContainer {
     public List<PortTypeElement> getAllPortTypes() {
         List<PortTypeElement> result = new LinkedList<>();
 
-        for (XmlFile wsdlEntry : getWsdls()) {
+        for (XmlFile wsdlEntry : getDirectlyImportedWsdls()) {
             result.addAll(wsdlEntry.getPortTypes());
         }
 
@@ -179,7 +163,7 @@ public class ProcessContainer {
     public List<PropertyElement> getAllProperties() {
         List<PropertyElement> result = new LinkedList<>();
 
-        for (XmlFile wsdlEntry : getWsdls()) {
+        for (XmlFile wsdlEntry : getDirectlyImportedWsdls()) {
             result.addAll(wsdlEntry.getProperties());
         }
 
@@ -189,7 +173,7 @@ public class ProcessContainer {
     public List<PropertyAliasElement> getAllPropertyAliases() {
         List<PropertyAliasElement> result = new LinkedList<>();
 
-        for (XmlFile wsdlEntry : getWsdls()) {
+        for (XmlFile wsdlEntry : getDirectlyImportedWsdls()) {
             result.addAll(wsdlEntry.getPropertyAliases());
         }
 
@@ -283,6 +267,16 @@ public class ProcessContainer {
 
         for (Node node : getBpel().getDocument().query("//bpel:correlationSets", CONTEXT)) {
             result.add(new CorrelationSetsElement(node));
+        }
+
+        return result;
+    }
+
+    public List<CorrelationSetElement> getAllCorrelationSets() {
+        List<CorrelationSetElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:correlationSet", CONTEXT)) {
+            result.add(new CorrelationSetElement(node));
         }
 
         return result;

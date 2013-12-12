@@ -83,10 +83,6 @@ public class NodeHelper implements Referable{
         return !getAttribute(name).isEmpty();
     }
 
-    public boolean hasNoAttribute(String name) {
-        return !hasAttribute(name);
-    }
-
     public int getAmountOfAttributes() {
         Nodes attributes = node.query("@*");
         return attributes.size();

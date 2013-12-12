@@ -1,61 +1,52 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
+import isabel.model.wsdl.PropertyAliasElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
-import nu.xom.Node;
 
 import java.util.List;
 
 public class SA00022Validator extends Validator {
 
-	private static final int SAME_MESSAGE_TYPE = 3;
-	private static final int SAME_ELEMENT = 2;
-	private static final int SAME_TYPE = 1;
+    private static final int SAME_MESSAGE_TYPE = 3;
+    private static final int SAME_ELEMENT = 2;
+    private static final int SAME_TYPE = 1;
 
-	public SA00022Validator(ProcessContainer files,
-	                        ValidationCollector violationCollector) {
-		super(files, violationCollector);
-	}
+    public SA00022Validator(ProcessContainer files,
+                            ValidationCollector violationCollector) {
+        super(files, violationCollector);
+    }
 
-	@Override
-	public void validate() {
-		List<Node> allPropertyAliases = fileHandler.getPropertyAliases();
-		for (int i = 0, allPropertyAliasesSize = allPropertyAliases.size(); i < allPropertyAliasesSize; i++) {
+    @Override
+    public void validate() {
+        List<PropertyAliasElement> allPropertyAliases = fileHandler.getAllPropertyAliases();
+        for (int i = 0, allPropertyAliasesSize = allPropertyAliases.size(); i < allPropertyAliasesSize; i++) {
 
-			Node propertyAlias = allPropertyAliases.get(i);
-			NodeHelper propertyAliasHelper = new NodeHelper(propertyAlias);
+            PropertyAliasElement propertyAlias = allPropertyAliases.get(i);
 
-			for (int j = i + 1; j < allPropertyAliasesSize; j++) {
+            for (int j = i + 1; j < allPropertyAliasesSize; j++) {
 
-				Node otherPropertyAlias = allPropertyAliases.get(j);
-				NodeHelper otherPropertyAliasHelper = new NodeHelper(
-						otherPropertyAlias);
+                PropertyAliasElement otherPropertyAlias = allPropertyAliases.get(j);
 
-				if (!propertyAliasHelper.hasSameAttribute(
-						otherPropertyAliasHelper, "propertyName")) {
-					continue;// go to next element
-				}
+                if (!propertyAlias.hasSamePropertyName(otherPropertyAlias)) {
+                    continue;// go to next element
+                }
 
-				if (propertyAliasHelper.hasSameAttribute(
-						otherPropertyAliasHelper, "type")) {
-					addViolation(propertyAliasHelper.getNode(), SAME_TYPE);
-				}
-				if (propertyAliasHelper.hasSameAttribute(
-						otherPropertyAliasHelper, "element")) {
-					addViolation(propertyAliasHelper.getNode(), SAME_ELEMENT);
-				}
-				if (propertyAliasHelper.hasSameAttribute(
-						otherPropertyAliasHelper, "messageType")) {
-					addViolation(propertyAliasHelper.getNode(),
-							SAME_MESSAGE_TYPE);
-				}
-			}
-		}
-	}
+                if (propertyAlias.hasSameType(otherPropertyAlias)) {
+                    addViolation(propertyAlias.getNode(), SAME_TYPE);
+                }
+                if (propertyAlias.hasSameElement(otherPropertyAlias)) {
+                    addViolation(propertyAlias.getNode(), SAME_ELEMENT);
+                }
+                if (propertyAlias.hasSameMessageType(otherPropertyAlias)) {
+                    addViolation(propertyAlias.getNode(), SAME_MESSAGE_TYPE);
+                }
+            }
+        }
+    }
 
-	@Override
-	public int getSaNumber() {
-		return 22;
-	}
+    @Override
+    public int getSaNumber() {
+        return 22;
+    }
 }

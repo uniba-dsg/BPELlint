@@ -54,4 +54,24 @@ public class PropertyAliasElement extends NodeHelper {
     public boolean hasElement() {
 		return hasAttribute("element");
 	}
+
+    public boolean hasSameType(PropertyAliasElement otherPropertyAlias) {
+        return hasSameAttribute(otherPropertyAlias, "type");
+    }
+
+    public boolean hasSameMessageType(PropertyAliasElement otherPropertyAlias) {
+        return hasSameAttribute(otherPropertyAlias, "messageType");
+    }
+
+    public boolean hasSameElement(PropertyAliasElement otherPropertyAlias) {
+        return hasSameAttribute(otherPropertyAlias, "element");
+    }
+
+    public boolean hasSamePropertyName(PropertyAliasElement otherPropertyAlias) {
+        return hasSameAttribute(otherPropertyAlias, "propertyName");
+    }
+
+    public String getPropertyName() {
+        return getAttribute("propertyName");
+    }
 }

@@ -1,5 +1,6 @@
 package isabel.tool.validators.rules;
 
+import isabel.model.bpel.CorrelationSetElement;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.model.wsdl.PropertyElement;
 import isabel.model.NodeHelper;
@@ -9,6 +10,7 @@ import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import isabel.model.XmlFile;
 import nu.xom.Document;
+import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
@@ -17,60 +19,102 @@ import static isabel.model.Standards.XSD_NAMESPACE;
 
 public class SA00045Validator extends Validator {
 
-	public SA00045Validator(ProcessContainer files,
-	                        ValidationCollector violationCollector) {
-		super(files, violationCollector);
-	}
+    public SA00045Validator(ProcessContainer files,
+                            ValidationCollector violationCollector) {
+        super(files, violationCollector);
+    }
 
-	@Override
-	public void validate() {
-		for (Node correlationSet : getAllCorrelationSets()) {
-			try {
-				if (!isSimpleType(correlationSet)) {
-					addViolation(correlationSet);
-				}
-			} catch (NavigationException e) {
-				// This node could not be validated
-			}
-		}
-	}
+    @Override
+    public void validate() {
+        for (CorrelationSetElement correlationSet : fileHandler.getAllCorrelationSets()) {
+            try {
+                if (!isSimpleType(correlationSet)) {
+                    addViolation(correlationSet);
+                }
+            } catch (NavigationException e) {
+                // This node could not be validated
+            }
+        }
+    }
 
-	private Nodes getAllCorrelationSets() {
-		return fileHandler.getBpel().getDocument()
-				.query("//bpel:correlationSet", CONTEXT);
-	}
+    private boolean isSimpleType(CorrelationSetElement correlationSet)
+            throws NavigationException {
+        PropertyElement property = getPropertyAlias(correlationSet).getProperty();
 
-	private boolean isSimpleType(Node correlationSet)
-			throws NavigationException {
-		XmlFile wsdlEntry = navigator.getCorrespondingWsdlToCorrelationSet(correlationSet);
-		Document wsdlFile = wsdlEntry.getDocument();
-		Node propertyAlias = navigator.getCorrespondingPropertyAlias(
-				correlationSet, wsdlFile);
-		PropertyElement property = new PropertyAliasElement(propertyAlias).getProperty();
+        String propertyType = property.getAttribute("type");
+        String namespacePrefix = PrefixHelper.getPrefix(propertyType);
+        String propertyTypeTargetNamespace = getImportNamespace(property, namespacePrefix);
 
-		String propertyType = property.getAttribute("type");
-		String namespacePrefix = PrefixHelper.getPrefix(propertyType);
-		String propertyTypeTargetNamespace = navigator.getImportNamespace(
-				property.asElement(), namespacePrefix);
+        if (XSD_NAMESPACE.equals(propertyTypeTargetNamespace)) {
+            Document xmlSchema = fileHandler.getXmlSchema();
+            Nodes simpleTypes = xmlSchema.query("//xsd:simpleType", CONTEXT);
+            for (Node simpleType : simpleTypes) {
+                String simpleTypeName = new NodeHelper(simpleType).getAttribute("name");
 
-		if (XSD_NAMESPACE.equals(propertyTypeTargetNamespace)) {
-			Document xmlSchema = fileHandler.getXmlSchema();
-			Nodes simpleTypes = xmlSchema.query("//xsd:simpleType", CONTEXT);
-			for (Node simpleType : simpleTypes) {
-				String simpleTypeName = new NodeHelper(simpleType)
-						.getAttribute("name");
+                if (PrefixHelper.removePrefix(propertyType).equals(
+                        simpleTypeName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-				if (PrefixHelper.removePrefix(propertyType).equals(
-						simpleTypeName)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+    public String getImportNamespace(NodeHelper node, String namespacePrefix) {
+        Element rootElement = node.asElement().getDocument().getRootElement();
 
-	@Override
-	public int getSaNumber() {
-		return 45;
-	}
+        try {
+            return rootElement.getNamespaceURI(namespacePrefix);
+        } catch (NullPointerException e) {
+            /*
+             * if the prefix is undefined in the root element, getNamespaceURI
+			 * will throw a nullPointerException.
+			 */
+            return "";
+        }
+    }
+
+    private PropertyAliasElement getPropertyAlias(CorrelationSetElement correlationSet) throws NavigationException {
+        XmlFile wsdlEntry = getCorrespondingWsdlToCorrelationSet(correlationSet);
+        Document wsdlFile = wsdlEntry.getDocument();
+        return getCorrespondingPropertyAlias(correlationSet, wsdlFile);
+    }
+
+    public PropertyAliasElement getCorrespondingPropertyAlias(CorrelationSetElement correlationSet, Document wsdlFile) throws NavigationException {
+        Nodes propertyAliases = wsdlFile.query("//vprop:propertyAlias", CONTEXT);
+        String propertyAliasAttribute = PrefixHelper.removePrefix(correlationSet.getPropertiesAttribute());
+
+        return navigateFromPropertyAliasNameToPropertyAlias(propertyAliases,
+                propertyAliasAttribute);
+    }
+
+    public PropertyAliasElement navigateFromPropertyAliasNameToPropertyAlias(Nodes aliases, String propertyAliasAttribute) throws NavigationException {
+        for (Node propertyAlias : aliases) {
+            PropertyAliasElement propertyAliasElement = new PropertyAliasElement(propertyAlias);
+            String propertyAliasName = PrefixHelper.removePrefix(propertyAliasElement.getPropertyName());
+
+            if (propertyAliasName.equals(propertyAliasAttribute)) {
+                return propertyAliasElement;
+            }
+        }
+        throw new NavigationException(
+                "Referenced <propertyAlias> does not exist.");
+    }
+
+    public XmlFile getCorrespondingWsdlToCorrelationSet(CorrelationSetElement correlationSet) throws NavigationException {
+        String namespacePrefix = correlationSet.getCorrelationPropertyAliasPrefix();
+        String correspondingTargetNamespace = getImportNamespace(correlationSet, namespacePrefix);
+
+        for (XmlFile wsdlFile : fileHandler.getWsdls()) {
+            if (wsdlFile.getTargetNamespace().equals(correspondingTargetNamespace)) {
+                return wsdlFile;
+            }
+        }
+        throw new NavigationException("Referenced WSDL File does not exist.");
+    }
+
+    @Override
+    public int getSaNumber() {
+        return 45;
+    }
 }

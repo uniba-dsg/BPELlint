@@ -61,7 +61,7 @@ public class SA00034Validator extends Validator {
                 return variable.hasAttribute("faultMessageType");
             }
 
-            return variable.hasAttribute("messageType");
+            return variable.hasMessageType();
         } catch (NavigationException e) {
             addViolation(fromTo, VARIABLE_IS_MISSING);
             return false;
