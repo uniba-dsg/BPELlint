@@ -1,37 +1,34 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
-import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
-import nu.xom.Node;
+import isabel.model.bpel.mex.InvokeElement;
+import isabel.tool.impl.ValidationCollector;
 import nu.xom.Nodes;
 
 import static isabel.model.Standards.CONTEXT;
 
 public class SA00052Validator extends Validator {
-	public SA00052Validator(ProcessContainer files,
-	                        ValidationCollector violationCollector) {
-		super(files, violationCollector);
-	}
+    public SA00052Validator(ProcessContainer files,
+                            ValidationCollector violationCollector) {
+        super(files, violationCollector);
+    }
 
-	@Override
-	public void validate() {
-		Nodes invokeNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:invoke", CONTEXT);
+    @Override
+    public void validate() {
 
-		for (Node invoke : invokeNodes) {
-			Nodes fromParts = invoke.query("bpel:fromParts", CONTEXT);
-			String outputVariable = new NodeHelper(invoke)
-					.getAttribute("outputVariable");
 
-			if (!outputVariable.isEmpty() && fromParts.hasAny()) {
-				addViolation(invoke);
-			}
-		}
-	}
+        for (InvokeElement invoke : fileHandler.getAllInvokes()) {
+            Nodes fromParts = invoke.toXOM().query("bpel:fromParts", CONTEXT);
+            String outputVariable = invoke.getOutputVariableAttribute();
 
-	@Override
-	public int getSaNumber() {
-		return 52;
-	}
+            if (!outputVariable.isEmpty() && fromParts.hasAny()) {
+                addViolation(invoke);
+            }
+        }
+    }
+
+    @Override
+    public int getSaNumber() {
+        return 52;
+    }
 }

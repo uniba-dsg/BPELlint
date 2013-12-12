@@ -8,7 +8,7 @@ import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 
-public class InvokeElement extends NodeHelper implements MessageActivity{
+public class InvokeElement extends NodeHelper implements MessageActivity {
 
     private final MessageActivity delegate;
 
@@ -68,7 +68,6 @@ public class InvokeElement extends NodeHelper implements MessageActivity{
     }
 
     public String getOutputVariableAttribute() {
-        return
-                getAttribute("outputVariable");
+        return getAttribute("outputVariable");
     }
 }

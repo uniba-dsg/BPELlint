@@ -1,12 +1,11 @@
 package isabel.model.bpel;
 
-import nu.xom.Element;
+import isabel.model.NodeHelper;
+import nu.xom.Node;
 
-public class ScopeElement {
+public class ScopeElement extends NodeHelper {
 
-    private Element element;
-
-    public ScopeElement(Element element) {
-        this.element = element;
+    public ScopeElement(Node node) {
+        super(node);
     }
 }

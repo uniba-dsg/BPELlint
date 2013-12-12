@@ -18,4 +18,14 @@ public class NodesUtil {
 		return nodeList;
 	}
 
+    public static <T extends Referable> List<Node> toList(List<T> nodes) {
+        List<Node> nodeList = new ArrayList<>(nodes.size());
+
+        for (T node : nodes) {
+            nodeList.add(node.toXOM());
+        }
+
+        return nodeList;
+    }
+
 }

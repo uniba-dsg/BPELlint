@@ -222,6 +222,16 @@ public class ProcessContainer {
         return result;
     }
 
+    public List<ScopeElement> getAllScopes() {
+        List<ScopeElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:scope", CONTEXT)) {
+            result.add(new ScopeElement(node));
+        }
+
+        return result;
+    }
+
     public List<CorrelationsElement> getAllCorrelationsWithinInvokes() {
         List<CorrelationsElement> result = new LinkedList<>();
 

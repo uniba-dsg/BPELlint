@@ -1,5 +1,6 @@
 package isabel.tool.validators.rules;
 
+import isabel.model.bpel.mex.InvokeElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import nu.xom.Node;
@@ -17,13 +18,10 @@ public class SA00051Validator extends Validator {
 	@Override
 	public void validate() {
 
-		Nodes invokes = fileHandler.getBpel().getDocument()
-				.query("//bpel:invoke", CONTEXT);
+		for (InvokeElement invoke : fileHandler.getAllInvokes()) {
 
-		for (Node invoke : invokes) {
-
-			Nodes toPartsSet = invoke.query("bpel:toParts", CONTEXT);
-			Nodes inputVariableSet = invoke.query("@inputVariable", CONTEXT);
+			Nodes toPartsSet = invoke.toXOM().query("bpel:toParts", CONTEXT);
+			Nodes inputVariableSet = invoke.toXOM().query("@inputVariable", CONTEXT);
 			if (toPartsSet.hasAny() && inputVariableSet.hasAny()) {
 				addViolation(invoke);
 			}

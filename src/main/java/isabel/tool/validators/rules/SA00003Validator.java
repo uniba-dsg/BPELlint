@@ -34,11 +34,7 @@ public class SA00003Validator extends Validator {
     }
 
     private List<Node> getScopes() {
-        return NodesUtil.toList(getAllScopes());
-    }
-
-    private Nodes getAllScopes() {
-        return fileHandler.getBpel().getDocument().query("//bpel:scope", CONTEXT);
+        return NodesUtil.toList(fileHandler.getAllScopes());
     }
 
     private boolean hasExitOnStandardFault(String bool, Node enclosingScopes) {
