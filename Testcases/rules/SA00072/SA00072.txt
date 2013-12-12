@@ -1,0 +1,21 @@
+Place Short Description Here.
+@@@
+A <link> declared in a <flow> MUST NOT create a control cycle, that is, the source activity must not have the target activity as a logically preceding activity.
+@@@
+FOREACH <source>
+    FAIL UNLESS isDirectedAcyclicGraph(<source>, <source>@linkName)
+
+isDirectedAcyclicGraph: <source>, $originalLinkName -> booelan
+    SET $flow TO PARENT PARENT PARENT <source>
+    FOREACH $flow*<target>
+        SET $activity TO PARENT PARENT $flow*<target>
+        FOREACH $activity<sources><source>
+            IF $originalLinkName EQUALS $activity<sources><source>
+                RETURN 'false'
+            RETURN isDirectedAcyclicGraph($activity<sources><source>, $originalLinkName)
+    RETURN 'true'
+@@@
+FlowSelfLinked.bpel
+FlowCyclic.bpel
+FlowCyclicSubGraph.bpel
+@@@
