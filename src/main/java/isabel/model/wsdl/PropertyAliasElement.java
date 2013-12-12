@@ -39,4 +39,19 @@ public class PropertyAliasElement extends NodeHelper {
         return getAttribute("propertyName");
     }
 
+    public boolean hasMessageType() {
+        return hasAttribute("messageType");
+    }
+
+    public boolean hasPart() {
+		return hasAttribute("part");
+	}
+
+    public boolean hasType() {
+		return hasAttribute("type");
+	}
+
+    public boolean hasElement() {
+		return hasAttribute("element");
+	}
 }

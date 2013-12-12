@@ -45,7 +45,7 @@ public class IsabelTool {
     }
 
     private static void validate(Path path, VerbosityLevel verbosityLevel)
-            throws ValidationException, IOException {
+            throws IOException {
         if (isBpelFile(path)) {
             try {
                 ValidationResult validationResult = new Isabel().validate(path);

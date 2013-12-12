@@ -13,7 +13,7 @@ public class SA00016Validator extends Validator {
     @Override
     public void validate() {
         for (PartnerLinkElement partnerLink : fileHandler.getAllPartnerLinks()) {
-            if (!partnerLink.hasMyRole() && !partnerLink.hasPartnerRole()) {
+            if (partnerLink.hasNeitherMyRoleNorPartnerRole()) {
                 addViolation(partnerLink);
             }
         }

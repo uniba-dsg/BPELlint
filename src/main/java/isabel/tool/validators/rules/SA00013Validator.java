@@ -34,7 +34,7 @@ public class SA00013Validator extends Validator {
     private boolean isImportTypedWithinThisFiles(ImportElement fileImport,
                                                  List<XmlFile> allFiles) {
         for (XmlFile xmlFile : allFiles) {
-            if (isCorrespondingFile(fileImport, xmlFile)) {
+            if (isCorrespondingFile(fileImport, xmlFile.getFilePath())) {
                 if (fileImport.getImportType().equals(xmlFile.getNamespace())) {
                     return true;
                 }
@@ -43,10 +43,9 @@ public class SA00013Validator extends Validator {
         return false;
     }
 
-    private boolean isCorrespondingFile(ImportElement fileImport,
-                                        XmlFile xmlFile) {
+    public boolean isCorrespondingFile(ImportElement fileImport, Path xmlFile) {
         Path location = fileImport.getAbsoluteLocation(fileHandler.getAbsoluteBpelFolder());
-        return xmlFile.getFilePath().equals(location);
+        return xmlFile.equals(location);
     }
 
     @Override

@@ -81,4 +81,8 @@ public class PartnerLinkElement extends NodeHelper {
 
         throw new NavigationException("PortType not defined");
     }
+
+    public boolean hasNeitherMyRoleNorPartnerRole() {
+        return !hasMyRole() && !hasPartnerRole();
+    }
 }

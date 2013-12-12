@@ -35,7 +35,7 @@ public class ProcessContainerLoader {
     }
 
     private ProcessContainer loadAllProcessFilesWithoutExceptions(Path bpelFilePath)
-            throws ParsingException, IOException, ImportException {
+            throws ParsingException, IOException {
         result = new ProcessContainer();
 
         result.setBpel(xmlFileLoader.load(bpelFilePath));

@@ -2,6 +2,10 @@ package isabel.model;
 
 import isabel.model.bpel.*;
 import isabel.model.bpel.mex.*;
+import isabel.model.wsdl.OperationElement;
+import isabel.model.wsdl.PortTypeElement;
+import isabel.model.wsdl.PropertyAliasElement;
+import isabel.model.wsdl.PropertyElement;
 import isabel.tool.validators.rules.VariablesElement;
 import nu.xom.Document;
 import nu.xom.Node;
@@ -150,6 +154,46 @@ public class ProcessContainer {
 
     public ProcessElement getProcess() {
         return new ProcessElement(getBpel().getDocument().query("/bpel:*", CONTEXT).get(0));
+    }
+
+    public List<OperationElement> getAllOperations() {
+        List<OperationElement> result = new LinkedList<>();
+
+        for (XmlFile wsdlEntry : getWsdls()) {
+            result.addAll(wsdlEntry.getOperations());
+        }
+
+        return result;
+    }
+
+    public List<PortTypeElement> getAllPortTypes() {
+        List<PortTypeElement> result = new LinkedList<>();
+
+        for (XmlFile wsdlEntry : getWsdls()) {
+            result.addAll(wsdlEntry.getPortTypes());
+        }
+
+        return result;
+    }
+
+    public List<PropertyElement> getAllProperties() {
+        List<PropertyElement> result = new LinkedList<>();
+
+        for (XmlFile wsdlEntry : getWsdls()) {
+            result.addAll(wsdlEntry.getProperties());
+        }
+
+        return result;
+    }
+
+    public List<PropertyAliasElement> getAllPropertyAliases() {
+        List<PropertyAliasElement> result = new LinkedList<>();
+
+        for (XmlFile wsdlEntry : getWsdls()) {
+            result.addAll(wsdlEntry.getPropertyAliases());
+        }
+
+        return result;
     }
 
     public ProcessContainer validateAndFinalize() {

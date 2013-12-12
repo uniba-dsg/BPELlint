@@ -14,66 +14,69 @@ import static isabel.model.Standards.CONTEXT;
 
 public class SA00003Validator extends Validator {
 
-	public SA00003Validator(ProcessContainer files,
-	                        ValidationCollector violationCollector) {
-		super(files, violationCollector);
-	}
+    public SA00003Validator(ProcessContainer files,
+                            ValidationCollector violationCollector) {
+        super(files, violationCollector);
+    }
 
-	@Override
-	public void validate() {
-		List<Node> processAndScopeNodes = new ArrayList<>();
-		processAndScopeNodes.add(fileHandler.getProcess().asElement());
-		processAndScopeNodes.addAll(getScopes());
+    @Override
+    public void validate() {
+        List<Node> processAndScopeNodes = new ArrayList<>();
+        processAndScopeNodes.add(fileHandler.getProcess().asElement());
+        processAndScopeNodes.addAll(getScopes());
 
-		for (Node processOrScope : processAndScopeNodes) {
-			if (hasExitOnStandardFault("yes", processOrScope)
-					&& isCatchingStandardFaults(processOrScope)) {
-				addViolation(processOrScope);
-			}
-		}
-	}
+        for (Node processOrScope : processAndScopeNodes) {
+            if (hasExitOnStandardFault("yes", processOrScope)
+                    && isCatchingStandardFaults(processOrScope)) {
+                addViolation(processOrScope);
+            }
+        }
+    }
 
-	private List<Node> getScopes() {
-		return NodesUtil.toList(fileHandler.getBpel().getDocument()
-				.query("//bpel:scope", CONTEXT));
-	}
+    private List<Node> getScopes() {
+        return NodesUtil.toList(getAllScopes());
+    }
 
-	private boolean hasExitOnStandardFault(String bool, Node enclosingScopes) {
-		String exitOnStandardFault = new NodeHelper(enclosingScopes)
-				.getAttribute("exitOnStandardFault");
-		return bool.equals(exitOnStandardFault);
-	}
+    private Nodes getAllScopes() {
+        return fileHandler.getBpel().getDocument().query("//bpel:scope", CONTEXT);
+    }
 
-	private boolean isCatchingStandardFaults(Node currentScope) {
-		if (catchesStandardFaultDirectly(currentScope))
-			return true;
-		boolean foundStandardFault = false;
-		for (Node scope : currentScope.query("bpel:scope", CONTEXT)) {
-			if (!hasExitOnStandardFault("no", scope)) {
-				foundStandardFault |= isCatchingStandardFaults(scope);
-			}
-		}
-		return foundStandardFault;
-	}
+    private boolean hasExitOnStandardFault(String bool, Node enclosingScopes) {
+        String exitOnStandardFault = new NodeHelper(enclosingScopes)
+                .getAttribute("exitOnStandardFault");
+        return bool.equals(exitOnStandardFault);
+    }
 
-	private boolean catchesStandardFaultDirectly(Node currentScope) {
-		Nodes catches = currentScope.query("bpel:faultHandlers/bpel:catch",
-				CONTEXT);
-		for (Node catchNode : catches) {
-			String attribute = new NodeHelper(catchNode)
-					.getAttribute("faultName");
-			for (String fault : BPELFaults.VALUES) {
-				if (fault.equals(attribute)) {
-					return true;
-				}
-			}
+    private boolean isCatchingStandardFaults(Node currentScope) {
+        if (catchesStandardFaultDirectly(currentScope))
+            return true;
+        boolean foundStandardFault = false;
+        for (Node scope : currentScope.query("bpel:scope", CONTEXT)) {
+            if (!hasExitOnStandardFault("no", scope)) {
+                foundStandardFault |= isCatchingStandardFaults(scope);
+            }
+        }
+        return foundStandardFault;
+    }
 
-		}
-		return false;
-	}
+    private boolean catchesStandardFaultDirectly(Node currentScope) {
+        Nodes catches = currentScope.query("bpel:faultHandlers/bpel:catch",
+                CONTEXT);
+        for (Node catchNode : catches) {
+            String attribute = new NodeHelper(catchNode)
+                    .getAttribute("faultName");
+            for (String fault : BPELFaults.VALUES) {
+                if (fault.equals(attribute)) {
+                    return true;
+                }
+            }
 
-	@Override
-	public int getSaNumber() {
-		return 3;
-	}
+        }
+        return false;
+    }
+
+    @Override
+    public int getSaNumber() {
+        return 3;
+    }
 }

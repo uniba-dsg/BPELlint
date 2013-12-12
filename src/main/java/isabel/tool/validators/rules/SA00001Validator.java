@@ -10,21 +10,18 @@ public class SA00001Validator extends Validator {
     private static final int SOLICIT_RESPONSE_TYPE = 2;
     private static final int NOTIFICATION_FAULT = 1;
 
-    public SA00001Validator(ProcessContainer files,
-                            ValidationCollector violationCollector) {
+    public SA00001Validator(ProcessContainer files, ValidationCollector violationCollector) {
         super(files, violationCollector);
     }
 
     @Override
     public void validate() {
-        for (XmlFile wsdlEntry : fileHandler.getWsdls()) {
-            for (OperationElement operation : wsdlEntry.getOperations()) {
-                if (operation.isNotification()) {
-                    addViolation(operation.asElement(), NOTIFICATION_FAULT);
-                }
-                if (operation.isSolicitResponse()) {
-                    addViolation(operation.asElement(), SOLICIT_RESPONSE_TYPE);
-                }
+        for (OperationElement operation : fileHandler.getAllOperations()) {
+            if (operation.isNotification()) {
+                addViolation(operation.asElement(), NOTIFICATION_FAULT);
+            }
+            if (operation.isSolicitResponse()) {
+                addViolation(operation.asElement(), SOLICIT_RESPONSE_TYPE);
             }
         }
     }
