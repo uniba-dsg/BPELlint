@@ -1,14 +1,16 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
-import isabel.model.Standards;
-import isabel.tool.impl.ValidationCollector;
+import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
+import isabel.model.Standards;
+import isabel.model.bpel.LinkElement;
+import isabel.model.bpel.LinkEntity;
+import isabel.model.bpel.SourcesElement;
+import isabel.model.bpel.TargetsElement;
+import isabel.tool.impl.ValidationCollector;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -22,52 +24,50 @@ public class SA00067Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes sourcesNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:sources", Standards.CONTEXT);
+		Nodes sourcesNodes = fileHandler.getBpel().getDocument().query("//bpel:sources", Standards.CONTEXT);
+		Nodes targetsNodes = fileHandler.getBpel().getDocument().query("//bpel:targets", Standards.CONTEXT);
 		for (Node sources : sourcesNodes) {
-			checkForDoubleLinks(sources);
-		}
-	}
-
-	private void checkForDoubleLinks(Node sources) {
-		Set<String> sourceLinkNames = collectLinkNames(sources);
-
-		Nodes targetsNodesInSoroundingFlow = sources.query(
-				"./../../..//bpel:targets", Standards.CONTEXT);
-		for (Node targets : targetsNodesInSoroundingFlow) {
-			Set<String> targetsLinkNames = collectLinkNames(targets);
-			if (!haveMaxOneSharedLink(sourceLinkNames, targetsLinkNames)) {
-				addViolation(sources);
-				addViolation(targets);
+			for (Node targetsNode : targetsNodes) {
+				checkForDoubleLinks(new SourcesElement(sources), new TargetsElement(targetsNode));
 			}
 		}
 	}
 
-	private Set<String> collectLinkNames(Node linkEntityContainer) {
-		String linkEntityType = determineType(linkEntityContainer);
-		Nodes linkEntityNodes = linkEntityContainer.query("./bpel:"
-				+ linkEntityType, Standards.CONTEXT);
+	private void checkForDoubleLinks(SourcesElement sources, TargetsElement targets) {
+			if (!haveMaxOneSharedLink(targets, sources)) {
+				addViolation(sources);
+				addViolation(targets);
+			}
+	}
 
+	private boolean haveMaxOneSharedLink(TargetsElement targets, SourcesElement sources) {
 		Set<String> linkNames = new HashSet<>();
-		for (Node linkEntityNode : linkEntityNodes) {
-			linkNames.add(new NodeHelper(linkEntityNode)
-					.getAttribute("linkName"));
+		for (LinkEntity source : sources.getAll()) {
+			for (LinkEntity target : targets.getAll()) {
+				linkNames.addAll(collectEqualLinkNames(source, target));
+			}
 		}
+		return linkNames.size() < 2;
+	}
 
+	private Set<String> collectEqualLinkNames(LinkEntity source, LinkEntity target) {
+		Set<String> linkNames = new HashSet<>();
+		String linkName = target.getLinkName();
+		if (source.getLinkName().equals(linkName)) {
+			try {
+				if (areEqual(source.getLink(), target.getLink())) {
+					linkNames.add(linkName);
+				}
+			} catch (NavigationException e) {
+				// ignore because a connection is not possible is a link is missing
+			}
+		}
 		return linkNames;
 	}
-
-	private String determineType(Node linkEntityContainer) {
-		String linkEntityType = new NodeHelper(linkEntityContainer)
-				.getLocalName();
-		String linkEntityTypeWithoutEndingLetter_S = linkEntityType.substring(
-				0, linkEntityType.length() - 1);
-		return linkEntityTypeWithoutEndingLetter_S;
-	}
-
-	private boolean haveMaxOneSharedLink(Set<String> sourceLinkNames,
-			Set<String> targetsLinkNames) {
-		return Sets.intersection(sourceLinkNames, targetsLinkNames).size() < 2;
+	
+	private boolean areEqual(LinkElement linkA, LinkElement linkB) {
+		return getLineNumber(linkA.toXOM()) == getLineNumber(linkB.toXOM()) && 
+				getColumnNumber(linkA.toXOM()) == getColumnNumber(linkB.toXOM());
 	}
 
 	@Override

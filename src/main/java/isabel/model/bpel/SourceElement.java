@@ -7,7 +7,7 @@ import isabel.model.NodeHelper;
 import isabel.model.Referable;
 import isabel.model.Standards;
 
-public class SourceElement implements Referable{
+public class SourceElement implements Referable, LinkEntity {
 
 	private NodeHelper source;
 
@@ -24,10 +24,10 @@ public class SourceElement implements Referable{
 	}
 
 	public LinkElement getLink() throws NavigationException {
-		return new LinkElement(getFlowNode(source.toXOM()));
+		return new LinkElement(getLinkNode(source.toXOM()));
 	}
 
-	private Node getFlowNode(Node node) throws NavigationException {
+	private Node getLinkNode(Node node) throws NavigationException {
 		NodeHelper nodeHelper = new NodeHelper(node);
 		if ("process".equals(nodeHelper.getLocalName())) {
 			throw new NavigationException("Seems this target has no corresponding link");
@@ -40,7 +40,7 @@ public class SourceElement implements Referable{
 			}
 		}
 		
-		return getFlowNode(node.getParent());
+		return getLinkNode(node.getParent());
 	}
 	
 	@Override

@@ -1,12 +1,13 @@
 package isabel.model.bpel;
 
+import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.Referable;
 import isabel.model.Standards;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-public class TargetElement implements Referable {
+public class TargetElement implements Referable, LinkEntity {
 
 	private NodeHelper target;
 
@@ -22,14 +23,14 @@ public class TargetElement implements Referable {
 		return target.getAttribute("linkName");
 	}
 
-	public LinkElement getLink() {
-		return new LinkElement(getFlowNode(target.toXOM()));
+	public LinkElement getLink() throws NavigationException {
+		return new LinkElement(getLinkNode(target.toXOM()));
 	}
-
-	private Node getFlowNode(Node node) {
+	
+	private Node getLinkNode(Node node) throws NavigationException {
 		NodeHelper nodeHelper = new NodeHelper(node);
 		if ("process".equals(nodeHelper.getLocalName())) {
-			throw new IllegalStateException("Seems this target has no corresponding link");
+			throw new NavigationException("Seems this target has no corresponding link");
 		}
 		
 		if ("flow".equals(nodeHelper.getLocalName())) {
@@ -39,7 +40,7 @@ public class TargetElement implements Referable {
 			}
 		}
 		
-		return getFlowNode(node.getParent());
+		return getLinkNode(node.getParent());
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import java.util.List;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-public class TargetsElement implements Referable {
+public class TargetsElement implements Referable, LinkEntityContainer {
 
 	private final NodeHelper targets;
 	
@@ -32,5 +32,14 @@ public class TargetsElement implements Referable {
 	@Override
 	public Node toXOM() {
 		return targets.toXOM();
+	}
+
+	@Override
+	public List<LinkEntity> getAll() {
+		LinkedList<LinkEntity> linkEntities = new LinkedList<>();
+		for (LinkEntity target : getAllTargets()) {
+			linkEntities.add(target);
+		}
+		return linkEntities;
 	}
 }

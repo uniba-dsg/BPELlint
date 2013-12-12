@@ -49,7 +49,7 @@ public abstract class Validator {
 		addViolation(new NodeHelper(node).getFilePath(), node, type);
 	}
 
-	private int getLineNumber(Node node) {
+	protected int getLineNumber(Node node) {
 		if (node instanceof Element) {
 			Element element = (Element) node;
 			return (Integer) element.getUserData("lineNumber");
@@ -61,7 +61,7 @@ public abstract class Validator {
 		}
 	}
 
-	private int getColumnNumber(Node node) {
+	protected int getColumnNumber(Node node) {
 		if (node instanceof Element) {
 			Element element = (Element) node;
 			return (Integer) element.getUserData("columnNumber");
