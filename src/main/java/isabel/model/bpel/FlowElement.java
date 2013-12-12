@@ -4,6 +4,7 @@ import java.util.List;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
+import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.Referable;
 import isabel.model.Standards;
@@ -34,15 +35,15 @@ public class FlowElement implements Referable {
 		return linksElement;
 	}
 
-	public SourceElement getSourceElement(String linkName) {
+	public SourceElement getSourceElement(String linkName) throws NavigationException {
 		Node source = getLinkEntity(linkName, "source");
 		return new SourceElement(source);
 	}
 
-	private Node getLinkEntity(String linkName, String linkEntityType) {
+	private Node getLinkEntity(String linkName, String linkEntityType) throws NavigationException {
 		Nodes linkEntityNodes = flow.toXOM().query(".//bpel:"+linkEntityType+"[@linkName='" + linkName + "']", Standards.CONTEXT);
 		if(!linkEntityNodes.hasAny()){
-			throw new IllegalStateException("Called for <"+linkEntityType+" linkName=\"" + linkName + "\", but it is not in this <flow>");
+			throw new NavigationException("Called for <"+linkEntityType+" linkName=\"" + linkName + "\", but it is not in this <flow>");
 		}
 		
 		return linkEntityNodes.get(0);
@@ -53,7 +54,7 @@ public class FlowElement implements Referable {
 		return flow.toXOM();
 	}
 
-	public TargetElement getTargetElement(String linkName) {
+	public TargetElement getTargetElement(String linkName) throws NavigationException {
 		Node target = getLinkEntity(linkName, "target");
 		return new TargetElement(target);
 	}

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
+import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
 import isabel.model.Standards;
 import isabel.model.bpel.FlowElement;
@@ -30,34 +31,37 @@ public class SA00072Validator extends Validator {
 		Nodes sourceNodes = fileHandler.getBpel().getDocument().query("//bpel:source", Standards.CONTEXT);
 		for (Node node : sourceNodes) {
 			SourceElement source = new SourceElement(node);
-			try {
 				linkNames = new HashSet<>();
 				linkNames.add(source.getLinkName());
 				if (isCyclic(source, source.getLinkName())) {
 					addViolation(node, CYCLIC);
 					break;
 				}
-			} catch (IllegalStateException e) {
-				addViolation(node, NOT_VALIDLY_LINKED);
-			}
+			
 		}
 	}
 
-	private boolean isCyclic(SourceElement source, String linkName) throws IllegalStateException{
-		FlowElement flow = source.getLink().getFlow();
-		TargetElement target = flow.getTargetElement(linkName);
-		LinkedActivity activity = target.getActivity();
+	private boolean isCyclic(SourceElement source, String linkName) {
 		boolean cyclic = false;
 		try {
-			for (SourceElement sourceElement : activity.getSourceElements()) {
-				if(!linkNames.add(sourceElement.getLinkName())){
-					return true;
+			FlowElement flow = source.getLink().getFlow();
+			TargetElement target = flow.getTargetElement(linkName);
+			LinkedActivity activity = target.getActivity();
+			try {
+				for (SourceElement sourceElement : activity.getSourceElements()) {
+					if (!linkNames.add(sourceElement.getLinkName())) {
+						return true;
+					}
+					cyclic = cyclic
+							|| isCyclic(sourceElement,
+									sourceElement.getLinkName());
 				}
-				cyclic = cyclic || isCyclic(sourceElement, sourceElement.getLinkName());
+			} catch (OptionalElementNotPresentException e) {
+				// no source => reached an end of the graph => no cycles so far
+				return false;
 			}
-		} catch (OptionalElementNotPresentException e) {
-			// no source => reached an end of the graph => no cycles so far
-			return false;
+		} catch (NavigationException e) {
+			// ignore navigation error because a cycle can not exist without a target
 		}
 		
 		return cyclic;

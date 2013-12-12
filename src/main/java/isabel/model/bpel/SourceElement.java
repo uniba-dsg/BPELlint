@@ -2,6 +2,7 @@ package isabel.model.bpel;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
+import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.Referable;
 import isabel.model.Standards;
@@ -22,14 +23,14 @@ public class SourceElement implements Referable{
 		return source.getAttribute("linkName");
 	}
 
-	public LinkElement getLink() {
+	public LinkElement getLink() throws NavigationException {
 		return new LinkElement(getFlowNode(source.toXOM()));
 	}
 
-	private Node getFlowNode(Node node) {
+	private Node getFlowNode(Node node) throws NavigationException {
 		NodeHelper nodeHelper = new NodeHelper(node);
 		if ("process".equals(nodeHelper.getLocalName())) {
-			throw new IllegalStateException("Seems this target has no corresponding link");
+			throw new NavigationException("Seems this target has no corresponding link");
 		}
 		
 		if ("flow".equals(nodeHelper.getLocalName())) {

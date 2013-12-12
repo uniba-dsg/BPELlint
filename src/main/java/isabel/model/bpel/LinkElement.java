@@ -1,8 +1,8 @@
 package isabel.model.bpel;
 
+import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.Referable;
-
 import nu.xom.Node;
 
 public class LinkElement implements Referable {
@@ -17,11 +17,11 @@ public class LinkElement implements Referable {
 		return link.getAttribute("name");
 	}
 	
-	public SourceElement getSourceElement() {
+	public SourceElement getSourceElement() throws NavigationException {
 		return getFlow().getSourceElement(getAttributeName());
 	}
 	
-	public TargetElement getTargetElement() {
+	public TargetElement getTargetElement() throws NavigationException {
 		return getFlow().getTargetElement(getAttributeName());
 	}
 
