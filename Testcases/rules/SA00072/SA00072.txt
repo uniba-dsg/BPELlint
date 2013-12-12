@@ -1,4 +1,5 @@
-Place Short Description Here.
+link is cyclic
+<source> is not properly linked to a <target>
 @@@
 A <link> declared in a <flow> MUST NOT create a control cycle, that is, the source activity must not have the target activity as a logically preceding activity.
 @@@
