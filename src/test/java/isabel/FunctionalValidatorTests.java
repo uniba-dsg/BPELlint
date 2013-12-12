@@ -58,7 +58,7 @@ public class FunctionalValidatorTests {
 		return bpelFiles;
 	}
 
-	private static List<Object[]> saViolationTests() {
+	public static List<Object[]> saViolationTests() {
 		Object[][] data = new Object[][]{
 
 				{"Testcases/rules/SA00001/Notification.bpel", "1"},

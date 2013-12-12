@@ -1,8 +1,6 @@
 package isabel;
 
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -17,26 +15,18 @@ class HappyPathTests {
         this.baseDir = Objects.requireNonNull(baseDir, "baseDir must not be null");
     }
 
-    private List<Object[]> aggregateBpelFiles(Path folder) throws IOException {
-
+    private List<Object[]> createTestFromPath(List<Path> paths) {
         List<Object[]> result = new LinkedList<>();
 
-        try (DirectoryStream<Path> fileStream = Files.newDirectoryStream(folder)) {
-            for (Path path : fileStream) {
-                if (Files.isDirectory(path)) {
-                    // recursion
-                    result.addAll(aggregateBpelFiles(path));
-                } else if (Files.isRegularFile(path) && path.toString().endsWith(".bpel")) {
-                    result.add(new Object[]{path.toString(), ""});
-                }
-            }
+        for (Path path : paths) {
+            result.add(new Object[]{path.toString(), ""});
         }
 
         return result;
     }
 
     List<Object[]> list() throws IOException {
-        return Collections.unmodifiableList(aggregateBpelFiles(baseDir));
+        return Collections.unmodifiableList(createTestFromPath(FileUtils.getBpelFiles(baseDir)));
     }
 
 }
