@@ -7,9 +7,15 @@ import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 
-public class ReceiveElement extends NodeHelper implements StartActivity, MessageActivity{
+public class OnMessageElement extends NodeHelper implements MessageActivity {
 
-    private final MessageActivity delegate;
+    private MessageActivity delegate;
+
+    public OnMessageElement(Node node, ProcessContainer processContainer) {
+        super(node);
+
+        delegate = new MessageActivityImpl(this, processContainer);
+    }
 
     @Override
     public Type getType() {
@@ -55,31 +61,4 @@ public class ReceiveElement extends NodeHelper implements StartActivity, Message
     public Node toXOM() {
         return delegate.toXOM();
     }
-
-    public ReceiveElement(Node receive, ProcessContainer processContainer) {
-		super(receive);
-
-		if (!getLocalName().equals("receive")) {
-			throw new IllegalArgumentException(
-					"receive helper only works for bpel:receive elements");
-		}
-
-        delegate = new MessageActivityImpl(this, processContainer);
-	}
-
-	public boolean hasFromParts() {
-		return hasQueryResult("bpel:fromParts");
-	}
-
-	public boolean hasVariable() {
-		return hasAttribute("variable");
-	}
-
-    @Override
-    public boolean isStartActivity() {
-        return hasAttribute("createInstance") && "true".equals(getAttribute("createInstance"));
-    }
-
-
-
 }

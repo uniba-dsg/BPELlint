@@ -1,10 +1,8 @@
 package isabel.model;
 
+import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.bpel.VariableElement;
-import nu.xom.Attribute;
-import nu.xom.Element;
-import nu.xom.Node;
-import nu.xom.Nodes;
+import nu.xom.*;
 
 import java.util.Objects;
 
@@ -200,5 +198,15 @@ public class NodeHelper implements Referable{
 
     public boolean hasNoContent() {
         return asElement().getValue().trim().isEmpty();
+    }
+
+    public PartnerLinkElement getPartnerLink(String partnerLinkName)
+            throws NavigationException {
+        Nodes partnerLink = toXOM().getDocument().query("//bpel:partnerLinks/bpel:partnerLink[@name='" + partnerLinkName + "']", CONTEXT);
+
+        if (partnerLink.hasAny())
+            return new PartnerLinkElement(partnerLink.get(0));
+
+        throw new NavigationException("PartnerLink not defined");
     }
 }

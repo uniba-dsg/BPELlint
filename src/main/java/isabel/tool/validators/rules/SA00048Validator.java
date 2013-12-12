@@ -3,6 +3,7 @@ package isabel.tool.validators.rules;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
 import isabel.model.NavigationException;
+import isabel.model.bpel.InvokeElement;
 import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
@@ -23,9 +24,7 @@ public class SA00048Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes invokes = fileHandler.getBpel().getDocument()
-				.query("//bpel:invoke", CONTEXT);
-		for (Node invoke : invokes) {
+		for (InvokeElement invoke : fileHandler.getAllInvokes()) {
 			try {
 				Map<String, Node> messages = getCorrespondingMessages(invoke);
 				Node variableForInput = getInputVariable(invoke);
@@ -49,22 +48,18 @@ public class SA00048Validator extends Validator {
 		}
 	}
 
-	private Node getInputVariable(Node invokeActivity) {
-		String inputVariableName = new NodeHelper(invokeActivity)
-				.getAttribute("inputVariable");
-		return correspondingVariable(invokeActivity, inputVariableName);
+	private Node getInputVariable(InvokeElement invokeActivity) {
+        return correspondingVariable(invokeActivity, invokeActivity.getInputVariableAttribute());
 	}
 
-	private Node getOutputVariable(Node invokeActivity) {
-		String outputVariableName = new NodeHelper(invokeActivity)
-				.getAttribute("outputVariable");
-		return correspondingVariable(invokeActivity, outputVariableName);
+    private Node getOutputVariable(InvokeElement invokeActivity) {
+        return correspondingVariable(invokeActivity, invokeActivity.getOutputVariableAttribute());
 	}
 
-	private Map<String, Node> getCorrespondingMessages(Node invokeActivity)
+    private Map<String, Node> getCorrespondingMessages(InvokeElement invokeActivity)
 			throws NavigationException {
 		List<XmlFile> wsdlImports = fileHandler.getWsdls();
-		OperationElement operation = navigator.correspondingOperation(invokeActivity);
+		OperationElement operation = invokeActivity.getOperation();
 		return navigator.getOperationMessages(wsdlImports, operation);
 	}
 
@@ -157,8 +152,8 @@ public class SA00048Validator extends Validator {
 				fileHandler.getWsdls());
 	}
 
-	private Node correspondingVariable(Node invokeActivity, String variableName) {
-		Nodes variable = invokeActivity.query(
+	private Node correspondingVariable(InvokeElement invokeActivity, String variableName) {
+		Nodes variable = invokeActivity.toXOM().query(
 				"(ancestor::*/bpel:variables/bpel:variable[@name='"
 						+ variableName + "'])[last()]", CONTEXT);
 

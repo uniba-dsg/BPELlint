@@ -1,5 +1,7 @@
 package isabel.model;
 
+import nu.xom.Document;
+
 public class PrefixHelper {
 
 	public static String removePrefix(String localAttribute) {
@@ -18,4 +20,13 @@ public class PrefixHelper {
 			return "";
 		}
 	}
+
+    public static String getPrefixNamespaceURI(Document document, String namespacePrefix) throws NavigationException {
+        if (namespacePrefix.isEmpty()) {
+            throw new NavigationException(
+                    "Document has no namespace for this prefix");
+        }
+
+        return document.getRootElement().getNamespaceURI(namespacePrefix);
+    }
 }

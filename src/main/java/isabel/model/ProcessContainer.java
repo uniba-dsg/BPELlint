@@ -233,6 +233,66 @@ public class ProcessContainer {
         return result;
     }
 
+    public List<InvokeElement> getAllInvokes() {
+        List<InvokeElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:invoke", CONTEXT)) {
+            result.add(new InvokeElement(node, this));
+        }
+
+        return result;
+    }
+
+    public List<ReplyElement> getAllReplies() {
+        List<ReplyElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:reply", CONTEXT)) {
+            result.add(new ReplyElement(node, this));
+        }
+
+        return result;
+    }
+
+    public List<ReceiveElement> getAllReceives() {
+        List<ReceiveElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:receive", CONTEXT)) {
+            result.add(new ReceiveElement(node, this));
+        }
+
+        return result;
+    }
+
+    public List<OnMessageElement> getAllOnMessages() {
+        List<OnMessageElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:onMessage", CONTEXT)) {
+            result.add(new OnMessageElement(node, this));
+        }
+
+        return result;
+    }
+
+    public List<MessageActivity> getMessageActivities() {
+        List<MessageActivity> messageActivities = new ArrayList<>();
+        messageActivities.addAll(getAllInvokes());
+        messageActivities.addAll(getAllReplies());
+        messageActivities.addAll(getAllReceives());
+        messageActivities.addAll(getAllOnMessages());
+        messageActivities.addAll(getAllOnEvents());
+        return messageActivities;
+    }
+
+    public List<OnEventElement> getAllOnEvents() {
+        List<OnEventElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:onEvent", CONTEXT)) {
+            result.add(new OnEventElement(node, this));
+        }
+
+        return result;
+    }
+
     public List<ToElement> getAllTos() {
         List<ToElement> result = new LinkedList<>();
 

@@ -46,7 +46,7 @@ public class SA00045Validator extends Validator {
 		Document wsdlFile = wsdlEntry.getDocument();
 		Node propertyAlias = navigator.getCorrespondingPropertyAlias(
 				correlationSet, wsdlFile);
-		PropertyElement property = new PropertyAliasElement(propertyAlias).getCorrespondingProperty();
+		PropertyElement property = new PropertyAliasElement(propertyAlias).getProperty();
 
 		String propertyType = property.getAttribute("type");
 		String namespacePrefix = PrefixHelper.getPrefix(propertyType);

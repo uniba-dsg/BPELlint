@@ -1,10 +1,11 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
-import isabel.model.PrefixHelper;
 import isabel.model.NavigationException;
-import isabel.tool.impl.ValidationCollector;
+import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.MessageActivity;
+import isabel.model.bpel.MessageActivityImpl;
+import isabel.tool.impl.ValidationCollector;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
@@ -12,75 +13,76 @@ import static isabel.model.Standards.CONTEXT;
 
 public class SA00053Validator extends Validator {
 
-	public SA00053Validator(ProcessContainer files,
-	                        ValidationCollector violationCollector) {
-		super(files, violationCollector);
-	}
+    public SA00053Validator(ProcessContainer files,
+                            ValidationCollector violationCollector) {
+        super(files, violationCollector);
+    }
 
-	@Override
-	public void validate() {
-		hasPartForEveryFromPart("//bpel:invoke");
-		hasPartForEveryFromPart("//bpel:receive");
-		hasPartForEveryFromPart("//bpel:onMessage");
-		hasPartForEveryFromPart("//bpel:onEvent");
-	}
+    @Override
+    public void validate() {
+        hasPartForEveryFromPart("//bpel:invoke");
+        hasPartForEveryFromPart("//bpel:receive");
+        hasPartForEveryFromPart("//bpel:onMessage");
+        hasPartForEveryFromPart("//bpel:onEvent");
+    }
 
-	private void hasPartForEveryFromPart(String xPathOutgoingOperation) {
-		Nodes incomingOperations = fileHandler.getBpel().getDocument()
-				.query(xPathOutgoingOperation, CONTEXT);
+    private void hasPartForEveryFromPart(String xPathOutgoingOperation) {
+        Nodes incomingOperations = fileHandler.getBpel().getDocument()
+                .query(xPathOutgoingOperation, CONTEXT);
 
-		for (Node incomingOperation : incomingOperations) {
-			try {
-				Node message;
-				if ("invoke".equals(PrefixHelper
-						.removePrefix(xPathOutgoingOperation))) {
-					message = navigator
-							.getCorrespondingOutgoingMessage(incomingOperation);
-				} else {
-					message = navigator
-							.getCorrespondingIncomingMessage(incomingOperation);
-				}
+        for (Node incomingOperation : incomingOperations) {
+            try {
 
-				Nodes fromParts = incomingOperation.query(
-						"bpel:fromParts/bpel:fromPart", CONTEXT);
+                MessageActivityImpl messageActivity = new MessageActivityImpl(new NodeHelper(incomingOperation), fileHandler);
+                Node message;
+                if (MessageActivity.Type.INVOKE.equals(messageActivity.getType())) {
+                    message = navigator.getCorrespondingOutgoingMessage(messageActivity);
+                } else if(messageActivity.isReceiving()) {
+                    message = navigator.getCorrespondingIncomingMessage(messageActivity);
+                } else {
+                    throw new IllegalStateException("Should not happen!");
+                }
 
-				if (fromParts.hasAny()) {
-					for (Node fromPart : fromParts) {
+                Nodes fromParts = incomingOperation.query(
+                        "bpel:fromParts/bpel:fromPart", CONTEXT);
 
-						if (!hasFromPartCorrespondingMessagePart(fromPart, message)) {
-							addViolation(fromPart);
-						}
-					}
-				}
-			} catch (NavigationException e) {
-				// message does not exist, outgoingOperation is not validatable
-				// => valid
-			}
+                if (fromParts.hasAny()) {
+                    for (Node fromPart : fromParts) {
 
-		}
-	}
+                        if (!hasFromPartCorrespondingMessagePart(fromPart, message)) {
+                            addViolation(fromPart);
+                        }
+                    }
+                }
+            } catch (NavigationException e) {
+                // message does not exist, outgoingOperation is not validatable
+                // => valid
+            }
 
-	private boolean hasFromPartCorrespondingMessagePart(Node fromPart,
-	                                                    Node message) {
-		Nodes messageParts = message.query("wsdl:part", CONTEXT);
+        }
+    }
 
-		if (messageParts.hasAny()) {
-			String partAttribute = new NodeHelper(fromPart).getAttribute("part");
+    private boolean hasFromPartCorrespondingMessagePart(Node fromPart,
+                                                        Node message) {
+        Nodes messageParts = message.query("wsdl:part", CONTEXT);
 
-			for (Node part : messageParts) {
-				String partName = new NodeHelper(part).getAttribute("name");
+        if (messageParts.hasAny()) {
+            String partAttribute = new NodeHelper(fromPart).getAttribute("part");
 
-				if (partName.equals(partAttribute)) {
-					return true;
-				}
+            for (Node part : messageParts) {
+                String partName = new NodeHelper(part).getAttribute("name");
 
-			}
-		}
-		return false;
-	}
+                if (partName.equals(partAttribute)) {
+                    return true;
+                }
 
-	@Override
-	public int getSaNumber() {
-		return 53;
-	}
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int getSaNumber() {
+        return 53;
+    }
 }
