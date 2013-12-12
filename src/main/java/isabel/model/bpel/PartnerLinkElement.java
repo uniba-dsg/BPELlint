@@ -4,6 +4,7 @@ import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.mex.MessageActivityImpl;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Document;
 import nu.xom.Node;

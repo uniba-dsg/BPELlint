@@ -1,6 +1,7 @@
 package isabel.model;
 
 import isabel.model.bpel.*;
+import isabel.model.bpel.mex.*;
 import isabel.tool.validators.rules.VariablesElement;
 import nu.xom.Document;
 import nu.xom.Node;

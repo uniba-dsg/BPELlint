@@ -3,7 +3,7 @@ package isabel.tool.validators.rules;
 import isabel.model.NavigationException;
 import isabel.model.PrefixHelper;
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.MessageActivity;
+import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.wsdl.PortTypeElement;
 import isabel.tool.impl.ValidationCollector;
 

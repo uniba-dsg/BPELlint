@@ -1,22 +1,22 @@
-package isabel.model.bpel;
+package isabel.model.bpel.mex;
 
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 
-public class OnEventElement extends NodeHelper implements MessageActivity{
+public class OnMessageElement extends NodeHelper implements MessageActivity {
 
     private MessageActivity delegate;
 
-    public OnEventElement(Node node, ProcessContainer processContainer) {
+    public OnMessageElement(Node node, ProcessContainer processContainer) {
         super(node);
 
         delegate = new MessageActivityImpl(this, processContainer);
     }
-
 
     @Override
     public Type getType() {
@@ -62,5 +62,4 @@ public class OnEventElement extends NodeHelper implements MessageActivity{
     public Node toXOM() {
         return delegate.toXOM();
     }
-
 }

@@ -1,7 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.*;
-import isabel.model.bpel.MessageActivity;
+import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.wsdl.OperationElement;
 import nu.xom.*;
 

@@ -1,7 +1,8 @@
-package isabel.model.bpel;
+package isabel.model.bpel.mex;
 
 import isabel.model.NavigationException;
 import isabel.model.Referable;
+import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 

@@ -3,7 +3,7 @@ package isabel.tool.validators.rules;
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
 import isabel.model.Standards;
-import isabel.model.bpel.InvokeElement;
+import isabel.model.bpel.mex.InvokeElement;
 import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
 import nu.xom.Node;

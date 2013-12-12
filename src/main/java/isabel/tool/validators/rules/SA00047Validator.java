@@ -2,14 +2,12 @@ package isabel.tool.validators.rules;
 
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.MessageActivity;
+import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import static isabel.model.Standards.CONTEXT;
