@@ -10,7 +10,7 @@ import static isabel.model.Standards.CONTEXT;
 
 public class NodeHelper implements Referable{
 
-    protected Node node;
+    protected final Node node;
 
     public NodeHelper(Node node) {
         if (node == null) {
@@ -20,6 +20,26 @@ public class NodeHelper implements Referable{
         this.node = node;
     }
 
+	/**
+	 * Create a {@link NodeHelper} and check that <code>node</code> name equals
+	 * <code>type</code>
+	 * 
+	 * @param node the {@link NodeHelper} operates on this {@link Node}
+	 * @param type equals {@link NodeHelper}<code>.getLocalName()</code>
+	 * @throws IllegalArgumentException
+	 *             if the name <code>node</code> element is not equal to
+	 *             <code>type</code>.
+	 */
+	public NodeHelper(Node node, String type) {
+		this(node);
+		Objects.requireNonNull(type, "null is no type");
+		Objects.requireNonNull(node, "Expected <" + type + "> element.");
+		NodeHelper nodeHelper = new NodeHelper(node);
+		if (!type.equals(nodeHelper.getLocalName())) {
+			throw new IllegalArgumentException("Expect a <" + type + "> element. But was " + nodeHelper.getLocalName());
+		}
+	}
+	
     public String getLocalName() {
         Element el = (Element) node;
         return el.getLocalName();
