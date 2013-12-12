@@ -203,6 +203,16 @@ public class ProcessContainer {
         return result;
     }
 
+    public List<PartnerLinksElement> getAllPartnerLinksContainer() {
+        List<PartnerLinksElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:partnerLinks", CONTEXT)) {
+            result.add(new PartnerLinksElement(node));
+        }
+
+        return result;
+    }
+
     public List<VariableElement> getAllVariables() {
         List<VariableElement> result = new LinkedList<>();
 
