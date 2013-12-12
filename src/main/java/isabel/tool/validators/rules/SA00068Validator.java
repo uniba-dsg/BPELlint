@@ -1,14 +1,16 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.Standards;
+import isabel.model.bpel.SourceElement;
+import isabel.model.bpel.SourcesElement;
 import isabel.tool.impl.ValidationCollector;
-import nu.xom.Node;
-import nu.xom.Nodes;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import nu.xom.Node;
+import nu.xom.Nodes;
 
 public class SA00068Validator extends Validator {
 
@@ -22,15 +24,14 @@ public class SA00068Validator extends Validator {
         Nodes sourcesNodes = this.fileHandler.getBpel().getDocument()
                 .query("//bpel:sources", Standards.CONTEXT);
         for (Node sources : sourcesNodes) {
-            checkLinkNameUniqueness(sources);
+            checkLinkNameUniqueness(new SourcesElement(sources));
         }
     }
 
-    private void checkLinkNameUniqueness(Node sources) {
+    private void checkLinkNameUniqueness(SourcesElement sourcesElement) {
         Set<String> uniqueNames = new HashSet<>();
-        for (Node source : sources.query("./bpel:source",
-                Standards.CONTEXT)) {
-            String name = new NodeHelper(source).getAttribute("linkName");
+        for (SourceElement source : sourcesElement.getAllSources()) {
+            String name = source.getLinkName();
 
             if (uniqueNames.contains(name)) {
                 addViolation(source);
