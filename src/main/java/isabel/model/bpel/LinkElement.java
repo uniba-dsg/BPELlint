@@ -13,16 +13,16 @@ public class LinkElement implements Referable {
 		link = new NodeHelper(node, "link");
 	}
 	
-	public String getAttributeName() {
+	public String getName() {
 		return link.getAttribute("name");
 	}
 	
 	public SourceElement getSourceElement() throws NavigationException {
-		return getFlow().getSourceElement(getAttributeName());
+		return getFlow().getSourceElement(getName());
 	}
 	
 	public TargetElement getTargetElement() throws NavigationException {
-		return getFlow().getTargetElement(getAttributeName());
+		return getFlow().getTargetElement(getName());
 	}
 
 	public FlowElement getFlow() {

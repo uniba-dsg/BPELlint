@@ -44,7 +44,7 @@ public class SA00066Validator extends Validator {
 
 	private int count(String linkEntity, LinkElement link) {
 		int amountOfActivities = 0;
-		String linkName = link.getAttributeName();
+		String linkName = link.getName();
 		FlowElement flow = link.getFlow();
 		Nodes linkEntityContainers = flow.toXOM().query(".//bpel:" + linkEntity + "s",
 				Standards.CONTEXT);
