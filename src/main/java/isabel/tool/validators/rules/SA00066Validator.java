@@ -2,11 +2,11 @@ package isabel.tool.validators.rules;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
-import nu.xom.ParentNode;
-import isabel.model.NodeHelper;
 import isabel.model.Standards;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.FlowElement;
+import isabel.model.bpel.LinkElement;
 
 public class SA00066Validator extends Validator {
 
@@ -25,14 +25,14 @@ public class SA00066Validator extends Validator {
 		Nodes linkNodes = fileHandler.getBpel().getDocument()
 				.query("//bpel:link", Standards.CONTEXT);
 		for (Node link : linkNodes) {
-			int amountOfSources = count("source", link);
+			int amountOfSources = count("source", new LinkElement(link));
 			if (amountOfSources > 1) {
 				addViolation(link, TOO_MANY_SOURCES);
 			} else if (amountOfSources < 1) {
 				addViolation(link, NO_SOURCE);
 			}
 
-			int amountOfTargets = count("target", link);
+			int amountOfTargets = count("target", new LinkElement(link));
 			if (amountOfTargets > 1) {
 				addViolation(link, TOO_MANY_TARGETS);
 			} else if (amountOfTargets < 1) {
@@ -42,11 +42,11 @@ public class SA00066Validator extends Validator {
 
 	}
 
-	private int count(String linkEntity, Node link) {
+	private int count(String linkEntity, LinkElement link) {
 		int amountOfActivities = 0;
-		String linkName = new NodeHelper(link).getAttribute("name");
-		ParentNode flow = link.getParent().getParent();
-		Nodes linkEntityContainers = flow.query(".//bpel:" + linkEntity + "s",
+		String linkName = link.getAttributeName();
+		FlowElement flow = link.getFlow();
+		Nodes linkEntityContainers = flow.toXOM().query(".//bpel:" + linkEntity + "s",
 				Standards.CONTEXT);
 		for (Node linkEntityContainer : linkEntityContainers) {
 			Nodes linkEntities = linkEntityContainer.query(".//bpel:"
