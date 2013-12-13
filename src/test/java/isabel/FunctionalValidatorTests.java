@@ -294,9 +294,11 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00080/EmptyFaultHandlersInProcess.bpel", "80"},
 				{"Testcases/rules/SA00080/EmptyFaultHandlersInProcess.bpel", "80"},
+				{"Testcases/rules/SA00080/EmptyFaultHandlersInScope.bpel", "80"},
 
 				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
-				{ "Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel","83" },
+				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
+				{"Testcases/rules/SA00083/EmptyEventHandlersInScope.bpel", "83"},
 
 		};
 		return Arrays.asList(data);
