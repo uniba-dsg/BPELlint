@@ -1,0 +1,27 @@
+Place Short Description Here.
+@@@
+If a process has multiple start activities with correlation sets then all such activities MUST share at least one common correlationSet and all common correlationSets defined on all the activities MUST have the value of the initiate attribute be set to 'join'.
+@@@
+$startActivity = <receive> | <onMessage>
+
+FOREACH $startActivity<correlations>
+    UNLESS isSingleStartingPoint()
+        FAIL UNLESS hasSharedJoinCorrelationSet($startActivity)
+
+isSingleStartingPoint: boolean
+    SET $startingPoints TO EMPTY_LIST
+    FOREACH <recieve>@createInstance
+        IF <recieve>@createInstance EQUALS 'yes'
+            ADD <recieve> TO $startingPoints
+    FOREACH <pick>@createInstance
+        IF <pick>@createInstance EQUALS 'yes'
+            ADD <pick> TO $startingPoints
+    RETURN COUNT $startingPoints EQUALS '1'
+
+hasSharedJoinCorrelationSet: $startActivity -> boolean
+
+@@@
+OnMessageCorrelationYesAndJoin.bpel
+ReceiveCorrelationYesAndJoin.bpel
+OnMessageReceiveCorrelationYesAndJoin.bpel
+@@@
