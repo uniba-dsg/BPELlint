@@ -22,17 +22,15 @@ public class SA00066Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes linkNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:link", Standards.CONTEXT);
-		for (Node link : linkNodes) {
-			int amountOfSources = count("source", new LinkElement(link));
+		for (LinkElement link : fileHandler.getAllLinks()) {
+			int amountOfSources = count("source", link);
 			if (amountOfSources > 1) {
 				addViolation(link, TOO_MANY_SOURCES);
 			} else if (amountOfSources < 1) {
 				addViolation(link, NO_SOURCE);
 			}
 
-			int amountOfTargets = count("target", new LinkElement(link));
+			int amountOfTargets = count("target", link);
 			if (amountOfTargets > 1) {
 				addViolation(link, TOO_MANY_TARGETS);
 			} else if (amountOfTargets < 1) {

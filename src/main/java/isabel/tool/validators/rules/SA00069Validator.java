@@ -1,16 +1,12 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.ProcessContainer;
-import isabel.model.Standards;
 import isabel.model.bpel.TargetElement;
 import isabel.model.bpel.TargetsElement;
 import isabel.tool.impl.ValidationCollector;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import nu.xom.Node;
-import nu.xom.Nodes;
 
 public class SA00069Validator extends Validator {
 
@@ -21,10 +17,8 @@ public class SA00069Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes targetsNodes = this.fileHandler.getBpel().getDocument()
-				.query("//bpel:targets", Standards.CONTEXT);
-		for (Node targets : targetsNodes) {
-			checkLinkNameUniqueness(new TargetsElement(targets));
+		for (TargetsElement targets : fileHandler.getAllTargetsContainer()) {
+			checkLinkNameUniqueness(targets);
 		}
 	}
 

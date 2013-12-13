@@ -3,11 +3,8 @@ package isabel.tool.validators.rules;
 import java.util.HashSet;
 import java.util.Set;
 
-import nu.xom.Node;
-import nu.xom.Nodes;
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
-import isabel.model.Standards;
 import isabel.model.bpel.FlowElement;
 import isabel.model.bpel.LinkedActivity;
 import isabel.model.bpel.OptionalElementNotPresentException;
@@ -26,14 +23,11 @@ public class SA00072Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes sourceNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:source", Standards.CONTEXT);
-		for (Node node : sourceNodes) {
-			SourceElement source = new SourceElement(node);
+		for (SourceElement source : fileHandler.getAllSources()) {
 			linkNames = new HashSet<>();
 			linkNames.add(source.getLinkName());
 			if (isCreatingControlCycle(source)) {
-				addViolation(node);
+				addViolation(source);
 				break;
 			}
 

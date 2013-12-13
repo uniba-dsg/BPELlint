@@ -37,9 +37,8 @@ public class TargetsElement implements Referable, LinkEntityContainer {
 	@Override
 	public List<LinkEntity> getAll() {
 		LinkedList<LinkEntity> linkEntities = new LinkedList<>();
-		for (LinkEntity target : getAllTargets()) {
-			linkEntities.add(target);
-		}
+		linkEntities.addAll(getAllTargets());
+		
 		return linkEntities;
 	}
 }

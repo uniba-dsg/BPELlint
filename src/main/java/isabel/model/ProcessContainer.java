@@ -392,7 +392,76 @@ public class ProcessContainer {
         return result;
     }
 
+    public List<SourceElement> getAllSources() {
+        List<SourceElement> result = new LinkedList<>();
 
+        for (Node node : getBpel().getDocument().query("//bpel:source", CONTEXT)) {
+            result.add(new SourceElement(node));
+        }
+
+        return result;
+    }
+    
+    public List<SourcesElement> getAllSourcesContainer() {
+        List<SourcesElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:sources", CONTEXT)) {
+            result.add(new SourcesElement(node));
+        }
+
+        return result;
+    }
+    
+    public List<TargetElement> getAllTargets() {
+        List<TargetElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:target", CONTEXT)) {
+            result.add(new TargetElement(node));
+        }
+
+        return result;
+    }
+    
+    public List<TargetsElement> getAllTargetsContainer() {
+        List<TargetsElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:targets", CONTEXT)) {
+            result.add(new TargetsElement(node));
+        }
+
+        return result;
+    }
+    
+    public List<LinkElement> getAllLinks() {
+        List<LinkElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:link", CONTEXT)) {
+            result.add(new LinkElement(node));
+        }
+
+        return result;
+    }
+    
+    
+    public List<LinksElement> getAllLinksContainer() {
+        List<LinksElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:links", CONTEXT)) {
+            result.add(new LinksElement(node));
+        }
+
+        return result;
+    }
+
+    
+    public List<LinkEntity> getAllLinkEntities() {
+        List<LinkEntity> result = new LinkedList<>();
+        result.addAll(getAllSources());
+        result.addAll(getAllTargets());
+        
+        return result;
+    }
+    
     void validate() {
         // assertion
         if (getWsdls().isEmpty()) {

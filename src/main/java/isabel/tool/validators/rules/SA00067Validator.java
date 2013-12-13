@@ -2,7 +2,6 @@ package isabel.tool.validators.rules;
 
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
-import isabel.model.Standards;
 import isabel.model.bpel.LinkElement;
 import isabel.model.bpel.LinkEntity;
 import isabel.model.bpel.SourcesElement;
@@ -11,9 +10,6 @@ import isabel.tool.impl.ValidationCollector;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import nu.xom.Node;
-import nu.xom.Nodes;
 
 public class SA00067Validator extends Validator {
 
@@ -24,11 +20,9 @@ public class SA00067Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes sourcesNodes = fileHandler.getBpel().getDocument().query("//bpel:sources", Standards.CONTEXT);
-		Nodes targetsNodes = fileHandler.getBpel().getDocument().query("//bpel:targets", Standards.CONTEXT);
-		for (Node sources : sourcesNodes) {
-			for (Node targetsNode : targetsNodes) {
-				checkForDoubleLinks(new SourcesElement(sources), new TargetsElement(targetsNode));
+		for (SourcesElement sources : fileHandler.getAllSourcesContainer()) {
+			for (TargetsElement targetsNode : fileHandler.getAllTargetsContainer()) {
+				checkForDoubleLinks(sources, targetsNode);
 			}
 		}
 	}

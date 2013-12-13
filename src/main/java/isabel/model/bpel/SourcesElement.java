@@ -37,9 +37,8 @@ public class SourcesElement implements Referable, LinkEntityContainer {
 	@Override
 	public List<LinkEntity> getAll() {
 		LinkedList<LinkEntity> linkEntities = new LinkedList<>();
-		for (LinkEntity target : getAllSources()) {
-			linkEntities.add(target);
-		}
+		linkEntities.addAll(getAllSources());
+		
 		return linkEntities;
 	}
 }

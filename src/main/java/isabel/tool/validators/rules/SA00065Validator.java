@@ -2,13 +2,8 @@ package isabel.tool.validators.rules;
 
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
-import isabel.model.Standards;
 import isabel.model.bpel.LinkEntity;
-import isabel.model.bpel.SourceElement;
-import isabel.model.bpel.TargetElement;
 import isabel.tool.impl.ValidationCollector;
-import nu.xom.Node;
-import nu.xom.Nodes;
 
 public class SA00065Validator extends Validator {
 
@@ -19,31 +14,12 @@ public class SA00065Validator extends Validator {
 
 	@Override
 	public void validate() {
-		checkSourceLinks();
-		checkTargetLinks();
-	}
-
-	private void checkSourceLinks() {
-		Nodes sourceNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:source", Standards.CONTEXT);
-		for (Node source : sourceNodes) {
-			checkLinkExists(new SourceElement(source));
-		}
-	}
-
-	private void checkTargetLinks() {
-		Nodes targetNodes = fileHandler.getBpel().getDocument()
-				.query("//bpel:target", Standards.CONTEXT);
-		for (Node targetNode : targetNodes) {
-			checkLinkExists(new TargetElement(targetNode));
-		}
-	}
-
-	private void checkLinkExists(LinkEntity linkEntity) {
-		try {
-			linkEntity.getLink();
-		} catch (NavigationException e) {
-			addViolation(linkEntity);
+		for (LinkEntity linkEntity : fileHandler.getAllLinkEntities()) {
+			try {
+				linkEntity.getLink();
+			} catch (NavigationException e) {
+				addViolation(linkEntity);
+			}
 		}
 	}
 
