@@ -1,11 +1,14 @@
 package isabel.tool.validators.rules;
 
+import isabel.model.NavigationException;
+import isabel.model.ProcessContainer;
+import isabel.model.Standards;
+import isabel.model.bpel.LinkEntity;
+import isabel.model.bpel.SourceElement;
+import isabel.model.bpel.TargetElement;
+import isabel.tool.impl.ValidationCollector;
 import nu.xom.Node;
 import nu.xom.Nodes;
-import isabel.model.NodeHelper;
-import isabel.model.Standards;
-import isabel.tool.impl.ValidationCollector;
-import isabel.model.ProcessContainer;
 
 public class SA00065Validator extends Validator {
 
@@ -16,43 +19,32 @@ public class SA00065Validator extends Validator {
 
 	@Override
 	public void validate() {
+		checkSourceLinks();
+		checkTargetLinks();
+	}
+
+	private void checkSourceLinks() {
 		Nodes sourceNodes = fileHandler.getBpel().getDocument()
 				.query("//bpel:source", Standards.CONTEXT);
-		checkAllCorrespondingLinks(sourceNodes);
+		for (Node source : sourceNodes) {
+			checkLinkExists(new SourceElement(source));
+		}
+	}
+
+	private void checkTargetLinks() {
 		Nodes targetNodes = fileHandler.getBpel().getDocument()
 				.query("//bpel:target", Standards.CONTEXT);
-		checkAllCorrespondingLinks(targetNodes);
+		for (Node targetNode : targetNodes) {
+			checkLinkExists(new TargetElement(targetNode));
+		}
 	}
 
-	private void checkAllCorrespondingLinks(Nodes linkEntities) {
-		for (Node linkEntity : linkEntities) {
-			String linkName = new NodeHelper(linkEntity)
-					.getAttribute("linkName");
-			if (!correspondingLinkExists(linkEntity, linkName)) {
-				addViolation(linkEntity);
-			}
+	private void checkLinkExists(LinkEntity linkEntity) {
+		try {
+			linkEntity.getLink();
+		} catch (NavigationException e) {
+			addViolation(linkEntity);
 		}
-
-	}
-
-	private boolean correspondingLinkExists(Node node, String linkName) {
-		NodeHelper nodeHelper = new NodeHelper(node);
-		if ("process".equals(nodeHelper.getLocalName())) {
-			return false;
-		}
-		if (!"flow".equals(nodeHelper.getLocalName())) {
-			return correspondingLinkExists(node.getParent(), linkName);
-		}
-		Nodes link = node.query("./bpel:links/bpel:link[@name='" + linkName
-				+ "']", Standards.CONTEXT);
-		if (!isCorresponding(link)) {
-			return correspondingLinkExists(node.getParent(), linkName);
-		}
-		return true;
-	}
-
-	private boolean isCorresponding(Nodes link) {
-		return link.size() > 0;
 	}
 
 	@Override
