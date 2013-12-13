@@ -28,4 +28,12 @@ public class VariableElement extends NodeHelper {
     public String getName() {
         return getAttribute("name");
     }
+
+    public String getType() {
+        return getAttribute("type");
+    }
+
+    public String getMessageType() {
+        return getAttribute("messageType");
+    }
 }

@@ -8,6 +8,8 @@ import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 
+import static isabel.model.Standards.CONTEXT;
+
 public class InvokeElement extends NodeHelper implements MessageActivity {
 
     private final MessageActivity delegate;
@@ -69,5 +71,21 @@ public class InvokeElement extends NodeHelper implements MessageActivity {
 
     public String getOutputVariableAttribute() {
         return getAttribute("outputVariable");
+    }
+
+    public boolean hasInputVariable() {
+        return toXOM().query("@inputVariable", CONTEXT).hasAny();
+    }
+
+    public boolean hasToParts() {
+        return toXOM().query("bpel:toParts", CONTEXT).hasAny();
+    }
+
+    public boolean hasFromParts() {
+        return toXOM().query("bpel:fromParts", CONTEXT).hasAny();
+    }
+
+    public boolean hasOutputVariable() {
+        return !getOutputVariableAttribute().isEmpty();
     }
 }
