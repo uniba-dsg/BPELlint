@@ -232,6 +232,26 @@ public class ProcessContainer {
         return result;
     }
 
+    public List<FaultHandlersElement> getAllFaultHandlers() {
+        List<FaultHandlersElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:faultHandlers", CONTEXT)) {
+            result.add(new FaultHandlersElement(node));
+        }
+
+        return result;
+    }
+
+    public List<EventHandlersElement> getAllEventHandlers() {
+        List<EventHandlersElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:eventHandlers", CONTEXT)) {
+            result.add(new EventHandlersElement(node));
+        }
+
+        return result;
+    }
+
     public List<CorrelationsElement> getAllCorrelationsWithinInvokes() {
         List<CorrelationsElement> result = new LinkedList<>();
 

@@ -1,35 +1,27 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
-import isabel.model.Standards;
-import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
-import nu.xom.Node;
-import nu.xom.Nodes;
+import isabel.model.bpel.FaultHandlersElement;
+import isabel.tool.impl.ValidationCollector;
 
 public class SA00080Validator extends Validator {
 
-	public SA00080Validator(ProcessContainer files,
-	                        ValidationCollector validationCollector) {
-		super(files, validationCollector);
-	}
+    public SA00080Validator(ProcessContainer files,
+                            ValidationCollector validationCollector) {
+        super(files, validationCollector);
+    }
 
-	@Override
-	public void validate() {
-		Nodes faultHandlers = fileHandler.getBpel().getDocument()
-				.query("//bpel:faultHandlers", Standards.CONTEXT);
-		for (Node faultHandler : faultHandlers) {
-			NodeHelper faultHandlerHelper = new NodeHelper(faultHandler);
+    @Override
+    public void validate() {
+        for (FaultHandlersElement faultHandler : fileHandler.getAllFaultHandlers()) {
+            if (!faultHandler.hasCatches() && !faultHandler.hasCatchAll()) {
+                addViolation(faultHandler);
+            }
+        }
+    }
 
-			if (faultHandlerHelper.hasEmptyQueryResult("bpel:catch")
-					&& faultHandlerHelper.hasEmptyQueryResult("bpel:catchAll")) {
-				addViolation(faultHandler);
-			}
-		}
-	}
-
-	@Override
-	public int getSaNumber() {
-		return 80;
-	}
+    @Override
+    public int getSaNumber() {
+        return 80;
+    }
 }
