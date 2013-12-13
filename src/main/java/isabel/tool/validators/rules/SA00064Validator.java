@@ -5,10 +5,11 @@ import java.util.Set;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
-import isabel.model.NodeHelper;
 import isabel.model.Standards;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.LinkElement;
+import isabel.model.bpel.LinksElement;
 
 public class SA00064Validator extends Validator {
 
@@ -22,15 +23,14 @@ public class SA00064Validator extends Validator {
 		Nodes linksNodes = this.fileHandler.getBpel().getDocument()
 				.query("//bpel:links", Standards.CONTEXT);
 		for (Node links : linksNodes) {
-			checkLinkeNameUniqueness(links);
+			checkLinkeNameUniqueness(new LinksElement(links));
 		}
 	}
 
-	private void checkLinkeNameUniqueness(Node links) {
+	private void checkLinkeNameUniqueness(LinksElement linksElement) {
 		Set<String> uniqueNames = new HashSet<>();
-		for (Node link : links.query("./bpel:link",
-				Standards.CONTEXT)) {
-			String name = new NodeHelper(link).getAttribute("name");
+		for (LinkElement link : linksElement.getAllLinks()) {
+			String name = link.getName();
 			
 			if (uniqueNames.contains(name)) {
 				addViolation(link);
