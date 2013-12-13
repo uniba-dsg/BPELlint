@@ -62,4 +62,12 @@ public class OnMessageElement extends NodeHelper implements MessageActivity {
     public Node toXOM() {
         return delegate.toXOM();
     }
+
+    public boolean hasVariable() {
+        return hasAttribute("variable");
+    }
+
+    public boolean hasFromParts() {
+        return hasQueryResult("bpel:fromParts");
+    }
 }
