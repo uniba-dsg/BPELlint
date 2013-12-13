@@ -1,7 +1,6 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.ProcessContainer;
-import isabel.model.XmlFile;
 import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
 

@@ -5,7 +5,6 @@ import isabel.model.bpel.CorrelationSetElement;
 import isabel.model.bpel.VariableElement;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.tool.impl.ValidationCollector;
-import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;

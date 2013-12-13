@@ -3,7 +3,6 @@ package isabel.tool.validators.rules;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
-import isabel.model.XmlFile;
 
 public class SA00020Validator extends Validator {
 

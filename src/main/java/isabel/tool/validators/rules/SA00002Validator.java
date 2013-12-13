@@ -4,7 +4,6 @@ import isabel.model.wsdl.PortTypeElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import nu.xom.Attribute;
-import nu.xom.Node;
 
 import java.util.HashSet;
 import java.util.Set;
