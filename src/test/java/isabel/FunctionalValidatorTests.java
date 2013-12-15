@@ -240,6 +240,10 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00055/Receive-WithFromPartElementAndVariableAttribute.bpel", "55"},
 
+				{"Testcases/rules/SA00057/OnMessageCorrelationYesAndJoin.bpel", "57"},
+				{"Testcases/rules/SA00057/OnMessageReceiveCorrelationYesAndJoin.bpel", "57"},
+				{"Testcases/rules/SA00057/ReceiveCorrelationYesAndJoin.bpel", "57"},
+
 				{"Testcases/rules/SA00059/Reply-WithToPartElementAndVariableAttribute.bpel", "59"},
 
 				{"Testcases/rules/SA00061/OnEventMessageExchangeNotInScope.bpel", "61"},
