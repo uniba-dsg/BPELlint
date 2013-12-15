@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-    name="Flow-Two-Starting-OnMessage-Correlation"
-    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/flowTwoStartingOnMessageCorrelation"
+    name="Flow-Starting-Receive-OnMessage-Correlation"
+    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/flowStartingReceiveOnMessageCorrelation"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -22,23 +22,21 @@
     </correlationSets>
     <sequence>
         <flow name="Flow">
-            <pick name="Pick1" createInstance="yes">
-                <onMessage partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData1">
+            <sequence name="Sequence">
+                <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData1">
                     <correlations>
                         <correlation set="CorrelationSet" initiate="join"/>
                     </correlations>
-                    <sequence name="Sequence">
-                        <assign name="AssignReplyData">
-                            <copy>
-                                <from><literal>0</literal></from>
-                                <to variable="ReplyData1" part="outputPart"/>
-                            </copy>
-                        </assign>
-                        <reply name="ReplyToInitialReceive1" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData1"/>
-                    </sequence>
-                </onMessage>
-            </pick>
-            <pick name="Pick2" createInstance="yes">
+                </receive>
+                <assign name="AssignReplyData">
+                    <copy>
+                        <from><literal>0</literal></from>
+                        <to variable="ReplyData1" part="outputPart"/>
+                    </copy>
+                </assign>
+                <reply name="ReplyToInitialReceive1" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData1"/>
+            </sequence>
+            <pick name="Pick" createInstance="yes">
                 <onMessage partnerLink="MyRoleLink" operation="startProcessSyncString" portType="ti:TestInterfacePortType" variable="InitData2">
                     <correlations>
                         <correlation set="CorrelationSet" initiate="join"/>
