@@ -24,6 +24,19 @@ public class SA00057Validator extends Validator {
 
 	@Override
 	public void validate() {
+		List<Set<String>> joinCorrelationSetNames = listAllJoinCorrelationSetNames();
+		
+		if (isSingleStartingPoint()) {
+			return;
+		}	
+		haveAtLeastOneSharedCorrelationSet(joinCorrelationSetNames);
+	}
+
+	private boolean isSingleStartingPoint() {
+		return correlationgStartActivitiesCounter == 1;
+	}
+
+	private List<Set<String>> listAllJoinCorrelationSetNames() {
 		List<Set<String>> joinCorrelationSetNames = new LinkedList<>();
 		correlationgStartActivitiesCounter = 0;
 		for (StartActivity receiveOrOnMessage : fileHandler.getAllStartAcivities()) {
@@ -33,19 +46,7 @@ public class SA00057Validator extends Validator {
 				// no starting point with correlation => continue with next start activity
 			}
 		}
-		
-		if (correlationgStartActivitiesCounter < 2) {
-			return;
-		}	
-		for (Set<String> setA : joinCorrelationSetNames) {
-			for (Set<String> setB : joinCorrelationSetNames) {
-				if (!(Sets.intersection(setA, setB).size() > 0)) {
-					addViolation(fileHandler.getProcess());
-				}
-			}
-		}
-
-		
+		return joinCorrelationSetNames;
 	}
 
 	private Set<String> checkActivity(StartActivity receiveOrOnMessage) throws NavigationException {
@@ -60,6 +61,17 @@ public class SA00057Validator extends Validator {
 			return activityJoinCorrelationSetNames;
 		} else {
 			throw new NavigationException("This is not a start activity.");
+		}
+	}
+
+	private void haveAtLeastOneSharedCorrelationSet(
+			List<Set<String>> joinCorrelationSetNames) {
+		for (Set<String> setA : joinCorrelationSetNames) {
+			for (Set<String> setB : joinCorrelationSetNames) {
+				if (!(Sets.intersection(setA, setB).size() > 0)) {
+					addViolation(fileHandler.getProcess());
+				}
+			}
 		}
 	}
 

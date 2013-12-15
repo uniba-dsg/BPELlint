@@ -1,25 +1,37 @@
-Place Short Description Here.
+multiple start acivities, using correlations, do not share a join correlation
 @@@
 If a process has multiple start activities with correlation sets then all such activities MUST share at least one common correlationSet and all common correlationSets defined on all the activities MUST have the value of the initiate attribute be set to 'join'.
 @@@
 $startActivity = <receive> | <onMessage>
 
-FOREACH $startActivity<correlations>
-    UNLESS isSingleStartingPoint()
-        FAIL UNLESS hasSharedJoinCorrelationSet($startActivity)
+FAIL UNLESS isSingleStartingPointOrHaveAtLeastOneSharedCOrrelation()
 
-isSingleStartingPoint: boolean
+isSingleStartingPointOrHaveAtLeastOneSharedCOrrelation: boolean
     SET $startingPoints TO EMPTY_LIST
+    SET $correlationSetNames TO EMPTY_LIST
     FOREACH <recieve>@createInstance
         IF <recieve>@createInstance EQUALS 'yes'
             ADD <recieve> TO $startingPoints
+            FOREACH <recieve><correlations><corelation>
+                IF <recieve><correlations><corelation>@initiate EQUALS 'join'
+                    ADD <recieve><correlations><corelation>@set TO $correlationSetNames
     FOREACH <pick>@createInstance
         IF <pick>@createInstance EQUALS 'yes'
             ADD <pick> TO $startingPoints
-    RETURN COUNT $startingPoints EQUALS '1'
-
-hasSharedJoinCorrelationSet: $startActivity -> boolean
-
+            FOREACH <pick><onMessage><correlations><corelation>
+                IF <pick><onMessage><correlations><corelation>@initiate EQUALS 'join'
+                    ADD <pick><onMessage><correlations><corelation>@set TO $correlationSetNames
+    SET $atLeastOneShared TO 'false'
+    FOREACH <correlationSets><correlationSet>
+        IF $correlationSetNames CONTAINS <correlationSets><correlationSet>@name
+            SET $shared TO 'true'
+            FOREACH $startingPoints
+                IF $correlationSetNames CONTAINS <correlationSets><correlationSet>@name
+                    REMOVE <correlationSets><correlationSet>@name FROM $correlationSetNames
+                ELSE
+                    $shared = 'false'
+            SET $atLeastOneShared TO $atLeastOneShared OR $shared
+    RETURN COUNT $startingPoints EQUALS '1' OR $atLeastOneShared
 @@@
 OnMessageCorrelationYesAndJoin.bpel
 ReceiveCorrelationYesAndJoin.bpel
