@@ -32,4 +32,14 @@ public class CorrelationsElement extends NodeHelper {
 
         return result;
     }
+    
+    public List<CorrelationElement> getCorrelations() {
+        List<CorrelationElement> result = new LinkedList<>();
+
+        for (Node node : toXOM().query("./bpel:correlation", Standards.CONTEXT)) {
+            result.add(new CorrelationElement(node));
+        }
+
+        return result;
+    }
 }

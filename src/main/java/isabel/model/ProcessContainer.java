@@ -211,8 +211,18 @@ public class ProcessContainer {
 
         return result;
     }
+    
+    public List<CorrelationElement> getAllCorrelations() {
+    	List<CorrelationElement> result = new LinkedList<>();
+    	
+    	for (Node node : getBpel().getDocument().query("//bpel:correlation", CONTEXT)) {
+    		result.add(new CorrelationElement(node));
+    	}
+    	
+    	return result;
+    }
 
-    public List<CorrelationsElement> getAllCorrelations() {
+    public List<CorrelationsElement> getAllCorrelationContainer() {
         List<CorrelationsElement> result = new LinkedList<>();
 
         for (Node node : getBpel().getDocument().query("//bpel:correlations", CONTEXT)) {
@@ -462,7 +472,6 @@ public class ProcessContainer {
         return result;
     }
     
-    
     public List<LinksElement> getAllLinksContainer() {
         List<LinksElement> result = new LinkedList<>();
 
@@ -473,11 +482,28 @@ public class ProcessContainer {
         return result;
     }
 
-    
     public List<LinkEntity> getAllLinkEntities() {
         List<LinkEntity> result = new LinkedList<>();
         result.addAll(getAllSources());
         result.addAll(getAllTargets());
+        
+        return result;
+    }
+    
+    public List<PickElement> getAllPicks() {
+        List<PickElement> result = new LinkedList<>();
+
+        for (Node node : getBpel().getDocument().query("//bpel:pick", CONTEXT)) {
+            result.add(new PickElement(node));
+        }
+
+        return result;
+    }
+    
+    public List<StartActivity> getAllStartAcivities() {
+        List<StartActivity> result = new LinkedList<>();
+        result.addAll(getAllReceives());
+        result.addAll(getAllOnMessages());
         
         return result;
     }

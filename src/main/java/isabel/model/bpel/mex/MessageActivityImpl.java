@@ -1,12 +1,15 @@
 package isabel.model.bpel.mex;
 
+import java.util.List;
+
 import isabel.model.*;
+import isabel.model.bpel.CorrelationElement;
+import isabel.model.bpel.CorrelationsElement;
 import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 import nu.xom.Nodes;
-
 import static isabel.model.Standards.CONTEXT;
 
 public class MessageActivityImpl implements MessageActivity {
@@ -51,6 +54,15 @@ public class MessageActivityImpl implements MessageActivity {
         return getPortType().getOperationByName(getOperationAttribute());
     }
 
+	@Override
+	public List<CorrelationElement> getCorrelations() throws NavigationException {
+		Nodes correlationsNode = nodeHelper.toXOM().query("./bpel:correlations", CONTEXT);
+		if(!correlationsNode.hasAny()){
+			throw new NavigationException("Has no correlation Element.");
+		}
+		return new CorrelationsElement(correlationsNode.get(0)).getCorrelationWithoutPattern();
+	}
+	
     @Override
     public String getPartnerLinkAttribute() {
         return nodeHelper.getAttribute("partnerLink");

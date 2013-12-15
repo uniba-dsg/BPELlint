@@ -1,14 +1,18 @@
 package isabel.model.bpel.mex;
 
+import java.util.List;
+
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.PartnerLinkElement;
+import isabel.model.bpel.PickElement;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 
-public class OnMessageElement extends NodeHelper implements MessageActivity {
+public class OnMessageElement extends NodeHelper implements MessageActivity, StartActivity {
 
     private MessageActivity delegate;
 
@@ -38,6 +42,11 @@ public class OnMessageElement extends NodeHelper implements MessageActivity {
         return delegate.getOperation();
     }
 
+	@Override
+	public List<CorrelationElement> getCorrelations() throws NavigationException {
+		return delegate.getCorrelations();
+	}
+	
     @Override
     public String getPartnerLinkAttribute() {
         return delegate.getPartnerLinkAttribute();
@@ -70,4 +79,13 @@ public class OnMessageElement extends NodeHelper implements MessageActivity {
     public boolean hasFromParts() {
         return hasQueryResult("bpel:fromParts");
     }
+
+	@Override
+	public boolean isStartActivity() {
+		return getPick().isStartActivity();
+	}
+
+	private PickElement getPick() {
+		return new PickElement(getParent());
+	}
 }

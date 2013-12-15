@@ -1,8 +1,11 @@
 package isabel.model.bpel.mex;
 
+import java.util.List;
+
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
@@ -31,6 +34,11 @@ public class ReplyElement extends NodeHelper implements MessageActivity{
     public OperationElement getOperation() throws NavigationException {
         return delegate.getOperation();
     }
+
+	@Override
+	public List<CorrelationElement> getCorrelations() throws NavigationException {
+		return delegate.getCorrelations();
+	}
 
     @Override
     public String getPartnerLinkAttribute() {
