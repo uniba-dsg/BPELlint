@@ -2,50 +2,13 @@ package isabel.tool.validators.rules;
 
 import isabel.model.*;
 import isabel.model.bpel.mex.MessageActivity;
-import isabel.model.wsdl.OperationElement;
 import nu.xom.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static isabel.model.Standards.CONTEXT;
 
 public class ValidatorNavigator {
-
-    private final ProcessContainer fileHandler;
-
-    public ValidatorNavigator(ProcessContainer fileHandler) {
-        this.fileHandler = fileHandler;
-    }
-
-    public HashMap<String, Node> getOperationMessages(
-            List<XmlFile> wsdlImports, OperationElement operation)
-            throws NavigationException {
-
-        if (operation == null)
-            return null;
-
-        Nodes operationChildren = operation.asElement().query("child::*", CONTEXT);
-        HashMap<String, Node> messages = new HashMap<>();
-        for (Node child : operationChildren) {
-
-            NodeHelper childHelper = new NodeHelper(child);
-            String messageQName = childHelper.getAttribute("message");
-            String childName = childHelper.getLocalName();
-            String namespaceURI = operation.asElement().getDocument().getRootElement()
-                    .getNamespaceURI(PrefixHelper.getPrefix(messageQName));
-            String messageName = PrefixHelper.removePrefix(messageQName);
-
-            Node message = getMessage(messageName, namespaceURI, wsdlImports);
-            if (message != null)
-                messages.put(childName, message);
-        }
-
-        if (messages.isEmpty())
-            throw new NavigationException("Messages are not defined.");
-
-        return messages;
-    }
 
     public Node getMessage(String messageName, String namespaceURI,
                            List<XmlFile> wsdlImports) {
