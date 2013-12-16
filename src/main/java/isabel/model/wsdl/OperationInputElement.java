@@ -5,6 +5,7 @@ import nu.xom.Node;
 import nu.xom.Nodes;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
+import isabel.model.PrefixHelper;
 import isabel.model.Referable;
 
 public class OperationInputElement implements OperationMessage, Referable {
@@ -19,7 +20,7 @@ public class OperationInputElement implements OperationMessage, Referable {
 	public MessageElement getMessage() throws NavigationException {
 		String messageName = input.getAttribute("message");
 		Nodes messageNodes = this.toXOM().query(
-				"//wsdl:message[@name='" + messageName + "']", CONTEXT);
+				"//wsdl:message[@name='" + PrefixHelper.removePrefix(messageName) + "']", CONTEXT);
 		if (!messageNodes.hasAny()) {
 			throw new NavigationException("Message " + messageName + "is not defined for <input>.");
 		}

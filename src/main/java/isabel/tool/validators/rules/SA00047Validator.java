@@ -5,10 +5,7 @@ import isabel.model.ProcessContainer;
 import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
-import nu.xom.Node;
 import nu.xom.Nodes;
-
-import java.util.Map;
 
 import static isabel.model.Standards.CONTEXT;
 
@@ -68,18 +65,11 @@ public class SA00047Validator extends Validator {
     private boolean hasMessagePart(MessageActivity messageActivity)
             throws NavigationException {
         OperationElement operation = messageActivity.getOperation();
-        if (operation == null)
-            throw new NavigationException("WARNING: could not found an associated operation " + getBpelFileName());
 
-        Map<String, Node> messages = navigator.getOperationMessages(fileHandler.getWsdls(), operation);
-        if (messages == null || messages.isEmpty())
-            throw new NavigationException("WARNING: could not found an associated message in " + getBpelFileName());
-
-        if (isInvoke(messageActivity)
-                || messageActivity.isReceiving()) {
-            return messages.get("input").query("child::*").hasAny();
+        if (isInvoke(messageActivity) || messageActivity.isReceiving()) {
+            return operation.getInput().getMessage().hasAnyPart();
         } else if (isReply(messageActivity)) {
-            return messages.get("output").query("child::*").hasAny();
+            return operation.getOutput().getMessage().hasAnyPart();
         } else {
             throw new NavigationException("WARNING: not a message activity..." + getBpelFileName());
         }
@@ -93,8 +83,6 @@ public class SA00047Validator extends Validator {
     private boolean isReply(MessageActivity messageActivity) {
         return MessageActivity.Type.REPLY.equals(messageActivity.getType());
     }
-
-
 
     private boolean hasToPartOrFromPart(MessageActivity messageActivity) {
         return (hasFromPart(messageActivity) || hasToPart(messageActivity));

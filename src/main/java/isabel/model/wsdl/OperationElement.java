@@ -1,8 +1,5 @@
 package isabel.model.wsdl;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import nu.xom.Node;
@@ -35,31 +32,6 @@ public class OperationElement extends NodeHelper {
 	public boolean isSolicitResponse() {
 		return hasOutput() && hasInput() && isFirstChildOutput();
 	}
-	
-	public List<OperationMessage> getOperationMessages() throws NavigationException {
-		List<OperationMessage> messages = new LinkedList<>();
-		try {
-			messages.add(getInput());
-		} catch (NavigationException e) {
-			// ignore just collect any OperationMessage
-		}
-		try {
-			messages.add(getOutput());
-		} catch (NavigationException e) {
-			// ignore just collect any OperationMessage
-		}
-		try {
-			messages.add(getFault());
-		} catch (NavigationException e) {
-			// ignore just collect any OperationMessage
-		}
-
-		if (messages.isEmpty()) {
-			throw new NavigationException("Messages are not defined.");
-        }
-        
-        return messages;
-    }
 
 	public OperationMessage getInput() throws NavigationException {
 		Nodes input = toXOM().query("./wsdl:input", CONTEXT);
