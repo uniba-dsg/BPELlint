@@ -6,10 +6,10 @@ import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.model.wsdl.PropertyElement;
-import isabel.tool.validators.rules.VariablesElement;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;
+
 import org.pmw.tinylog.Logger;
 
 import java.nio.file.Path;

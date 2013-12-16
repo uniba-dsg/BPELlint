@@ -1,7 +1,6 @@
-package isabel.tool.validators.rules;
+package isabel.model.bpel;
 
 import isabel.model.NodeHelper;
-import isabel.model.bpel.VariableElement;
 import nu.xom.Node;
 
 import java.util.LinkedList;
@@ -15,7 +14,7 @@ public class VariablesElement extends NodeHelper {
         super(node);
     }
 
-    List<VariableElement> getVariables() {
+    public List<VariableElement> getVariables() {
         List<VariableElement> result = new LinkedList<>();
 
         for (Node node : asElement().query("bpel:variable", CONTEXT)) {
