@@ -244,6 +244,14 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00057/OnMessageReceiveCorrelationYesAndJoin.bpel", "57"},
 				{"Testcases/rules/SA00057/ReceiveCorrelationYesAndJoin.bpel", "57"},
 
+				{"Testcases/rules/SA00058/ReceiveDeviantMessageType.bpel", "58"},
+				{"Testcases/rules/SA00058/ReceiveDeviantType.bpel", "58"},
+				{"Testcases/rules/SA00058/ReceiveReplyDeviantTypes.bpel", "58"},
+				{"Testcases/rules/SA00058/ReceiveTwoPartsPartType.bpel", "58"},
+				{"Testcases/rules/SA00058/ReplyDeviantMessageType.bpel", "58"},
+				{"Testcases/rules/SA00058/ReplyDeviantType.bpel", "58"},
+				{"Testcases/rules/SA00058/ReplyTwoPartsPartType.bpel", "58"},
+
 				{"Testcases/rules/SA00059/Reply-WithToPartElementAndVariableAttribute.bpel", "59"},
 
 				{"Testcases/rules/SA00061/OnEventMessageExchangeNotInScope.bpel", "61"},

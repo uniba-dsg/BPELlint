@@ -1,4 +1,4 @@
-Place Short Description Here.
+variable type does not match corresponding operation message type 
 @@@
 In a <receive> or <reply> activity, the variable referenced by the variable attribute MUST be a messageType variable whose QName matches the QName of the input (for <receive>) or output (for <reply>) message type used in the operation, except as follows: if the WSDL operation uses a message containing exactly one part which itself is defined using an element, then a WS-BPEL variable of the same element type as used to define the part MAY be referenced by the variable attribute of the <receive> or <reply>activity.
 @@@
