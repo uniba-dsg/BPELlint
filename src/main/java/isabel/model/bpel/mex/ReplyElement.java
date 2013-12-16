@@ -15,6 +15,12 @@ public class ReplyElement extends NodeHelper implements MessageActivity{
 
     private final MessageActivity delegate;
 
+    public ReplyElement(Node node, ProcessContainer processContainer) {
+        super(node);
+
+        delegate = new MessageActivityImpl(this, processContainer);
+    }
+
     @Override
     public Type getType() {
         return delegate.getType();
@@ -65,9 +71,12 @@ public class ReplyElement extends NodeHelper implements MessageActivity{
         return delegate.toXOM();
     }
 
-    public ReplyElement(Node node, ProcessContainer processContainer) {
-        super(node);
+	public String getVariableAttribute() throws NavigationException {
+		String variableName = getAttribute("variable");
+		if (variableName.isEmpty()) {
+			throw new NavigationException("<reply> has no variable attribute");
+		}
+		return variableName;
+	}
 
-        delegate = new MessageActivityImpl(this, processContainer);
-    }
 }

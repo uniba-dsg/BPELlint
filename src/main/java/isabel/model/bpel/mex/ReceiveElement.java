@@ -5,16 +5,31 @@ import java.util.List;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.Standards;
 import isabel.model.bpel.CorrelationElement;
+import isabel.model.bpel.FromPartElement;
+import isabel.model.bpel.FromPartsContainer;
 import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
+import nu.xom.Nodes;
 
 public class ReceiveElement extends NodeHelper implements StartActivity, MessageActivity{
 
     private final MessageActivity delegate;
 
+    public ReceiveElement(Node receive, ProcessContainer processContainer) {
+		super(receive);
+
+		if (!getLocalName().equals("receive")) {
+			throw new IllegalArgumentException(
+					"receive helper only works for bpel:receive elements");
+		}
+
+        delegate = new MessageActivityImpl(this, processContainer);
+	}
+    
     @Override
     public Type getType() {
         return delegate.getType();
@@ -65,21 +80,28 @@ public class ReceiveElement extends NodeHelper implements StartActivity, Message
         return delegate.toXOM();
     }
 
-    public ReceiveElement(Node receive, ProcessContainer processContainer) {
-		super(receive);
-
-		if (!getLocalName().equals("receive")) {
-			throw new IllegalArgumentException(
-					"receive helper only works for bpel:receive elements");
-		}
-
-        delegate = new MessageActivityImpl(this, processContainer);
-	}
-
 	public boolean hasFromParts() {
 		return hasQueryResult("bpel:fromParts");
 	}
+	
+	public List<FromPartElement> getFromParts() throws NavigationException{
+		Nodes fromParts = toXOM().query("./bpel:fromParts", Standards.CONTEXT);
+		if(!fromParts.hasAny()){
+			throw new NavigationException("<receive> has no <fromParts>");
+		}
+		
+		return new FromPartsContainer(fromParts.get(0)).getAllFromParts();
+	}
 
+	public String getVariableAttribute() throws NavigationException{
+		String variableName = getAttribute("variable");
+		if (variableName.isEmpty()) {
+			throw new NavigationException("<receive> has no variable attribute");
+		} 
+		
+		return variableName;
+	}
+	
 	public boolean hasVariable() {
 		return hasAttribute("variable");
 	}
