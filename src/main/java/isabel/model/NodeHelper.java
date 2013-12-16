@@ -219,9 +219,10 @@ public class NodeHelper implements Referable {
             throws NavigationException {
         Nodes partnerLink = toXOM().getDocument().query("//bpel:partnerLinks/bpel:partnerLink[@name='" + partnerLinkName + "']", CONTEXT);
 
-        if (partnerLink.hasAny())
-            return new PartnerLinkElement(partnerLink.get(0));
+        if (!partnerLink.hasAny()){
+        	throw new NavigationException("PartnerLink not defined");
+        }
 
-        throw new NavigationException("PartnerLink not defined");
+        return new PartnerLinkElement(partnerLink.get(0));
     }
 }
