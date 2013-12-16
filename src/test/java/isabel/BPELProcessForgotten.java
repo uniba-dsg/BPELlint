@@ -11,7 +11,8 @@ public class BPELProcessForgotten {
 
     public static void main(String[] args) throws IOException {
         List<Path> existingBpelFiles = getExistingBpelProcesses();
-        List<Path> usedBpelFiles = getUsedBpelProcesses();
+        List<Path> usedBpelFiles = getFunctionalBpelProcesses();
+        usedBpelFiles.addAll(getXsdSchemaBpelProcesses());
 
         existingBpelFiles.removeAll(usedBpelFiles);
 
@@ -24,8 +25,16 @@ public class BPELProcessForgotten {
         return FileUtils.getBpelFiles(Paths.get("Testcases/rules"));
     }
 
-    private static List<Path> getUsedBpelProcesses() {
-        Collection<Object[]> datas = FunctionalValidatorTests.saViolationTests();
+    private static List<Path> getFunctionalBpelProcesses() {
+        return getPathsFromData(FunctionalValidatorTests.saViolationTests());
+    }
+
+    private static List<Path> getXsdSchemaBpelProcesses() {
+        return getPathsFromData(XsdSchemaValidatorTests.data());
+    }
+
+    private static List<Path> getPathsFromData(Collection<Object[]> data1) {
+        Collection<Object[]> datas = data1;
         List<Path> usedBpelFiles = new LinkedList<>();
         for (Object[] data : datas) {
             usedBpelFiles.add(Paths.get(data[0].toString()));
