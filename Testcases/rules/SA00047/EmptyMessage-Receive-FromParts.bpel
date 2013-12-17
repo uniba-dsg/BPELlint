@@ -10,7 +10,7 @@
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
     <variables>
-        <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
+        <variable name="ReplyData" messageType="ti:emptyMessage"/>
         <variable name="TempInt" type="xs:int" />
     </variables>
     <sequence>
@@ -23,8 +23,8 @@
         </receive>
         <assign>
             <copy>
-                <from variable="TempInt"/>
-                <to variable="ReplyData" part="outputPart"/>
+                <from/>
+                <to variable="ReplyData"/>
             </copy>
         </assign>
         <reply name="CorrelatedReply" partnerLink="MyRoleLink" operation="startProcessSyncWithEmptyMessage" portType="ti:TestInterfacePortType" variable="ReplyData" />
