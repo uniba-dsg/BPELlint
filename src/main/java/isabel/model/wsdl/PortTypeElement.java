@@ -20,10 +20,14 @@ public class PortTypeElement extends NodeHelper {
     public OperationElement getOperationByName(String operationName)
             throws NavigationException {
         Nodes operations = toXOM().query("child::wsdl:operation[attribute::name='" + operationName + "']", CONTEXT);
-        if (operations.hasAny())
-            return new OperationElement(operations.get(0));
-
-        throw new NavigationException("Operation not defined");
+        if (!operations.hasAny()) {
+        	throw new NavigationException("Operation not defined");
+        }
+        if (!(operations.size() == 1)) {
+        	throw new NavigationException("Operation name overloaded");
+        }
+        
+        return new OperationElement(operations.get(0));
     }
 
     public String getName() {
