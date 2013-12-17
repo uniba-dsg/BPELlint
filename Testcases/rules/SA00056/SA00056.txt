@@ -1,0 +1,14 @@
+Place Short Description Here.
+@@@
+A 'start activity' is a <receive> or <pick> activity that is annotated with a createInstance='yes' attribute. Activities other than the following: start activities, <scope>, <flow> and <sequence> MUST NOT be performed prior to or simultaneously with start activities.
+@@@
+@@@
+ScopeNestedStartReceiveWithNonStartReceiveUncle.bpel
+ScopeNestedStartPickWithNonStartReceiveUncle.bpel
+StartReceiveNonStartBrotherInFlow.bpel
+StartPickNonStartBrotherInFlow.bpel
+StartReceiveInNonStartPick.bpel
+StartPickInNonStartPick.bpel
+StartReceiveInOnEvent.bpel
+StartPickInOnEvent.bpel
+@@@
