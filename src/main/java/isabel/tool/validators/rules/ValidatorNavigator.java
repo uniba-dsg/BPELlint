@@ -10,25 +10,6 @@ import static isabel.model.Standards.CONTEXT;
 
 public class ValidatorNavigator {
 
-    public Node getMessage(String messageName, String namespaceURI,
-                           List<XmlFile> wsdlImports) {
-        Node message = null;
-        for (XmlFile wsdlEntry : wsdlImports) {
-            String targetNamespace = wsdlEntry.getTargetNamespace();
-            if (targetNamespace.equals(namespaceURI)) {
-                Nodes messageNodes = wsdlEntry.getDocument().query(
-                        "//wsdl:message[@name='" + messageName + "']", CONTEXT);
-
-                if (messageNodes.hasAny()) {
-                    message = messageNodes.get(0);
-                    break;
-                }
-            }
-        }
-
-        return message;
-    }
-
     public Node operationToMessage(List<XmlFile> wsdlImports,
                                    Node operation) throws NavigationException {
 

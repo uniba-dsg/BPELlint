@@ -1,11 +1,12 @@
 package isabel.model.bpel;
 
+import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.XmlFile;
 import isabel.model.wsdl.MessageElement;
 import isabel.model.wsdl.PartElement;
-import isabel.tool.validators.rules.ValidatorNavigator;
 import nu.xom.Node;
 import nu.xom.Nodes;
 import static isabel.model.Standards.CONTEXT;
@@ -44,7 +45,7 @@ public class VariableElement extends NodeHelper {
         return getAttribute("messageType");
     }
     
-    public boolean hasCorrespondingMessage(MessageElement message, ProcessContainer processContainer) {
+    public boolean hasCorrespondingMessage(MessageElement message, ProcessContainer processContainer) throws NavigationException {
         this.processContainer = processContainer;
 		if (!getMessageType().isEmpty()) {
             MessageElement variableMessage = getVariableMessage();
@@ -96,12 +97,23 @@ public class VariableElement extends NodeHelper {
         return xsdType;
     }
 
-    private MessageElement getVariableMessage() {
+    private MessageElement getVariableMessage() throws NavigationException {
         String namespaceURI = toXOM().getDocument().getRootElement()
                 .getNamespaceURI(PrefixHelper.getPrefix(getMessageType()));
         String messageName = PrefixHelper.removePrefix(getMessageType());
-
-        return new MessageElement(new ValidatorNavigator().getMessage(messageName, namespaceURI, processContainer.getWsdls()));
+		for (XmlFile wsdlEntry : processContainer.getWsdls()) {
+		    String targetNamespace = wsdlEntry.getTargetNamespace();
+		    if (targetNamespace.equals(namespaceURI)) {
+		        Nodes messageNodes = wsdlEntry.getDocument().query(
+		                "//wsdl:message[@name='" + messageName + "']", CONTEXT);
+		
+		        if (messageNodes.hasAny()) {
+		            return new MessageElement(messageNodes.get(0));
+		        }
+		    }
+		}
+		
+		throw new NavigationException("<message> was not found");
     }
 
 }
