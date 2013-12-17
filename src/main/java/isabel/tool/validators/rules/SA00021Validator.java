@@ -3,11 +3,13 @@ package isabel.tool.validators.rules;
 import isabel.model.*;
 import isabel.model.bpel.CorrelationSetElement;
 import isabel.model.bpel.VariableElement;
+import isabel.model.bpel.VariableLike;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.tool.impl.ValidationCollector;
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
+
 import org.pmw.tinylog.Logger;
 
 import java.util.List;
@@ -35,7 +37,7 @@ public class SA00021Validator extends Validator {
         for (Node fromTo : fromToSet) {
             String property = new NodeHelper(fromTo).getAttribute("property");
             try {
-                Element variable = getCorrespondingVariable(fromTo).asElement();
+                Element variable = (Element) getCorrespondingVariable(fromTo).toXOM();
                 hasCorrespondingPropertyAlias(variable, property, fromTo);
             } catch (NavigationException e) {
                 addViolation(fromTo);
@@ -43,8 +45,9 @@ public class SA00021Validator extends Validator {
         }
     }
 
-    private NodeHelper getCorrespondingVariable(Node fromTo) throws NavigationException {
-        return new NodeHelper(fromTo).getVariableByName(new NodeHelper(fromTo).getAttribute("variable"));
+    private VariableLike getCorrespondingVariable(Node fromToNode) throws NavigationException {
+        NodeHelper fromTo = new NodeHelper(fromToNode);
+		return fromTo.getVariableByName(fromTo.getAttribute("variable"));
     }
 
     private void hasCorrespondingPropertyAlias(Element element, String property,

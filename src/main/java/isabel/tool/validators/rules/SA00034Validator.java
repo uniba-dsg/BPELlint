@@ -1,6 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.bpel.VariableElement;
+import isabel.model.bpel.VariableLike;
 import isabel.model.NodeHelper;
 import isabel.model.NodesUtil;
 import isabel.model.NavigationException;
@@ -56,10 +57,7 @@ public class SA00034Validator extends Validator {
 
     private boolean isCorrespondingVariableOfMessageType(Node fromTo, String variableName) {
         try {
-            VariableElement variable = new NodeHelper(fromTo).getVariableByName(variableName);
-            if ("catch".equals(variable.getLocalName())) {
-                return variable.hasAttribute("faultMessageType");
-            }
+            VariableLike variable = new NodeHelper(fromTo).getVariableByName(variableName);
 
             return variable.hasVariableMessageType();
         } catch (NavigationException e) {

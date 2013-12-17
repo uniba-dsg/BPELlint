@@ -1,7 +1,9 @@
 package isabel.model;
 
+import isabel.model.bpel.CatchElement;
 import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.bpel.VariableElement;
+import isabel.model.bpel.VariableLike;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
@@ -167,7 +169,7 @@ public class NodeHelper implements Referable {
         return new ElementIdentifier(asElement()).toIdentifier();
     }
 
-    public VariableElement getVariableByName(String variableName) throws NavigationException {
+    public VariableLike getVariableByName(String variableName) throws NavigationException {
         Objects.requireNonNull(variableName, "VariableName must not be null!");
 
         NodeHelper element = new NodeHelper(node);
@@ -190,7 +192,7 @@ public class NodeHelper implements Referable {
         }
         if ("catch".equals(elementName)) {
             if (variableName.equals(element.getAttribute("faultVariable"))) {
-                return new VariableElement(node);
+                return new CatchElement(node);
             }
         }
 
