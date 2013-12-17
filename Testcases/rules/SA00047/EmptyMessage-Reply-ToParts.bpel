@@ -10,7 +10,7 @@
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
     <variables>
-        <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
+        <variable name="InitData" messageType="ti:emptyMessage"/>
         <variable name="TempInt" type="xs:int" />
     </variables>
     <sequence>
