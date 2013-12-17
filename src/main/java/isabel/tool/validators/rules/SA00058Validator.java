@@ -18,7 +18,6 @@ public class SA00058Validator extends Validator {
 
 	@Override
 	public void validate() {
-		//FIXME causes errors in two other files
 		for (ReceiveElement receive : fileHandler.getAllReceives()) {
 			try {
 				OperationElement operation = receive.getOperation();
@@ -27,12 +26,6 @@ public class SA00058Validator extends Validator {
 				// This node could not be validated without a operation
 			}
 		}
-		//FIXME 
-		//notWorking();
-	}
-
-
-	private void notWorking() {
 		for (ReplyElement reply : fileHandler.getAllReplies()) {
 			try {
 				OperationElement operation = reply.getOperation();
