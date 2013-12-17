@@ -33,12 +33,11 @@ public class NodeHelper implements Referable {
      *                                  <code>type</code>.
      */
     public NodeHelper(Node node, String type) {
-        this(node);
         Objects.requireNonNull(type, "null is no type");
         Objects.requireNonNull(node, "Expected <" + type + "> element.");
-        NodeHelper nodeHelper = new NodeHelper(node);
-        if (!type.equals(nodeHelper.getLocalName())) {
-            throw new IllegalArgumentException("Expect a <" + type + "> element. But was " + nodeHelper.getLocalName());
+        this.node = node;
+        if (!type.equals(getLocalName())) {
+            throw new IllegalArgumentException("Expect a <" + type + "> element. But was " + getLocalName());
         }
     }
 
