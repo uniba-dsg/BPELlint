@@ -13,6 +13,7 @@
     <variables>
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
+        <variable name="FaultReplyData" messageType="ti:executeProcessSyncFault"/>
     </variables>
     <scope name="Scope" exitOnStandardFault="no">
    		<scope exitOnStandardFault="yes">
@@ -21,10 +22,10 @@
 	            <catch faultName="bpel:completionConditionFailure">
 	                <empty />
 	            </catch>
-	            <catch faultVariable="ReplyData" faultMessageType="ti:executeProcessSyncResponse">
+	            <catch faultVariable="FaultReplyData" faultMessageType="ti:executeProcessSyncFault">
 	                <empty />
 	            </catch>
-	            <catch faultName="bpel:completionConditionFailure" faultVariable="ReplyData" faultMessageType="ti:executeProcessSyncResponse">
+	            <catch faultName="bpel:completionConditionFailure" faultVariable="FaultReplyData" faultMessageType="ti:executeProcessSyncFault">
 	                <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
 	            </catch>
 	            <catchAll>
@@ -39,7 +40,7 @@
 	                    <to variable="ReplyData" part="outputPart"/>
 	                </copy>
 	            </assign>
-	            <throw name="Throw" faultName="bpel:completionConditionFailure" faultVariable="ReplyData"/>
+	            <throw name="Throw" faultName="bpel:completionConditionFailure" faultVariable="FaultReplyData"/>
 	        </sequence>
         </scope>
     </scope>
