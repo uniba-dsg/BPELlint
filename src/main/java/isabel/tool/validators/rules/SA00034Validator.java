@@ -1,6 +1,5 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.bpel.VariableElement;
 import isabel.model.bpel.VariableLike;
 import isabel.model.NodeHelper;
 import isabel.model.NodesUtil;

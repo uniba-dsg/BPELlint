@@ -6,7 +6,6 @@ import isabel.model.bpel.VariableElement;
 import isabel.model.bpel.VariableLike;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.tool.impl.ValidationCollector;
-import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
@@ -37,7 +36,7 @@ public class SA00021Validator extends Validator {
         for (Node fromTo : fromToSet) {
             String property = new NodeHelper(fromTo).getAttribute("property");
             try {
-                Element variable = (Element) getCorrespondingVariable(fromTo).toXOM();
+                VariableLike variable = getCorrespondingVariable(fromTo);
                 hasCorrespondingPropertyAlias(variable, property, fromTo);
             } catch (NavigationException e) {
                 addViolation(fromTo);
@@ -50,18 +49,12 @@ public class SA00021Validator extends Validator {
 		return fromTo.getVariableByName(fromTo.getAttribute("variable"));
     }
 
-    private void hasCorrespondingPropertyAlias(Element element, String property,
+    private void hasCorrespondingPropertyAlias(VariableLike variable, String property,
                                                Node partHolder) throws NavigationException {
-        String type = "";
-
-        if (element.getLocalName().equals("onEvent")) {
-            type = getOnEventVariableType(new NodeHelper(element));
-        } else if (element.getLocalName().equals("variable")) {
-            type = getEnclosingScopeVariableType(new VariableElement(element));
-        }
+        String type = getVariableType(variable);
 
         if (!type.isEmpty()) {
-            XmlFile wsdl = getCorrespondingWsdl(property, element);
+            XmlFile wsdl = getCorrespondingWsdl(property, variable.toXOM());
             for (PropertyAliasElement propertyAlias : wsdl.getPropertyAliases()) {
                 String propertyName = PrefixHelper.removePrefix(propertyAlias.getAttribute("propertyName"));
 
@@ -71,7 +64,7 @@ public class SA00021Validator extends Validator {
                     }
                 }
             }
-            addViolation(element);
+            addViolation(variable);
         }
     }
 
@@ -123,31 +116,17 @@ public class SA00021Validator extends Validator {
         }
     }
 
-    private String getEnclosingScopeVariableType(VariableElement variable)
-            throws NavigationException {
-        if (variable.hasAttribute("messageType")) {
-            return variable.getAttribute("messageType");
-        } else if (variable.hasAttribute("type")) {
-            return variable.getAttribute("type");
-        } else if (variable.hasAttribute("element")) {
-            return variable.getAttribute("element");
-        } else {
-            throw new NavigationException("Node variable does not contain any messageType, type or element attribute");
-        }
-    }
-
-    private String getOnEventVariableType(NodeHelper onEvent)
-            throws NavigationException {
-
-        if (onEvent.hasAttribute("messageType")) {
-            return onEvent.getAttribute("messageType");
-        } else if (onEvent.hasAttribute("element")) {
-            return onEvent.getAttribute("element");
-        } else {
-            throw new NavigationException(
-                    "Node onEvent does not contain any messageType or element attribute");
-        }
-    }
+	private String getVariableType(VariableLike variable) throws NavigationException {
+		if (variable.hasVariableMessageType()) {
+			return variable.getVariableMessageType();
+		} else if (variable.hasVariableElement()) {
+			return variable.getVariableElement();
+		} else if (variable instanceof VariableElement&& new VariableElement(variable.toXOM()).hasType()) {
+			return new VariableElement(variable.toXOM()).getType();
+		} else {
+			throw new NavigationException("This variable is untyped.");
+		}
+	}
 
     @Override
     public int getSaNumber() {
