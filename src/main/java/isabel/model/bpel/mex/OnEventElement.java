@@ -7,11 +7,12 @@ import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.PartnerLinkElement;
+import isabel.model.bpel.VariableLike;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 
-public class OnEventElement extends NodeHelper implements MessageActivity{
+public class OnEventElement extends NodeHelper implements MessageActivity, VariableLike {
 
     private MessageActivity delegate;
 
@@ -70,6 +71,32 @@ public class OnEventElement extends NodeHelper implements MessageActivity{
     @Override
     public Node toXOM() {
         return delegate.toXOM();
+    }
+
+
+	@Override
+    public boolean hasVariableMessageType() {
+        return hasAttribute("messageType");
+    }
+	
+	@Override
+	public String getVariableMessageType() {
+		return getAttribute("messageType");
+	}
+
+    @Override
+    public boolean hasVariableElement() {
+        return hasAttribute("element");
+    }
+
+	@Override
+	public String getVariableElement() {
+		return getAttribute("element");
+	}
+	
+	@Override
+    public String getVariableName() {
+        return getAttribute("variable");
     }
 
 }

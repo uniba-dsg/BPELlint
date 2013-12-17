@@ -11,7 +11,7 @@ import nu.xom.Node;
 import nu.xom.Nodes;
 import static isabel.model.Standards.CONTEXT;
 
-public class VariableElement extends NodeHelper {
+public class VariableElement extends NodeHelper implements VariableLike {
 
     private ProcessContainer processContainer;
 
@@ -21,7 +21,8 @@ public class VariableElement extends NodeHelper {
         // node can be either an OnEvent as well as a variable
     }
 
-    public boolean hasMessageType() {
+	@Override
+    public boolean hasVariableMessageType() {
         return node.query("@messageType", CONTEXT).hasAny();
     }
 
@@ -29,11 +30,18 @@ public class VariableElement extends NodeHelper {
         return node.query("@type", CONTEXT).hasAny();
     }
 
-    public boolean hasElement() {
+    @Override
+    public boolean hasVariableElement() {
         return node.query("@element", CONTEXT).hasAny();
     }
 
-    public String getName() {
+	@Override
+	public String getVariableElement() {
+		return getAttribute("element");
+	}
+	
+	@Override
+    public String getVariableName() {
         return getAttribute("name");
     }
 
@@ -41,13 +49,14 @@ public class VariableElement extends NodeHelper {
         return getAttribute("type");
     }
     
-    public String getMessageType() {
+    @Override
+    public String getVariableMessageType() {
         return getAttribute("messageType");
     }
     
     public boolean hasCorrespondingMessage(MessageElement message, ProcessContainer processContainer) throws NavigationException {
         this.processContainer = processContainer;
-		if (!getMessageType().isEmpty()) {
+		if (!getVariableMessageType().isEmpty()) {
             MessageElement variableMessage = getVariableMessage();
             if (message.equals(variableMessage)) {
                 return true;
@@ -99,8 +108,8 @@ public class VariableElement extends NodeHelper {
 
     private MessageElement getVariableMessage() throws NavigationException {
         String namespaceURI = toXOM().getDocument().getRootElement()
-                .getNamespaceURI(PrefixHelper.getPrefix(getMessageType()));
-        String messageName = PrefixHelper.removePrefix(getMessageType());
+                .getNamespaceURI(PrefixHelper.getPrefix(getVariableMessageType()));
+        String messageName = PrefixHelper.removePrefix(getVariableMessageType());
 		for (XmlFile wsdlEntry : processContainer.getWsdls()) {
 		    String targetNamespace = wsdlEntry.getTargetNamespace();
 		    if (targetNamespace.equals(namespaceURI)) {
