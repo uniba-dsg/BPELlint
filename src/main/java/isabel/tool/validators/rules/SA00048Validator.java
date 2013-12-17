@@ -1,7 +1,6 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.*;
-import isabel.model.bpel.VariableElement;
 import isabel.model.bpel.mex.InvokeElement;
 import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
@@ -27,9 +26,10 @@ public class SA00048Validator extends Validator {
 
 	private void validateInput(InvokeElement invoke, OperationElement operation) {
 		try {
-			VariableElement variableForInput = invoke.getVariableByName(invoke.getInputVariableAttribute());
-			if (!variableForInput.hasCorrespondingMessage(operation.getInput().getMessage(), fileHandler))
+			VariableHelper variable = new VariableHelper(fileHandler, invoke.getVariableByName(invoke.getInputVariableAttribute()));
+			if (!variable.hasCorrespondingMessage(operation.getInput().getMessage())){
 				addViolation(invoke, 1);
+			}
 		} catch (NavigationException e) {
 			// ignore, if there is no variable. This is validated elsewhere.
 		}
@@ -37,8 +37,8 @@ public class SA00048Validator extends Validator {
 
 	private void validateOutput(InvokeElement invoke, OperationElement operation) {
 		try {
-			VariableElement variableForOutput = invoke.getVariableByName(invoke.getOutputVariableAttribute());
-			if (!variableForOutput.hasCorrespondingMessage(operation.getOutput().getMessage(), fileHandler)) {
+			VariableHelper variable = new VariableHelper(fileHandler, invoke.getVariableByName(invoke.getOutputVariableAttribute()));
+			if (!variable.hasCorrespondingMessage(operation.getOutput().getMessage())) {
 				addViolation(invoke, 2);
 			}
 		} catch (NavigationException e) {

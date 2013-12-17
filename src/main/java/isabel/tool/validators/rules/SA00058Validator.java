@@ -2,7 +2,7 @@ package isabel.tool.validators.rules;
 
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.VariableElement;
+import isabel.model.VariableHelper;
 import isabel.model.bpel.mex.ReceiveElement;
 import isabel.model.bpel.mex.ReplyElement;
 import isabel.model.wsdl.OperationElement;
@@ -42,9 +42,10 @@ public class SA00058Validator extends Validator {
 
 	private void validateReceive(ReceiveElement receive, OperationElement operation) {
 		try {
-			VariableElement variableForInput = receive.getVariableByName(receive.getVariableAttribute());
-			if (!variableForInput.hasCorrespondingMessage(operation.getInput().getMessage(), fileHandler))
+			VariableHelper variable = new VariableHelper(fileHandler, receive.getVariableByName(receive.getVariableAttribute()));
+			if (!variable.hasCorrespondingMessage(operation.getInput().getMessage())){
 				addViolation(receive);
+			}
 		} catch (NavigationException e) {
 			// ignore, if there is no variable attribute. This is validated elsewhere.
 		}
@@ -52,8 +53,8 @@ public class SA00058Validator extends Validator {
 
 	private void validateReply(ReplyElement reply, OperationElement operation) {
 		try {
-			VariableElement variableForOutput = reply.getVariableByName(reply.getVariableAttribute());
-			if (!variableForOutput.hasCorrespondingMessage(operation.getOutput().getMessage(), fileHandler)) {
+			VariableHelper variable = new VariableHelper(fileHandler, reply.getVariableByName(reply.getVariableAttribute()));
+			if (!variable.hasCorrespondingMessage(operation.getOutput().getMessage())) {
 				addViolation(reply);
 			}
 		} catch (NavigationException e) {
@@ -63,8 +64,8 @@ public class SA00058Validator extends Validator {
 	
 	private void validateFault(ReplyElement reply, OperationElement operation) {
 		try {
-			VariableElement variableForOutput = reply.getVariableByName(reply.getVariableAttribute());
-			if (!variableForOutput.hasCorrespondingMessage(operation.getFault().getMessage(), fileHandler)) {
+			VariableHelper variable = new VariableHelper(fileHandler, reply.getVariableByName(reply.getVariableAttribute()));
+			if (!variable.hasCorrespondingMessage(operation.getFault().getMessage())) {
 				addViolation(reply);
 			}
 		} catch (NavigationException e) {
