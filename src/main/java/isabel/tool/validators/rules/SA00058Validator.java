@@ -29,6 +29,10 @@ public class SA00058Validator extends Validator {
 		for (ReplyElement reply : fileHandler.getAllReplies()) {
 			try {
 				OperationElement operation = reply.getOperation();
+				if(reply.hasFaultNameAttribute()){
+					validateFault(reply, operation);
+					continue;
+				}
 				validateReply(reply, operation);
 			} catch (NavigationException e) {
 				// This node could not be validated without a operation
@@ -50,6 +54,17 @@ public class SA00058Validator extends Validator {
 		try {
 			VariableElement variableForOutput = reply.getVariableByName(reply.getVariableAttribute());
 			if (!variableForOutput.hasCorrespondingMessage(operation.getOutput().getMessage(), fileHandler)) {
+				addViolation(reply);
+			}
+		} catch (NavigationException e) {
+			// ignore, if there is no variable attribute. This is validated elsewhere.
+		}
+	}
+	
+	private void validateFault(ReplyElement reply, OperationElement operation) {
+		try {
+			VariableElement variableForOutput = reply.getVariableByName(reply.getVariableAttribute());
+			if (!variableForOutput.hasCorrespondingMessage(operation.getFault().getMessage(), fileHandler)) {
 				addViolation(reply);
 			}
 		} catch (NavigationException e) {

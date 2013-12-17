@@ -79,4 +79,8 @@ public class ReplyElement extends NodeHelper implements MessageActivity{
 		return variableName;
 	}
 
+	public boolean hasFaultNameAttribute() {
+		return toXOM().query("./@faultName").hasAny();
+	}
+
 }
