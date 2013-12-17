@@ -20,7 +20,7 @@ public class SA00023Validator extends Validator {
         for (VariablesElement variablesContainer : fileHandler.getAllVariablesContainer()) {
             Set<String> names = new HashSet<>();
             for (VariableElement variable : variablesContainer.getVariables()) {
-                String name = variable.getName();
+                String name = variable.getVariableName();
                 if (names.contains(name)) {
                     addViolation(variable);
                 } else {

@@ -22,15 +22,15 @@ public class SA00025Validator extends Validator {
 
         for (VariableElement variable : fileHandler.getAllVariables()) {
 
-            if (!variable.hasMessageType() && !variable.hasType() && !variable.hasElement()) {
+            if (!variable.hasVariableMessageType() && !variable.hasType() && !variable.hasVariableElement()) {
                 addViolation(variable, MESSAGE_TYPE_OR_TYPE_OR_ELEMENT_MISSING);
-            } else if (variable.hasMessageType() && variable.hasType()) {
+            } else if (variable.hasVariableMessageType() && variable.hasType()) {
                 addViolation(variable, MESSAGE_TYPE_AND_TYPE);
-            } else if (variable.hasMessageType() && variable.hasElement()) {
+            } else if (variable.hasVariableMessageType() && variable.hasVariableElement()) {
                 addViolation(variable, MESSAGE_TYPE_AND_ELEMENT);
-            } else if (variable.hasType() && variable.hasElement()) {
+            } else if (variable.hasType() && variable.hasVariableElement()) {
                 addViolation(variable, TYPE_AND_ELEMENT);
-            } else if (variable.hasMessageType() && variable.hasType() && variable.hasElement()) {
+            } else if (variable.hasVariableMessageType() && variable.hasType() && variable.hasVariableElement()) {
                 addViolation(variable, MESSAGE_TYPE_AND_TYPE_AND_ELEMENT);
             }
         }
