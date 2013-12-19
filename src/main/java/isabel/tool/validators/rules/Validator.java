@@ -1,12 +1,11 @@
 package isabel.tool.validators.rules;
 
+import isabel.model.ComparableNode;
 import isabel.model.Referable;
 import isabel.tool.Violation;
 import isabel.model.NodeHelper;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
-import nu.xom.Attribute;
-import nu.xom.Element;
 import nu.xom.Node;
 
 public abstract class Validator {
@@ -29,8 +28,9 @@ public abstract class Validator {
 	public abstract int getSaNumber();
 
 	private void addViolation(String fileName, Node node, int type) {
+		ComparableNode comparableNode = new ComparableNode(node);
 		validationCollector.add(new Violation(fileName, getSaNumber(), type,
-				getLineNumber(node), getColumnNumber(node)));
+				comparableNode.getLineNumber(), comparableNode.getColumnNumber()));
 	}
 
     protected void addViolation(Referable node) {
@@ -47,30 +47,6 @@ public abstract class Validator {
 
 	protected void addViolation(Node node, int type) {
 		addViolation(new NodeHelper(node).getFilePath(), node, type);
-	}
-
-	protected int getLineNumber(Node node) {
-		if (node instanceof Element) {
-			Element element = (Element) node;
-			return (Integer) element.getUserData("lineNumber");
-		} else if (node instanceof Attribute) {
-			return getLineNumber(node.getParent());
-		} else {
-			throw new IllegalArgumentException(
-					"Node need to be an Element or Attribute.");
-		}
-	}
-
-	protected int getColumnNumber(Node node) {
-		if (node instanceof Element) {
-			Element element = (Element) node;
-			return (Integer) element.getUserData("columnNumber");
-		} else if (node instanceof Attribute) {
-			return getColumnNumber(node.getParent());
-		} else {
-			throw new IllegalArgumentException(
-					"Node need to be an Element or Attribute.");
-		}
 	}
 
 	public String getBpelFileName() {

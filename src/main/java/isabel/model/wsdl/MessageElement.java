@@ -5,6 +5,7 @@ import java.util.List;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
+import isabel.model.ComparableNode;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.Referable;
@@ -61,21 +62,7 @@ public class MessageElement implements Referable {
 		}
 		
 		MessageElement messageElement = (MessageElement) object;
-		String messageElementWsdl = new NodeHelper(messageElement.toXOM()).getFilePath();
-		String messageWsdl = message.getFilePath();
-		boolean equalDocument = messageElementWsdl.equals(messageWsdl);
-		boolean equalLineNumber = getLineNumber(messageElement.message) == getLineNumber(message);
-    	boolean equalColumNumber = getColumnNumber(messageElement.message) == getColumnNumber(message);
-    	
-        return equalDocument && equalLineNumber && equalColumNumber;
-	}
-	
-	private int getLineNumber(NodeHelper nodeHelper) {
-		return (Integer) nodeHelper.asElement().getUserData("lineNumber");
-	}
-
-	private int getColumnNumber(NodeHelper nodeHelper) {
-		return (Integer) nodeHelper.asElement().getUserData("columnNumber");
+		return new ComparableNode(toXOM()).equals(new ComparableNode(messageElement.toXOM()));
 	}
 	
 	@Override
