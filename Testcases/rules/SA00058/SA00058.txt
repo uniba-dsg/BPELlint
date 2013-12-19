@@ -6,6 +6,8 @@ $receiveReply = <receive> | <reply>
 
 FOREACH $receiveReply
     FAIL UNLESS getQname(getVariable($receiveReply)) EQUALS getQname(getMessage($receiveReply))
+    
+see SA00048
 @@@
 ReceiveDeviantMessageType.bpel
 ReceiveDeviantType.bpel
