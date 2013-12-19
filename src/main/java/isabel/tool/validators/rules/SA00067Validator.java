@@ -1,5 +1,6 @@
 package isabel.tool.validators.rules;
 
+import isabel.model.ComparableNode;
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.LinkElement;
@@ -60,8 +61,7 @@ public class SA00067Validator extends Validator {
 	}
 	
 	private boolean areEqual(LinkElement linkA, LinkElement linkB) {
-		return getLineNumber(linkA.toXOM()) == getLineNumber(linkB.toXOM()) && 
-				getColumnNumber(linkA.toXOM()) == getColumnNumber(linkB.toXOM());
+		return new ComparableNode(linkA.toXOM()).equals(new ComparableNode(linkB.toXOM()));
 	}
 
 	@Override

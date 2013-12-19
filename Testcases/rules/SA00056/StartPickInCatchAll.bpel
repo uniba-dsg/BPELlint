@@ -15,14 +15,14 @@
     </variables>
     <scope name="Scope">
         <faultHandlers>
-            <catchAll>
+            <catchAll><sequence>
                 <pick name="Pick" createInstance="yes">
                     <onMessage partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData">
                         <empty/>
                     </onMessage>
                 </pick>
                 <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
-            </catchAll>
+            </sequence></catchAll>
         </faultHandlers>
         <sequence>
             <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData"/>

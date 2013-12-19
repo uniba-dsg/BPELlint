@@ -92,7 +92,7 @@ public class ValidatorsHandler {
 		validators.add(new SA00053Validator(files, violationCollector));
 		validators.add(new SA00054Validator(files, violationCollector));
 		validators.add(new SA00055Validator(files, violationCollector));
-		// validators.add(new SA00056Validator(files, violationCollector));
+		validators.add(new SA00056Validator(files, violationCollector));
 		validators.add(new SA00057Validator(files, violationCollector));
 		validators.add(new SA00058Validator(files, violationCollector));
 		validators.add(new SA00059Validator(files, violationCollector));
