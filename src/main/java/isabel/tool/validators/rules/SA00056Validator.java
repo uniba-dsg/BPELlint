@@ -7,6 +7,9 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import nu.xom.Node;
+import nu.xom.Nodes;
+
 import com.google.common.collect.Sets;
 
 import isabel.model.ComparableNode;
@@ -30,7 +33,7 @@ public class SA00056Validator extends Validator {
 	public void validate() {
 		dom = new TreeSet<>();
 		startingFlows = new LinkedList<>();
-		List<ComparableNode> startActivities = new LinkedList<>();
+		Set<ComparableNode> startActivities = new HashSet<>();
 		Set<ComparableNode> otherReceiveActivities = new HashSet<>();
 		
 		for (ReceiveElement receive : fileHandler.getAllReceives()) {
@@ -61,6 +64,17 @@ public class SA00056Validator extends Validator {
 			SortedSet<ComparableNode> headSet = dom.headSet(startActivity);
 			if (!Sets.intersection(otherReceiveActivities, headSet).isEmpty()){
 				addViolation(startActivity, 2);
+			}
+		}
+		
+		for (ComparableNode flow : startingFlows) {
+			Nodes flowChilds = flow.toXOM().query("./*");
+			for (Node node : flowChilds) {
+				SortedSet<ComparableNode> tailSet = dom.tailSet(new ComparableNode(node));
+				if(Sets.intersection(startActivities, tailSet).isEmpty() && !Sets.intersection(otherReceiveActivities, tailSet).isEmpty()){
+					// FIXME this is not working with properly linked flow structures ... and it does not prohibit other activities than non starting parallel <pick> and receive.
+					addViolation(flow, 3);
+				}
 			}
 		}
 	}
