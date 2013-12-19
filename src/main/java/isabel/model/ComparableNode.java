@@ -6,14 +6,16 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
 
-public class ComparableNode implements Comparable<ComparableNode> {
+public class ComparableNode implements Comparable<ComparableNode>, Referable {
 
+	private final Node node;
 	private final String fileName;
 	private final int lineNumber;
 	private final int columnNumber;
 
 	public ComparableNode(Node node) {
 		Objects.requireNonNull(node, "null can not be compared");
+		this.node = node;
 		fileName = node.getBaseURI();
 		lineNumber = getLineNumber(node);
 		columnNumber = getColumnNumber(node);
@@ -92,6 +94,11 @@ public class ComparableNode implements Comparable<ComparableNode> {
 		} else {
 			return this.lineNumber - comparableNode.lineNumber;
 		}
+	}
+
+	@Override
+	public Node toXOM() {
+		return node;
 	}
 
 }
