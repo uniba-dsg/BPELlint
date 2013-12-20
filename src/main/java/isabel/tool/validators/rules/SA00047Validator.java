@@ -11,7 +11,13 @@ import static isabel.model.Standards.CONTEXT;
 
 public class SA00047Validator extends Validator {
 
-    public SA00047Validator(ProcessContainer files,
+	private static final int TO_PARTS_OR_FROM_PARTS_NOT_ALLOWED = 1;
+	private static final int VARIABLE_ATTRIBUTE_OR_FROM_PATRS_MISSING = 2;
+	private static final int VARIABLE_ATTRIBUTE_OR_TO_PATRS_MISSING = 3;
+	private static final int INPUT_VARIABLE_OR_TO_PARTS_FOR_INVOKE_MISSING = 4;
+	private static final int INPUT_VARIABLE_OR_TO_PARTS_AND_OUTPUT_VARIABLE_OR_FROM_PART_FOR_INVOKE_MISSING = 5;
+
+	public SA00047Validator(ProcessContainer files,
                             ValidationCollector violationCollector) {
         super(files, violationCollector);
     }
@@ -36,10 +42,10 @@ public class SA00047Validator extends Validator {
             throws NavigationException {
         if (messageActivity.isReceiving()
                 && !hasVariableOrFromPart(messageActivity)) {
-            addViolation(messageActivity, 2);
+            addViolation(messageActivity, VARIABLE_ATTRIBUTE_OR_FROM_PATRS_MISSING);
         } else if (isReply(messageActivity)
                 && !hasVariableOrToPart(messageActivity)) {
-            addViolation(messageActivity, 3);
+            addViolation(messageActivity, VARIABLE_ATTRIBUTE_OR_TO_PATRS_MISSING);
         } else if (isInvoke(messageActivity)) {
             validateInvokeMessagePartConstraint(messageActivity);
         }
@@ -50,16 +56,16 @@ public class SA00047Validator extends Validator {
         OperationElement operation = messageActivity.getOperation();
         if (operation.isOneWay()
                 && !hasInputVariableOrToPart(messageActivity)) {
-            addViolation(messageActivity, 4);
+            addViolation(messageActivity, INPUT_VARIABLE_OR_TO_PARTS_FOR_INVOKE_MISSING);
         } else if (operation.isRequestResponse()
                 && (!hasInputVariableOrToPart(messageActivity) || !hasOutputVariableOrFromPart(messageActivity))) {
-            addViolation(messageActivity, 5);
+            addViolation(messageActivity, INPUT_VARIABLE_OR_TO_PARTS_AND_OUTPUT_VARIABLE_OR_FROM_PART_FOR_INVOKE_MISSING);
         }
     }
 
     private void validateNoMessagePartConstraint(MessageActivity messageActivity) {
         if (hasToPartOrFromPart(messageActivity))
-            addViolation(messageActivity, 1);
+            addViolation(messageActivity, TO_PARTS_OR_FROM_PARTS_NOT_ALLOWED);
     }
 
     private boolean hasMessagePart(MessageActivity messageActivity)

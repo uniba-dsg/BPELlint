@@ -6,7 +6,11 @@ import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
 
 public class SA00048Validator extends Validator {
-    public SA00048Validator(ProcessContainer files,
+	
+	private static final int INPUT_VARIABLE_EQUALS_OPERATION_MESSAGE_NOT = 1;
+	private static final int OUTPUT_VARIABLE_EQUALS_OPERATION_MESSAGE_NOT = 2;
+
+	public SA00048Validator(ProcessContainer files,
                             ValidationCollector violationCollector) {
         super(files, violationCollector);
     }
@@ -28,7 +32,7 @@ public class SA00048Validator extends Validator {
 		try {
 			VariableHelper variable = new VariableHelper(fileHandler, invoke.getVariableByName(invoke.getInputVariableAttribute()));
 			if (!variable.hasCorrespondingMessage(operation.getInput().getMessage())){
-				addViolation(invoke, 1);
+				addViolation(invoke, INPUT_VARIABLE_EQUALS_OPERATION_MESSAGE_NOT);
 			}
 		} catch (NavigationException e) {
 			// ignore, if there is no variable. This is validated elsewhere.
@@ -39,7 +43,7 @@ public class SA00048Validator extends Validator {
 		try {
 			VariableHelper variable = new VariableHelper(fileHandler, invoke.getVariableByName(invoke.getOutputVariableAttribute()));
 			if (!variable.hasCorrespondingMessage(operation.getOutput().getMessage())) {
-				addViolation(invoke, 2);
+				addViolation(invoke, OUTPUT_VARIABLE_EQUALS_OPERATION_MESSAGE_NOT);
 			}
 		} catch (NavigationException e) {
 			// ignore, if there is no variable. This is validated elsewhere.
