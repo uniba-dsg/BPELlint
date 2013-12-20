@@ -6,6 +6,22 @@ class Test
   BETSY_DIR = "betsy"
   OPTIONS = "--ignore-space-change --ignore-blank-lines -U9999"
 
+  def self.add_diff_stats(diff_file)
+    @@diff_stats ||= []
+
+    add_lines=`cat #{diff_file} | grep ^+ | wc -l`.strip.to_i
+    remove_lines=`cat #{diff_file} | grep ^- | wc -l`.strip.to_i
+    @@diff_stats << [diff_file, add_lines + remove_lines, add_lines, remove_lines]
+  end
+
+  def self.print_diff_stats
+    File.open("diffs/diff_stats.csv","w") do |f|
+      @@diff_stats.sort {|a,b| a[1] <=> b[1] }.each do |ds|
+        f << ds.join(";") + "\n"
+      end
+    end
+  end
+
   def self.compute_wsdl_diffs
     main_wsdl = "#{BETSY_DIR}/TestInterface.wsdl"
     partner_wsdl = "#{BETSY_DIR}/TestPartner.wsdl"
@@ -21,9 +37,11 @@ class Test
       end
       dirname = File.basename(File.dirname(file))
       filename = File.basename(file)
+      diff_file = "diffs/#{dirname}_WSDL_#{filename}.diff"
       `xmllint --c14n #{wsdl} > origin.xml`
       `xmllint --c14n #{file} > current.xml`
-      `diff #{OPTIONS} origin.xml current.xml > diffs/#{dirname}_WSDL_#{filename}.diff`
+      `diff #{OPTIONS} origin.xml current.xml > #{diff_file}`
+      add_diff_stats(diff_file)
     end
   end
 
@@ -39,10 +57,11 @@ class Test
 
       dirname = File.basename(File.dirname(file))
       filename = File.basename(file)
-
+      diff_file = "diffs/#{dirname}_BPEL_#{filename}.diff"
       `xmllint --c14n #{origin} > origin.xml`
       `xmllint --c14n #{file} > current.xml`
-      `diff #{OPTIONS} origin.xml current.xml > diffs/#{dirname}_BPEL_#{filename}.diff`
+      `diff #{OPTIONS} origin.xml current.xml > #{diff_file}`
+      add_diff_stats(diff_file)
     end
   end
 end
@@ -53,5 +72,6 @@ Dir.mkdir "diffs"
 Test.compute_wsdl_diffs
 puts "------"
 Test.compute_bpel_diffs
+Test.print_diff_stats
 FileUtils.rm "origin.xml"
 FileUtils.rm "current.xml"
