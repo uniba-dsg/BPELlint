@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-The root scope inside a FCT-handler MUST not have a compensation handler.

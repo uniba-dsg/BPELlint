@@ -1,0 +1,23 @@
+Place Short Description Here.
+@@@
+The root scope inside a FCT-handler MUST not have a compensation handler.
+@@@
+$fctHandler = <catch> | <catchAll> | <compensationHandler> | <terminationHandler>
+$scopeHome = 
+
+FOREACH $fctHandler
+    FOREACH $fctHandler*<scope>
+        FAIL IF $fctHandler*<scope><compensationHandler> EXIST AND isRootScope($fctHandler, PARENT $fctHandler*<scope>)
+
+isRootScope: $fctHandler, $node -> boolean
+    IF $node EQUALS $fctHandler
+        RETURN 'true'
+    IF $node EQUALS <scope>
+        RETURN 'false'
+    RETURN isRootScope($fctHandler, PARENT $node)
+@@@
+HandlersCompensationInTerminationRootScope.bpel
+CompensationHandlerInCatchRootScope.bpel
+CompensationHandlerInCatchAllRootScope.bpel
+HandlersCompensationInCompensationRootScope.bpel
+@@@
