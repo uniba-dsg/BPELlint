@@ -1,6 +1,6 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.bpel.CompensateScopeElement;
+import isabel.model.bpel.fct.CompensateScopeElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 

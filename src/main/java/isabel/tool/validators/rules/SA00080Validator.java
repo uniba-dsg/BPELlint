@@ -1,7 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.FaultHandlersElement;
+import isabel.model.bpel.fct.FaultHandlersElement;
 import isabel.tool.impl.ValidationCollector;
 
 public class SA00080Validator extends Validator {

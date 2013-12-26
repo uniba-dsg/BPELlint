@@ -1,8 +1,9 @@
-package isabel.model.bpel;
+package isabel.model.bpel.fct;
 
 import nu.xom.Node;
 import isabel.model.NodeHelper;
 import isabel.model.Referable;
+import isabel.model.bpel.VariableLike;
 
 public class CatchElement implements Referable, VariableLike{
 
