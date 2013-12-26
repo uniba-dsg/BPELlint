@@ -25,9 +25,14 @@ import isabel.model.bpel.TargetsElement;
 import isabel.model.bpel.ToElement;
 import isabel.model.bpel.VariableElement;
 import isabel.model.bpel.VariablesElement;
+import isabel.model.bpel.fct.CatchAllElement;
+import isabel.model.bpel.fct.CatchElement;
 import isabel.model.bpel.fct.CompensateElement;
 import isabel.model.bpel.fct.CompensateScopeElement;
+import isabel.model.bpel.fct.CompensationHandlerElement;
 import isabel.model.bpel.fct.FaultHandlerContainer;
+import isabel.model.bpel.fct.FctHandler;
+import isabel.model.bpel.fct.TerminationHandlerElement;
 import isabel.model.bpel.mex.InvokeElement;
 import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.bpel.mex.OnEventElement;
@@ -568,6 +573,59 @@ public class ProcessContainer {
 		List<StartActivity> result = new LinkedList<>();
 		result.addAll(getAllReceives());
 		result.addAll(getAllOnMessages());
+
+		return result;
+	}
+
+	public List<TerminationHandlerElement> getAllTerminationHandler() {
+		List<TerminationHandlerElement> result = new LinkedList<>();
+
+		for (Node node : getBpel().getDocument().query(
+				"//bpel:terminationHandler", CONTEXT)) {
+			result.add(new TerminationHandlerElement(node));
+		}
+
+		return result;
+	}
+
+	public List<CatchElement> getAllCatch() {
+		List<CatchElement> result = new LinkedList<>();
+
+		for (Node node : getBpel().getDocument().query("//bpel:catch", CONTEXT)) {
+			result.add(new CatchElement(node));
+		}
+
+		return result;
+	}
+
+	public List<CatchAllElement> getAllCatchAll() {
+		List<CatchAllElement> result = new LinkedList<>();
+
+		for (Node node : getBpel().getDocument().query("//bpel:catchAll",
+				CONTEXT)) {
+			result.add(new CatchAllElement(node));
+		}
+
+		return result;
+	}
+
+	public List<CompensationHandlerElement> getAllCompenationHandler() {
+		List<CompensationHandlerElement> result = new LinkedList<>();
+
+		for (Node node : getBpel().getDocument().query(
+				"//bpel:compensationHandler", CONTEXT)) {
+			result.add(new CompensationHandlerElement(node));
+		}
+
+		return result;
+	}
+
+	public List<FctHandler> getAllFctHandler() {
+		List<FctHandler> result = new LinkedList<>();
+		result.addAll(getAllCatch());
+		result.addAll(getAllCatchAll());
+		result.addAll(getAllCompenationHandler());
+		result.addAll(getAllTerminationHandler());
 
 		return result;
 	}

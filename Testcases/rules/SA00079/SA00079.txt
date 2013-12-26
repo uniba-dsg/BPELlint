@@ -1,4 +1,4 @@
-Place Short Description Here.
+illegal <compensationHandler> in FCT-handler root <scope>
 @@@
 The root scope inside a FCT-handler MUST not have a compensation handler.
 @@@

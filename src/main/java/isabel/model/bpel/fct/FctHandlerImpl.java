@@ -1,6 +1,6 @@
 package isabel.model.bpel.fct;
 
-import isabel.model.ElementIdentifier;
+import isabel.model.ComparableNode;
 import isabel.model.NodeHelper;
 import isabel.model.Standards;
 import isabel.model.bpel.ScopeElement;
@@ -34,8 +34,8 @@ public class FctHandlerImpl implements FctHandler {
 	}
 
 	private boolean isDirectHandlerChild(Node node) {
-		ElementIdentifier compensationHandler = new ElementIdentifier(toXOM());
-		if (compensationHandler.equals(new ElementIdentifier(node))) {
+		ComparableNode compensationHandler = new ComparableNode(toXOM());
+		if (compensationHandler.equals(new ComparableNode(node))) {
 			return true;
 		} else if ("scope".equals(new NodeHelper(node).getLocalName())) {
 			return false;
