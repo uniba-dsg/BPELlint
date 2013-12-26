@@ -22,7 +22,7 @@
                         <compensate />
                     </compensationHandler>
                     <empty />
-                <scope>
+                </scope>
             </catch>
             <catch faultVariable="ReplyData" faultMessageType="ti:executeProcessSyncResponse">
                 <empty />
