@@ -2,7 +2,6 @@ package isabel.model.bpel.fct;
 
 import isabel.model.ElementIdentifier;
 import isabel.model.NodeHelper;
-import isabel.model.Referable;
 import isabel.model.Standards;
 import isabel.model.bpel.ScopeElement;
 
@@ -11,7 +10,7 @@ import java.util.List;
 
 import nu.xom.Node;
 
-public class FctHandlerImpl implements FctHandler, Referable {
+public class FctHandlerImpl implements FctHandler {
 
 	private Node node;
 
