@@ -3,8 +3,8 @@ package isabel.model.bpel.fct;
 import isabel.model.NodeHelper;
 import nu.xom.Node;
 
-public class FaultHandlersElement extends NodeHelper {
-    public FaultHandlersElement(Node node) {
+public class FaultHandlerContainer extends NodeHelper {
+    public FaultHandlerContainer(Node node) {
         super(node);
     }
 

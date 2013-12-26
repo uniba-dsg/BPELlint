@@ -27,7 +27,7 @@ import isabel.model.bpel.VariableElement;
 import isabel.model.bpel.VariablesElement;
 import isabel.model.bpel.fct.CompensateElement;
 import isabel.model.bpel.fct.CompensateScopeElement;
-import isabel.model.bpel.fct.FaultHandlersElement;
+import isabel.model.bpel.fct.FaultHandlerContainer;
 import isabel.model.bpel.mex.InvokeElement;
 import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.bpel.mex.OnEventElement;
@@ -288,12 +288,12 @@ public class ProcessContainer {
 		return result;
 	}
 
-	public List<FaultHandlersElement> getAllFaultHandlers() {
-		List<FaultHandlersElement> result = new LinkedList<>();
+	public List<FaultHandlerContainer> getAllFaultHandlerContainers() {
+		List<FaultHandlerContainer> result = new LinkedList<>();
 
 		for (Node node : getBpel().getDocument().query("//bpel:faultHandlers",
 				CONTEXT)) {
-			result.add(new FaultHandlersElement(node));
+			result.add(new FaultHandlerContainer(node));
 		}
 
 		return result;
