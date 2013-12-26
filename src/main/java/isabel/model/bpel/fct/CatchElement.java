@@ -1,18 +1,24 @@
 package isabel.model.bpel.fct;
 
-import nu.xom.Node;
 import isabel.model.NodeHelper;
 import isabel.model.Referable;
+import isabel.model.bpel.ScopeElement;
 import isabel.model.bpel.VariableLike;
 
-public class CatchElement implements Referable, VariableLike{
+import java.util.List;
+
+import nu.xom.Node;
+
+public class CatchElement implements VariableLike, FctHandler, Referable {
 
 	private NodeHelper catchElement;
+	private FctHandlerImpl fctHandlerImpl;
 
 	public CatchElement(Node node) {
 		catchElement = new NodeHelper(node, "catch");
+		fctHandlerImpl = new FctHandlerImpl(toXOM());
 	}
-	
+
 	@Override
 	public String getVariableName() {
 		return catchElement.getAttribute("faultVariable");
@@ -22,7 +28,7 @@ public class CatchElement implements Referable, VariableLike{
 	public boolean hasVariableMessageType() {
 		return catchElement.hasAttribute("faultMessageType");
 	}
-	
+
 	@Override
 	public String getVariableMessageType() {
 		return catchElement.getAttribute("faultMessageType");
@@ -36,6 +42,11 @@ public class CatchElement implements Referable, VariableLike{
 	@Override
 	public String getVariableElement() {
 		return catchElement.getAttribute("faultElement");
+	}
+
+	@Override
+	public List<ScopeElement> getRootScopes() {
+		return fctHandlerImpl.getRootScopes();
 	}
 
 	@Override
