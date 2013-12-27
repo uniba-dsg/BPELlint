@@ -19,6 +19,10 @@ public class CatchElement implements VariableLike, FctHandler, Referable {
 		fctHandlerImpl = new FctHandlerImpl(toXOM());
 	}
 
+	public boolean hasFaultVariable() {
+		return catchElement.hasAttribute("faultVariable");
+	}
+
 	@Override
 	public String getVariableName() {
 		return catchElement.getAttribute("faultVariable");

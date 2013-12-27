@@ -1,7 +1,7 @@
 package isabel.tool.validators.rules;
 
-import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
+import isabel.tool.impl.ValidationCollector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ public class ValidatorsHandler {
 	private final ValidationCollector violationCollector;
 
 	public ValidatorsHandler(ProcessContainer files,
-	                         ValidationCollector violationCollector) {
+			ValidationCollector violationCollector) {
 		if (files == null)
 			throw new IllegalArgumentException(
 					"ValidationCollector must not be null");
@@ -120,7 +120,7 @@ public class ValidatorsHandler {
 		validators.add(new SA00079Validator(files, violationCollector));
 
 		validators.add(new SA00080Validator(files, violationCollector));
-		// validators.add(new SA00081Validator(files, violationCollector));
+		validators.add(new SA00081Validator(files, violationCollector));
 		// validators.add(new SA00082Validator(files, violationCollector));
 		validators.add(new SA00083Validator(files, violationCollector));
 		// validators.add(new SA00084Validator(files, violationCollector));
