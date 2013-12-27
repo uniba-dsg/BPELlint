@@ -5,11 +5,11 @@ import java.util.Set;
 
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.FlowElement;
-import isabel.model.bpel.LinkedActivity;
 import isabel.model.bpel.OptionalElementNotPresentException;
-import isabel.model.bpel.SourceElement;
-import isabel.model.bpel.TargetElement;
+import isabel.model.bpel.flow.FlowElement;
+import isabel.model.bpel.flow.LinkedActivity;
+import isabel.model.bpel.flow.SourceElement;
+import isabel.model.bpel.flow.TargetElement;
 import isabel.tool.impl.ValidationCollector;
 
 public class SA00072Validator extends Validator {

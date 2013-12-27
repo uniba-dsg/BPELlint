@@ -1,4 +1,4 @@
-package isabel.model.bpel;
+package isabel.model.bpel.flow;
 
 import isabel.model.NodeHelper;
 import isabel.model.Referable;

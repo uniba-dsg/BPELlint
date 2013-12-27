@@ -3,10 +3,10 @@ package isabel.tool.validators.rules;
 import isabel.model.ComparableNode;
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.LinkElement;
-import isabel.model.bpel.LinkEntity;
-import isabel.model.bpel.SourcesElement;
-import isabel.model.bpel.TargetsElement;
+import isabel.model.bpel.flow.LinkElement;
+import isabel.model.bpel.flow.LinkEntity;
+import isabel.model.bpel.flow.SourcesElement;
+import isabel.model.bpel.flow.TargetsElement;
 import isabel.tool.impl.ValidationCollector;
 
 import java.util.HashSet;

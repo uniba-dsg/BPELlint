@@ -1,4 +1,6 @@
-package isabel.model.bpel;
+package isabel.model.bpel.flow;
+
+import isabel.model.bpel.OptionalElementNotPresentException;
 
 import java.util.List;
 

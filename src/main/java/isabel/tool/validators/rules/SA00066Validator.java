@@ -5,8 +5,8 @@ import nu.xom.Nodes;
 import isabel.model.Standards;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.FlowElement;
-import isabel.model.bpel.LinkElement;
+import isabel.model.bpel.flow.FlowElement;
+import isabel.model.bpel.flow.LinkElement;
 
 public class SA00066Validator extends Validator {
 

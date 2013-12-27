@@ -2,7 +2,7 @@ package isabel.tool.validators.rules;
 
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.LinkEntity;
+import isabel.model.bpel.flow.LinkEntity;
 import isabel.tool.impl.ValidationCollector;
 
 public class SA00065Validator extends Validator {

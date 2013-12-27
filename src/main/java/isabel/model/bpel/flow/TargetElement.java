@@ -1,32 +1,32 @@
-package isabel.model.bpel;
+package isabel.model.bpel.flow;
 
-import nu.xom.Node;
-import nu.xom.Nodes;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.Referable;
 import isabel.model.Standards;
+import nu.xom.Node;
+import nu.xom.Nodes;
 
-public class SourceElement implements Referable, LinkEntity {
+public class TargetElement implements Referable, LinkEntity {
 
-	private NodeHelper source;
+	private NodeHelper target;
 
-	public SourceElement(Node node) {
-		source = new NodeHelper(node, "source");
+	public TargetElement(Node node) {
+		target = new NodeHelper(node, "target");
 	}
-	
+
 	public LinkedActivity getActivity() {
-		return new LinkedActivityImpl(source.getParent().getParent());
+		return new LinkedActivityImpl(target.getParent().getParent());
 	}
-	
+
 	public String getLinkName() {
-		return source.getAttribute("linkName");
+		return target.getAttribute("linkName");
 	}
 
 	public LinkElement getLink() throws NavigationException {
-		return new LinkElement(getLinkNode(source.toXOM()));
+		return new LinkElement(getLinkNode(target.toXOM()));
 	}
-
+	
 	private Node getLinkNode(Node node) throws NavigationException {
 		NodeHelper nodeHelper = new NodeHelper(node);
 		if ("process".equals(nodeHelper.getLocalName())) {
@@ -42,10 +42,10 @@ public class SourceElement implements Referable, LinkEntity {
 		
 		return getLinkNode(node.getParent());
 	}
-	
+
 	@Override
 	public Node toXOM() {
-		return source.toXOM();
+		return target.toXOM();
 	}
 
 }

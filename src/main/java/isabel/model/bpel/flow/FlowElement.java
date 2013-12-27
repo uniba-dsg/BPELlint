@@ -1,4 +1,4 @@
-package isabel.model.bpel;
+package isabel.model.bpel.flow;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.Referable;
 import isabel.model.Standards;
+import isabel.model.bpel.OptionalElementNotPresentException;
 
 public class FlowElement implements Referable {
 
