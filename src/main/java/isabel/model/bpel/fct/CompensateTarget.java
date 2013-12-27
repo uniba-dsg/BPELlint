@@ -1,6 +1,8 @@
 package isabel.model.bpel.fct;
 
-public interface CompensateTarget {
+import isabel.model.Referable;
+
+public interface CompensateTarget extends Referable {
 
 	boolean hasCompensationHandler();
 

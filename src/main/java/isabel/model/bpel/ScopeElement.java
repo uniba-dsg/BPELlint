@@ -11,11 +11,11 @@ public class ScopeElement implements CompensateTarget, Referable {
 	private NodeHelper scope;
 
 	public ScopeElement(Node node) {
-		scope = new NodeHelper(node, "scope");
+		this(new NodeHelper(node, "scope"));
 	}
 
 	public ScopeElement(NodeHelper parent) {
-		this(parent.toXOM());
+		scope = parent;
 	}
 
 	@Override
