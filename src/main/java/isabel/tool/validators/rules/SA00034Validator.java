@@ -1,6 +1,6 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.bpel.VariableLike;
+import isabel.model.bpel.var.VariableLike;
 import isabel.model.NodeHelper;
 import isabel.model.NodesUtil;
 import isabel.model.NavigationException;

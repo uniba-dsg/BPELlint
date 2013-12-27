@@ -1,9 +1,9 @@
 package isabel.model;
 
 import isabel.model.bpel.PartnerLinkElement;
-import isabel.model.bpel.VariableElement;
-import isabel.model.bpel.VariableLike;
 import isabel.model.bpel.fct.CatchElement;
+import isabel.model.bpel.var.VariableElement;
+import isabel.model.bpel.var.VariableLike;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;

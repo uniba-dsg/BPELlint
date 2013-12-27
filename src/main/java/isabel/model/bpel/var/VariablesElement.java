@@ -1,4 +1,4 @@
-package isabel.model.bpel;
+package isabel.model.bpel.var;
 
 import isabel.model.NodeHelper;
 import nu.xom.Node;

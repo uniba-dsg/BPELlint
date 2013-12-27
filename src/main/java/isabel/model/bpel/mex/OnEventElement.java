@@ -7,7 +7,7 @@ import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.PartnerLinkElement;
-import isabel.model.bpel.VariableLike;
+import isabel.model.bpel.var.VariableLike;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;

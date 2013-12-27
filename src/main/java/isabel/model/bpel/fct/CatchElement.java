@@ -3,7 +3,7 @@ package isabel.model.bpel.fct;
 import isabel.model.NodeHelper;
 import isabel.model.Referable;
 import isabel.model.bpel.ScopeElement;
-import isabel.model.bpel.VariableLike;
+import isabel.model.bpel.var.VariableLike;
 
 import java.util.List;
 

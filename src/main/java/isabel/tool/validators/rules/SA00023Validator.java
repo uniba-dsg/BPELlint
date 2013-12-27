@@ -1,8 +1,8 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.VariableElement;
-import isabel.model.bpel.VariablesElement;
+import isabel.model.bpel.var.VariableElement;
+import isabel.model.bpel.var.VariablesElement;
 import isabel.tool.impl.ValidationCollector;
 
 import java.util.HashSet;

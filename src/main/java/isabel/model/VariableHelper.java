@@ -1,8 +1,8 @@
 package isabel.model;
 
 import static isabel.model.Standards.CONTEXT;
-import isabel.model.bpel.VariableElement;
-import isabel.model.bpel.VariableLike;
+import isabel.model.bpel.var.VariableElement;
+import isabel.model.bpel.var.VariableLike;
 import isabel.model.wsdl.MessageElement;
 import isabel.model.wsdl.PartElement;
 import nu.xom.Node;

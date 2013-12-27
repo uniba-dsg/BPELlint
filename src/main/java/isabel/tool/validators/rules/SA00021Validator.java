@@ -2,8 +2,8 @@ package isabel.tool.validators.rules;
 
 import isabel.model.*;
 import isabel.model.bpel.CorrelationSetElement;
-import isabel.model.bpel.VariableElement;
-import isabel.model.bpel.VariableLike;
+import isabel.model.bpel.var.VariableElement;
+import isabel.model.bpel.var.VariableLike;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.model.wsdl.PropertyElement;
 import isabel.tool.impl.ValidationCollector;
