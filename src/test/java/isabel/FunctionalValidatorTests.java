@@ -337,6 +337,9 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00076/ForEach-DuplicateCounterVariable.bpel", "76"},
 
+				{"Testcases/rules/SA00078/ScopeMissingFCHandler.bpel", "78"},
+				// {"Testcases/rules/SA00078/InvokeMissingFCHandler.bpel", "78"},
+
 				{"Testcases/rules/SA00079/CompensationHandlerInCatchRootScope.bpel", "79"},
 				{"Testcases/rules/SA00079/CompensationHandlerInCatchAllRootScope.bpel", "79"},
 				{"Testcases/rules/SA00079/HandlersCompensationInTerminationRootScope.bpel", "79"},
