@@ -355,6 +355,8 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00081/CatchElement.bpel", "81"},
 				{"Testcases/rules/SA00081/CatchTypeElement.bpel", "81"},
 
+				{"Testcases/rules/SA00082/CyclicLinkedPeerScopes.bpel", "82"},
+
 				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
 				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
 				{"Testcases/rules/SA00083/EmptyEventHandlersInScope.bpel", "83"},

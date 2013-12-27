@@ -226,7 +226,7 @@ public class NodeHelper implements Referable {
     }
 
 	public ScopeElement getEnclosingScope() {
-		NodeHelper parent = getParent();
+		NodeHelper parent = this;
 		while(!"process".equals(parent.getLocalName())) {
 			parent = parent.getParent();
 			if ("scope".equals(parent.getLocalName())) {
