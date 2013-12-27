@@ -24,4 +24,11 @@ public class PropertyElement extends NodeHelper {
     public boolean hasTypeAndElement() {
         return hasType() && hasElement();
     }
+    
+    public String toIdentifier() {
+		String targetNamespace = getTargetNamespace();
+		String name = getAttribute("name");
+		return "{" + targetNamespace + "}" + name;
+	}
+    
 }

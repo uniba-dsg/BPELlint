@@ -5,12 +5,14 @@ import isabel.model.bpel.CorrelationSetElement;
 import isabel.model.bpel.VariableElement;
 import isabel.model.bpel.VariableLike;
 import isabel.model.wsdl.PropertyAliasElement;
+import isabel.model.wsdl.PropertyElement;
 import isabel.tool.impl.ValidationCollector;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
 import org.pmw.tinylog.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static isabel.model.Standards.CONTEXT;
@@ -103,7 +105,7 @@ public class SA00021Validator extends Validator {
 
     private void verifyThatEachCorrelationSetHasAnExistingProperty() {
         Nodes correlationSets = fileHandler.getCorrelationSets();
-        List<String> properties = ElementIdentifier.toIdentifiers(fileHandler.getAllProperties());
+        List<String> properties = toIdentifiers(fileHandler.getAllProperties());
 
         for (Node correlationSet : correlationSets) {
             List<String> propertyIdentifiers = new CorrelationSetElement(correlationSet).getPropertyIdentifiers();
@@ -114,6 +116,16 @@ public class SA00021Validator extends Validator {
                 addViolation(correlationSet);
             }
         }
+    }
+    
+    private List<String> toIdentifiers(List<PropertyElement> properties){
+        List<String> identifiers = new ArrayList<>();
+
+        for(PropertyElement property : properties){
+            identifiers.add(property.toIdentifier());
+        }
+
+        return identifiers;
     }
 
 	private String getVariableType(VariableLike variable) throws NavigationException {

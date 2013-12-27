@@ -165,10 +165,6 @@ public class NodeHelper implements Referable {
         return new NodeHelper(node).asElement();
     }
 
-    public String getIdentifier() {
-        return new ElementIdentifier(asElement()).toIdentifier();
-    }
-
     public VariableLike getVariableByName(String variableName) throws NavigationException {
         Objects.requireNonNull(variableName, "VariableName must not be null!");
 
