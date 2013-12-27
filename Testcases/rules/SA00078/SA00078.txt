@@ -1,4 +1,4 @@
-target <scope> has no fault or compensation handler
+target has no fault or compensation handler
 @@@
 The target attribute of a <compensateScope> activity MUST refer to a scope or an invoke activity with a fault handler or compensation handler.
 @@@
