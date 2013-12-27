@@ -1,0 +1,38 @@
+<scope> is cyclically linked with a peer <scope> 
+@@@
+The peer-scope dependency relation MUST NOT include cycles.  In other words, WS-BPEL forbids a process in which there are peer scopes S1 and S2 such that S1 has a peer-scope dependency on S2 and S2 has a peer-scope dependency on S1.
+@@@
+FOREACH <scope>
+    FAIL IF isCyclicLinked(<scope>)
+
+isCyclicLinked: <scope> -> boolean
+    SET $peerScopes TO getPeerScopes(<scope>)
+    SET $ownTargets TO EMPTY_LIST
+    ADD ANY <scope>*<target>@linkName TO $ownTargets
+    SET $ownSources TO EMPTY_LIST
+    ADD ANY <scope>*<source>@linkName TO $ownSources
+    FOREACH $peer IN $peerScopes
+        SET $targets TO EMPTY_LIST
+        ADD ANY $peer*<target>@linkName TO $targets
+        IF $targets CONTAINS ANY $ownSources
+            SET $sources TO EMPTY_LIST
+            ADD ANY $peer*<source>@linkName TO $sources
+            IF $sources CONTAINS ANY $ownTargets
+                RETURN 'true'
+    RETURN 'false'
+
+getPeerScopes: $scope -> $peerScopes
+    SET $peerScopes TO EMPTY_LIST
+    SET $enclosingScope TO getEnclosingScope($scope)
+    FOREACH $enclosingScope<scope>
+        UNLESS $enclosingScope<scope> EQUALS $scope
+            ADD $enclosingScope<scope> TO $peerScopes
+    RETURN $peerScopes
+
+getEnclosingScope: $node -> $enclosingScope
+    IF $node EQUALS <process> OR $node EQUALS <scope>
+        RETURN $node
+    RETURN getEnclosingScope(PARENT $node)
+@@@
+CyclicLinkedPeerScopes.bpel
+@@@

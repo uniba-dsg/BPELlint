@@ -20,7 +20,7 @@ enclosingScope: $node -> $enclosingScope
         RETURN $node
     IF $node EQUALS ANY $ftcHandler
         RETRUN $node
-    RETURN getEnclosingScope(PARENT $node)
+    RETURN enclosingScope(PARENT $node)
 @@@
 NoCompensateTarget.bpel
 CompensateTargetScopeNestedInScope.bpel
