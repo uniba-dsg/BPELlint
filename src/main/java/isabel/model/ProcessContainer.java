@@ -255,7 +255,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query(
 				"//bpel:compensateScope", CONTEXT)) {
-			result.add(new CompensateScopeElement(node));
+			result.add(new CompensateScopeElement(node, this));
 		}
 
 		return result;

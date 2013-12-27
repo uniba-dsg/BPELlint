@@ -5,14 +5,16 @@ import java.util.List;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.Standards;
 import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.PartnerLinkElement;
+import isabel.model.bpel.fct.CompensateTarget;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 import static isabel.model.Standards.CONTEXT;
 
-public class InvokeElement extends NodeHelper implements MessageActivity {
+public class InvokeElement extends NodeHelper implements MessageActivity, CompensateTarget {
 
     private final MessageActivity delegate;
 
@@ -95,5 +97,16 @@ public class InvokeElement extends NodeHelper implements MessageActivity {
     public boolean hasOutputVariable() {
         return !getOutputVariableAttribute().isEmpty();
     }
+
+	@Override
+	public boolean hasCompensationHandler() {
+		return toXOM().query("./bpel:compensationHandler", Standards.CONTEXT).hasAny();
+	}
+
+	@Override
+	public boolean hasFaultHandler() {
+		return toXOM().query("./bpel:faultHandlers", Standards.CONTEXT).hasAny();
+	}
+
 
 }

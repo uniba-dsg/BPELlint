@@ -22,7 +22,7 @@ public class SA00003Validator extends Validator {
     @Override
     public void validate() {
         List<Node> processAndScopeNodes = new ArrayList<>();
-        processAndScopeNodes.add(fileHandler.getProcess().asElement());
+        processAndScopeNodes.add(fileHandler.getProcess().toXOM());
         processAndScopeNodes.addAll(getScopes());
 
         for (Node processOrScope : processAndScopeNodes) {
