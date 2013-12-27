@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-For the <catch> construct;  to have a defined type associated with the fault variable, the faultVariable attribute MUST only be used if either the faultMessageType or faultElement attributes, but not both, accompany it. The faultMessageType and faultElement attributes MUST NOT be used unless accompanied by faultVariable attribute.
