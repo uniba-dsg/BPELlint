@@ -67,6 +67,11 @@ public class ReplyElement extends NodeHelper implements MessageActivity{
     }
 
     @Override
+	public String getMessageExchangeAttribute() {
+		return delegate.getMessageExchangeAttribute();
+	}
+	
+    @Override
     public Node toXOM() {
         return delegate.toXOM();
     }

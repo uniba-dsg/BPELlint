@@ -75,6 +75,11 @@ public class ReceiveElement extends NodeHelper implements StartActivity, Message
         return delegate.isReceiving();
     }
 
+	@Override
+	public String getMessageExchangeAttribute() {
+		return delegate.getMessageExchangeAttribute();
+	}
+
     @Override
     public Node toXOM() {
         return delegate.toXOM();

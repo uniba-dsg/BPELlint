@@ -25,6 +25,7 @@ public interface MessageActivity extends Referable{
     String getPartnerLinkAttribute();
     String getOperationAttribute();
     String getPortTypeAttribute();
+    String getMessageExchangeAttribute();
 
     boolean isReceiving();
 

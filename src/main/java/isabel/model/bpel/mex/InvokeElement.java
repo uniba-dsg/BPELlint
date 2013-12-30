@@ -63,6 +63,11 @@ public class InvokeElement extends NodeHelper implements MessageActivity, Compen
         return delegate.isReceiving();
     }
 
+	@Override
+	public String getMessageExchangeAttribute() {
+		return delegate.getMessageExchangeAttribute();
+	}
+
     @Override
     public Node toXOM() {
         return delegate.toXOM();
@@ -107,6 +112,5 @@ public class InvokeElement extends NodeHelper implements MessageActivity, Compen
 	public boolean hasFaultHandler() {
 		return toXOM().query("./bpel:faultHandlers", Standards.CONTEXT).hasAny();
 	}
-
 
 }

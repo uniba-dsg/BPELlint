@@ -83,6 +83,11 @@ public class MessageActivityImpl implements MessageActivity {
         return Type.ON_EVENT.equals(getType()) || Type.RECEIVE.equals(getType()) || Type.ON_MESSAGE.equals(getType());
     }
 
+	@Override
+	public String getMessageExchangeAttribute() {
+		return nodeHelper.getAttribute("messageExchange");
+	}
+
     @Override
     public Node toXOM() {
         return nodeHelper.asElement();

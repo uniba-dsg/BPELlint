@@ -22,7 +22,6 @@ public class OnEventElement extends NodeHelper implements MessageActivity, Varia
         delegate = new MessageActivityImpl(this, processContainer);
     }
 
-
     @Override
     public Type getType() {
         return delegate.getType();
@@ -67,6 +66,11 @@ public class OnEventElement extends NodeHelper implements MessageActivity, Varia
     public boolean isReceiving() {
         return delegate.isReceiving();
     }
+
+	@Override
+	public String getMessageExchangeAttribute() {
+		return delegate.getMessageExchangeAttribute();
+	}
 
     @Override
     public Node toXOM() {
