@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-The explicit use of messageExchange is needed only where the execution can result in multiple IMA-<reply> pairs (e.g. <receive>-<reply> pair) on the same partnerLink and operation being executed simultaneously.  In these cases, the process definition MUST explicitly mark the pairing-up relationship.
