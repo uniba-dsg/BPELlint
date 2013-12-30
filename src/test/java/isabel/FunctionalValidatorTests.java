@@ -287,6 +287,16 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00059/Reply-WithToPartElementAndVariableAttribute.bpel", "59"},
 
+				{"Testcases/rules/SA00060/OnMessageFifoFirstMexMissing.bpel", "60"},
+				{"Testcases/rules/SA00060/OnMessageFifoSecondMexMissing.bpel", "60"},
+				{"Testcases/rules/SA00060/OnMessageFiloFirstMexMissing.bpel", "60"},
+				{"Testcases/rules/SA00060/OnMessageFiloSecondMexMissing.bpel", "60"},
+				{"Testcases/rules/SA00060/ReceiveFifoFirstMexMissing.bpel", "60"},
+				{"Testcases/rules/SA00060/ReceiveFifoSecondMexMissing.bpel", "60"},
+				{"Testcases/rules/SA00060/ReceiveFiloFirstMexMissing.bpel", "60"},
+				{"Testcases/rules/SA00060/ReceiveFiloSecondMexMissing.bpel", "60"},
+				{"Testcases/rules/SA00060/OnEventFiloSecondMexMissing.bpel", "60"},
+
 				{"Testcases/rules/SA00061/OnEventMessageExchangeNotInScope.bpel", "61"},
 				{"Testcases/rules/SA00061/OnEventNoMessageExchangeInScope.bpel", "61"},
 				{"Testcases/rules/SA00061/OnEventReplyMessageExchangeNotInScope.bpel", "61"},

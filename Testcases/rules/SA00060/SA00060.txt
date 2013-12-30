@@ -2,6 +2,36 @@ Place Short Description Here.
 @@@
 The explicit use of messageExchange is needed only where the execution can result in multiple IMA-<reply> pairs (e.g. <receive>-<reply> pair) on the same partnerLink and operation being executed simultaneously.  In these cases, the process definition MUST explicitly mark the pairing-up relationship.
 @@@
+$inboundMessageActivity = <receive> | <onMessage> | <onEvent>
+
+SET $imas TO EMPTY_LIST
+FOREACH $inboundMessageActivity
+    ADD $inboundMessageActivity TO $imas
+FOREACH $inboundMessageActivity
+    FOREACH $ima IN $imas
+        IF $inboundMessageActivity EQUALS $ima
+            RETURN
+        UNLESS $inboundMessageActivity@portType EQUALS $ima@portType
+            RETURN
+        UNLESS $inboundMessageActivity@operation EQUALS $ima@operation
+            RETURN
+        FAIL IF isInboundMessageActivityOpenWhenReachingSimilarIMA($inboundMessageActivity,$ima)
+
+isInboundMessageActivityOpenWhenReachingSimilarIMA: $inboundMessageActivity, $similarIma -> boolean
+    SET $open TO 'true'
+    IF $similarIma BEFORE $inboundMessageActivity
+        RETURN 'false'
+    FOREACH <reply>
+        IF $inboundMessageActivity@portType EQUALS <reply>@portType
+            IF $inboundMessageActivity@operation EQUALS <reply>@operation
+                IF <reply> AFTER $inboundMessageActivity
+                    IF <reply> AFTER $similarIma AND isOpen($similarIma)
+                        IF <reply>@messageExchange EXSISTS 
+                            IF $inboundMessageActivity@messageExchange EQUALS <reply>@messageExchange
+                                RETURN 'false'
+    RETURN 'true'
+                        
+TODO Strategie: Geschlossene IMAs merken und bei  isOpen anwenden; Außerdem OnEvents seperat behandel. Die können immer reinfunken ...
 @@@
 OnMessageFifoFirstMexMissing.bpel
 OnMessageFifoSecondMexMissing.bpel

@@ -13,7 +13,8 @@
     <variables>
         <variable name="replyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
-        <variable name="InitData2" messageType="ti:executeProcessSyncRequest"/>
+        <variable name="replyData2" messageType="ti:executeProcessSyncStringResponse"/>
+        <variable name="InitData2" messageType="ti:executeProcessSyncStringRequest"/>
     </variables>
 
     <correlationSets>
@@ -45,8 +46,16 @@
                     <scope name="Scope">
                         <sequence name="Sequence">
                             <pick name="Pick" createInstance="yes">
-                                <onMessage partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData">
-                                    <empty/>
+                                <onMessage partnerLink="MyRoleLink" operation="startProcessSyncString" portType="ti:TestInterfacePortType" variable="InitData2">
+                                    <sequence>
+                                        <assign name="AssignReplyData">
+                                            <copy>
+                                                <from>'additional'</from>
+                                                <to variable="replyData2" part="outputPart"/>
+                                            </copy>
+                                        </assign>
+                                        <reply name="additionalReply" partnerLink="MyRoleLink" operation="startProcessSyncString" portType="ti:TestInterfacePortType" variable="replyData2"/>
+                                    </sequence>
                                 </onMessage>
                             </pick>
                             <assign name="AssignReplyData">
