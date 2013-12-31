@@ -11,6 +11,7 @@
     <variables>
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
+        <variable name="InitStringData" messageType="ti:executeProcessSyncStringRequest"/>
     </variables>
     <sequence>
         <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData"/>
@@ -23,7 +24,7 @@
                 </copy>
             </assign>
             <else><sequence>
-                <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData"/>
+                <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSyncString" portType="ti:TestInterfacePortType" variable="InitStringData"/>
                 <assign name="AssignFalseToReplyData">
                     <copy>
                             <from>0</from>

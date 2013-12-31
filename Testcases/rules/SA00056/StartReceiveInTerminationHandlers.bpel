@@ -14,6 +14,7 @@
     <variables>
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
+        <variable name="InitStringData" messageType="ti:executeProcessSyncStringRequest"/>
     </variables>
     <scope name="Scope">
         <sequence>
@@ -38,7 +39,7 @@
                         <scope>
                             <terminationHandler>
                                 <sequence>
-                                    <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData"/>
+                                    <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSyncString" portType="ti:TestInterfacePortType" variable="InitStringData"/>
                                     <assign name="AssignTerminationReplyData">
                                         <copy>
                                             <from>-1</from>

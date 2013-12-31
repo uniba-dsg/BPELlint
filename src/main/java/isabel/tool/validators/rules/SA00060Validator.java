@@ -10,6 +10,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import com.google.common.collect.Sets;
+import com.google.common.collect.Sets.SetView;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -77,6 +78,51 @@ public class SA00060Validator extends Validator {
 			return haveAllReplies(onMessages) && haveAllReplies(receives);
 		}
 
+		void areMarkedForSimultaniousRequestResponse() {
+			if (receives.isEmpty() || receives.size() + onMessages.size() <= 1) {
+				return;
+			}
+			checkAllMarkedUp(receives);
+			//markedUp(onMessages);
+		}
+
+		private void checkAllMarkedUp(List<MessageActivity> messageExchange) {
+			for (MessageActivity messageActivity : messageExchange) {
+				checkMarkUp(messageActivity, replies);
+				//checkMarkUp(messageActivity, onMessages);
+			}
+		}
+
+		private void checkMarkUp(MessageActivity messageActivity, List<MessageActivity> replies2) {
+			SortedSet<ComparableNode> receivingActivityTailSet = dom
+					.tailSet(new ComparableNode(messageActivity.toXOM()));
+			Set<ComparableNode> minimalBetweenRequestResponse = new HashSet<>();
+			for (MessageActivity reply : replies2) {
+				SortedSet<ComparableNode> replyHeadSet = dom.headSet(new ComparableNode(reply));
+				SetView<ComparableNode> betweenRequestResponse = Sets.intersection(
+						receivingActivityTailSet, replyHeadSet);
+				if (betweenRequestResponse.isEmpty()) {
+					continue;
+				}
+				if (minimalBetweenRequestResponse.size() > betweenRequestResponse.size()
+						|| minimalBetweenRequestResponse.isEmpty()) {
+					minimalBetweenRequestResponse = betweenRequestResponse;
+				}
+			}
+			if (minimalBetweenRequestResponse.isEmpty()) {
+				return;
+			}
+			SetView<ComparableNode> intermidiaryReceives = Sets.intersection(
+					minimalBetweenRequestResponse, convertForComparission(receives));
+			SetView<ComparableNode> intermidiaryOnMessage = Sets.intersection(
+					minimalBetweenRequestResponse, convertForComparission(onMessages));
+			if (!(intermidiaryReceives.size() <= 1 && intermidiaryOnMessage.size() <= 1)) {
+				if ("".equals(messageActivity.getMessageExchangeAttribute())) {
+					addViolation(messageActivity);
+				}
+			}
+		}
+
 		private boolean haveAllReplies(List<MessageActivity> messageActivities) {
 			for (MessageActivity messageActivity : messageActivities) {
 				if (!hasOnEventInScope(messageActivity)) {
@@ -128,6 +174,7 @@ public class SA00060Validator extends Validator {
 				continue;
 			}
 			operationMembers.areMarkedForSimultaniousOnEvent();
+			operationMembers.areMarkedForSimultaniousRequestResponse();
 		}
 	}
 
