@@ -295,6 +295,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00060/ReceiveFifoSecondMexMissing.bpel", "60"},
 				{"Testcases/rules/SA00060/ReceiveFiloFirstMexMissing.bpel", "60"},
 				{"Testcases/rules/SA00060/ReceiveFiloSecondMexMissing.bpel", "60"},
+				{"Testcases/rules/SA00060/OnEventFiloFirstMexMissing.bpel", "60"},
 				{"Testcases/rules/SA00060/OnEventFiloSecondMexMissing.bpel", "60"},
 
 				{"Testcases/rules/SA00061/OnEventMessageExchangeNotInScope.bpel", "61"},

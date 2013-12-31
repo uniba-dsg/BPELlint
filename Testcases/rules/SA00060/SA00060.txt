@@ -42,4 +42,5 @@ ReceiveFifoSecondMexMissing.bpel
 ReceiveFiloFirstMexMissing.bpel
 ReceiveFiloSecondMexMissing.bpel
 OnEventFiloSecondMexMissing.bpel
+OnEventFiloFirstMexMissing.bpel
 @@@
