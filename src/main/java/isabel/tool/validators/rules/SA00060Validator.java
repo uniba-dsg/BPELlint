@@ -1,8 +1,15 @@
 package isabel.tool.validators.rules;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import com.google.common.collect.Sets;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -11,13 +18,102 @@ import isabel.model.ComparableNode;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.Referable;
 import isabel.model.Standards;
 import isabel.model.bpel.mex.MessageActivity;
+import isabel.model.bpel.mex.MessageActivity.Type;
+import isabel.model.bpel.mex.MessageActivityImpl;
 import isabel.model.bpel.mex.OnEventElement;
 import isabel.model.bpel.mex.ReplyElement;
+import isabel.model.wsdl.OperationElement;
 import isabel.tool.impl.ValidationCollector;
 
 public class SA00060Validator extends Validator {
+
+	private class OperationMembers {
+		private List<MessageActivity> onEvents = new LinkedList<>();
+		private List<MessageActivity> onMessages = new LinkedList<>();
+		private List<MessageActivity> receives = new LinkedList<>();
+		private List<MessageActivity> replies = new LinkedList<>();
+		private TreeSet<ComparableNode> dom = new TreeSet<>();
+
+		void add(MessageActivity messageActivity) {
+			if (messageActivity.getType() == Type.ON_EVENT) {
+				onEvents.add(messageActivity);
+				validate(new OnEventElement(messageActivity.toXOM(), fileHandler));
+			}
+			if (messageActivity.getType() == Type.ON_MESSAGE) {
+				onMessages.add(messageActivity);
+			}
+			if (messageActivity.getType() == Type.RECEIVE) {
+				receives.add(messageActivity);
+			}
+			if (messageActivity.getType() == Type.REPLY) {
+				replies.add(messageActivity);
+			}
+			dom.add(new ComparableNode(messageActivity));
+			listAncestors(messageActivity);
+		}
+
+		private void listAncestors(Referable startActivity) {
+			/*
+			 * TODO copied from SA00056. DOM may be extractable in extra class
+			 */
+			NodeHelper node = new NodeHelper(startActivity.toXOM());
+			while (!"process".equals(node.getParent().getLocalName())) {
+				node = node.getParent();
+				dom.add(new ComparableNode(node.toXOM()));
+			}
+		}
+
+		boolean isSimple() {
+			return onEvents.size() + onMessages.size() + receives.size() <= 1;
+		}
+
+		boolean areMarkedForSimultaniousOnEvent() {
+			if (onEvents.isEmpty()) {
+				return true;
+			}
+			return haveAllReplies(onMessages) && haveAllReplies(receives);
+		}
+
+		private boolean haveAllReplies(List<MessageActivity> messageActivities) {
+			for (MessageActivity messageActivity : messageActivities) {
+				if (!hasOnEventInScope(messageActivity)) {
+					return true;
+				}
+				boolean hasReply = false;
+				for (MessageActivity reply : replies) {
+					if (isMarked(messageActivity, reply)) {
+						hasReply = true;
+						break;
+					}
+				}
+				if (!hasReply) {
+					addViolation(messageActivity);
+					return false;
+				}
+			}
+			return true;
+		}
+
+		private boolean hasOnEventInScope(MessageActivity messageActivity) {
+			SortedSet<ComparableNode> headSet = dom.headSet(new ComparableNode(messageActivity.toXOM()));
+			return Sets.intersection(headSet, convertForComparission(onEvents)).size() > 0;
+		}
+
+		private Set<ComparableNode> convertForComparission(List<MessageActivity> messageActivities) {
+			/*
+			 * TODO this could be part of ComparableNode as static method
+			 */
+			Set<ComparableNode> comparableNodes = new HashSet<>();
+			for (Referable referable : messageActivities) {
+				comparableNodes.add(new ComparableNode(referable.toXOM()));
+			}
+			return comparableNodes;
+		}
+
+	}
 
 	public SA00060Validator(ProcessContainer files, ValidationCollector validationCollector) {
 		super(files, validationCollector);
@@ -25,68 +121,42 @@ public class SA00060Validator extends Validator {
 
 	@Override
 	public void validate() {
-		List<OnEventElement> onEvents = fileHandler.getAllOnEvents();
-		for (OnEventElement onEvent : onEvents) {
-			try {
-				validate(onEvent);
-			} catch (NavigationException e) {
-				// ignore element without operation
-			}
-		}
-		Map<MessageActivity, Boolean> imas = new HashMap<>();
-		imas.putAll(getImas(fileHandler.getAllReceives()));
-		imas.putAll(getImas(fileHandler.getAllOnMessages()));
-		for (MessageActivity inboundMessageActivity : imas.keySet()) {
-			Boolean isClosed = !imas.get(inboundMessageActivity);
-			if (isClosed) {
+		Map<ComparableNode, OperationMembers> operationMemberMap = getAllRequestResponseMessageExchanges();
+		for (ComparableNode operation : operationMemberMap.keySet()) {
+			OperationMembers operationMembers = operationMemberMap.get(operation);
+			if (operationMembers.isSimple()) {
 				continue;
 			}
-			for (MessageActivity similarIma : imas.keySet()) {
-				if (isSimilarOperation(inboundMessageActivity, similarIma)) {
-					Nodes replies = new NodeHelper(inboundMessageActivity.toXOM()).getEnclosingScope().toXOM().query(
-							".//bpel:reply[@partnerLink='"
-									+ inboundMessageActivity.getPartnerLinkAttribute()
-									+ "'][@operation='"
-									+ inboundMessageActivity.getOperationAttribute() + "']",
-							Standards.CONTEXT);
-				}
-			}
+			operationMembers.areMarkedForSimultaniousOnEvent();
 		}
 	}
 
-	private boolean isSimilarOperation(MessageActivity ima, MessageActivity similarIma) {
-		boolean sameActivityIsNotSimilar = new ComparableNode(ima.toXOM())
-				.equals(new ComparableNode(similarIma.toXOM()));
-		if (sameActivityIsNotSimilar) {
-			return false;
-		}
-		try {
-			boolean samePortType = new ComparableNode(ima.getPortType().toXOM())
-					.equals(new ComparableNode(similarIma.getPortType().toXOM()));
-			boolean sameOperation = new ComparableNode(ima.getOperation().toXOM())
-					.equals(new ComparableNode(similarIma.getOperation().toXOM()));
-			return samePortType && sameOperation;
-		} catch (NavigationException e) {
-			return false;
-		}
-	}
-
-	private <E extends MessageActivity> Map<MessageActivity, Boolean> getImas(
-			List<E> messageActivities) {
-		Map<MessageActivity, Boolean> imas = new HashMap<>();
-		for (MessageActivity messageActivity : messageActivities) {
+	private Map<ComparableNode, OperationMembers> getAllRequestResponseMessageExchanges() {
+		Nodes operationalNodes = fileHandler.getProcess().toXOM()
+				.query("//bpel:*[@operation]", Standards.CONTEXT);
+		Map<ComparableNode, OperationMembers> operations = new HashMap<>(
+				operationalNodes.size() / 2 + 1);
+		for (Node node : operationalNodes) {
 			try {
-				if (messageActivity.getOperation().isRequestResponse()) {
-					imas.put(messageActivity, true);
+				MessageActivityImpl messageActivity = new MessageActivityImpl(new NodeHelper(node),
+						fileHandler);
+				OperationElement operationElement = messageActivity.getOperation();
+				if (!operationElement.isRequestResponse()) {
+					continue;
 				}
+				ComparableNode operation = new ComparableNode(operationElement);
+				if (operations.get(operation) == null) {
+					operations.put(operation, new OperationMembers());
+				}
+				operations.get(operation).add(messageActivity);
 			} catch (NavigationException e) {
-				// ignore element without operation
+				// ignore operations that cannot be resolved
 			}
 		}
-		return imas;
+		return operations;
 	}
 
-	private void validate(OnEventElement onEvent) throws NavigationException {
+	private void validate(OnEventElement onEvent) {
 		String correspondingReply = ".//bpel:reply[@partnerLink='"
 				+ onEvent.getPartnerLinkAttribute() + "']" + "[@operation='"
 				+ onEvent.getOperationAttribute() + "']";
@@ -111,10 +181,13 @@ public class SA00060Validator extends Validator {
 	}
 
 	private boolean isMarked(OnEventElement onEvent, Node node) {
-		String messageExchangeKey = onEvent.getMessageExchangeAttribute();
-		return new ReplyElement(node, fileHandler).getMessageExchangeAttribute().equals(
-				messageExchangeKey)
-				&& !messageExchangeKey.isEmpty();
+		return isMarked(onEvent, new ReplyElement(node, fileHandler));
+	}
+
+	private boolean isMarked(MessageActivity messageActivity, MessageActivity reply) {
+		return reply.getMessageExchangeAttribute().equals(
+				messageActivity.getMessageExchangeAttribute())
+				&& !messageActivity.getMessageExchangeAttribute().isEmpty();
 	}
 
 	@Override

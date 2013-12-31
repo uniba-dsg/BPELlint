@@ -21,6 +21,10 @@ public class ComparableNode implements Comparable<ComparableNode>, Referable {
 		columnNumber = getColumnNumber(node);
 	}
 
+	public ComparableNode(Referable referable) {
+		this(referable.toXOM());
+	}
+
 	private int getLineNumber(Node node) {
 		if (node instanceof Element) {
 			Element element = (Element) node;
