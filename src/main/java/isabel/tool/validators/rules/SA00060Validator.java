@@ -77,11 +77,11 @@ public class SA00060Validator extends Validator {
 		}
 
 		void areMarkedForSimultaniousRequestResponse() {
-			if (receives.isEmpty() || receives.size() + onMessages.size() <= 1) {
+			if (receives.size() + onMessages.size() <= 1) {
 				return;
 			}
 			checkAllMarkedUp(receives);
-			//checkAllMarkedUp(onMessages);
+			checkAllMarkedUp(onMessages);
 		}
 
 		private void checkAllMarkedUp(List<MessageActivity> messageExchange) {
