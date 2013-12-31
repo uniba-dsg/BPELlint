@@ -6,11 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 import com.google.common.collect.Sets;
-import com.google.common.collect.Sets.SetView;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -83,42 +81,53 @@ public class SA00060Validator extends Validator {
 				return;
 			}
 			checkAllMarkedUp(receives);
-			//markedUp(onMessages);
+			//checkAllMarkedUp(onMessages);
 		}
 
 		private void checkAllMarkedUp(List<MessageActivity> messageExchange) {
-			for (MessageActivity messageActivity : messageExchange) {
-				checkMarkUp(messageActivity, replies);
-				//checkMarkUp(messageActivity, onMessages);
+			for (Referable messageActivity : messageExchange) {
+				Set<ComparableNode> receivingActivityTailSet = dom.tailSet(new ComparableNode(
+						messageActivity.toXOM()));
+
+				Set<ComparableNode> intersection = intersectionnRequestResponse(receivingActivityTailSet);
+				checkForSimultaniousActivities(intersection);
 			}
 		}
 
-		private void checkMarkUp(MessageActivity messageActivity, List<MessageActivity> replies2) {
-			SortedSet<ComparableNode> receivingActivityTailSet = dom
-					.tailSet(new ComparableNode(messageActivity.toXOM()));
-			Set<ComparableNode> minimalBetweenRequestResponse = new HashSet<>();
-			for (MessageActivity reply : replies2) {
-				SortedSet<ComparableNode> replyHeadSet = dom.headSet(new ComparableNode(reply));
-				SetView<ComparableNode> betweenRequestResponse = Sets.intersection(
-						receivingActivityTailSet, replyHeadSet);
-				if (betweenRequestResponse.isEmpty()) {
-					continue;
-				}
-				if (minimalBetweenRequestResponse.size() > betweenRequestResponse.size()
-						|| minimalBetweenRequestResponse.isEmpty()) {
-					minimalBetweenRequestResponse = betweenRequestResponse;
+		private Set<ComparableNode> intersectionnRequestResponse(Set<ComparableNode> tailSet) {
+			Set<ComparableNode> intersection = new HashSet<>();
+			for (Referable reply : replies) {
+				Set<ComparableNode> replyHeadSet = dom.headSet(new ComparableNode(reply));
+				Set<ComparableNode> replyIntersection = Sets.intersection(tailSet, replyHeadSet);
+				if (!replyIntersection.isEmpty()
+						&& (intersection.size() > replyIntersection.size() || intersection
+								.isEmpty())) {
+					intersection = replyIntersection;
 				}
 			}
-			if (minimalBetweenRequestResponse.isEmpty()) {
+			return intersection;
+		}
+
+		private void checkForSimultaniousActivities(Set<ComparableNode> intersection) {
+			if (intersection.isEmpty()) {
 				return;
 			}
-			SetView<ComparableNode> intermidiaryReceives = Sets.intersection(
-					minimalBetweenRequestResponse, convertForComparission(receives));
-			SetView<ComparableNode> intermidiaryOnMessage = Sets.intersection(
-					minimalBetweenRequestResponse, convertForComparission(onMessages));
+			Set<ComparableNode> intermidiaryReceives = Sets.intersection(intersection,
+					convertForComparission(receives));
+			Set<ComparableNode> intermidiaryOnMessage = Sets.intersection(intersection,
+					convertForComparission(onMessages));
 			if (!(intermidiaryReceives.size() <= 1 && intermidiaryOnMessage.size() <= 1)) {
+				checkSimultaniousMarkUp(intermidiaryReceives);
+				checkSimultaniousMarkUp(intermidiaryOnMessage);
+			}
+		}
+
+		private void checkSimultaniousMarkUp(Set<ComparableNode> messageActivities) {
+			for (ComparableNode comparableNode : messageActivities) {
+				MessageActivityImpl messageActivity = new MessageActivityImpl(new NodeHelper(
+						comparableNode.toXOM()), fileHandler);
 				if ("".equals(messageActivity.getMessageExchangeAttribute())) {
-					addViolation(messageActivity);
+					addViolation(comparableNode);
 				}
 			}
 		}
@@ -128,14 +137,7 @@ public class SA00060Validator extends Validator {
 				if (!hasOnEventInScope(messageActivity)) {
 					return true;
 				}
-				boolean hasReply = false;
-				for (MessageActivity reply : replies) {
-					if (isMarked(messageActivity, reply)) {
-						hasReply = true;
-						break;
-					}
-				}
-				if (!hasReply) {
+				if (!hasReply(messageActivity)) {
 					addViolation(messageActivity);
 					return false;
 				}
@@ -144,8 +146,17 @@ public class SA00060Validator extends Validator {
 		}
 
 		private boolean hasOnEventInScope(MessageActivity messageActivity) {
-			SortedSet<ComparableNode> headSet = dom.headSet(new ComparableNode(messageActivity.toXOM()));
+			Set<ComparableNode> headSet = dom.headSet(new ComparableNode(messageActivity.toXOM()));
 			return Sets.intersection(headSet, convertForComparission(onEvents)).size() > 0;
+		}
+
+		private boolean hasReply(MessageActivity messageActivity) {
+			for (MessageActivity reply : replies) {
+				if (isMarked(messageActivity, reply)) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private Set<ComparableNode> convertForComparission(List<MessageActivity> messageActivities) {
