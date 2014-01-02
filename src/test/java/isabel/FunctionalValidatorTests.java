@@ -352,6 +352,11 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00070/TargetOutOfForEach.bpel", "70"},
 				{"Testcases/rules/SA00070/TargetOutOfEventHandlers.bpel", "70"},
 				{"Testcases/rules/SA00070/TargetOutOfCompensationHandler.bpel", "70"},
+				{"Testcases/rules/SA00070/LinkOutOfWhile.bpel", "70"},
+				{"Testcases/rules/SA00070/LinkOutOfRepeatUntil.bpel", "70"},
+				{"Testcases/rules/SA00070/LinkOutOfForEach.bpel", "70"},
+				{"Testcases/rules/SA00070/LinkOutOfEventHandlers.bpel", "70"},
+				{"Testcases/rules/SA00070/LinkOutOfCompensationHandler.bpel", "70"},
 
 				{"Testcases/rules/SA00072/FlowSelfLinked.bpel", "72"},
 				{"Testcases/rules/SA00072/FlowCyclic.bpel", "72"},

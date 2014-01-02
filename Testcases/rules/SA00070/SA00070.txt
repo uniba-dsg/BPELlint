@@ -22,7 +22,11 @@ SourceOutOfRepeatUntil.bpel
 SourceOutOfForEach.bpel
 SourceOutOfEventHandlers.bpel
 SourceOutOfCompensationHandler.bpel
-
+LinkOutOfWhile.bpel
+LinkOutOfRepeatUntil.bpel
+LinkOutOfForEach.bpel
+LinkOutOfEventHandlers.bpel
+LinkOutOfCompensationHandler.bpel
 TargetOutOfWhile.bpel
 TargetOutOfRepeatUntil.bpel
 TargetOutOfForEach.bpel
