@@ -43,16 +43,16 @@
                     </flow>
                 </scope>
             </forEach>
+            <assign name="SetBranch2">
+                <targets>
+                    <target linkName="FromFirstToSecond" />
+                </targets>
+                <copy>
+                    <from variable="IntermediaryData"/>
+                    <to variable="ReplyData"/>
+                </copy>
+            </assign>
         </flow>
-        <assign name="SetBranch2">
-            <targets>
-                <target linkName="FromFirstToSecond" />
-            </targets>
-            <copy>
-                <from variable="IntermediaryData"/>
-                <to variable="ReplyData"/>
-            </copy>
-        </assign>
         <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
     </sequence>
 </process>

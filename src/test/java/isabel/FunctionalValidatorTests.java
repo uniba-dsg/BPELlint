@@ -342,6 +342,17 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00069/LinkTargetDuplicate.bpel", "69"},
 
+				{"Testcases/rules/SA00070/SourceOutOfWhile.bpel", "70"},
+				{"Testcases/rules/SA00070/SourceOutOfRepeatUntil.bpel", "70"},
+				{"Testcases/rules/SA00070/SourceOutOfForEach.bpel", "70"},
+				{"Testcases/rules/SA00070/SourceOutOfEventHandlers.bpel", "70"},
+				{"Testcases/rules/SA00070/SourceOutOfCompensationHandler.bpel", "70"},
+				{"Testcases/rules/SA00070/TargetOutOfWhile.bpel", "70"},
+				{"Testcases/rules/SA00070/TargetOutOfRepeatUntil.bpel", "70"},
+				{"Testcases/rules/SA00070/TargetOutOfForEach.bpel", "70"},
+				{"Testcases/rules/SA00070/TargetOutOfEventHandlers.bpel", "70"},
+				{"Testcases/rules/SA00070/TargetOutOfCompensationHandler.bpel", "70"},
+
 				{"Testcases/rules/SA00072/FlowSelfLinked.bpel", "72"},
 				{"Testcases/rules/SA00072/FlowCyclic.bpel", "72"},
 				{"Testcases/rules/SA00072/FlowCyclicSubGraph.bpel", "72"},

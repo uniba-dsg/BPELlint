@@ -38,16 +38,16 @@
                         </copy>
                     </assign>
                 </flow>
-                <assign name="SetBranch1">
-                    <sources>
-                        <source linkName="FromFirstToSecond" />
-                    </sources>
-                    <copy>
-                        <from>$Counter + 1</from>
-                        <to variable="Counter"/>
-                    </copy>
-                </assign>
             </while>
+            <assign name="SetBranch1">
+                <sources>
+                    <source linkName="FromFirstToSecond" />
+                </sources>
+                <copy>
+                    <from>$Counter + 1</from>
+                    <to variable="Counter"/>
+                </copy>
+            </assign>
         </flow>
         <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
     </sequence>
