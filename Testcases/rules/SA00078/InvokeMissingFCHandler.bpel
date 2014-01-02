@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-    name="Invoke-CompensationHandler"
-    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/invokeCompensationHandler"
+    name="Invoke-CompensateScope-CompensationHandler"
+    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/invokeCompensateSopeCompensationHandler"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
@@ -20,7 +20,7 @@
     </variables>
     <faultHandlers>
         <catchAll>
-            <compensate />
+            <compensateScope name="CompensateScope" target="InvokePartner"/>
         </catchAll>
     </faultHandlers>
     <sequence>
@@ -32,21 +32,6 @@
             </copy>
         </assign>
         <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessSync" portType="tp:TestPartnerPortType" inputVariable="PartnerInitData" outputVariable="PartnerReplyData">
-            <compensationHandler>
-                <sequence>
-                    <assign name="AssignReplyData">
-                        <copy>
-                            <from>
-                                <literal>
-                                    0
-                                </literal>
-                            </from>
-                            <to variable="ReplyData" part="outputPart"/>
-                        </copy>
-                    </assign>
-                    <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
-                </sequence>
-            </compensationHandler>
         </invoke>
         <throw name="Throw" faultName="bpel:completionConditionFailure" />
     </sequence>
