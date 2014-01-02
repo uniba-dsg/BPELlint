@@ -49,6 +49,10 @@ public class CompensateScopeElement implements Referable {
 		throw new NavigationException("Target is not in enclosing <scope>");
 	}
 
+	public ScopeElement getEnclosingScope() {
+		return compensateScope.getEnclosingScope();
+	}
+
 	@Override
 	public Node toXOM() {
 		return compensateScope.toXOM();

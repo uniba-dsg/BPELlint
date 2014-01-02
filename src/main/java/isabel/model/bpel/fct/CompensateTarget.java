@@ -8,4 +8,6 @@ public interface CompensateTarget extends Referable {
 
 	boolean hasFaultHandler();
 
+	Referable getEnclosingFctBarrier();
+
 }

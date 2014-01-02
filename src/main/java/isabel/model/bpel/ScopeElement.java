@@ -4,7 +4,11 @@ import isabel.model.ComparableNode;
 import isabel.model.NodeHelper;
 import isabel.model.Referable;
 import isabel.model.Standards;
+import isabel.model.bpel.fct.CatchAllElement;
+import isabel.model.bpel.fct.CatchElement;
 import isabel.model.bpel.fct.CompensateTarget;
+import isabel.model.bpel.fct.CompensationHandlerElement;
+import isabel.model.bpel.fct.TerminationHandlerElement;
 import isabel.model.bpel.flow.SourceElement;
 import isabel.model.bpel.flow.TargetElement;
 
@@ -82,7 +86,32 @@ public class ScopeElement implements CompensateTarget, Referable {
 		}
 		return targets;
 	}
-	
+
+	@Override
+	public Referable getEnclosingFctBarrier() {
+		NodeHelper parent = scope;
+		while(!"process".equals(parent.getLocalName())) {
+			parent = parent.getParent();
+			String localName = parent.getLocalName();
+			if ("scope".equals(localName)) {
+				return new ScopeElement(parent);
+			}
+			if ("catch".equals(parent.getLocalName())) {
+				return new CatchElement(parent.toXOM());
+			}
+			if ("catchAll".equals(parent.getLocalName())) {
+				return new CatchAllElement(parent.toXOM());
+			}
+			if ("compensationHandler".equals(parent.getLocalName())) {
+				return new CompensationHandlerElement(parent.toXOM());
+			}
+			if ("terminationHandler".equals(parent.getLocalName())) {
+				return new TerminationHandlerElement(parent.toXOM());
+			}
+		}
+		return new ProcessElement(parent);
+	}
+
 	@Override
 	public Node toXOM() {
 		return scope.toXOM();

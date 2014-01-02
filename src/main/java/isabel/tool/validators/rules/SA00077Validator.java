@@ -1,8 +1,10 @@
 package isabel.tool.validators.rules;
 
+import isabel.model.ComparableNode;
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.fct.CompensateScopeElement;
+import isabel.model.bpel.fct.CompensateTarget;
 import isabel.tool.impl.ValidationCollector;
 
 public class SA00077Validator extends Validator {
@@ -23,7 +25,12 @@ public class SA00077Validator extends Validator {
 
 	private boolean hasTarget(CompensateScopeElement compensateScope) {
 		try {
-			compensateScope.getTarget();
+			CompensateTarget target = compensateScope.getTarget();
+			ComparableNode targetEnclosingScope = new ComparableNode(target.getEnclosingFctBarrier());
+			ComparableNode compensateScopeEnclosingScope = new ComparableNode(compensateScope.getEnclosingScope());
+			if (!targetEnclosingScope.equals(compensateScopeEnclosingScope)) {
+				return false;
+			}
 			return true;
 		} catch (NavigationException e) {
 			return false;
