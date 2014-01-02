@@ -18,38 +18,40 @@
         <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
         <variable name="PartnerInitData" messageType="tp:executeProcessSyncRequest"/>
     </variables>
-    <faultHandlers>
-        <catchAll>
-            <compensateScope name="CompensateScope" target="InvokePartner"/>
-        </catchAll>
-    </faultHandlers>
-    <terminationHandler>
-        <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessSync" portType="tp:TestPartnerPortType" inputVariable="PartnerInitData" outputVariable="PartnerReplyData">
-            <compensationHandler>
-                <sequence>
-                    <assign name="AssignReplyData">
-                        <copy>
-                            <from>
-                                <literal>
-                                    0
-                                </literal>
-                            </from>
-                            <to variable="ReplyData" part="outputPart"/>
-                        </copy>
-                    </assign>
-                    <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
-                </sequence>
-            </compensationHandler>
-        </invoke>
-    </terminationHandler>
-    <sequence>
-        <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData"/>
-        <assign name="AssignPartnerInitData">
-            <copy>
-                <from variable="InitData" part="inputPart"/>
-                <to variable="PartnerInitData" part="inputPart"/>
-            </copy>
-        </assign>
-        <throw name="Throw" faultName="bpel:completionConditionFailure" />
-    </sequence>
+    <scope>
+        <faultHandlers>
+            <catchAll>
+                <compensateScope name="CompensateScope" target="InvokePartner"/>
+            </catchAll>
+        </faultHandlers>
+        <terminationHandler>
+            <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessSync" portType="tp:TestPartnerPortType" inputVariable="PartnerInitData" outputVariable="PartnerReplyData">
+                <compensationHandler>
+                    <sequence>
+                        <assign name="AssignReplyData">
+                            <copy>
+                                <from>
+                                    <literal>
+                                        0
+                                    </literal>
+                                </from>
+                                <to variable="ReplyData" part="outputPart"/>
+                            </copy>
+                        </assign>
+                        <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
+                    </sequence>
+                </compensationHandler>
+            </invoke>
+        </terminationHandler>
+        <sequence>
+            <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData"/>
+            <assign name="AssignPartnerInitData">
+                <copy>
+                    <from variable="InitData" part="inputPart"/>
+                    <to variable="PartnerInitData" part="inputPart"/>
+                </copy>
+            </assign>
+            <throw name="Throw" faultName="bpel:completionConditionFailure" />
+        </sequence>
+    </scope>
 </process>

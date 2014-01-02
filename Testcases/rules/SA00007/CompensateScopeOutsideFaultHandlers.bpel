@@ -24,5 +24,11 @@
         <throw name="Throw" faultName="bpel:completionConditionFailure" />
         <compensateScope target="empty">
     	</compensateScope>
+        <scope name="empty">
+            <compensationHandler>
+                <compensate/>
+            </compensationHandler>
+            <empty/>
+        </scope>
     </sequence>
 </process>

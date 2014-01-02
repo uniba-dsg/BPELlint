@@ -1,9 +1,9 @@
-target is not directly enclosed in enclosing scope
 target has no coresponding <scope> or <invoke> with this name in the enclosing scope
 @@@
 The value of the target attribute on a <compensateScope> activity MUST refer to the name of an immediately enclosed scope of the scope containing the FCT-handler with the <compensateScope> activity. This includes immediately enclosed scopes of an event handler (<onEvent> or <onAlarm>) associated with the same scope.
 @@@
 $fctHandler = <catch> | <catchAll> | <compensationHandler> | <terminationHandler>
+$compensateTarget = <invoke> | <scope>
 
 FOREACH <compensateScope>
     FAIL IF hasNoTarget(<compensateScope>) 
