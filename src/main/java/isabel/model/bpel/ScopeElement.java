@@ -44,9 +44,14 @@ public class ScopeElement implements CompensateTarget, Referable {
 
 	public List<ScopeElement> getPeerScopes() {
 		List<ScopeElement> peerScopes = new LinkedList<>();
-		for (ComparableNode comparableNode : scope.getEnclosingScope().getDescendingScopes()) {
-			if (!comparableNode.equals(new ComparableNode(toXOM()))) {
-				peerScopes.add(new ScopeElement(comparableNode.toXOM()));
+		for (ComparableNode comparableNode : getEnclosingScope().getDescendingScopes()) {
+			if (comparableNode.equals(new ComparableNode(this))) {
+				continue;
+			}
+			ScopeElement peerScope = new ScopeElement(comparableNode.toXOM());
+			ComparableNode enclosingScope = new ComparableNode(getEnclosingScope());
+			if (new ComparableNode(peerScope.getEnclosingScope()).equals(enclosingScope)) {
+				peerScopes.add(peerScope);
 			}
 		}
 		return peerScopes;
