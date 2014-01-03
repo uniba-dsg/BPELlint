@@ -36,6 +36,7 @@ import isabel.model.bpel.mex.OnMessageElement;
 import isabel.model.bpel.mex.ReceiveElement;
 import isabel.model.bpel.mex.ReplyElement;
 import isabel.model.bpel.mex.StartActivity;
+import isabel.model.bpel.var.CopyEntity;
 import isabel.model.bpel.var.FromElement;
 import isabel.model.bpel.var.ToElement;
 import isabel.model.bpel.var.VariableElement;
@@ -510,7 +511,7 @@ public class ProcessContainer {
 		List<ToElement> result = new LinkedList<>();
 
 		for (Node node : getBpel().getDocument().query("//bpel:to", CONTEXT)) {
-			result.add(new ToElement(node));
+			result.add(new ToElement(node, this));
 		}
 
 		return result;
@@ -520,10 +521,17 @@ public class ProcessContainer {
 		List<FromElement> result = new LinkedList<>();
 
 		for (Node node : getBpel().getDocument().query("//bpel:from", CONTEXT)) {
-			result.add(new FromElement(node));
+			result.add(new FromElement(node, this));
 		}
 
 		return result;
+	}
+	
+	public List<CopyEntity> getAllCopyEntities() {
+		List<CopyEntity> fromAndToElements = new LinkedList<>();
+        fromAndToElements.addAll(getAllTos());
+        fromAndToElements.addAll(getAllFroms());
+        return fromAndToElements;
 	}
 
 	public List<SourceElement> getAllSources() {

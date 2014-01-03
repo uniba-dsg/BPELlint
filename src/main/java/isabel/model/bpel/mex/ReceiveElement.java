@@ -87,7 +87,7 @@ public class ReceiveElement extends ContainerAwareReferable implements StartActi
 			throw new NavigationException("<receive> has no <fromParts>");
 		}
 		
-		return new FromPartsContainer(fromParts.get(0)).getAllFromParts();
+		return new FromPartsContainer(fromParts.get(0), getProcessContainer()).getAllFromParts();
 	}
 
 	public String getVariableAttribute() throws NavigationException{
