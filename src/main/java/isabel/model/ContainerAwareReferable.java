@@ -22,4 +22,14 @@ public class ContainerAwareReferable implements Referable {
 		return node;
 	}
 
+	@Override
+	public int hashCode() {
+		return new ComparableNode(node).hashCode();
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		return new ComparableNode(node).equals(object);
+	}
+
 }
