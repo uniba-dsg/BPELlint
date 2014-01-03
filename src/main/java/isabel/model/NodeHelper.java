@@ -26,6 +26,10 @@ public class NodeHelper implements Referable {
 
         this.node = node;
     }
+    
+    public NodeHelper(Referable referable) {
+		this(referable.toXOM());
+	}
 
     /**
      * Create a {@link NodeHelper} and check that <code>node</code> name equals

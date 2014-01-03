@@ -12,14 +12,13 @@ import nu.xom.Node;
 import nu.xom.Nodes;
 import static isabel.model.Standards.CONTEXT;
 
-public class MessageActivityImpl implements MessageActivity {
+public class MessageActivityImpl extends ContainerAwareReferable implements MessageActivity {
 
     private final NodeHelper nodeHelper;
-    private final ProcessContainer processContainer;
 
-    public MessageActivityImpl(NodeHelper nodeHelper, ProcessContainer processContainer) {
-        this.nodeHelper = nodeHelper;
-        this.processContainer = processContainer;
+    public MessageActivityImpl(Node messageActivity, ProcessContainer processContainer) {
+    	super(messageActivity, processContainer);
+        this.nodeHelper = new NodeHelper(messageActivity);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class MessageActivityImpl implements MessageActivity {
 
     @Override
     public PortTypeElement getPortType() throws NavigationException {
-        return getPartnerLink().partnerLinkToPortType(processContainer, this);
+        return getPartnerLink().partnerLinkToPortType(getProcessContainer(), this);
     }
 
     @Override
@@ -88,15 +87,10 @@ public class MessageActivityImpl implements MessageActivity {
 		return nodeHelper.getAttribute("messageExchange");
 	}
 
-    @Override
-    public Node toXOM() {
-        return nodeHelper.asElement();
-    }
-
     public PortTypeElement getPortType(String portTypeQName, String portTypeNamespaceURI)
             throws NavigationException {
         String portTypeName = PrefixHelper.removePrefix(portTypeQName);
-        for (XmlFile wsdlEntry : processContainer.getWsdls()) {
+        for (XmlFile wsdlEntry : getProcessContainer().getWsdls()) {
             String targetNamespace = wsdlEntry.getTargetNamespace();
             if (targetNamespace.equals(portTypeNamespaceURI)) {
                 Nodes portTypes = wsdlEntry.getDocument().query(

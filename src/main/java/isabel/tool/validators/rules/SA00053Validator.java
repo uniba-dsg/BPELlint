@@ -33,7 +33,7 @@ public class SA00053Validator extends Validator {
         for (Node incomingOperation : incomingOperations) {
             try {
 
-                MessageActivityImpl messageActivity = new MessageActivityImpl(new NodeHelper(incomingOperation), fileHandler);
+                MessageActivityImpl messageActivity = new MessageActivityImpl(incomingOperation, fileHandler);
                 Node message;
                 if (MessageActivity.Type.INVOKE.equals(messageActivity.getType())) {
                     message = navigator.getCorrespondingOutgoingMessage(messageActivity);

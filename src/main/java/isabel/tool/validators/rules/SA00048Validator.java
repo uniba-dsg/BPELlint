@@ -30,7 +30,7 @@ public class SA00048Validator extends Validator {
 
 	private void validateInput(InvokeElement invoke, OperationElement operation) {
 		try {
-			VariableHelper variable = new VariableHelper(fileHandler, invoke.getVariableByName(invoke.getInputVariableAttribute()));
+			VariableHelper variable = new VariableHelper(fileHandler, new NodeHelper(invoke).getVariableByName(invoke.getInputVariableAttribute()));
 			if (!variable.hasCorrespondingMessage(operation.getInput().getMessage())){
 				addViolation(invoke, INPUT_VARIABLE_EQUALS_OPERATION_MESSAGE_NOT);
 			}
@@ -41,7 +41,7 @@ public class SA00048Validator extends Validator {
 
 	private void validateOutput(InvokeElement invoke, OperationElement operation) {
 		try {
-			VariableHelper variable = new VariableHelper(fileHandler, invoke.getVariableByName(invoke.getOutputVariableAttribute()));
+			VariableHelper variable = new VariableHelper(fileHandler, new NodeHelper(invoke).getVariableByName(invoke.getOutputVariableAttribute()));
 			if (!variable.hasCorrespondingMessage(operation.getOutput().getMessage())) {
 				addViolation(invoke, OUTPUT_VARIABLE_EQUALS_OPERATION_MESSAGE_NOT);
 			}

@@ -2,6 +2,7 @@ package isabel.tool.validators.rules;
 
 import isabel.model.bpel.mex.ReplyElement;
 import isabel.tool.impl.ValidationCollector;
+import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 
 public class SA00059Validator extends Validator {
@@ -13,10 +14,9 @@ public class SA00059Validator extends Validator {
 
 	@Override
 	public void validate() {
-
 		for (ReplyElement reply : fileHandler.getAllReplies()) {
-			if (reply.hasQueryResult("bpel:toParts")
-					&& reply.hasAttribute("variable")) {
+			if (new NodeHelper(reply).hasQueryResult("bpel:toParts")
+					&& new NodeHelper(reply).hasAttribute("variable")) {
 				addViolation(reply);
 			}
 		}

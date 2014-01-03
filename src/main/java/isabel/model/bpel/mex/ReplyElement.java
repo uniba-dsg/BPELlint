@@ -2,6 +2,7 @@ package isabel.model.bpel.mex;
 
 import java.util.List;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
@@ -11,14 +12,15 @@ import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 
-public class ReplyElement extends NodeHelper implements MessageActivity{
+public class ReplyElement extends ContainerAwareReferable implements MessageActivity{
 
     private final MessageActivity delegate;
+	private final NodeHelper reply;
 
     public ReplyElement(Node node, ProcessContainer processContainer) {
-        super(node);
-
-        delegate = new MessageActivityImpl(this, processContainer);
+        super(node, processContainer);
+        reply = new NodeHelper(node, "reply");
+        delegate = new MessageActivityImpl(node, processContainer);
     }
 
     @Override
@@ -77,7 +79,7 @@ public class ReplyElement extends NodeHelper implements MessageActivity{
     }
 
 	public String getVariableAttribute() throws NavigationException {
-		String variableName = getAttribute("variable");
+		String variableName = reply.getAttribute("variable");
 		if (variableName.isEmpty()) {
 			throw new NavigationException("<reply> has no variable attribute");
 		}

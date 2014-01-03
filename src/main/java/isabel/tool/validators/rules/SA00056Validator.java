@@ -15,6 +15,7 @@ import com.google.common.collect.Sets;
 import isabel.model.ComparableNode;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.Referable;
 import isabel.model.bpel.PickElement;
 import isabel.model.bpel.mex.ReceiveElement;
 import isabel.tool.impl.ValidationCollector;
@@ -82,16 +83,16 @@ public class SA00056Validator extends Validator {
 		}
 	}
 
-	private void listAncestors(NodeHelper startActivity) {
-		NodeHelper node = startActivity;
+	private void listAncestors(Referable startActivity) {
+		NodeHelper node = new NodeHelper(startActivity.toXOM());
 		while (!"process".equals(node.getParent().getLocalName())) {
 			node = node.getParent();
 			dom.add(new ComparableNode(node.toXOM()));
 		} 
 	}
 
-	private void checkAncestorStartActivities(NodeHelper startActivity) {
-		NodeHelper node = startActivity;
+	private void checkAncestorStartActivities(Referable startActivity) {
+		NodeHelper node = new NodeHelper(startActivity.toXOM());
 		while (!"process".equals(node.getParent().getLocalName())) {
 			node = node.getParent();
 			ComparableNode comparableNode = new ComparableNode(node.toXOM());

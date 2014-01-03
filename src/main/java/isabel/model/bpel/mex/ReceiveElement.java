@@ -2,6 +2,7 @@ package isabel.model.bpel.mex;
 
 import java.util.List;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
@@ -15,19 +16,15 @@ import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-public class ReceiveElement extends NodeHelper implements StartActivity, MessageActivity{
+public class ReceiveElement extends ContainerAwareReferable implements StartActivity, MessageActivity{
 
     private final MessageActivity delegate;
+	private final NodeHelper receive;
 
-    public ReceiveElement(Node receive, ProcessContainer processContainer) {
-		super(receive);
-
-		if (!getLocalName().equals("receive")) {
-			throw new IllegalArgumentException(
-					"receive helper only works for bpel:receive elements");
-		}
-
-        delegate = new MessageActivityImpl(this, processContainer);
+    public ReceiveElement(Node node, ProcessContainer processContainer) {
+		super(node, processContainer);
+		receive = new NodeHelper(node, "receive");
+        delegate = new MessageActivityImpl(node, processContainer);
 	}
     
     @Override
@@ -86,7 +83,7 @@ public class ReceiveElement extends NodeHelper implements StartActivity, Message
     }
 
 	public boolean hasFromParts() {
-		return hasQueryResult("bpel:fromParts");
+		return receive.hasQueryResult("bpel:fromParts");
 	}
 	
 	public List<FromPartElement> getFromParts() throws NavigationException{
@@ -99,7 +96,7 @@ public class ReceiveElement extends NodeHelper implements StartActivity, Message
 	}
 
 	public String getVariableAttribute() throws NavigationException{
-		String variableName = getAttribute("variable");
+		String variableName = receive.getAttribute("variable");
 		if (variableName.isEmpty()) {
 			throw new NavigationException("<receive> has no variable attribute");
 		} 
@@ -108,12 +105,12 @@ public class ReceiveElement extends NodeHelper implements StartActivity, Message
 	}
 	
 	public boolean hasVariable() {
-		return hasAttribute("variable");
+		return receive.hasAttribute("variable");
 	}
 
     @Override
     public boolean isStartActivity() {
-        return hasAttribute("createInstance") && "yes".equals(getAttribute("createInstance"));
+        return receive.hasAttribute("createInstance") && "yes".equals(receive.getAttribute("createInstance"));
     }
 
 

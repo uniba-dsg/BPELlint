@@ -124,8 +124,7 @@ public class SA00060Validator extends Validator {
 
 		private void checkSimultaniousMarkUp(Set<ComparableNode> messageActivities) {
 			for (ComparableNode comparableNode : messageActivities) {
-				MessageActivityImpl messageActivity = new MessageActivityImpl(new NodeHelper(
-						comparableNode.toXOM()), fileHandler);
+				MessageActivityImpl messageActivity = new MessageActivityImpl(comparableNode.toXOM(), fileHandler);
 				if ("".equals(messageActivity.getMessageExchangeAttribute())) {
 					addViolation(comparableNode);
 				}
@@ -196,8 +195,7 @@ public class SA00060Validator extends Validator {
 				operationalNodes.size() / 2 + 1);
 		for (Node node : operationalNodes) {
 			try {
-				MessageActivityImpl messageActivity = new MessageActivityImpl(new NodeHelper(node),
-						fileHandler);
+				MessageActivityImpl messageActivity = new MessageActivityImpl(node, fileHandler);
 				OperationElement operationElement = messageActivity.getOperation();
 				if (!operationElement.isRequestResponse()) {
 					continue;
@@ -234,7 +232,7 @@ public class SA00060Validator extends Validator {
 		String allOperationMembersInScope = ".//bpel:*[@partnerLink='"
 				+ onEvent.getPartnerLinkAttribute() + "']" + "[@operation='"
 				+ onEvent.getOperationAttribute() + "']";
-		return onEvent.getEnclosingScope().toXOM()
+		return new NodeHelper(onEvent).getEnclosingScope().toXOM()
 				.query(allOperationMembersInScope, Standards.CONTEXT).size() == 1 + repliesInOnEvent;
 	}
 

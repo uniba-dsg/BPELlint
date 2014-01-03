@@ -2,6 +2,7 @@ package isabel.model.bpel.mex;
 
 import java.util.List;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
@@ -21,109 +22,109 @@ import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 import static isabel.model.Standards.CONTEXT;
 
-public class InvokeElement extends NodeHelper implements MessageActivity, CompensateTarget {
+public class InvokeElement extends ContainerAwareReferable implements MessageActivity,
+		CompensateTarget {
 
-    private final MessageActivity delegate;
+	private final NodeHelper invoke;
+	private final MessageActivity delegate;
 
-    @Override
-    public Type getType() {
-        return delegate.getType();
-    }
+	public InvokeElement(Node node, ProcessContainer processContainer) {
+		super(node, processContainer);
+		invoke = new NodeHelper(node, "invoke");
+		delegate = new MessageActivityImpl(node, processContainer);
+	}
 
-    @Override
-    public PartnerLinkElement getPartnerLink() throws NavigationException {
-        return delegate.getPartnerLink();
-    }
-
-    @Override
-    public PortTypeElement getPortType() throws NavigationException {
-        return delegate.getPortType();
-    }
-
-    @Override
-    public OperationElement getOperation() throws NavigationException {
-        return delegate.getOperation();
-    }
-    
 	@Override
-	public List<CorrelationElement> getCorrelations() throws NavigationException {
+	public Type getType() {
+		return delegate.getType();
+	}
+
+	@Override
+	public PartnerLinkElement getPartnerLink() throws NavigationException {
+		return delegate.getPartnerLink();
+	}
+
+	@Override
+	public PortTypeElement getPortType() throws NavigationException {
+		return delegate.getPortType();
+	}
+
+	@Override
+	public OperationElement getOperation() throws NavigationException {
+		return delegate.getOperation();
+	}
+
+	@Override
+	public List<CorrelationElement> getCorrelations()
+			throws NavigationException {
 		return delegate.getCorrelations();
 	}
 
-    @Override
-    public String getPartnerLinkAttribute() {
-        return delegate.getPartnerLinkAttribute();
-    }
+	@Override
+	public String getPartnerLinkAttribute() {
+		return delegate.getPartnerLinkAttribute();
+	}
 
-    @Override
-    public String getOperationAttribute() {
-        return delegate.getOperationAttribute();
-    }
+	@Override
+	public String getOperationAttribute() {
+		return delegate.getOperationAttribute();
+	}
 
-    @Override
-    public String getPortTypeAttribute() {
-        return delegate.getPortTypeAttribute();
-    }
+	@Override
+	public String getPortTypeAttribute() {
+		return delegate.getPortTypeAttribute();
+	}
 
-    @Override
-    public boolean isReceiving() {
-        return delegate.isReceiving();
-    }
+	@Override
+	public boolean isReceiving() {
+		return delegate.isReceiving();
+	}
 
 	@Override
 	public String getMessageExchangeAttribute() {
 		return delegate.getMessageExchangeAttribute();
 	}
 
-    @Override
-    public Node toXOM() {
-        return delegate.toXOM();
-    }
+	public String getInputVariableAttribute() {
+		return invoke.getAttribute("inputVariable");
+	}
 
-    public InvokeElement(Node node, ProcessContainer processContainer) {
-        super(node);
+	public String getOutputVariableAttribute() {
+		return invoke.getAttribute("outputVariable");
+	}
 
-        delegate = new MessageActivityImpl(this, processContainer);
-    }
+	public boolean hasInputVariable() {
+		return toXOM().query("@inputVariable", CONTEXT).hasAny();
+	}
 
-    public String getInputVariableAttribute() {
-        return getAttribute("inputVariable");
-    }
+	public boolean hasToParts() {
+		return toXOM().query("bpel:toParts", CONTEXT).hasAny();
+	}
 
-    public String getOutputVariableAttribute() {
-        return getAttribute("outputVariable");
-    }
+	public boolean hasFromParts() {
+		return toXOM().query("bpel:fromParts", CONTEXT).hasAny();
+	}
 
-    public boolean hasInputVariable() {
-        return toXOM().query("@inputVariable", CONTEXT).hasAny();
-    }
-
-    public boolean hasToParts() {
-        return toXOM().query("bpel:toParts", CONTEXT).hasAny();
-    }
-
-    public boolean hasFromParts() {
-        return toXOM().query("bpel:fromParts", CONTEXT).hasAny();
-    }
-
-    public boolean hasOutputVariable() {
-        return !getOutputVariableAttribute().isEmpty();
-    }
+	public boolean hasOutputVariable() {
+		return !getOutputVariableAttribute().isEmpty();
+	}
 
 	@Override
 	public boolean hasCompensationHandler() {
-		return toXOM().query("./bpel:compensationHandler", Standards.CONTEXT).hasAny();
+		return toXOM().query("./bpel:compensationHandler", Standards.CONTEXT)
+				.hasAny();
 	}
 
 	@Override
 	public boolean hasFaultHandler() {
-		return toXOM().query("./bpel:faultHandlers", Standards.CONTEXT).hasAny();
+		return toXOM().query("./bpel:faultHandlers", Standards.CONTEXT)
+				.hasAny();
 	}
 
 	@Override
 	public Referable getEnclosingFctBarrier() {
-		NodeHelper parent = this;
-		while(!"process".equals(parent.getLocalName())) {
+		NodeHelper parent = invoke;
+		while (!"process".equals(parent.getLocalName())) {
 			parent = parent.getParent();
 			String localName = parent.getLocalName();
 			if ("scope".equals(localName)) {
