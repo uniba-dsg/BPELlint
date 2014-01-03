@@ -191,37 +191,66 @@ public class ProcessContainer {
 		List<OperationElement> result = new LinkedList<>();
 
 		for (XmlFile wsdlEntry : getDirectlyImportedWsdls()) {
-			result.addAll(wsdlEntry.getOperations());
+			result.addAll(getOperations(wsdlEntry));
 		}
 
 		return result;
 	}
+    private List<OperationElement> getOperations(XmlFile wsdlEntry) {
+        List<OperationElement> operations = new LinkedList<>();
+
+        for (Node node : wsdlEntry.getDocument().query("//wsdl:portType/wsdl:operation", CONTEXT)) {
+           operations.add(new OperationElement(node, this));
+        }
+
+        return operations;
+    }
 
 	public List<PortTypeElement> getAllPortTypes() {
 		List<PortTypeElement> result = new LinkedList<>();
 
 		for (XmlFile wsdlEntry : getDirectlyImportedWsdls()) {
-			result.addAll(wsdlEntry.getPortTypes());
+			result.addAll(getPortTypes(wsdlEntry));
 		}
 
 		return result;
 	}
 
+    private List<PortTypeElement> getPortTypes(XmlFile wsdlEntry) {
+        List<PortTypeElement> operations = new LinkedList<>();
+
+        for (Node node : wsdlEntry.getDocument().query("//wsdl:portType", CONTEXT)) {
+           operations.add(new PortTypeElement(node, this));
+        }
+
+        return operations;
+    }
+    
 	public List<PropertyElement> getAllProperties() {
 		List<PropertyElement> result = new LinkedList<>();
 
 		for (XmlFile wsdlEntry : getDirectlyImportedWsdls()) {
-			result.addAll(wsdlEntry.getProperties());
+			result.addAll(getProperties(wsdlEntry));
 		}
 
 		return result;
 	}
+
+    private List<PropertyElement> getProperties(XmlFile wsdlEntry) {
+        List<PropertyElement> operations = new LinkedList<>();
+
+        for (Node node : wsdlEntry.getDocument().query("//vprop:property", CONTEXT)) {
+            operations.add(new PropertyElement(node, this));
+        }
+
+        return operations;
+    }
 
 	public List<PropertyAliasElement> getAllPropertyAliases() {
 		List<PropertyAliasElement> result = new LinkedList<>();
 
 		for (XmlFile wsdlEntry : getDirectlyImportedWsdls()) {
-			result.addAll(wsdlEntry.getPropertyAliases());
+			result.addAll(wsdlEntry.getPropertyAliases(this));
 		}
 
 		return result;

@@ -86,7 +86,7 @@ public class VariableHelper {
 		                "//wsdl:message[@name='" + messageName + "']", CONTEXT);
 		
 		        if (messageNodes.hasAny()) {
-		            return new MessageElement(messageNodes.get(0));
+		            return new MessageElement(messageNodes.get(0), processContainer);
 		        }
 		    }
 		}

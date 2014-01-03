@@ -1,24 +1,21 @@
 package isabel.model.wsdl;
 
 import nu.xom.Node;
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
-import isabel.model.Referable;
+import isabel.model.ProcessContainer;
 
-public class PartElement implements Referable{
+public class PartElement extends ContainerAwareReferable {
 
-	private NodeHelper part;
+	private final NodeHelper part;
 	
-	public PartElement(Node node) {
-		part = new NodeHelper(node, "part");
+	public PartElement(Node part, ProcessContainer processContainer) {
+		super(part, processContainer);
+		this.part = new NodeHelper(part, "part");
 	}
 	
 	public String getElement() {
 		return part.getAttribute("element");
-	}
-	
-	@Override
-	public Node toXOM() {
-		return part.toXOM();
 	}
 
 }

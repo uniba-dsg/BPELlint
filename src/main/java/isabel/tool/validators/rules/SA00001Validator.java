@@ -17,10 +17,10 @@ public class SA00001Validator extends Validator {
     public void validate() {
         for (OperationElement operation : fileHandler.getAllOperations()) {
             if (operation.isNotification()) {
-                addViolation(operation.asElement(), NOTIFICATION_FAULT);
+                addViolation(operation, NOTIFICATION_FAULT);
             }
             if (operation.isSolicitResponse()) {
-                addViolation(operation.asElement(), SOLICIT_RESPONSE_TYPE);
+                addViolation(operation, SOLICIT_RESPONSE_TYPE);
             }
         }
     }

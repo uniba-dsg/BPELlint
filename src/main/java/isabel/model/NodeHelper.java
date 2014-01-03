@@ -94,7 +94,8 @@ public class NodeHelper implements Referable {
         return null;
     }
 
-    public boolean hasSameAttribute(NodeHelper otherNode, String attributeName) {
+    public boolean hasSameAttribute(Referable otherReferable, String attributeName) {
+    	NodeHelper otherNode = new NodeHelper(otherReferable);
         if (hasAttribute(attributeName)
                 && otherNode.hasAttribute(attributeName)) {
 

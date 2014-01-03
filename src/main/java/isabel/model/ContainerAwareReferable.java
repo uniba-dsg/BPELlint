@@ -29,7 +29,11 @@ public class ContainerAwareReferable implements Referable {
 
 	@Override
 	public boolean equals(Object object) {
-		return new ComparableNode(node).equals(object);
+		if (object == null || !(object instanceof ContainerAwareReferable)) {
+			return false;
+		}
+
+		return new ComparableNode(node).equals(new ComparableNode((ContainerAwareReferable) object));
 	}
 
 }

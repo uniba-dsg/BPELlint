@@ -97,7 +97,7 @@ public class MessageActivityImpl extends ContainerAwareReferable implements Mess
                         "//wsdl:portType[@name='" + portTypeName + "']",
                         CONTEXT);
                 if (portTypes.hasAny()) {
-                    return new PortTypeElement(portTypes.get(0));
+                    return new PortTypeElement(portTypes.get(0), getProcessContainer());
                 }
             }
         }

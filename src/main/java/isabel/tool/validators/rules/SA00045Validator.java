@@ -6,6 +6,7 @@ import isabel.model.wsdl.PropertyElement;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
 import isabel.model.NavigationException;
+import isabel.model.Referable;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import isabel.model.XmlFile;
@@ -13,7 +14,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
-
 import static isabel.model.Standards.CONTEXT;
 import static isabel.model.Standards.XSD_NAMESPACE;
 
@@ -41,7 +41,7 @@ public class SA00045Validator extends Validator {
             throws NavigationException {
         PropertyElement property = getPropertyAlias(correlationSet).getProperty();
 
-        String propertyType = property.getAttribute("type");
+        String propertyType = property.getTypeAttribute();
         String namespacePrefix = PrefixHelper.getPrefix(propertyType);
         String propertyTypeTargetNamespace = getImportNamespace(property, namespacePrefix);
 
@@ -60,8 +60,8 @@ public class SA00045Validator extends Validator {
         return false;
     }
 
-    public String getImportNamespace(NodeHelper node, String namespacePrefix) {
-        Element rootElement = node.asElement().getDocument().getRootElement();
+    public String getImportNamespace(Referable node, String namespacePrefix) {
+        Element rootElement = node.toXOM().getDocument().getRootElement();
 
         try {
             return rootElement.getNamespaceURI(namespacePrefix);
@@ -90,7 +90,7 @@ public class SA00045Validator extends Validator {
 
     public PropertyAliasElement navigateFromPropertyAliasNameToPropertyAlias(Nodes aliases, String propertyAliasAttribute) throws NavigationException {
         for (Node propertyAlias : aliases) {
-            PropertyAliasElement propertyAliasElement = new PropertyAliasElement(propertyAlias);
+            PropertyAliasElement propertyAliasElement = new PropertyAliasElement(propertyAlias, fileHandler);
             String propertyAliasName = PrefixHelper.removePrefix(propertyAliasElement.getPropertyName());
 
             if (propertyAliasName.equals(propertyAliasAttribute)) {

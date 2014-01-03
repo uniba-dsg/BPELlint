@@ -33,13 +33,13 @@ public class SA00022Validator extends Validator {
                 }
 
                 if (propertyAlias.hasSameType(otherPropertyAlias)) {
-                    addViolation(propertyAlias.getNode(), SAME_TYPE);
+                    addViolation(propertyAlias, SAME_TYPE);
                 }
                 if (propertyAlias.hasSameElement(otherPropertyAlias)) {
-                    addViolation(propertyAlias.getNode(), SAME_ELEMENT);
+                    addViolation(propertyAlias, SAME_ELEMENT);
                 }
                 if (propertyAlias.hasSameMessageType(otherPropertyAlias)) {
-                    addViolation(propertyAlias.getNode(), SAME_MESSAGE_TYPE);
+                    addViolation(propertyAlias, SAME_MESSAGE_TYPE);
                 }
             }
         }

@@ -5,18 +5,19 @@ import java.util.List;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
-import isabel.model.ComparableNode;
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
-import isabel.model.Referable;
+import isabel.model.ProcessContainer;
 import isabel.model.Standards;
 
-public class MessageElement implements Referable {
+public class MessageElement extends ContainerAwareReferable {
 
 	private final NodeHelper message;
 
-	public MessageElement(Node node) {
-		message = new NodeHelper(node, "message");
+	public MessageElement(Node message, ProcessContainer processContainer) {
+		super(message, processContainer);
+		this.message = new NodeHelper(message, "message");
 	}
 	
 	public boolean hasAnyPart() {
@@ -44,31 +45,15 @@ public class MessageElement implements Referable {
 	}
 
 	private List<PartElement> getParts() throws NavigationException {
-		Nodes parts = toXOM().query("./wsdl:part", Standards.CONTEXT);
+		Nodes parts = message.toXOM().query("./wsdl:part", Standards.CONTEXT);
 		if(!parts.hasAny()){
 			throw new NavigationException("<message> has no parts");
 		}
 		List<PartElement> partElements = new LinkedList<>();
 		for (Node part : parts) {
-			partElements.add(new PartElement(part));
+			partElements.add(new PartElement(part, getProcessContainer()));
 		}
 		return partElements;
 	}
-	
-	@Override
-	public boolean equals(Object object) {
-		if(object == null || !(object instanceof MessageElement)){
-			return false;
-		}
-		
-		MessageElement messageElement = (MessageElement) object;
-		return new ComparableNode(toXOM()).equals(new ComparableNode(messageElement.toXOM()));
-	}
-	
-	@Override
-	public Node toXOM() {
-		return message.toXOM();
-	}
 
-	
 }

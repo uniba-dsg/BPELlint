@@ -3,17 +3,19 @@ package isabel.model.wsdl;
 import static isabel.model.Standards.CONTEXT;
 import nu.xom.Node;
 import nu.xom.Nodes;
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
-import isabel.model.Referable;
+import isabel.model.ProcessContainer;
 
-public class OperationInputElement implements OperationMessage, Referable {
+public class OperationInputElement extends ContainerAwareReferable implements OperationMessage {
 
 	private final NodeHelper input;
 
-	public OperationInputElement(Node node) {
-		input = new NodeHelper(node, "input");
+	public OperationInputElement(Node input, ProcessContainer processContainer) {
+		super(input, processContainer);
+		this.input = new NodeHelper(input, "input");
 	}
 
 	@Override
@@ -25,13 +27,7 @@ public class OperationInputElement implements OperationMessage, Referable {
 			throw new NavigationException("Message " + messageName + "is not defined for <input>.");
 		}
 		
-		return new MessageElement(messageNodes.get(0));
+		return new MessageElement(messageNodes.get(0), getProcessContainer());
 	}
-	
-	@Override
-	public Node toXOM() {
-		return input.toXOM();
-	}
-
 
 }

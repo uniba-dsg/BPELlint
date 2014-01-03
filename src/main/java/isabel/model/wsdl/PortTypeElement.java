@@ -1,7 +1,9 @@
 package isabel.model.wsdl;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
+import isabel.model.ProcessContainer;
 import nu.xom.Attribute;
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -11,10 +13,13 @@ import java.util.List;
 
 import static isabel.model.Standards.CONTEXT;
 
-public class PortTypeElement extends NodeHelper {
+public class PortTypeElement extends ContainerAwareReferable {
 
-    public PortTypeElement(Node node) {
-        super(node);
+    private final NodeHelper portType;
+
+	public PortTypeElement(Node portType, ProcessContainer processContainer) {
+        super(portType, processContainer);
+        this.portType = new NodeHelper(portType, "portType");
     }
 
     public OperationElement getOperationByName(String operationName)
@@ -27,11 +32,11 @@ public class PortTypeElement extends NodeHelper {
         	throw new NavigationException("Operation name overloaded");
         }
         
-        return new OperationElement(operations.get(0));
+        return new OperationElement(operations.get(0), getProcessContainer());
     }
 
     public String getName() {
-        return getAttribute("name");
+        return portType.getAttribute("name");
     }
 
     public List<Attribute> getOperationNames() {

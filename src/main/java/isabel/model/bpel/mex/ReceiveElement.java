@@ -77,11 +77,6 @@ public class ReceiveElement extends ContainerAwareReferable implements StartActi
 		return delegate.getMessageExchangeAttribute();
 	}
 
-    @Override
-    public Node toXOM() {
-        return delegate.toXOM();
-    }
-
 	public boolean hasFromParts() {
 		return receive.hasQueryResult("bpel:fromParts");
 	}

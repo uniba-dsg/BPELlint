@@ -1,20 +1,25 @@
 package isabel.model.wsdl;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
+import isabel.model.ProcessContainer;
 import nu.xom.Node;
 
-public class PropertyElement extends NodeHelper {
+public class PropertyElement extends ContainerAwareReferable {
 
-	public PropertyElement(Node node) {
-		super(node);
+	private final NodeHelper property;
+
+	public PropertyElement(Node property, ProcessContainer processContainer) {
+		super(property, processContainer);
+		this.property = new NodeHelper(property, "property");
 	}
 
     public boolean hasElement() {
-        return hasAttribute("element");
+        return property.hasAttribute("element");
     }
 
     public boolean hasType() {
-        return hasAttribute("type");
+        return property.hasAttribute("type");
     }
 
     public boolean hasNeitherTypeNorElement() {
@@ -26,9 +31,13 @@ public class PropertyElement extends NodeHelper {
     }
     
     public String toIdentifier() {
-		String targetNamespace = getTargetNamespace();
-		String name = getAttribute("name");
+		String targetNamespace = property.getTargetNamespace();
+		String name = property.getAttribute("name");
 		return "{" + targetNamespace + "}" + name;
+	}
+
+	public String getTypeAttribute() {
+		return property.getAttribute("type");
 	}
     
 }

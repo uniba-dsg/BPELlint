@@ -1,20 +1,20 @@
 package isabel.model.wsdl;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
+import isabel.model.ProcessContainer;
 import nu.xom.Node;
 import nu.xom.Nodes;
 import static isabel.model.Standards.CONTEXT;
 
-public class OperationElement extends NodeHelper {
+public class OperationElement extends ContainerAwareReferable {
 
-	public OperationElement(Node operation) {
-		super(operation);
+	private final NodeHelper operation;
 
-		if (!getLocalName().equals("operation")) {
-			throw new IllegalArgumentException(
-					"operation helper only works for wsdl:operation elements");
-		}
+	public OperationElement(Node operation, ProcessContainer processContainer) {
+		super(operation, processContainer);
+		this.operation = new NodeHelper(operation, "operation");
 	}
 
 	public boolean isOneWay() {
@@ -39,7 +39,7 @@ public class OperationElement extends NodeHelper {
 			throw new NavigationException("<operation> has no input message");
 		}
 
-		return new OperationInputElement(input.get(0));
+		return new OperationInputElement(input.get(0), getProcessContainer());
 	}
 	
 	public OperationMessage getOutput() throws NavigationException {
@@ -48,7 +48,7 @@ public class OperationElement extends NodeHelper {
 			throw new NavigationException("<operation> has no output message");
 		}
 
-		return new OperationOutputElement(output.get(0));
+		return new OperationOutputElement(output.get(0), getProcessContainer());
 	}
 	
 	public OperationMessage getFault() throws NavigationException {
@@ -57,21 +57,21 @@ public class OperationElement extends NodeHelper {
 			throw new NavigationException("<operation> has no fault message");
 		}
 
-		return new OperationFaultElement(fault.get(0));
+		return new OperationFaultElement(fault.get(0), getProcessContainer());
 	}
 
 	private boolean isFirstChildOutput() {
-		Node firstOperationChild = node.query("(child::*)[1]").get(0);
-		Node operationOutput = node.query("child::wsdl:output", CONTEXT).get(0);
+		Node firstOperationChild = toXOM().query("(child::*)[1]").get(0);
+		Node operationOutput = toXOM().query("child::wsdl:output", CONTEXT).get(0);
 		return firstOperationChild.equals(operationOutput);
 	}
 
 	private boolean hasOutput() {
-		return hasQueryResult("child::wsdl:output");
+		return operation.hasQueryResult("child::wsdl:output");
 	}
 
 	private boolean hasInput() {
-		return hasQueryResult("child::wsdl:input");
+		return operation.hasQueryResult("child::wsdl:input");
 	}
 
 }

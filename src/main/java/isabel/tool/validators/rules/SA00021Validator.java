@@ -57,8 +57,8 @@ public class SA00021Validator extends Validator {
 
         if (!type.isEmpty()) {
             XmlFile wsdl = getCorrespondingWsdl(property, variable.toXOM());
-            for (PropertyAliasElement propertyAlias : wsdl.getPropertyAliases()) {
-                String propertyName = PrefixHelper.removePrefix(propertyAlias.getAttribute("propertyName"));
+            for (PropertyAliasElement propertyAlias : wsdl.getPropertyAliases(fileHandler)) {
+                String propertyName = PrefixHelper.removePrefix(propertyAlias.getPropertyNameAttribute());
 
                 if (PrefixHelper.removePrefix(property).equals(propertyName)) {
                     if (isOfThisMessageType(type, propertyAlias, partHolder) || isOfThisType(type, propertyAlias) || isOfThisElement(type, propertyAlias)) {
@@ -71,17 +71,16 @@ public class SA00021Validator extends Validator {
     }
 
     private boolean isOfThisElement(String type, PropertyAliasElement propertyAlias) {
-        return propertyAlias.getAttribute("element").equals(PrefixHelper.removePrefix(type));
+        return propertyAlias.getElementAttribute().equals(PrefixHelper.removePrefix(type));
     }
 
     private boolean isOfThisType(String type, PropertyAliasElement propertyAlias) {
-        return propertyAlias.getAttribute("type").equals(PrefixHelper.removePrefix(type));
+        return propertyAlias.getTypeAttribute().equals(PrefixHelper.removePrefix(type));
     }
 
     private boolean isOfThisMessageType(String type, PropertyAliasElement propertyAlias,
                                         Node partHolder) {
-        String messageType = PrefixHelper.removePrefix(propertyAlias
-                .getAttribute("messageType"));
+        String messageType = PrefixHelper.removePrefix(propertyAlias.getMessageTypeAttribute());
         boolean isMessageType = messageType.equals(PrefixHelper
                 .removePrefix(type));
 

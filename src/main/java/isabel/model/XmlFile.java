@@ -1,7 +1,5 @@
 package isabel.model;
 
-import isabel.model.wsdl.OperationElement;
-import isabel.model.wsdl.PortTypeElement;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.model.wsdl.PropertyElement;
 import nu.xom.Document;
@@ -101,41 +99,11 @@ public class XmlFile {
         return type;
     }
 
-    public List<OperationElement> getOperations() {
-        List<OperationElement> operations = new LinkedList<>();
-
-        for (Node node : getDocument().query("//wsdl:portType/wsdl:operation", CONTEXT)) {
-            operations.add(new OperationElement(node));
-        }
-
-        return operations;
-    }
-
-    public List<PortTypeElement> getPortTypes() {
-        List<PortTypeElement> operations = new LinkedList<>();
-
-        for (Node node : getDocument().query("//wsdl:portType", CONTEXT)) {
-            operations.add(new PortTypeElement(node));
-        }
-
-        return operations;
-    }
-
-    public List<PropertyElement> getProperties() {
-        List<PropertyElement> operations = new LinkedList<>();
-
-        for (Node node : getDocument().query("//vprop:property", CONTEXT)) {
-            operations.add(new PropertyElement(node));
-        }
-
-        return operations;
-    }
-
-    public List<PropertyAliasElement> getPropertyAliases() {
+    public List<PropertyAliasElement> getPropertyAliases(ProcessContainer processContainer) {
         List<PropertyAliasElement> operations = new LinkedList<>();
 
         for (Node node : getDocument().query("//vprop:propertyAlias", CONTEXT)) {
-            operations.add(new PropertyAliasElement(node));
+            operations.add(new PropertyAliasElement(node, processContainer));
         }
 
         return operations;
