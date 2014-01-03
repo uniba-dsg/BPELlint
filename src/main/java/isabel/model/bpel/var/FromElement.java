@@ -1,14 +1,48 @@
 package isabel.model.bpel.var;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 import nu.xom.Node;
 
-public class FromElement extends CopyEntityImpl {
+public class FromElement extends ContainerAwareReferable implements CopyEntity  {
 
-    public FromElement(Node node, ProcessContainer processContainer) {
+    private final CopyEntity delegate;
+
+	public FromElement(Node node, ProcessContainer processContainer) {
         super(node, processContainer);
         new NodeHelper(node, "from");
+        delegate = new CopyEntityImpl(node, processContainer);
     }
+
+	@Override
+	public boolean isEmpty() {
+		return delegate.isEmpty();
+	}
+
+	@Override
+	public boolean isMessageVariableAssignment() {
+		return delegate.isMessageVariableAssignment();
+	}
+
+	@Override
+	public boolean isPartnerLinkAssignment() {
+		return delegate.isPartnerLinkAssignment();
+	}
+
+	@Override
+	public boolean isVariableAssignment() {
+		return delegate.isVariableAssignment();
+	}
+
+	@Override
+	public boolean isQueryResultAssignment() {
+		return delegate.isQueryResultAssignment();
+	}
+
+	@Override
+	public boolean isLiteralAssignment() {
+		return delegate.isLiteralAssignment();
+	}
 
 }

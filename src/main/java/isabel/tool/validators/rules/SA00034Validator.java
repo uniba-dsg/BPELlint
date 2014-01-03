@@ -47,16 +47,16 @@ public class SA00034Validator extends Validator {
         for (Node fromToNode : fromTos) {
             NodeHelper fromTo = new NodeHelper(fromToNode);
             String variableName = fromTo.getAttribute("variable");
-            if (!isCorrespondingVariableOfMessageType(fromToNode, variableName)
+            if (!isCorrespondingVariableOfMessageType(fromTo, variableName)
                     && fromTo.hasAttribute("part")) {
                 addViolation(fromToNode, PART_IS_PROHIBITED_FOR_NON_MESSAGE_TYPES);
             }
         }
     }
 
-    private boolean isCorrespondingVariableOfMessageType(Node fromTo, String variableName) {
+    private boolean isCorrespondingVariableOfMessageType(NodeHelper fromTo, String variableName) {
         try {
-            VariableLike variable = new NodeHelper(fromTo).getVariableByName(variableName);
+            VariableLike variable = navigator.getVariableByName(fromTo, variableName);
 
             return variable.hasVariableMessageType();
         } catch (NavigationException e) {

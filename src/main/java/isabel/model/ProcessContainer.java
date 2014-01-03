@@ -404,7 +404,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:variable",
 				CONTEXT)) {
-			result.add(new VariableElement(node));
+			result.add(new VariableElement(node, this));
 		}
 
 		return result;
@@ -415,7 +415,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:variables",
 				CONTEXT)) {
-			result.add(new VariablesElement(node));
+			result.add(new VariablesElement(node, this));
 		}
 
 		return result;

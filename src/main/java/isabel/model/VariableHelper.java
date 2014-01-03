@@ -1,6 +1,7 @@
 package isabel.model;
 
 import static isabel.model.Standards.CONTEXT;
+
 import isabel.model.bpel.var.VariableElement;
 import isabel.model.bpel.var.VariableLike;
 import isabel.model.wsdl.MessageElement;
@@ -93,4 +94,5 @@ public class VariableHelper {
 		
 		throw new NavigationException("<message> was not found");
     }
+    
 }

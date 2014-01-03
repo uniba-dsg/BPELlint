@@ -20,7 +20,7 @@ public abstract class Validator {
 	                 ValidationCollector validationCollector) {
 		this.fileHandler = files;
 		this.validationCollector = validationCollector;
-		navigator = new ValidatorNavigator();
+		navigator = new ValidatorNavigator(fileHandler);
 	}
 
 	public abstract void validate();

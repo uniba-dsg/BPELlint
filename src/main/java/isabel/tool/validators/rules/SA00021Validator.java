@@ -48,7 +48,7 @@ public class SA00021Validator extends Validator {
 
     private VariableLike getCorrespondingVariable(Node fromToNode) throws NavigationException {
         NodeHelper fromTo = new NodeHelper(fromToNode);
-		return fromTo.getVariableByName(fromTo.getAttribute("variable"));
+		return navigator.getVariableByName(fromTo, fromTo.getAttribute("variable"));
     }
 
     private void hasCorrespondingPropertyAlias(VariableLike variable, String property,
@@ -132,8 +132,8 @@ public class SA00021Validator extends Validator {
 			return variable.getVariableMessageType();
 		} else if (variable.hasVariableElement()) {
 			return variable.getVariableElement();
-		} else if (variable instanceof VariableElement&& new VariableElement(variable.toXOM()).hasType()) {
-			return new VariableElement(variable.toXOM()).getType();
+		} else if (variable instanceof VariableElement && new VariableElement(variable.toXOM(), fileHandler).hasType()) {
+			return new VariableElement(variable.toXOM(), fileHandler).getType();
 		} else {
 			throw new NavigationException("This variable is untyped.");
 		}

@@ -9,6 +9,7 @@ import isabel.model.ProcessContainer;
 import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.bpel.var.VariableLike;
+import isabel.model.bpel.var.VariableLikeImpl;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
@@ -18,11 +19,13 @@ public class OnEventElement extends ContainerAwareReferable implements
 
 	private final NodeHelper onEvent;
 	private final MessageActivity delegate;
+	private final VariableLikeImpl variableDelegate;
 
-	public OnEventElement(Node node, ProcessContainer processContainer) {
-		super(node, processContainer);
-		onEvent = new NodeHelper(node, "onEvent");
-		delegate = new MessageActivityImpl(node, processContainer);
+	public OnEventElement(Node onEvent, ProcessContainer processContainer) {
+		super(onEvent, processContainer);
+		this.onEvent = new NodeHelper(onEvent, "onEvent");
+		this.delegate = new MessageActivityImpl(onEvent, processContainer);
+		this.variableDelegate = new VariableLikeImpl(onEvent, processContainer);
 	}
 
 	@Override
@@ -75,26 +78,26 @@ public class OnEventElement extends ContainerAwareReferable implements
 	public String getMessageExchangeAttribute() {
 		return delegate.getMessageExchangeAttribute();
 	}
-
+	
 	@Override
-	public boolean hasVariableMessageType() {
-		return onEvent.hasAttribute("messageType");
-	}
-
-	@Override
-	public String getVariableMessageType() {
-		return onEvent.getAttribute("messageType");
-	}
-
-	@Override
-	public boolean hasVariableElement() {
-		return onEvent.hasAttribute("element");
-	}
+    public boolean hasVariableMessageType() {
+        return variableDelegate.hasVariableMessageType();
+    }
+	
+    @Override
+    public boolean hasVariableElement() {
+        return variableDelegate.hasVariableElement();
+    }
 
 	@Override
 	public String getVariableElement() {
-		return onEvent.getAttribute("element");
+		return variableDelegate.getVariableElement();
 	}
+    
+    @Override
+    public String getVariableMessageType() {
+        return variableDelegate.getVariableMessageType();
+    }
 
 	@Override
 	public String getVariableName() {

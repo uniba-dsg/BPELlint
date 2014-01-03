@@ -1,48 +1,53 @@
 package isabel.model.bpel.var;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
+import isabel.model.ProcessContainer;
 import nu.xom.Node;
-import static isabel.model.Standards.CONTEXT;
 
-public class VariableElement extends NodeHelper implements VariableLike {
+public class VariableElement extends ContainerAwareReferable implements VariableLike {
 
-	public VariableElement(Node node) {
-        super(node);
+	private NodeHelper variable;
+	private VariableLikeImpl variableDelegate;
 
-        // node can be either an OnEvent as well as a variable
+	public VariableElement(Node variable, ProcessContainer processContainer) {
+        super(variable, processContainer);
+        this.variable = new NodeHelper(variable,"variable");
+        this.variableDelegate = new VariableLikeImpl(variable, processContainer);
+    }
+
+
+    public boolean hasType() {
+        return variable.hasAttribute("type");
     }
 
 	@Override
     public boolean hasVariableMessageType() {
-        return node.query("@messageType", CONTEXT).hasAny();
+        return variableDelegate.hasVariableMessageType();
     }
-
-    public boolean hasType() {
-        return node.query("@type", CONTEXT).hasAny();
-    }
-
+	
     @Override
     public boolean hasVariableElement() {
-        return node.query("@element", CONTEXT).hasAny();
+        return variableDelegate.hasVariableElement();
     }
 
 	@Override
 	public String getVariableElement() {
-		return getAttribute("element");
+		return variableDelegate.getVariableElement();
 	}
 	
 	@Override
     public String getVariableName() {
-        return getAttribute("name");
+        return variableDelegate.getVariableName();
     }
 
     public String getType() {
-        return getAttribute("type");
+        return variableDelegate.getType();
     }
     
     @Override
     public String getVariableMessageType() {
-        return getAttribute("messageType");
+        return variableDelegate.getVariableMessageType();
     }
 
 }

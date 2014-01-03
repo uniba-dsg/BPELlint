@@ -3,9 +3,6 @@ package isabel.model;
 import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.bpel.ProcessElement;
 import isabel.model.bpel.ScopeElement;
-import isabel.model.bpel.fct.CatchElement;
-import isabel.model.bpel.var.VariableElement;
-import isabel.model.bpel.var.VariableLike;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
@@ -170,36 +167,6 @@ public class NodeHelper implements Referable {
 
     public static Element toElement(Node node) {
         return new NodeHelper(node).asElement();
-    }
-
-    public VariableLike getVariableByName(String variableName) throws NavigationException {
-        Objects.requireNonNull(variableName, "VariableName must not be null!");
-
-        NodeHelper element = new NodeHelper(node);
-        String elementName = element.getLocalName();
-
-        if ("scope".equals(elementName) || "process".equals(elementName)) {
-            Nodes variable = node.query("./bpel:variables/bpel:variable[@name='" + variableName + "']", CONTEXT);
-            if (variable != null && !variable.isEmpty()) {
-                return new VariableElement(variable.get(0));
-            }
-            if ("process".equals(elementName)) {
-                throw new NavigationException("Variable does not exist.");
-            }
-        }
-
-        if ("onEvent".equals(elementName)) {
-            if (variableName.equals(element.getAttribute("variable"))) {
-                return new VariableElement(node);
-            }
-        }
-        if ("catch".equals(elementName)) {
-            if (variableName.equals(element.getAttribute("faultVariable"))) {
-                return new CatchElement(node);
-            }
-        }
-
-        return getParent().getVariableByName(variableName);
     }
 
     public NodeHelper getParent() {
