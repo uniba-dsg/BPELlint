@@ -57,7 +57,7 @@ public class SA00021Validator extends Validator {
 
         if (!type.isEmpty()) {
             XmlFile wsdl = getCorrespondingWsdl(property, variable.toXOM());
-            for (PropertyAliasElement propertyAlias : wsdl.getPropertyAliases(fileHandler)) {
+            for (PropertyAliasElement propertyAlias : fileHandler.getPropertyAliases(wsdl)) {
                 String propertyName = PrefixHelper.removePrefix(propertyAlias.getPropertyNameAttribute());
 
                 if (PrefixHelper.removePrefix(property).equals(propertyName)) {

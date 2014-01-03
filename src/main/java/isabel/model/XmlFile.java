@@ -1,20 +1,13 @@
 package isabel.model;
 
-import isabel.model.wsdl.PropertyAliasElement;
-import isabel.model.wsdl.PropertyElement;
 import nu.xom.Document;
-import nu.xom.Node;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
-
-import static isabel.model.Standards.CONTEXT;
 
 public class XmlFile {
 
@@ -97,16 +90,6 @@ public class XmlFile {
             type = "BPEL";
         }
         return type;
-    }
-
-    public List<PropertyAliasElement> getPropertyAliases(ProcessContainer processContainer) {
-        List<PropertyAliasElement> operations = new LinkedList<>();
-
-        for (Node node : getDocument().query("//vprop:propertyAlias", CONTEXT)) {
-            operations.add(new PropertyAliasElement(node, processContainer));
-        }
-
-        return operations;
     }
 
     @Override

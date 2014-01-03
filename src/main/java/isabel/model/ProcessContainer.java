@@ -250,12 +250,22 @@ public class ProcessContainer {
 		List<PropertyAliasElement> result = new LinkedList<>();
 
 		for (XmlFile wsdlEntry : getDirectlyImportedWsdls()) {
-			result.addAll(wsdlEntry.getPropertyAliases(this));
+			result.addAll(getPropertyAliases(wsdlEntry));
 		}
 
 		return result;
 	}
 
+    public List<PropertyAliasElement> getPropertyAliases(XmlFile wsdlEntry) {
+        List<PropertyAliasElement> operations = new LinkedList<>();
+
+        for (Node node : wsdlEntry.getDocument().query("//vprop:propertyAlias", CONTEXT)) {
+            operations.add(new PropertyAliasElement(node, this));
+        }
+
+        return operations;
+    }
+    
 	public ProcessContainer validateAndFinalize() {
 		Logger.info("Creating immutable ProcessContainer {0}", this);
 
