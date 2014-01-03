@@ -358,6 +358,10 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00070/LinkOutOfEventHandlers.bpel", "70"},
 				{"Testcases/rules/SA00070/LinkOutOfCompensationHandler.bpel", "70"},
 
+				{"Testcases/rules/SA00071/CatchIncommingLink.bpel", "71"},
+				{"Testcases/rules/SA00071/CatchAllIncommingLink.bpel", "71"},
+				{"Testcases/rules/SA00071/TerminationHandlerIncommingLink.bpel", "71"},
+
 				{"Testcases/rules/SA00072/FlowSelfLinked.bpel", "72"},
 				{"Testcases/rules/SA00072/FlowCyclic.bpel", "72"},
 				{"Testcases/rules/SA00072/FlowCyclicSubGraph.bpel", "72"},

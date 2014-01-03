@@ -1,0 +1,22 @@
+link source is not within fault or termination handler
+@@@
+A link that crosses a <catch>, <catchAll> or <terminationHandler> element boundary MUST be outbound only, that is, it MUST have its source activity within the <faultHandlers> or <terminationHandler>, and its target activity outside of the scope associated with the handler.
+@@@
+$ftHandler = <catch> | <catchAll> | <terminationHandler>
+
+FOREACH $ftHandler
+    FOREACH <target>@linkName
+        IF $ftHandler ANCESTOR_OF <target>
+            FAIL UNLESS hasSourceEnclosed($ftHandler,<target>@linkName)
+
+hasSourceEnclosed: $ftHandler, $linkName -> boolean
+    FOREACH <source>
+        IF $ftHandler ANCESTOR_OF <source>
+            IF <source>@linkName EQUALS $linkName
+                RETURN 'true'
+    RETURN 'false'
+@@@
+CatchIncommingLink.bpel
+CatchAllIncommingLink.bpel
+TerminationHandlerIncommingLink.bpel
+@@@
