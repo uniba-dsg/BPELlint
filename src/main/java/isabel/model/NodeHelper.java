@@ -1,14 +1,11 @@
 package isabel.model;
 
-import isabel.model.bpel.PartnerLinkElement;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
 import java.util.Objects;
-
-import static isabel.model.Standards.CONTEXT;
 
 public class NodeHelper implements Referable {
 
@@ -21,7 +18,7 @@ public class NodeHelper implements Referable {
 
         this.node = node;
     }
-    
+
     public NodeHelper(Referable referable) {
 		this(referable.toXOM());
 	}
@@ -159,10 +156,6 @@ public class NodeHelper implements Referable {
         return (Element) node;
     }
 
-    public Node getNode() {
-        return node;
-    }
-
     public static Element toElement(Node node) {
         return new NodeHelper(node).asElement();
     }
@@ -182,17 +175,6 @@ public class NodeHelper implements Referable {
 
     public boolean hasNoContent() {
         return asElement().getValue().trim().isEmpty();
-    }
-
-    public PartnerLinkElement getPartnerLink(String partnerLinkName)
-            throws NavigationException {
-        Nodes partnerLink = toXOM().getDocument().query("//bpel:partnerLinks/bpel:partnerLink[@name='" + partnerLinkName + "']", CONTEXT);
-
-        if (!partnerLink.hasAny()){
-        	throw new NavigationException("PartnerLink not defined");
-        }
-
-        return new PartnerLinkElement(partnerLink.get(0));
     }
 
 }

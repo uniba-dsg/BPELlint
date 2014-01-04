@@ -1,9 +1,8 @@
 package isabel.tool.validators.rules;
 
 import static isabel.model.Standards.CONTEXT;
-import isabel.model.NodeHelper;
 import isabel.model.NavigationException;
-import isabel.model.bpel.PartnerLinkElement;
+import isabel.model.bpel.var.ToElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import nu.xom.Document;
@@ -24,7 +23,7 @@ public class SA00037Validator extends Validator {
 	public void validate() {
 		Nodes partnerLinkTos = getPartnerLinkTos();
 		for (Node to : partnerLinkTos) {
-			if (!correspondingPartnerLinkHasPartnerRole(new NodeHelper(to))) {
+			if (!correspondingPartnerLinkHasPartnerRole(new ToElement(to, fileHandler))) {
 				addViolation(to, errorType);
 			}
 		}
@@ -35,11 +34,9 @@ public class SA00037Validator extends Validator {
         return bpelDocument.query("//bpel:to[@partnerLink]", CONTEXT);
 	}
 
-	private boolean correspondingPartnerLinkHasPartnerRole(NodeHelper to) {
+	private boolean correspondingPartnerLinkHasPartnerRole(ToElement to) {
 		try {
-			String partnerLinkName = to.getAttribute("partnerLink");
-			PartnerLinkElement partnerLink = to.getPartnerLink(partnerLinkName);
-            return partnerLink.hasPartnerRole();
+			return to.getPartnerLink().hasPartnerRole();
         } catch (NavigationException e) {
 			errorType = PARTNER_LINK_IS_MISSING;
 			return false;

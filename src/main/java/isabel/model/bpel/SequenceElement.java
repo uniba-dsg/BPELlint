@@ -7,33 +7,28 @@ import java.util.List;
 import nu.xom.Node;
 import nu.xom.Nodes;
 import isabel.model.ComparableNode;
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
 import isabel.model.NodesUtil;
-import isabel.model.Referable;
+import isabel.model.ProcessContainer;
 
-public class SequenceElement implements Referable {
+public class SequenceElement extends ContainerAwareReferable {
 
-	private NodeHelper sequence;
-
-	public SequenceElement(Node node) {
-		sequence = new NodeHelper(node, "sequence");
+	public SequenceElement(Node sequence, ProcessContainer processContainer) {
+		super(sequence, processContainer);
+		new NodeHelper(sequence, "sequence");
 	}
-	
+
 	public List<Node> getChildsInOrder() {
 		List<ComparableNode> childs = new LinkedList<>();
-		Nodes childNodes = sequence.toXOM().query("./*");
+		Nodes childNodes = toXOM().query("./*");
 		for (Node node : childNodes) {
 			childs.add(new ComparableNode(node));
 		}
-		
-		Collections.sort(childs);
-		
-		return NodesUtil.toList(childs);
-	}
 
-	@Override
-	public Node toXOM() {
-		return sequence.toXOM();
+		Collections.sort(childs);
+
+		return NodesUtil.toList(childs);
 	}
 
 }

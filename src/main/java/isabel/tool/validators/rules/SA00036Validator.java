@@ -1,8 +1,8 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.NavigationException;
-import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.var.FromElement;
 import isabel.tool.impl.ValidationCollector;
 import nu.xom.Document;
 import nu.xom.Node;
@@ -24,7 +24,7 @@ public class SA00036Validator extends Validator {
     public void validate() {
         Nodes endpointReferenceFroms = getEndpoinReferenceFroms();
         for (Node from : endpointReferenceFroms) {
-            if (!correspondingPartnerLinkHasPartnerRole(new NodeHelper(from))) {
+            if (!correspondingPartnerLinkHasPartnerRole(new FromElement(from, fileHandler))) {
                 addViolation(from, errorType);
             }
         }
@@ -35,10 +35,9 @@ public class SA00036Validator extends Validator {
         return bpelDocument.query("//bpel:from[@endpointReference='partnerRole']", CONTEXT);
     }
 
-    private boolean correspondingPartnerLinkHasPartnerRole(NodeHelper from) {
+    private boolean correspondingPartnerLinkHasPartnerRole(FromElement from) {
         try {
-            String partnerLinkName = from.getAttribute("partnerLink");
-            return from.getPartnerLink(partnerLinkName).hasPartnerRole();
+            return from.getPartnerLink().hasPartnerRole();
         } catch (NavigationException e) {
             errorType = PARTNER_LINK_IS_MISSING;
             return false;

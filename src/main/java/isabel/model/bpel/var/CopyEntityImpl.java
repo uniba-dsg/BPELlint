@@ -4,15 +4,20 @@ import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.PartnerLinkElement;
+import isabel.model.bpel.PartnerLinked;
+import isabel.model.bpel.PartnerLinkedImpl;
 import nu.xom.Node;
 
 public class CopyEntityImpl extends ContainerAwareReferable implements CopyEntity {
 
-	private NodeHelper fromTo;
+	private final NodeHelper fromTo;
+	private final PartnerLinked partnerLinkDelegate;
 
 	public CopyEntityImpl(Node node, ProcessContainer processContainer) {
 		super(node, processContainer);
-		fromTo = new NodeHelper(node);
+		this.fromTo = new NodeHelper(node);
+		this.partnerLinkDelegate = new PartnerLinkedImpl(toXOM(), getProcessContainer(), getPartnerLinkAttribute());
 	}
 
 	@Override
@@ -117,6 +122,15 @@ public class CopyEntityImpl extends ContainerAwareReferable implements CopyEntit
         } catch (NavigationException e) {
             return false;
         }
+	}
+
+	@Override
+	public PartnerLinkElement getPartnerLink() throws NavigationException {
+		return partnerLinkDelegate.getPartnerLink();
+	}
+
+	private String getPartnerLinkAttribute() {
+		return fromTo.getAttribute("partnerLink");
 	}
 
 }

@@ -107,7 +107,7 @@ public class SA00021Validator extends Validator {
         List<String> properties = toIdentifiers(fileHandler.getAllProperties());
 
         for (Node correlationSet : correlationSets) {
-            List<String> propertyIdentifiers = new CorrelationSetElement(correlationSet).getPropertyIdentifiers();
+            List<String> propertyIdentifiers = new CorrelationSetElement(correlationSet, fileHandler).getPropertyIdentifiers();
             propertyIdentifiers.removeAll(properties);
 
             if (!propertyIdentifiers.isEmpty()) {

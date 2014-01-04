@@ -7,7 +7,7 @@ import nu.xom.Node;
 
 public class RethrowElement extends ContainerAwareReferable {
 
-    private NodeHelper rethrow;
+    private final NodeHelper rethrow;
 
 	public RethrowElement(Node rethrow, ProcessContainer processContainer) {
         super(rethrow, processContainer);
@@ -17,4 +17,5 @@ public class RethrowElement extends ContainerAwareReferable {
     public boolean isWithinFaultHandler() {
         return rethrow.hasAncestor("bpel:faultHandlers");
     }
+
 }

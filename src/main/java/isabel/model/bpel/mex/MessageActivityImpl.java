@@ -6,6 +6,7 @@ import isabel.model.*;
 import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.CorrelationsElement;
 import isabel.model.bpel.PartnerLinkElement;
+import isabel.model.bpel.PartnerLinkedImpl;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
@@ -15,10 +16,12 @@ import static isabel.model.Standards.CONTEXT;
 public class MessageActivityImpl extends ContainerAwareReferable implements MessageActivity {
 
     private final NodeHelper nodeHelper;
+	private final PartnerLinkedImpl partnerLinkedDelegate;
 
     public MessageActivityImpl(Node messageActivity, ProcessContainer processContainer) {
     	super(messageActivity, processContainer);
         this.nodeHelper = new NodeHelper(messageActivity);
+        partnerLinkedDelegate = new PartnerLinkedImpl(toXOM(), getProcessContainer(), getPartnerLinkAttribute());
     }
 
     @Override
@@ -40,7 +43,7 @@ public class MessageActivityImpl extends ContainerAwareReferable implements Mess
 
     @Override
     public PartnerLinkElement getPartnerLink() throws NavigationException {
-        return nodeHelper.getPartnerLink(getPartnerLinkAttribute());
+        return partnerLinkedDelegate.getPartnerLink();
     }
 
     @Override
@@ -59,7 +62,7 @@ public class MessageActivityImpl extends ContainerAwareReferable implements Mess
 		if(!correlationsNode.hasAny()){
 			throw new NavigationException("Has no correlation Element.");
 		}
-		return new CorrelationsElement(correlationsNode.get(0)).getCorrelationWithoutPattern();
+		return new CorrelationsElement(correlationsNode.get(0), getProcessContainer()).getCorrelationWithoutPattern();
 	}
 	
     @Override

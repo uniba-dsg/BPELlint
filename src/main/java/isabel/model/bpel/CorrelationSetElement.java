@@ -1,28 +1,33 @@
 package isabel.model.bpel;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
+import isabel.model.ProcessContainer;
 import nu.xom.Node;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CorrelationSetElement extends NodeHelper {
+public class CorrelationSetElement extends ContainerAwareReferable {
 
-    public CorrelationSetElement(Node node) {
-        super(node);
+    private final NodeHelper correlationSet;
+
+	public CorrelationSetElement(Node correlationSet, ProcessContainer processContainer) {
+        super(correlationSet, processContainer);
+        this.correlationSet = new NodeHelper(correlationSet, "correlationSet");
     }
 
     public List<String> getPropertyIdentifiers() {
         List<String> result = new ArrayList<>();
 
         // is a List of QNames which can only be accessed as a String
-        String properties = this.getAttribute("properties");
+        String properties = correlationSet.getAttribute("properties");
         for (String property : properties.split(" ")) {
             // resolving prefix via element
             String prefix = PrefixHelper.getPrefix(property);
-            String namespace = asElement().getNamespaceURI(prefix);
+            String namespace = correlationSet.asElement().getNamespaceURI(prefix);
 
             String propertyValueWithoutPrefix = PrefixHelper.removePrefix(property);
 
@@ -33,23 +38,20 @@ public class CorrelationSetElement extends NodeHelper {
     }
 
     public String getName() {
-        return getAttribute("name");
+        return correlationSet.getAttribute("name");
     }
 
     public String getPropertiesAttribute() {
-        return getAttribute("properties");
+        return correlationSet.getAttribute("properties");
     }
 
-    public String getCorrelationPropertyAliasPrefix()
-            throws NavigationException {
-
+    public String getCorrelationPropertyAliasPrefix() throws NavigationException {
         String propertyAliasName = getPropertiesAttribute();
         String namespacePrefix = PrefixHelper.getPrefix(propertyAliasName);
-
-        if (namespacePrefix != null) {
-            return namespacePrefix;
+        if (namespacePrefix == null) {
+        	throw new NavigationException("<correlationSet>@properties prefix does not exist.");
         }
 
-        throw new NavigationException("<correlationSet>@properties prefix does not exist.");
+        return namespacePrefix;
     }
 }

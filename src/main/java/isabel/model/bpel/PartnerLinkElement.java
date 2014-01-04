@@ -1,5 +1,6 @@
 package isabel.model.bpel;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
@@ -12,38 +13,41 @@ import nu.xom.Nodes;
 
 import static isabel.model.Standards.CONTEXT;
 
-public class PartnerLinkElement extends NodeHelper {
+public class PartnerLinkElement extends ContainerAwareReferable {
 
-    public PartnerLinkElement(Node node) {
-        super(node);
+    private NodeHelper partnerLink;
+
+	public PartnerLinkElement(Node node, ProcessContainer processContainer) {
+        super(node, processContainer);
+        partnerLink = new NodeHelper(node, "partnerLink");
     }
 
     public boolean hasPartnerRole() {
-        return hasAttribute("partnerRole");
+        return partnerLink.hasAttribute("partnerRole");
     }
 
     public boolean hasMyRole() {
-        return hasAttribute("myRole");
+        return partnerLink.hasAttribute("myRole");
     }
 
     public boolean hasInitializePartnerRole() {
-        return hasAttribute("initializePartnerRole");
+        return partnerLink.hasAttribute("initializePartnerRole");
     }
 
     public String getName() {
-        return getAttribute("name");
+        return partnerLink.getAttribute("name");
     }
 
     String getPartnerLinkType() {
-        return getAttribute("partnerLinkType");
+        return partnerLink.getAttribute("partnerLinkType");
     }
 
     String getPartnerRole() {
-        return getAttribute("partnerRole");
+        return partnerLink.getAttribute("partnerRole");
     }
 
     String getMyRole() {
-        return getAttribute("myRole");
+        return partnerLink.getAttribute("myRole");
     }
 
     public PortTypeElement partnerLinkToPortType(ProcessContainer fileHandler, MessageActivityImpl messageActivity)

@@ -39,7 +39,7 @@ public class SA00056Validator extends Validator {
 		startingFlows = new LinkedList<>();
 		Set<ComparableNode> startActivities = new HashSet<>();
 		Set<ComparableNode> otherReceiveActivities = new HashSet<>();
-		
+
 		for (ReceiveElement receive : fileHandler.getAllReceives()) {
 			ComparableNode comparableActivity = new ComparableNode(receive.toXOM());
 			dom.add(comparableActivity);
@@ -63,14 +63,14 @@ public class SA00056Validator extends Validator {
 				otherReceiveActivities.add(comparableActivity);
 			}
 		}
-		
+
 		for (ComparableNode startActivity : startActivities) {
 			SortedSet<ComparableNode> headSet = dom.headSet(startActivity);
 			if (!Sets.intersection(otherReceiveActivities, headSet).isEmpty()){
 				addViolation(startActivity, PRECEDING_AND_RECEIVING_ACTIVITY_CREATES_NO_INSTANCE);
 			}
 		}
-		
+
 		for (ComparableNode flow : startingFlows) {
 			Nodes flowChilds = flow.toXOM().query("./*");
 			for (Node node : flowChilds) {
@@ -99,7 +99,7 @@ public class SA00056Validator extends Validator {
 			dom.add(comparableNode);
 			if ("scope".equals(node.getLocalName())) {
 				continue;
-			} else if ("pick".equals(node.getLocalName()) && new PickElement(node).isStartActivity()) {
+			} else if ("pick".equals(node.getLocalName()) && new PickElement(node, fileHandler).isStartActivity()) {
 				continue;
 			} else if ("sequence".equals(node.getLocalName())) {
 				continue;

@@ -1,18 +1,20 @@
 package isabel.model.bpel.var;
 
 import isabel.model.ContainerAwareReferable;
+import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.PartnerLinkElement;
 import nu.xom.Node;
 
 public class FromElement extends ContainerAwareReferable implements CopyEntity  {
 
     private final CopyEntity delegate;
 
-	public FromElement(Node node, ProcessContainer processContainer) {
-        super(node, processContainer);
-        new NodeHelper(node, "from");
-        delegate = new CopyEntityImpl(node, processContainer);
+	public FromElement(Node from, ProcessContainer processContainer) {
+        super(from, processContainer);
+        new NodeHelper(from, "from");
+        this.delegate = new CopyEntityImpl(from, processContainer);
     }
 
 	@Override
@@ -43,6 +45,11 @@ public class FromElement extends ContainerAwareReferable implements CopyEntity  
 	@Override
 	public boolean isLiteralAssignment() {
 		return delegate.isLiteralAssignment();
+	}
+
+	@Override
+	public PartnerLinkElement getPartnerLink() throws NavigationException {
+		return delegate.getPartnerLink();
 	}
 
 }

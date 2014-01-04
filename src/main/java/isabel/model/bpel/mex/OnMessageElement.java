@@ -90,6 +90,6 @@ public class OnMessageElement extends ContainerAwareReferable implements
 	}
 
 	private PickElement getPick() {
-		return new PickElement(onMessage.getParent());
+		return new PickElement(onMessage.getParent(), getProcessContainer());
 	}
 }

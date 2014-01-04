@@ -1,8 +1,8 @@
 package isabel.model.bpel.var;
 
-import isabel.model.Referable;
+import isabel.model.bpel.PartnerLinked;
 
-public interface CopyEntity extends Referable {
+public interface CopyEntity extends PartnerLinked {
 	
 	boolean isEmpty();
 

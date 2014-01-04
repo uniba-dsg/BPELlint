@@ -306,7 +306,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:correlation",
 				CONTEXT)) {
-			result.add(new CorrelationElement(node));
+			result.add(new CorrelationElement(node, this));
 		}
 
 		return result;
@@ -317,7 +317,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:correlations",
 				CONTEXT)) {
-			result.add(new CorrelationsElement(node));
+			result.add(new CorrelationsElement(node, this));
 		}
 
 		return result;
@@ -349,7 +349,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:eventHandlers",
 				CONTEXT)) {
-			result.add(new EventHandlersElement(node));
+			result.add(new EventHandlersElement(node, this));
 		}
 
 		return result;
@@ -360,7 +360,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query(
 				"//bpel:invoke/bpel:correlations", CONTEXT)) {
-			result.add(new CorrelationsElement(node));
+			result.add(new CorrelationsElement(node, this));
 		}
 
 		return result;
@@ -382,7 +382,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:partnerLink",
 				CONTEXT)) {
-			result.add(new PartnerLinkElement(node));
+			result.add(new PartnerLinkElement(node, this));
 		}
 
 		return result;
@@ -393,7 +393,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:partnerLinks",
 				CONTEXT)) {
-			result.add(new PartnerLinksElement(node));
+			result.add(new PartnerLinksElement(node, this));
 		}
 
 		return result;
@@ -426,7 +426,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query(
 				"//bpel:correlationSets", CONTEXT)) {
-			result.add(new CorrelationSetsElement(node));
+			result.add(new CorrelationSetsElement(node, this));
 		}
 
 		return result;
@@ -437,7 +437,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:correlationSet",
 				CONTEXT)) {
-			result.add(new CorrelationSetElement(node));
+			result.add(new CorrelationSetElement(node, this));
 		}
 
 		return result;
@@ -610,7 +610,7 @@ public class ProcessContainer {
 		List<PickElement> result = new LinkedList<>();
 
 		for (Node node : getBpel().getDocument().query("//bpel:pick", CONTEXT)) {
-			result.add(new PickElement(node));
+			result.add(new PickElement(node, this));
 		}
 
 		return result;
@@ -694,7 +694,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument()
 				.query("//bpel:import", CONTEXT)) {
-			result.add(new ImportElement(node));
+			result.add(new ImportElement(node, this));
 		}
 
 		return result;

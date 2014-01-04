@@ -1,47 +1,36 @@
 package isabel.model.bpel;
 
-import isabel.model.Referable;
+import isabel.model.ContainerAwareReferable;
+import isabel.model.NodeHelper;
+import isabel.model.ProcessContainer;
 import isabel.model.Standards;
-import nu.xom.Element;
 import nu.xom.Node;
 
 import java.nio.file.Path;
-import java.util.Objects;
 
-public class ImportElement implements Referable {
+public class ImportElement extends ContainerAwareReferable {
 
-    private final Element element;
+    private final NodeHelper importElement;
 
-    public ImportElement(Element element) {
-        Objects.requireNonNull(element, "<bpel:import> element must not be null");
-
-        this.element = element;
-    }
-
-    public ImportElement(Node element) {
-        this((Element) element);
+    public ImportElement(Node importNode, ProcessContainer processContainer) {
+    	super(importNode, processContainer);
+        this.importElement = new NodeHelper(importNode, "import");
     }
 
     public boolean hasNamespaceAttribute() {
-        return element.getAttributeValue("namespace") != null;
+        return importElement.hasAttribute("namespace");
     }
 
     public String getNamespace() {
-        String namespace = element.getAttributeValue("namespace");
-        // TODO solve default value problem
-        if (namespace == null) {
-            return "";
-        } else {
-            return namespace;
-        }
+        return importElement.getAttribute("namespace");
     }
 
     public String getImportType() {
-        return element.getAttributeValue("importType");
+        return importElement.getAttribute("importType");
     }
 
     public String getLocation() {
-        return element.getAttributeValue("location");
+        return importElement.getAttribute("location");
     }
 
     public Path getAbsoluteLocation(Path folder) {
@@ -56,8 +45,4 @@ public class ImportElement implements Referable {
         return Standards.WSDL_NAMESPACE.equals(getImportType());
     }
 
-    @Override
-    public Node toXOM() {
-        return element;
-    }
 }
