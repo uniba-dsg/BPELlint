@@ -58,38 +58,6 @@ public class ValidatorNavigator {
         return message;
     }
 
-    public Node getCorrespondingOutgoingMessage(MessageActivity messageActivity)
-            throws NavigationException {
-
-        Node operation = messageActivity.getOperation().toXOM();
-        String messageAttribute = getAttributeValue(operation.query("wsdl:output/@message", CONTEXT));
-        Document correspondingWsdl = operation.getDocument();
-        Nodes messages = correspondingWsdl.query("//wsdl:message", CONTEXT);
-        for (Node message : messages) {
-            String messageName = new NodeHelper(message).getAttribute("name");
-            if (messageName.equals(PrefixHelper.removePrefix(messageAttribute))) {
-                return message;
-            }
-        }
-        throw new NavigationException("corresponding <message> is not defined");
-    }
-
-    public Node getCorrespondingIncomingMessage(MessageActivity messageActivity)
-            throws NavigationException {
-
-        Node operation = messageActivity.getOperation().toXOM();
-        String messageAttribute = getAttributeValue(operation.query("wsdl:input/@message", CONTEXT));
-        Document correspondingWsdl = operation.getDocument();
-        Nodes messages = correspondingWsdl.query("//wsdl:message", CONTEXT);
-        for (Node message : messages) {
-            String messageName = new NodeHelper(message).getAttribute("name");
-            if (messageName.equals(PrefixHelper.removePrefix(messageAttribute))) {
-                return message;
-            }
-        }
-        throw new NavigationException("corresponding <message> is not defined");
-    }
-
     public boolean hasInputVariable(MessageActivity msgActivity) {
         Nodes inputVar = msgActivity.toXOM().query("attribute::inputVariable", CONTEXT);
         return inputVar.hasAny();

@@ -116,14 +116,20 @@ public class SA00010Validator extends Validator {
 			Nodes rightNamedElements = domEntry.getDocument().query(
 					"//*[@name='" + type + "']", CONTEXT);
 
-			for (Node rightElement : rightNamedElements) {
-				String definitionElement = NodeHelper.toElement(rightElement)
-						.getQualifiedName();
+			if (isContained(definitionType, rightNamedElements)){
+				return true;
+			}
+		}
+		return false;
+	}
 
-				if (definitionType.equals(PrefixHelper
-						.removePrefix(definitionElement))) {
-					return true;
-				}
+	private boolean isContained(String definitionType, Nodes rightNamedElements) {
+		for (Node rightElement : rightNamedElements) {
+			String definitionElement = NodeHelper.toElement(rightElement)
+					.getQualifiedName();
+			if (definitionType.equals(PrefixHelper
+					.removePrefix(definitionElement))) {
+				return true;
 			}
 		}
 		return false;
@@ -133,15 +139,8 @@ public class SA00010Validator extends Validator {
 		for (Node domEntry : fileHandler.getSchemas()) {
 			Nodes rightNamedElements = domEntry.getDocument().query(
 					"//*[@name='" + type + "']", CONTEXT);
-
-			for (Node rightElement : rightNamedElements) {
-				String definitionElement = NodeHelper.toElement(rightElement)
-						.getQualifiedName();
-
-				if (definitionType.equals(PrefixHelper
-						.removePrefix(definitionElement))) {
-					return true;
-				}
+			if (isContained(definitionType, rightNamedElements)){
+				return true;
 			}
 		}
 		return false;

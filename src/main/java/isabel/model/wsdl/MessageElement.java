@@ -44,7 +44,7 @@ public class MessageElement extends ContainerAwareReferable {
 		}
 	}
 
-	private List<PartElement> getParts() throws NavigationException {
+	public List<PartElement> getParts() throws NavigationException {
 		Nodes parts = message.toXOM().query("./wsdl:part", Standards.CONTEXT);
 		if(!parts.hasAny()){
 			throw new NavigationException("<message> has no parts");

@@ -18,4 +18,7 @@ public class FromPartElement extends ContainerAwareReferable {
 		return fromPart.getAttribute("toVariable");
 	}
 
+	public String getPartAttribute() {
+		return fromPart.getAttribute("part");
+	}
 }

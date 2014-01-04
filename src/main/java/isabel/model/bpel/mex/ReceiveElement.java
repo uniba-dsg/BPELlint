@@ -10,7 +10,7 @@ import isabel.model.Standards;
 import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.bpel.var.FromPartElement;
-import isabel.model.bpel.var.FromPartsContainer;
+import isabel.model.bpel.var.FromPartsElement;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
@@ -87,7 +87,7 @@ public class ReceiveElement extends ContainerAwareReferable implements StartActi
 			throw new NavigationException("<receive> has no <fromParts>");
 		}
 		
-		return new FromPartsContainer(fromParts.get(0), getProcessContainer()).getAllFromParts();
+		return new FromPartsElement(fromParts.get(0), getProcessContainer()).getAllFromParts();
 	}
 
 	public String getVariableAttribute() throws NavigationException{

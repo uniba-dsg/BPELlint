@@ -1,10 +1,13 @@
 package isabel.tool.validators.rules;
 
+import static isabel.model.bpel.mex.MessageActivity.Type.*;
 import isabel.model.NavigationException;
-import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.bpel.mex.MessageActivityImpl;
+import isabel.model.bpel.var.FromPartElement;
+import isabel.model.bpel.var.FromPartsElement;
+import isabel.model.wsdl.MessageElement;
+import isabel.model.wsdl.PartElement;
 import isabel.tool.impl.ValidationCollector;
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -34,26 +37,26 @@ public class SA00053Validator extends Validator {
             try {
 
                 MessageActivityImpl messageActivity = new MessageActivityImpl(incomingOperation, fileHandler);
-                Node message;
-                if (MessageActivity.Type.INVOKE.equals(messageActivity.getType())) {
-                    message = navigator.getCorrespondingOutgoingMessage(messageActivity);
+                MessageElement message;
+                if (INVOKE.equals(messageActivity.getType())) {
+                    message = messageActivity.getOperation().getOutput().getMessage();
                 } else if(messageActivity.isReceiving()) {
-                    message = navigator.getCorrespondingIncomingMessage(messageActivity);
+                    message = messageActivity.getOperation().getInput().getMessage();
                 } else {
                     throw new IllegalStateException("Should not happen!");
                 }
 
-                Nodes fromParts = incomingOperation.query(
-                        "bpel:fromParts/bpel:fromPart", CONTEXT);
-
-                if (fromParts.hasAny()) {
-                    for (Node fromPart : fromParts) {
-
-                        if (!hasFromPartCorrespondingMessagePart(fromPart, message)) {
-                            addViolation(fromPart);
-                        }
-                    }
+                Nodes fromPartsNode = incomingOperation.query("bpel:fromParts", CONTEXT);
+                if (!fromPartsNode.hasAny()) {
+                	return;
                 }
+                FromPartsElement fromParts = new FromPartsElement(fromPartsNode.get(0), fileHandler);
+
+				for (FromPartElement fromPart : fromParts.getAllFromParts()) {
+					if (!hasFromPartCorrespondingMessagePart(fromPart, message)) {
+						addViolation(fromPart);
+					}
+				}
             } catch (NavigationException e) {
                 // message does not exist, outgoingOperation is not validatable
                 // => valid
@@ -62,22 +65,16 @@ public class SA00053Validator extends Validator {
         }
     }
 
-    private boolean hasFromPartCorrespondingMessagePart(Node fromPart,
-                                                        Node message) {
-        Nodes messageParts = message.query("wsdl:part", CONTEXT);
-
-        if (messageParts.hasAny()) {
-            String partAttribute = new NodeHelper(fromPart).getAttribute("part");
-
-            for (Node part : messageParts) {
-                String partName = new NodeHelper(part).getAttribute("name");
-
-                if (partName.equals(partAttribute)) {
-                    return true;
-                }
-
-            }
-        }
+    private boolean hasFromPartCorrespondingMessagePart(FromPartElement fromPart, MessageElement message) {
+		try {
+			for (PartElement part : message.getParts()) {
+				if (part.getNameAttribute().equals(fromPart.getPartAttribute())) {
+					return true;
+				}
+			}
+		} catch (NavigationException e) {
+			// if the message has no part, then it cannot correspond to the fromPart@part
+		}
         return false;
     }
 
