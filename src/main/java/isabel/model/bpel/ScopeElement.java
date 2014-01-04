@@ -1,6 +1,5 @@
 package isabel.model.bpel;
 
-import isabel.model.ComparableNode;
 import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
@@ -49,24 +48,22 @@ public class ScopeElement extends ContainerAwareReferable implements CompensateT
 
 	public List<ScopeElement> getPeerScopes() {
 		List<ScopeElement> peerScopes = new LinkedList<>();
-		for (ComparableNode comparableNode : getEnclosingScope().getDescendingScopes()) {
-			if (comparableNode.equals(new ComparableNode(this))) {
+		for (ScopeElement peerScope : getEnclosingScope().getDescendingScopes()) {
+			if (this.equals(peerScope)) {
 				continue;
 			}
-			ScopeElement peerScope = new ScopeElement(comparableNode.toXOM(), getProcessContainer());
-			ComparableNode enclosingScope = new ComparableNode(getEnclosingScope());
-			if (new ComparableNode(peerScope.getEnclosingScope()).equals(enclosingScope)) {
+			if (getEnclosingScope().equals(peerScope.getEnclosingScope())) {
 				peerScopes.add(peerScope);
 			}
 		}
 		return peerScopes;
 	}
 
-	private Set<ComparableNode> getDescendingScopes() {
-		Set<ComparableNode> descendingScopes = new HashSet<>();
+	private Set<ScopeElement> getDescendingScopes() {
+		Set<ScopeElement> descendingScopes = new HashSet<>();
 		Nodes query = toXOM().query(".//bpel:scope", Standards.CONTEXT);
 		for (Node node : query) {
-			descendingScopes.add(new ComparableNode(node));
+			descendingScopes.add(new ScopeElement(node, getProcessContainer()));
 		}
 		return descendingScopes;
 	}

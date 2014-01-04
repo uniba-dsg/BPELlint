@@ -1,9 +1,7 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.ComparableNode;
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.flow.LinkElement;
 import isabel.model.bpel.flow.LinkEntity;
 import isabel.model.bpel.flow.SourcesElement;
 import isabel.model.bpel.flow.TargetsElement;
@@ -50,7 +48,7 @@ public class SA00067Validator extends Validator {
 		String linkName = target.getLinkName();
 		if (source.getLinkName().equals(linkName)) {
 			try {
-				if (areEqual(source.getLink(), target.getLink())) {
+				if (source.getLink().equals(target.getLink())) {
 					linkNames.add(linkName);
 				}
 			} catch (NavigationException e) {
@@ -58,10 +56,6 @@ public class SA00067Validator extends Validator {
 			}
 		}
 		return linkNames;
-	}
-	
-	private boolean areEqual(LinkElement linkA, LinkElement linkB) {
-		return new ComparableNode(linkA.toXOM()).equals(new ComparableNode(linkB.toXOM()));
 	}
 
 	@Override

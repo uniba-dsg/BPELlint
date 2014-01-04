@@ -31,11 +31,16 @@ public class ContainerAwareReferable implements Referable {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object == null || !(object instanceof ContainerAwareReferable)) {
+		if (object == null) {
 			return false;
-		}
+		} 
 
-		return new ComparableNode(node).equals(new ComparableNode((ContainerAwareReferable) object));
+		if (object instanceof Referable) {
+			return new ComparableNode(node).equals(new ComparableNode((Referable) object));
+		} else if (object instanceof Node){
+			return new ComparableNode(node).equals(new ComparableNode((Node) object));
+		}
+		return false;
 	}
 
 	public ScopeElement getEnclosingScope() {
