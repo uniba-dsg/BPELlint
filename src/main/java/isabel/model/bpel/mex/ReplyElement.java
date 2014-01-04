@@ -72,11 +72,6 @@ public class ReplyElement extends ContainerAwareReferable implements MessageActi
 	public String getMessageExchangeAttribute() {
 		return delegate.getMessageExchangeAttribute();
 	}
-	
-    @Override
-    public Node toXOM() {
-        return delegate.toXOM();
-    }
 
 	public String getVariableAttribute() throws NavigationException {
 		String variableName = reply.getAttribute("variable");

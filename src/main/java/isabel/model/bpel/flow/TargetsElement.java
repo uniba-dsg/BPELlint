@@ -13,9 +13,9 @@ import nu.xom.Nodes;
 
 public class TargetsElement extends ContainerAwareReferable implements LinkEntityContainer {
 
-	public TargetsElement(Node node, ProcessContainer processContainer) {
-		super(node, processContainer);
-		new NodeHelper(node, "targets");
+	public TargetsElement(Node targets, ProcessContainer processContainer) {
+		super(targets, processContainer);
+		new NodeHelper(targets, "targets");
 	}
 
 	public List<TargetElement> getAllTargets() {

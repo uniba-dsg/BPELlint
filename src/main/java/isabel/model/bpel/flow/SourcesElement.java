@@ -3,7 +3,6 @@ package isabel.model.bpel.flow;
 import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
-import isabel.model.Referable;
 import isabel.model.Standards;
 
 import java.util.LinkedList;
@@ -12,7 +11,7 @@ import java.util.List;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-public class SourcesElement extends ContainerAwareReferable implements Referable, LinkEntityContainer {
+public class SourcesElement extends ContainerAwareReferable implements LinkEntityContainer {
 
 	public SourcesElement(Node sources, ProcessContainer processContainer) {
 		super(sources, processContainer);

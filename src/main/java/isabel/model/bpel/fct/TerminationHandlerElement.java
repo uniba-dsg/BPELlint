@@ -13,9 +13,9 @@ public class TerminationHandlerElement extends ContainerAwareReferable implement
 
 	private FctHandlerImpl fctHandlerImpl;
 
-	public TerminationHandlerElement(Node node, ProcessContainer processContainer) {
-		super(node, processContainer);
-		new NodeHelper(node, "terminationHandler");
+	public TerminationHandlerElement(Node terminationHandler, ProcessContainer processContainer) {
+		super(terminationHandler, processContainer);
+		new NodeHelper(terminationHandler, "terminationHandler");
 		fctHandlerImpl = new FctHandlerImpl(toXOM(), getProcessContainer());
 	}
 

@@ -11,11 +11,11 @@ import nu.xom.Node;
 
 public class CompensationHandlerElement extends ContainerAwareReferable implements FctHandler {
 
-	private FctHandlerImpl fctHandlerImpl;
+	private final FctHandlerImpl fctHandlerImpl;
 
-	public CompensationHandlerElement(Node node, ProcessContainer processContainer) {
-		super(node, processContainer);
-		new NodeHelper(node, "compensationHandler");
+	public CompensationHandlerElement(Node compensationHandler, ProcessContainer processContainer) {
+		super(compensationHandler, processContainer);
+		new NodeHelper(compensationHandler, "compensationHandler");
 		fctHandlerImpl = new FctHandlerImpl(toXOM(), getProcessContainer());
 	}
 

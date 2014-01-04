@@ -19,7 +19,7 @@ import isabel.model.bpel.fct.CatchElement;
 import isabel.model.bpel.fct.CompensateElement;
 import isabel.model.bpel.fct.CompensateScopeElement;
 import isabel.model.bpel.fct.CompensationHandlerElement;
-import isabel.model.bpel.fct.FaultHandlerContainer;
+import isabel.model.bpel.fct.FaultHandlersElement;
 import isabel.model.bpel.fct.FctHandler;
 import isabel.model.bpel.fct.TerminationHandlerElement;
 import isabel.model.bpel.flow.LinkElement;
@@ -333,12 +333,12 @@ public class ProcessContainer {
 		return result;
 	}
 
-	public List<FaultHandlerContainer> getAllFaultHandlerContainers() {
-		List<FaultHandlerContainer> result = new LinkedList<>();
+	public List<FaultHandlersElement> getAllFaultHandlerContainers() {
+		List<FaultHandlersElement> result = new LinkedList<>();
 
 		for (Node node : getBpel().getDocument().query("//bpel:faultHandlers",
 				CONTEXT)) {
-			result.add(new FaultHandlerContainer(node));
+			result.add(new FaultHandlersElement(node, this));
 		}
 
 		return result;
@@ -371,7 +371,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:compensate",
 				CONTEXT)) {
-			result.add(new CompensateElement(node));
+			result.add(new CompensateElement(node, this));
 		}
 
 		return result;

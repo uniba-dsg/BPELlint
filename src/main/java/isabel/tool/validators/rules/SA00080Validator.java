@@ -1,7 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.ProcessContainer;
-import isabel.model.bpel.fct.FaultHandlerContainer;
+import isabel.model.bpel.fct.FaultHandlersElement;
 import isabel.tool.impl.ValidationCollector;
 
 public class SA00080Validator extends Validator {
@@ -13,7 +13,7 @@ public class SA00080Validator extends Validator {
 
     @Override
     public void validate() {
-        for (FaultHandlerContainer faultHandler : fileHandler.getAllFaultHandlerContainers()) {
+        for (FaultHandlersElement faultHandler : fileHandler.getAllFaultHandlerContainers()) {
             if (!faultHandler.hasCatches() && !faultHandler.hasCatchAll()) {
                 addViolation(faultHandler);
             }

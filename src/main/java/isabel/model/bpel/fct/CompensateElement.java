@@ -1,24 +1,29 @@
 package isabel.model.bpel.fct;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
+import isabel.model.ProcessContainer;
 import nu.xom.Node;
 
-public class CompensateElement extends NodeHelper {
+public class CompensateElement extends ContainerAwareReferable {
 
-    public CompensateElement(Node node) {
-        super(node);
+    private final NodeHelper compensate;
+
+	public CompensateElement(Node compensate, ProcessContainer processContainer) {
+        super(compensate, processContainer);
+        this.compensate = new NodeHelper(compensate, "compensate");
     }
 
     public boolean isWithinFaultHandler() {
-        return hasAncestor("bpel:faultHandlers");
+        return compensate.hasAncestor("bpel:faultHandlers");
     }
 
     public boolean isWithinCompensationHandler() {
-        return hasAncestor("bpel:compensationHandler");
+        return compensate.hasAncestor("bpel:compensationHandler");
     }
 
     public boolean isWithinTerminationHandler() {
-        return hasAncestor("bpel:terminationHandlers");
+        return compensate.hasAncestor("bpel:terminationHandlers");
     }
 
 }
