@@ -1,6 +1,6 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.bpel.RethrowElement;
+import isabel.model.bpel.fct.RethrowElement;
 import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 

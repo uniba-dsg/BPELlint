@@ -12,7 +12,6 @@ import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.bpel.PartnerLinksElement;
 import isabel.model.bpel.PickElement;
 import isabel.model.bpel.ProcessElement;
-import isabel.model.bpel.RethrowElement;
 import isabel.model.bpel.ScopeElement;
 import isabel.model.bpel.fct.CatchAllElement;
 import isabel.model.bpel.fct.CatchElement;
@@ -21,6 +20,7 @@ import isabel.model.bpel.fct.CompensateScopeElement;
 import isabel.model.bpel.fct.CompensationHandlerElement;
 import isabel.model.bpel.fct.FaultHandlersElement;
 import isabel.model.bpel.fct.FctHandler;
+import isabel.model.bpel.fct.RethrowElement;
 import isabel.model.bpel.fct.TerminationHandlerElement;
 import isabel.model.bpel.flow.LinkElement;
 import isabel.model.bpel.flow.LinkEntity;
@@ -284,7 +284,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:rethrow",
 				CONTEXT)) {
-			result.add(new RethrowElement(node));
+			result.add(new RethrowElement(node, this));
 		}
 
 		return result;
