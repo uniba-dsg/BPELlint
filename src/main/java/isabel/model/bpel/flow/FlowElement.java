@@ -4,22 +4,24 @@ import java.util.List;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
-import isabel.model.Referable;
+import isabel.model.ProcessContainer;
 import isabel.model.Standards;
 import isabel.model.bpel.OptionalElementNotPresentException;
 
-public class FlowElement implements Referable {
+public class FlowElement extends ContainerAwareReferable {
 
 	private final NodeHelper flow;
 
-	public FlowElement(Node node) {
-		flow = new NodeHelper(node, "flow");
+	public FlowElement(Node flow, ProcessContainer processContainer) {
+		super(flow, processContainer);
+		this.flow = new NodeHelper(flow, "flow");
 	}
 
-	public FlowElement(NodeHelper nodeHelper) {
-		this(nodeHelper.toXOM());
+	public FlowElement(NodeHelper nodeHelper, ProcessContainer processContainer) {
+		this(nodeHelper.toXOM(), processContainer);
 	}
 
 	public List<LinkElement> getLinkElements() throws OptionalElementNotPresentException {
@@ -32,13 +34,13 @@ public class FlowElement implements Referable {
 		if(!links.hasAny()){
 			throw new OptionalElementNotPresentException("Optional Element <links> not present in <flow>");
 		}
-		LinksElement linksElement = new LinksElement(links.get(0));
+		LinksElement linksElement = new LinksElement(links.get(0), getProcessContainer());
 		return linksElement;
 	}
 
 	public SourceElement getSourceElement(String linkName) throws NavigationException {
 		Node source = getLinkEntity(linkName, "source");
-		return new SourceElement(source);
+		return new SourceElement(source, getProcessContainer());
 	}
 
 	private Node getLinkEntity(String linkName, String linkEntityType) throws NavigationException {
@@ -46,18 +48,13 @@ public class FlowElement implements Referable {
 		if(!linkEntityNodes.hasAny()){
 			throw new NavigationException("Called for <"+linkEntityType+" linkName=\"" + linkName + "\", but it is not in this <flow>");
 		}
-		
-		return linkEntityNodes.get(0);
-	}
 
-	@Override
-	public Node toXOM() {
-		return flow.toXOM();
+		return linkEntityNodes.get(0);
 	}
 
 	public TargetElement getTargetElement(String linkName) throws NavigationException {
 		Node target = getLinkEntity(linkName, "target");
-		return new TargetElement(target);
+		return new TargetElement(target, getProcessContainer());
 	}
 
 

@@ -1,14 +1,13 @@
 package isabel.model.bpel;
 
 import isabel.model.ComparableNode;
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
+import isabel.model.ProcessContainer;
 import isabel.model.Referable;
 import isabel.model.Standards;
-import isabel.model.bpel.fct.CatchAllElement;
-import isabel.model.bpel.fct.CatchElement;
-import isabel.model.bpel.fct.CompensateTarget;
-import isabel.model.bpel.fct.CompensationHandlerElement;
-import isabel.model.bpel.fct.TerminationHandlerElement;
+import isabel.model.bpel.fct.CompensateTargetable;
+import isabel.model.bpel.fct.CompensateTargetableImpl;
 import isabel.model.bpel.flow.SourceElement;
 import isabel.model.bpel.flow.TargetElement;
 
@@ -20,30 +19,32 @@ import java.util.Set;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-public class ScopeElement implements CompensateTarget, Referable {
+public class ScopeElement extends ContainerAwareReferable implements CompensateTargetable {
 
-	private NodeHelper scope;
+	private final CompensateTargetable compensateTargetDelegate;
 
-	public ScopeElement(Node node) {
-		this(new NodeHelper(node, "scope"));
+	public ScopeElement(Node node, ProcessContainer processContainer) {
+		super(node, processContainer);
+		try {
+			new NodeHelper(node, "scope");
+		} catch (IllegalArgumentException e) {
+			new NodeHelper(node, "process");
+		}
+		compensateTargetDelegate = new CompensateTargetableImpl(node, processContainer);
 	}
 
-	public ScopeElement(NodeHelper parent) {
-		scope = parent;
+	public ScopeElement(Referable scope, ProcessContainer processContainer) {
+		this(scope.toXOM(), processContainer);
 	}
 
 	@Override
 	public boolean hasCompensationHandler() {
-		return toXOM().query("./bpel:compensationHandler", Standards.CONTEXT).hasAny();
+		return compensateTargetDelegate.hasCompensationHandler();
 	}
 
 	@Override
 	public boolean hasFaultHandler() {
-		return toXOM().query("./bpel:faultHandlers", Standards.CONTEXT).hasAny();
-	}
-
-	public ScopeElement getEnclosingScope() {
-		return scope.getEnclosingScope();
+		return compensateTargetDelegate.hasFaultHandler();
 	}
 
 	public List<ScopeElement> getPeerScopes() {
@@ -52,7 +53,7 @@ public class ScopeElement implements CompensateTarget, Referable {
 			if (comparableNode.equals(new ComparableNode(this))) {
 				continue;
 			}
-			ScopeElement peerScope = new ScopeElement(comparableNode.toXOM());
+			ScopeElement peerScope = new ScopeElement(comparableNode.toXOM(), getProcessContainer());
 			ComparableNode enclosingScope = new ComparableNode(getEnclosingScope());
 			if (new ComparableNode(peerScope.getEnclosingScope()).equals(enclosingScope)) {
 				peerScopes.add(peerScope);
@@ -67,14 +68,13 @@ public class ScopeElement implements CompensateTarget, Referable {
 		for (Node node : query) {
 			descendingScopes.add(new ComparableNode(node));
 		}
-
 		return descendingScopes;
 	}
 
 	public Set<String> getSourceLinkNames() {
 		Set<String> sources = new HashSet<>();
 		for (Node node : toXOM().query(".//bpel:source", Standards.CONTEXT)) {
-			sources.add(new SourceElement(node).getLinkName());
+			sources.add(new SourceElement(node, getProcessContainer()).getLinkName());
 		}
 		return sources;
 	}
@@ -82,39 +82,14 @@ public class ScopeElement implements CompensateTarget, Referable {
 	public Set<String> getTargetLinkNames() {
 		Set<String> targets = new HashSet<>();
 		for (Node node : toXOM().query(".//bpel:target", Standards.CONTEXT)) {
-			targets.add(new TargetElement(node).getLinkName());
+			targets.add(new TargetElement(node, getProcessContainer()).getLinkName());
 		}
 		return targets;
 	}
 
 	@Override
 	public Referable getEnclosingFctBarrier() {
-		NodeHelper parent = scope;
-		while(!"process".equals(parent.getLocalName())) {
-			parent = parent.getParent();
-			String localName = parent.getLocalName();
-			if ("scope".equals(localName)) {
-				return new ScopeElement(parent);
-			}
-			if ("catch".equals(parent.getLocalName())) {
-				return new CatchElement(parent.toXOM());
-			}
-			if ("catchAll".equals(parent.getLocalName())) {
-				return new CatchAllElement(parent.toXOM());
-			}
-			if ("compensationHandler".equals(parent.getLocalName())) {
-				return new CompensationHandlerElement(parent.toXOM());
-			}
-			if ("terminationHandler".equals(parent.getLocalName())) {
-				return new TerminationHandlerElement(parent.toXOM());
-			}
-		}
-		return new ProcessElement(parent);
-	}
-
-	@Override
-	public Node toXOM() {
-		return scope.toXOM();
+		return compensateTargetDelegate.getEnclosingFctBarrier();
 	}
 
 }

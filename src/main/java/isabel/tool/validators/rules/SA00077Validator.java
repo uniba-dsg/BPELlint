@@ -4,7 +4,7 @@ import isabel.model.ComparableNode;
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.fct.CompensateScopeElement;
-import isabel.model.bpel.fct.CompensateTarget;
+import isabel.model.bpel.fct.CompensateTargetable;
 import isabel.tool.impl.ValidationCollector;
 
 public class SA00077Validator extends Validator {
@@ -25,7 +25,7 @@ public class SA00077Validator extends Validator {
 
 	private boolean hasTarget(CompensateScopeElement compensateScope) {
 		try {
-			CompensateTarget target = compensateScope.getTarget();
+			CompensateTargetable target = compensateScope.getTarget();
 			ComparableNode targetEnclosingScope = new ComparableNode(target.getEnclosingFctBarrier());
 			ComparableNode compensateScopeEnclosingScope = new ComparableNode(compensateScope.getEnclosingScope());
 			if (!targetEnclosingScope.equals(compensateScopeEnclosingScope)) {

@@ -133,7 +133,7 @@ public class ValidatorNavigator {
         }
         if ("catch".equals(elementName)) {
             if (variableName.equals(element.getAttribute("faultVariable"))) {
-                return new CatchElement(element.toXOM());
+                return new CatchElement(element.toXOM(), processContainer);
             }
         }
 

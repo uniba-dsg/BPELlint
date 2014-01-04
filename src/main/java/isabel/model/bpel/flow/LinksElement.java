@@ -5,32 +5,27 @@ import java.util.List;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
-import isabel.model.Referable;
+import isabel.model.ProcessContainer;
 import isabel.model.Standards;
 
-public class LinksElement implements Referable {
+public class LinksElement extends ContainerAwareReferable {
 
-	private final NodeHelper links;
-	
-	public LinksElement(Node node) {
-		links = new NodeHelper(node, "links");
+	public LinksElement(Node links, ProcessContainer processContainer) {
+		super(links, processContainer);
+		new NodeHelper(links, "links");
 	}
-	
+
 	public List<LinkElement> getAllLinks() {
-		Nodes linkElementNodes = links.toXOM().query("./bpel:link",Standards.CONTEXT);
-		
+		Nodes linkElementNodes = toXOM().query("./bpel:link", Standards.CONTEXT);
+
 		List<LinkElement> linkElements = new LinkedList<>();
 		for (Node link : linkElementNodes) {
-			linkElements.add(new LinkElement(link));
+			linkElements.add(new LinkElement(link, getProcessContainer()));
 		}
-		
+
 		return linkElements;
-	}
-	
-	@Override
-	public Node toXOM() {
-		return links.toXOM();
 	}
 
 }

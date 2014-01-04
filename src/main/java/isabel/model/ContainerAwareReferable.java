@@ -1,5 +1,7 @@
 package isabel.model;
 
+import isabel.model.bpel.ProcessElement;
+import isabel.model.bpel.ScopeElement;
 import nu.xom.Node;
 
 public class ContainerAwareReferable implements Referable {
@@ -34,6 +36,17 @@ public class ContainerAwareReferable implements Referable {
 		}
 
 		return new ComparableNode(node).equals(new ComparableNode((ContainerAwareReferable) object));
+	}
+
+	public ScopeElement getEnclosingScope() {
+		NodeHelper parent = new NodeHelper(this);
+		while(!"process".equals(parent.getLocalName())) {
+			parent = parent.getParent();
+			if ("scope".equals(parent.getLocalName())) {
+				return new ScopeElement(parent, getProcessContainer());
+			}
+		}
+		return new ProcessElement(parent, getProcessContainer());
 	}
 
 }

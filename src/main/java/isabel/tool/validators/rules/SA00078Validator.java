@@ -3,7 +3,7 @@ package isabel.tool.validators.rules;
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.fct.CompensateScopeElement;
-import isabel.model.bpel.fct.CompensateTarget;
+import isabel.model.bpel.fct.CompensateTargetable;
 import isabel.tool.impl.ValidationCollector;
 
 public class SA00078Validator extends Validator {
@@ -18,7 +18,7 @@ public class SA00078Validator extends Validator {
 		for (CompensateScopeElement compensateScope : fileHandler
 				.getAllCompensateScopes()) {
 			try {
-				CompensateTarget targetScope = compensateScope.getTarget();
+				CompensateTargetable targetScope = compensateScope.getTarget();
 				if (!targetScope.hasCompensationHandler() && !targetScope.hasFaultHandler()) {
 					addViolation(targetScope);
 				}

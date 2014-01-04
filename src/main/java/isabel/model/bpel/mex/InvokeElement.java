@@ -7,82 +7,78 @@ import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.Referable;
-import isabel.model.Standards;
 import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.PartnerLinkElement;
-import isabel.model.bpel.ProcessElement;
-import isabel.model.bpel.ScopeElement;
-import isabel.model.bpel.fct.CatchAllElement;
-import isabel.model.bpel.fct.CatchElement;
-import isabel.model.bpel.fct.CompensateTarget;
-import isabel.model.bpel.fct.CompensationHandlerElement;
-import isabel.model.bpel.fct.TerminationHandlerElement;
+import isabel.model.bpel.fct.CompensateTargetable;
+import isabel.model.bpel.fct.CompensateTargetableImpl;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
 import static isabel.model.Standards.CONTEXT;
 
 public class InvokeElement extends ContainerAwareReferable implements MessageActivity,
-		CompensateTarget {
+		CompensateTargetable {
 
 	private final NodeHelper invoke;
-	private final MessageActivity delegate;
+	private final MessageActivity messageActivityDelegate;
+	private final CompensateTargetableImpl compensateTargetDelegate;
 
-	public InvokeElement(Node node, ProcessContainer processContainer) {
-		super(node, processContainer);
-		invoke = new NodeHelper(node, "invoke");
-		delegate = new MessageActivityImpl(node, processContainer);
+	public InvokeElement(Node invoke, ProcessContainer processContainer) {
+		super(invoke, processContainer);
+		this.invoke = new NodeHelper(invoke, "invoke");
+		this.messageActivityDelegate = new MessageActivityImpl(invoke, processContainer);
+		this.compensateTargetDelegate = new CompensateTargetableImpl(invoke, processContainer);
 	}
 
 	@Override
 	public Type getType() {
-		return delegate.getType();
+		return messageActivityDelegate.getType();
 	}
 
 	@Override
 	public PartnerLinkElement getPartnerLink() throws NavigationException {
-		return delegate.getPartnerLink();
+		return messageActivityDelegate.getPartnerLink();
 	}
 
 	@Override
 	public PortTypeElement getPortType() throws NavigationException {
-		return delegate.getPortType();
+		return messageActivityDelegate.getPortType();
 	}
 
 	@Override
 	public OperationElement getOperation() throws NavigationException {
-		return delegate.getOperation();
+		return messageActivityDelegate.getOperation();
 	}
 
 	@Override
 	public List<CorrelationElement> getCorrelations()
 			throws NavigationException {
-		return delegate.getCorrelations();
+		return messageActivityDelegate.getCorrelations();
 	}
 
 	@Override
 	public String getPartnerLinkAttribute() {
-		return delegate.getPartnerLinkAttribute();
+		return messageActivityDelegate.getPartnerLinkAttribute();
 	}
 
 	@Override
 	public String getOperationAttribute() {
-		return delegate.getOperationAttribute();
+		return messageActivityDelegate.getOperationAttribute();
 	}
 
 	@Override
 	public String getPortTypeAttribute() {
-		return delegate.getPortTypeAttribute();
+		return messageActivityDelegate.getPortTypeAttribute();
 	}
 
 	@Override
 	public boolean isReceiving() {
-		return delegate.isReceiving();
+		return messageActivityDelegate.isReceiving();
 	}
 
 	@Override
 	public String getMessageExchangeAttribute() {
-		return delegate.getMessageExchangeAttribute();
+		return messageActivityDelegate.getMessageExchangeAttribute();
 	}
 
 	public String getInputVariableAttribute() {
@@ -94,7 +90,7 @@ public class InvokeElement extends ContainerAwareReferable implements MessageAct
 	}
 
 	public boolean hasInputVariable() {
-		return toXOM().query("@inputVariable", CONTEXT).hasAny();
+		return invoke.hasAttribute("inputVariable");
 	}
 
 	public boolean hasToParts() {
@@ -111,39 +107,17 @@ public class InvokeElement extends ContainerAwareReferable implements MessageAct
 
 	@Override
 	public boolean hasCompensationHandler() {
-		return toXOM().query("./bpel:compensationHandler", Standards.CONTEXT)
-				.hasAny();
+		return compensateTargetDelegate.hasCompensationHandler();
 	}
 
 	@Override
 	public boolean hasFaultHandler() {
-		return toXOM().query("./bpel:faultHandlers", Standards.CONTEXT)
-				.hasAny();
+		return compensateTargetDelegate.hasFaultHandler();
 	}
 
 	@Override
 	public Referable getEnclosingFctBarrier() {
-		NodeHelper parent = invoke;
-		while (!"process".equals(parent.getLocalName())) {
-			parent = parent.getParent();
-			String localName = parent.getLocalName();
-			if ("scope".equals(localName)) {
-				return new ScopeElement(parent);
-			}
-			if ("catch".equals(parent.getLocalName())) {
-				return new CatchElement(parent.toXOM());
-			}
-			if ("catchAll".equals(parent.getLocalName())) {
-				return new CatchAllElement(parent.toXOM());
-			}
-			if ("compensationHandler".equals(parent.getLocalName())) {
-				return new CompensationHandlerElement(parent.toXOM());
-			}
-			if ("terminationHandler".equals(parent.getLocalName())) {
-				return new TerminationHandlerElement(parent.toXOM());
-			}
-		}
-		return new ProcessElement(parent);
+		return compensateTargetDelegate.getEnclosingFctBarrier();
 	}
 
 }

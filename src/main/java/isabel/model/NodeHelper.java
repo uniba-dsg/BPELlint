@@ -1,8 +1,6 @@
 package isabel.model;
 
 import isabel.model.bpel.PartnerLinkElement;
-import isabel.model.bpel.ProcessElement;
-import isabel.model.bpel.ScopeElement;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
@@ -197,15 +195,4 @@ public class NodeHelper implements Referable {
         return new PartnerLinkElement(partnerLink.get(0));
     }
 
-	public ScopeElement getEnclosingScope() {
-		NodeHelper parent = this;
-		while(!"process".equals(parent.getLocalName())) {
-			parent = parent.getParent();
-			if ("scope".equals(parent.getLocalName())) {
-				return new ScopeElement(parent);
-			}
-		}
-		return new ProcessElement(parent);
-	}
-	
 }

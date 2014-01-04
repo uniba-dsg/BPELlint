@@ -1,30 +1,26 @@
 package isabel.model.bpel.fct;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
-import isabel.model.Referable;
+import isabel.model.ProcessContainer;
 import isabel.model.bpel.ScopeElement;
 
 import java.util.List;
 
 import nu.xom.Node;
 
-public class CatchAllElement implements FctHandler, Referable {
+public class CatchAllElement extends ContainerAwareReferable implements FctHandler {
 
-	private NodeHelper catchAll;
 	private FctHandlerImpl fctHandlerImpl;
 
-	public CatchAllElement(Node node) {
-		catchAll = new NodeHelper(node, "catchAll");
-		fctHandlerImpl = new FctHandlerImpl(toXOM());
+	public CatchAllElement(Node catchAll, ProcessContainer processContainer) {
+		super(catchAll, processContainer);
+		new NodeHelper(catchAll, "catchAll");
+		fctHandlerImpl = new FctHandlerImpl(toXOM(), getProcessContainer());
 	}
 
 	@Override
 	public List<ScopeElement> getRootScopes() {
 		return fctHandlerImpl.getRootScopes();
-	}
-
-	@Override
-	public Node toXOM() {
-		return catchAll.toXOM();
 	}
 }

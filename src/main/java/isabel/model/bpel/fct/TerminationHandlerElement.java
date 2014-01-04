@@ -1,31 +1,27 @@
 package isabel.model.bpel.fct;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
-import isabel.model.Referable;
+import isabel.model.ProcessContainer;
 import isabel.model.bpel.ScopeElement;
 
 import java.util.List;
 
 import nu.xom.Node;
 
-public class TerminationHandlerElement implements FctHandler, Referable {
+public class TerminationHandlerElement extends ContainerAwareReferable implements FctHandler {
 
-	private NodeHelper terminationHandler;
 	private FctHandlerImpl fctHandlerImpl;
 
-	public TerminationHandlerElement(Node node) {
-		terminationHandler = new NodeHelper(node, "terminationHandler");
-		fctHandlerImpl = new FctHandlerImpl(toXOM());
+	public TerminationHandlerElement(Node node, ProcessContainer processContainer) {
+		super(node, processContainer);
+		new NodeHelper(node, "terminationHandler");
+		fctHandlerImpl = new FctHandlerImpl(toXOM(), getProcessContainer());
 	}
 
 	@Override
 	public List<ScopeElement> getRootScopes() {
 		return fctHandlerImpl.getRootScopes();
-	}
-
-	@Override
-	public Node toXOM() {
-		return terminationHandler.toXOM();
 	}
 
 }

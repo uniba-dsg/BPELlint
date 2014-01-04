@@ -185,7 +185,7 @@ public class ProcessContainer {
 
 	public ProcessElement getProcess() {
 		return new ProcessElement(getBpel().getDocument()
-				.query("/bpel:*", CONTEXT).get(0));
+				.query("/bpel:*", CONTEXT).get(0), this);
 	}
 
 	public List<OperationElement> getAllOperations() {
@@ -327,7 +327,7 @@ public class ProcessContainer {
 		List<ScopeElement> result = new LinkedList<>();
 
 		for (Node node : getBpel().getDocument().query("//bpel:scope", CONTEXT)) {
-			result.add(new ScopeElement(node));
+			result.add(new ScopeElement(node, this));
 		}
 
 		return result;
@@ -539,7 +539,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument()
 				.query("//bpel:source", CONTEXT)) {
-			result.add(new SourceElement(node));
+			result.add(new SourceElement(node, this));
 		}
 
 		return result;
@@ -550,7 +550,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:sources",
 				CONTEXT)) {
-			result.add(new SourcesElement(node));
+			result.add(new SourcesElement(node, this));
 		}
 
 		return result;
@@ -561,7 +561,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument()
 				.query("//bpel:target", CONTEXT)) {
-			result.add(new TargetElement(node));
+			result.add(new TargetElement(node, this));
 		}
 
 		return result;
@@ -572,7 +572,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:targets",
 				CONTEXT)) {
-			result.add(new TargetsElement(node));
+			result.add(new TargetsElement(node, this));
 		}
 
 		return result;
@@ -582,7 +582,7 @@ public class ProcessContainer {
 		List<LinkElement> result = new LinkedList<>();
 
 		for (Node node : getBpel().getDocument().query("//bpel:link", CONTEXT)) {
-			result.add(new LinkElement(node));
+			result.add(new LinkElement(node, this));
 		}
 
 		return result;
@@ -592,7 +592,7 @@ public class ProcessContainer {
 		List<LinksElement> result = new LinkedList<>();
 
 		for (Node node : getBpel().getDocument().query("//bpel:links", CONTEXT)) {
-			result.add(new LinksElement(node));
+			result.add(new LinksElement(node, this));
 		}
 
 		return result;
@@ -627,9 +627,8 @@ public class ProcessContainer {
 	public List<TerminationHandlerElement> getAllTerminationHandler() {
 		List<TerminationHandlerElement> result = new LinkedList<>();
 
-		for (Node node : getBpel().getDocument().query(
-				"//bpel:terminationHandler", CONTEXT)) {
-			result.add(new TerminationHandlerElement(node));
+		for (Node terminationHandler : getBpel().getDocument().query("//bpel:terminationHandler", CONTEXT)) {
+			result.add(new TerminationHandlerElement(terminationHandler, this));
 		}
 
 		return result;
@@ -639,7 +638,7 @@ public class ProcessContainer {
 		List<CatchElement> result = new LinkedList<>();
 
 		for (Node node : getBpel().getDocument().query("//bpel:catch", CONTEXT)) {
-			result.add(new CatchElement(node));
+			result.add(new CatchElement(node, this));
 		}
 
 		return result;
@@ -650,7 +649,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query("//bpel:catchAll",
 				CONTEXT)) {
-			result.add(new CatchAllElement(node));
+			result.add(new CatchAllElement(node, this));
 		}
 
 		return result;
@@ -661,7 +660,7 @@ public class ProcessContainer {
 
 		for (Node node : getBpel().getDocument().query(
 				"//bpel:compensationHandler", CONTEXT)) {
-			result.add(new CompensationHandlerElement(node));
+			result.add(new CompensationHandlerElement(node, this));
 		}
 
 		return result;
@@ -685,6 +684,7 @@ public class ProcessContainer {
 		}
 	}
 
+	@Override
 	public String toString() {
 		return new ProcessContainerPrinter(this).toString();
 	}

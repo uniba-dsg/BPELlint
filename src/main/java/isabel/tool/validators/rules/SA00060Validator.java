@@ -232,7 +232,7 @@ public class SA00060Validator extends Validator {
 		String allOperationMembersInScope = ".//bpel:*[@partnerLink='"
 				+ onEvent.getPartnerLinkAttribute() + "']" + "[@operation='"
 				+ onEvent.getOperationAttribute() + "']";
-		return new NodeHelper(onEvent).getEnclosingScope().toXOM()
+		return onEvent.getEnclosingScope().toXOM()
 				.query(allOperationMembersInScope, Standards.CONTEXT).size() == 1 + repliesInOnEvent;
 	}
 

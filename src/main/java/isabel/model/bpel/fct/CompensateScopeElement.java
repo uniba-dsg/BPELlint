@@ -1,23 +1,22 @@
 package isabel.model.bpel.fct;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
-import isabel.model.Referable;
 import isabel.model.Standards;
 import isabel.model.bpel.ScopeElement;
 import isabel.model.bpel.mex.InvokeElement;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-public class CompensateScopeElement implements Referable {
+public class CompensateScopeElement extends ContainerAwareReferable {
 
 	private final NodeHelper compensateScope;
-	private final ProcessContainer processContainer;
 
-	public CompensateScopeElement(Node node, ProcessContainer processContainer) {
-		compensateScope = new NodeHelper(node, "compensateScope");
-		this.processContainer = processContainer;
+	public CompensateScopeElement(Node compensateScope, ProcessContainer processContainer) {
+		super(compensateScope, processContainer);
+		this.compensateScope = new NodeHelper(compensateScope, "compensateScope");
 	}
 
 	public boolean isWithinFaultHandler() {
@@ -36,26 +35,17 @@ public class CompensateScopeElement implements Referable {
 		return compensateScope.getAttribute("target");
 	}
 
-	public CompensateTarget getTarget() throws NavigationException {
-		ScopeElement parentScope = compensateScope.getEnclosingScope();
+	public CompensateTargetable getTarget() throws NavigationException {
+		ScopeElement parentScope = getEnclosingScope();
 		Nodes targetScope = parentScope.toXOM().query(".//bpel:scope[@name='" + getTargetAttribute() + "']", Standards.CONTEXT);
 		if (targetScope.hasAny()) {
-			return new ScopeElement(targetScope.get(0));
+			return new ScopeElement(targetScope.get(0), getProcessContainer());
 		}
 		Nodes targetInvoke = parentScope.toXOM().query(".//bpel:invoke[@name='" + getTargetAttribute() + "']", Standards.CONTEXT);
 		if (targetInvoke.hasAny()) {
-			return new InvokeElement(targetInvoke.get(0), processContainer);
+			return new InvokeElement(targetInvoke.get(0), getProcessContainer());
 		}
 		throw new NavigationException("Target is not in enclosing <scope>");
-	}
-
-	public ScopeElement getEnclosingScope() {
-		return compensateScope.getEnclosingScope();
-	}
-
-	@Override
-	public Node toXOM() {
-		return compensateScope.toXOM();
 	}
 
 }

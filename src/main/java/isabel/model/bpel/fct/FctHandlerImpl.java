@@ -1,7 +1,9 @@
 package isabel.model.bpel.fct;
 
 import isabel.model.ComparableNode;
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
+import isabel.model.ProcessContainer;
 import isabel.model.Standards;
 import isabel.model.bpel.ScopeElement;
 
@@ -10,12 +12,10 @@ import java.util.List;
 
 import nu.xom.Node;
 
-public class FctHandlerImpl implements FctHandler {
+public class FctHandlerImpl extends ContainerAwareReferable implements FctHandler {
 
-	private Node node;
-
-	public FctHandlerImpl(Node node) {
-		this.node = node;
+	public FctHandlerImpl(Node node, ProcessContainer processContainer) {
+		super(node, processContainer);
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class FctHandlerImpl implements FctHandler {
 		List<ScopeElement> rootScopes = new LinkedList<>();
 		for (Node node : toXOM().query(".//bpel:scope", Standards.CONTEXT)) {
 			if (isRootScope(node)) {
-				rootScopes.add(new ScopeElement(node));
+				rootScopes.add(new ScopeElement(node, getProcessContainer()));
 			}
 		}
 		return rootScopes;
@@ -42,11 +42,6 @@ public class FctHandlerImpl implements FctHandler {
 		} else {
 			return isDirectHandlerChild(node.getParent());
 		}
-	}
-
-	@Override
-	public Node toXOM() {
-		return node;
 	}
 
 }

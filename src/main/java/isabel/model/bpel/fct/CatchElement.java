@@ -1,7 +1,8 @@
 package isabel.model.bpel.fct;
 
+import isabel.model.ContainerAwareReferable;
 import isabel.model.NodeHelper;
-import isabel.model.Referable;
+import isabel.model.ProcessContainer;
 import isabel.model.bpel.ScopeElement;
 import isabel.model.bpel.var.VariableLike;
 
@@ -9,14 +10,15 @@ import java.util.List;
 
 import nu.xom.Node;
 
-public class CatchElement implements VariableLike, FctHandler, Referable {
+public class CatchElement extends ContainerAwareReferable implements VariableLike, FctHandler {
 
 	private NodeHelper catchElement;
 	private FctHandlerImpl fctHandlerImpl;
 
-	public CatchElement(Node node) {
-		catchElement = new NodeHelper(node, "catch");
-		fctHandlerImpl = new FctHandlerImpl(toXOM());
+	public CatchElement(Node catchNode, ProcessContainer processContainer) {
+		super(catchNode, processContainer);
+		this.catchElement = new NodeHelper(catchNode, "catch");
+		this.fctHandlerImpl = new FctHandlerImpl(toXOM(), getProcessContainer());
 	}
 
 	public boolean hasFaultVariable() {
@@ -51,11 +53,6 @@ public class CatchElement implements VariableLike, FctHandler, Referable {
 	@Override
 	public List<ScopeElement> getRootScopes() {
 		return fctHandlerImpl.getRootScopes();
-	}
-
-	@Override
-	public Node toXOM() {
-		return catchElement.toXOM();
 	}
 
 }
