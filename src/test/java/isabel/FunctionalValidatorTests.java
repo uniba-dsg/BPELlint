@@ -406,6 +406,14 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
 				{"Testcases/rules/SA00083/EmptyEventHandlersInScope.bpel", "83"},
 
+				{"Testcases/rules/SA00085/OnEventFormPartsVariable.bpel", "85"},
+				{"Testcases/rules/SA00085/OnEventFormPartsVariableElement.bpel", "85"},
+				{"Testcases/rules/SA00085/OnEventFormPartsVariableMessageType.bpel", "85"},
+				{"Testcases/rules/SA00085/OnEventFormPartsElement.bpel", "85"},
+				{"Testcases/rules/SA00085/OnEventFormPartsMessageType.bpel", "85"},
+				{"Testcases/rules/SA00085/OnEventFormPartsVariableElementMessageType.bpel", "85"},
+				{"Testcases/rules/SA00085/OnEventFormPartsElementMessageType.bpel", "85"},
+
 		};
 		return Arrays.asList(data);
 	}

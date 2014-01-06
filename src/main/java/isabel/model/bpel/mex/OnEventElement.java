@@ -104,4 +104,8 @@ public class OnEventElement extends ContainerAwareReferable implements
 		return onEvent.getAttribute("variable");
 	}
 
+	public boolean hasVariableAttribute() {
+		return !"".equals(getVariableName());
+	}
+
 }
