@@ -1,0 +1,13 @@
+variable is not accompanied by element xor messageType
+@@@
+If the variable attribute is used in the <onEvent> element, either the messageType or the element attribute MUST be provided in the <onEvent> element.
+@@@
+FOREACH <onEvent>@variable
+    IF <onEvent>@element EXISTS
+        FAIL IF <onEvent>@messageType EXISTS
+    IF <onEvent>@messageType EXISTS
+        FAIL IF <onEvent>@element EXISTS
+@@@
+OnEventVariable.bpel
+OnEventVariableElementMessageType.bpel
+@@@
