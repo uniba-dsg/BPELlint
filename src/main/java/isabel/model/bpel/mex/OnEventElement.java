@@ -6,13 +6,18 @@ import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.Standards;
 import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.PartnerLinkElement;
+import isabel.model.bpel.ScopeElement;
+import isabel.model.bpel.var.FromPartElement;
+import isabel.model.bpel.var.FromPartsElement;
 import isabel.model.bpel.var.VariableLike;
 import isabel.model.bpel.var.VariableLikeImpl;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
 import nu.xom.Node;
+import nu.xom.Nodes;
 
 public class OnEventElement extends ContainerAwareReferable implements
 		MessageActivity, VariableLike {
@@ -106,6 +111,28 @@ public class OnEventElement extends ContainerAwareReferable implements
 
 	public boolean hasVariableAttribute() {
 		return !"".equals(getVariableName());
+	}
+
+	public ScopeElement getAsociatedScope() {
+		Node scope = toXOM().query("./bpel:scope", Standards.CONTEXT).get(0);
+		return new ScopeElement(scope, getProcessContainer());
+	}
+
+	public boolean hasFromParts() {
+		try {
+			getFromParts();
+			return true;
+		} catch (NavigationException e) {
+			return false;
+		}
+	}
+
+	public List<FromPartElement> getFromParts() throws NavigationException {
+		Nodes fromParts = toXOM().query("./bpel:fromParts", Standards.CONTEXT);
+		if (!fromParts.hasAny()) {
+			throw new NavigationException("<onEvent> has no <fromParts>");
+		}
+		return new FromPartsElement(fromParts.get(0), getProcessContainer()).getAllFromParts();
 	}
 
 }

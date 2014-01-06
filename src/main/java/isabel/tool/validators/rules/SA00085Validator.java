@@ -1,7 +1,6 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.ProcessContainer;
-import isabel.model.Standards;
 import isabel.model.bpel.mex.OnEventElement;
 import isabel.tool.impl.ValidationCollector;
 
@@ -15,7 +14,7 @@ public class SA00085Validator extends Validator {
 	@Override
 	public void validate() {
 		for (OnEventElement onEvent : fileHandler.getAllOnEvents()) {
-			if (!onEvent.toXOM().query("./bpel:fromParts", Standards.CONTEXT).hasAny()) {
+			if (!onEvent.hasFromParts()) {
 				continue;
 			}
 			if (onEvent.hasVariableAttribute() || onEvent.hasVariableElement() || onEvent.hasVariableMessageType()) {
