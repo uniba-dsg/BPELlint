@@ -1,4 +1,4 @@
-Place Short Description Here.
+must not define already implicitly createad <variable> in <onEvent>
 @@@
 For <onEvent>, variables referenced by the variable attribute of <fromPart> elements or the variable attribute of an <onEvent> element are implicitly declared in the associated scope of the event handler. Variables of the same names MUST NOT be explicitly declared in the associated scope.
 @@@

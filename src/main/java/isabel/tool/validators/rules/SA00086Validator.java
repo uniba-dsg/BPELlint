@@ -29,7 +29,7 @@ public class SA00086Validator extends Validator {
 			throws NavigationException {
 		for (VariableElement variable : onEvent.getAsociatedScope().getAllVariables()) {
 			if (onEvent.getVariableName().equals(variable.getVariableName())) {
-				addViolation(onEvent);
+				addViolation(variable);
 			}
 			checkForExplicitFromPartToVariableDoublication(onEvent, variable);
 		}
@@ -40,7 +40,7 @@ public class SA00086Validator extends Validator {
 		try {
 			for (FromPartElement fromPart : onEvent.getFromParts()) {
 				if (fromPart.getToVariable().equals(variable.getVariableName())) {
-					addViolation(onEvent);
+					addViolation(variable);
 				}
 			}
 		} catch (NavigationException e) {
