@@ -19,7 +19,7 @@ public class MessageElement extends ContainerAwareReferable {
 		super(message, processContainer);
 		this.message = new NodeHelper(message, "message");
 	}
-	
+
 	public boolean hasAnyPart() {
 		try {
 			return !getParts().isEmpty();
@@ -27,7 +27,7 @@ public class MessageElement extends ContainerAwareReferable {
 			return false;
 		}
 	}
-	
+
 	public boolean hasOnlyOnePart() {
 		try {
 			return getParts().size() == 1;
@@ -45,7 +45,7 @@ public class MessageElement extends ContainerAwareReferable {
 	}
 
 	public List<PartElement> getParts() throws NavigationException {
-		Nodes parts = message.toXOM().query("./wsdl:part", Standards.CONTEXT);
+		Nodes parts = toXOM().query("./wsdl:part", Standards.CONTEXT);
 		if(!parts.hasAny()){
 			throw new NavigationException("<message> has no parts");
 		}
@@ -54,6 +54,10 @@ public class MessageElement extends ContainerAwareReferable {
 			partElements.add(new PartElement(part, getProcessContainer()));
 		}
 		return partElements;
+	}
+
+	public String getName() {
+		return message.getAttribute("name");
 	}
 
 }

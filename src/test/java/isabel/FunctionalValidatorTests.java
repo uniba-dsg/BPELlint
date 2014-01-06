@@ -415,6 +415,10 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00086/OnEventExplicitVaribaleDoublicate.bpel", "86"},
 				{"Testcases/rules/SA00086/OnEventExplicitFromPartToVaribaleDoublicate.bpel", "86"},
 
+				{"Testcases/rules/SA00087/OnEventElementTwoParts.bpel", "87"},
+				{"Testcases/rules/SA00087/OnEventUnresolvedElement.bpel", "87"},
+				{"Testcases/rules/SA00087/OnEventUnresolvedMessageType.bpel", "87"},
+
 				{"Testcases/rules/SA00090/OnEventVariable.bpel", "90"},
 				{"Testcases/rules/SA00090/OnEventVariableElementMessageType.bpel", "90"},
 

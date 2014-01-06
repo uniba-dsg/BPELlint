@@ -20,7 +20,7 @@
         <correlationSet name="CorrelationSet" properties="ti:correlationId"/>
     </correlationSets>
     <eventHandlers>
-        <onEvent partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" messageType="ti:executeProcessAsyncRequest">
+        <onEvent partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" messageType="ti:executeProcessSyncRequest">
             <correlations>
                 <correlation set="CorrelationSet" initiate="no"/>
             </correlations>
