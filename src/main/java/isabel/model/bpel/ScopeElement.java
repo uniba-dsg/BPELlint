@@ -1,6 +1,7 @@
 package isabel.model.bpel;
 
 import isabel.model.ContainerAwareReferable;
+import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.Referable;
@@ -9,6 +10,8 @@ import isabel.model.bpel.fct.CompensateTargetable;
 import isabel.model.bpel.fct.CompensateTargetableImpl;
 import isabel.model.bpel.flow.SourceElement;
 import isabel.model.bpel.flow.TargetElement;
+import isabel.model.bpel.var.VariableElement;
+import isabel.model.bpel.var.VariablesElement;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -87,6 +90,14 @@ public class ScopeElement extends ContainerAwareReferable implements CompensateT
 	@Override
 	public Referable getEnclosingFctBarrier() {
 		return compensateTargetDelegate.getEnclosingFctBarrier();
+	}
+
+	public List<VariableElement> getAllVariables() throws NavigationException {
+		Nodes variables = toXOM().query("./bpel:variables", Standards.CONTEXT);
+		if (!variables.hasAny()) {
+			throw new NavigationException("<scope> has no <variables> defined");
+		}
+		return new VariablesElement(variables.get(0), getProcessContainer()).getVariables();
 	}
 
 }

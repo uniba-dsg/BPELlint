@@ -414,6 +414,9 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00085/OnEventFormPartsVariableElementMessageType.bpel", "85"},
 				{"Testcases/rules/SA00085/OnEventFormPartsElementMessageType.bpel", "85"},
 
+				{"Testcases/rules/SA00086/OnEventExplicitVaribaleDoublicate.bpel", "86"},
+				{"Testcases/rules/SA00086/OnEventExplicitFromPartToVaribaleDoublicate.bpel", "86"},
+
 		};
 		return Arrays.asList(data);
 	}
