@@ -1,0 +1,11 @@
+Place Short Description Here.
+@@@
+For <onEvent>, variables referenced by the variable attribute of <fromPart> elements or the variable attribute of an <onEvent> element are implicitly declared in the associated scope of the event handler. Variables of the same names MUST NOT be explicitly declared in the associated scope.
+@@@
+FOREACH <onEvent>
+    FAIL IF <onEvent>@variable EQUALS ANY <onEvent><scope><variables><variable>@name
+    FAIL IF <onEvent><fromParts><fromPart>@toVariable EQUALS ANY <onEvent><scope><variables><variable>@name
+@@@
+OnEventExplicitVaribaleDoublicate.bpel
+OnEventExplicitFromPartToVaribaleDoublicate.bpel
+@@@
