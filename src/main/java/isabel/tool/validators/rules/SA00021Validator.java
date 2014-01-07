@@ -53,7 +53,7 @@ public class SA00021Validator extends Validator {
 
     private void hasCorrespondingPropertyAlias(VariableLike variable, String property,
                                                Node partHolder) throws NavigationException {
-        String type = getVariableType(variable);
+        String type = PrefixHelper.removePrefix(getVariableType(variable));
 
         if (!type.isEmpty()) {
             XmlFile wsdl = getCorrespondingWsdl(property, variable.toXOM());
@@ -71,18 +71,17 @@ public class SA00021Validator extends Validator {
     }
 
     private boolean isOfThisElement(String type, PropertyAliasElement propertyAlias) {
-        return propertyAlias.getElementAttribute().equals(PrefixHelper.removePrefix(type));
+        return propertyAlias.getElementAttribute().equals(type);
     }
 
     private boolean isOfThisType(String type, PropertyAliasElement propertyAlias) {
-        return propertyAlias.getTypeAttribute().equals(PrefixHelper.removePrefix(type));
+        return propertyAlias.getTypeAttribute().equals(type);
     }
 
     private boolean isOfThisMessageType(String type, PropertyAliasElement propertyAlias,
                                         Node partHolder) {
         String messageType = PrefixHelper.removePrefix(propertyAlias.getMessageTypeAttribute());
-        boolean isMessageType = messageType.equals(PrefixHelper
-                .removePrefix(type));
+        boolean isMessageType = messageType.equals(type);
 
         if (isMessageType) {
             return (new NodeHelper(partHolder).hasSameAttribute(propertyAlias, "part") || hasOneMessagePart(propertyAlias, messageType));
@@ -97,8 +96,7 @@ public class SA00021Validator extends Validator {
 
     private XmlFile getCorrespondingWsdl(String property, Node node)
             throws NavigationException {
-        String targetNamespace = PrefixHelper.getPrefixNamespaceURI(
-                node.getDocument(), PrefixHelper.getPrefix(property));
+        String targetNamespace = PrefixHelper.getPrefixNamespaceURI(node, PrefixHelper.getPrefix(property));
         return fileHandler.getWsdlByTargetNamespace(targetNamespace);
     }
 

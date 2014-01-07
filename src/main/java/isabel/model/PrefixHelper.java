@@ -1,5 +1,6 @@
 package isabel.model;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Node;
 
@@ -22,23 +23,27 @@ public class PrefixHelper {
 		}
 	}
 
-    public static String getPrefixNamespaceURI(Node node, String namespacePrefix) throws NavigationException {
-        if (!(node instanceof Element)) {
-			throw new NavigationException("A element is required as node.");
+	public static String getPrefixNamespaceURI(Node node, String namespacePrefix)
+			throws NavigationException {
+		if (namespacePrefix.isEmpty()) {
+			throw new NavigationException("namespacePrefix is empty");
 		}
-        Element element = (Element) node;
-    	if (namespacePrefix.isEmpty()) {
-            throw new NavigationException("namespacePrefix is empty");
-        }
-
-        String namespaceURI = element.getNamespaceURI(namespacePrefix);
-        if (namespaceURI == null) {
-			if ("process".equals(element.getLocalName())) {
-				throw new NavigationException("Document has no namespace for this prefix");
-			} else {
-				return getPrefixNamespaceURI(element.getParent(), namespacePrefix);
+		if (node instanceof Attribute) {
+			Attribute attribute = (Attribute) node;
+			return getPrefixNamespaceURI(attribute.getParent(), namespacePrefix);
+		}
+		if (node instanceof Element) {
+			Element element = (Element) node;
+			String namespaceURI = element.getNamespaceURI(namespacePrefix);
+			if (namespaceURI == null) {
+				if ("process".equals(element.getLocalName())) {
+					throw new NavigationException("Document has no namespace for this prefix");
+				} else {
+					return getPrefixNamespaceURI(element.getParent(), namespacePrefix);
+				}
 			}
+			return namespaceURI;
 		}
-		return namespaceURI;
-    }
+		throw new NavigationException("node need to be instance of Element or Attribute");
+	}
 }
