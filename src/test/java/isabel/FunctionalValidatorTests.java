@@ -423,6 +423,10 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00087/OnEventUnresolvedElement.bpel", "87"},
 				{"Testcases/rules/SA00087/OnEventUnresolvedMessageType.bpel", "87"},
 
+				{"Testcases/rules/SA00088/OnEventCorrelationWrongType.bpel", "88"},
+				{"Testcases/rules/SA00088/OnEventCorrelationNoSet.bpel", "88"},
+				{"Testcases/rules/SA00088/OnEventCorrelationSetUnreachable.bpel", "88"},
+
 				{"Testcases/rules/SA00090/OnEventVariable.bpel", "90"},
 				{"Testcases/rules/SA00090/OnEventVariableElementMessageType.bpel", "90"},
 

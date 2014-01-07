@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-For <onEvent>, the resolution order of the correlation set(s) referenced by <correlation> MUST be first the associated scope and then the ancestor scopes.

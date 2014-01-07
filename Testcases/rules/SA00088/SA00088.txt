@@ -1,0 +1,14 @@
+<correlationSet> is missing in associated or enclosing scopes
+enclosing <onEvent> message has no such propertyAlias
+@@@
+For <onEvent>, the resolution order of the correlation set(s) referenced by <correlation> MUST be first the associated scope and then the ancestor scopes.
+@@@
+FOREACH <onEvent><correlations><correlation>
+    <onEvent><correlations><correlation>@set
+TODO
+@@@
+OnEventCorrelationInitiating.bpel
+OnEventCorrelationWrongType.bpel
+OnEventCorrelationNoSet.bpel
+OnEventCorrelationSetUnreachable.bpel
+@@@
