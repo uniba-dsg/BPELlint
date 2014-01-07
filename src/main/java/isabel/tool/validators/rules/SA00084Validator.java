@@ -28,7 +28,6 @@ public class SA00084Validator extends Validator {
 				try {
 					onEvent.getOperation();
 				} catch (NavigationException e) {
-					e.printStackTrace();
 					addViolation(partnerLink, OPERATION_UNDEFINED);
 				}
 			} catch (NavigationException e) {

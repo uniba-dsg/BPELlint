@@ -53,7 +53,7 @@ public class PartnerLinkElement extends ContainerAwareReferable {
     public PortTypeElement partnerLinkToPortType(ProcessContainer fileHandler, MessageActivityImpl messageActivity)
             throws NavigationException {
         String partnerLinkTypeAttribute = getPartnerLinkType();
-        String wsdlImportNamespace = PrefixHelper.getPrefixNamespaceURI(toXOM().getDocument(),
+        String wsdlImportNamespace = PrefixHelper.getPrefixNamespaceURI(toXOM(),
                 PrefixHelper.getPrefix(partnerLinkTypeAttribute));
         Document correspondingWsdlDom = fileHandler.getWsdlByTargetNamespace(wsdlImportNamespace).getDocument();
 
@@ -68,7 +68,7 @@ public class PartnerLinkElement extends ContainerAwareReferable {
 
             if (partnerRolePortType.hasAny()) {
                 String portTypeQName = partnerRolePortType.get(0).getValue();
-                String portTypeNamespaceURI = PrefixHelper.getPrefixNamespaceURI(correspondingWsdlDom, PrefixHelper.getPrefix(portTypeQName));
+                String portTypeNamespaceURI = PrefixHelper.getPrefixNamespaceURI(partnerRolePortType.get(0), PrefixHelper.getPrefix(portTypeQName));
                 return messageActivity.getPortType(portTypeQName, portTypeNamespaceURI);
             } else {
                 Nodes myRolePortType = correspondingWsdlDom.query(
@@ -77,7 +77,7 @@ public class PartnerLinkElement extends ContainerAwareReferable {
                                 + "']/@portType", CONTEXT);
                 if (myRolePortType.hasAny()) {
                     String portTypeQName = myRolePortType.get(0).getValue();
-                    String portTypeNamespaceURI = PrefixHelper.getPrefixNamespaceURI(correspondingWsdlDom, PrefixHelper.getPrefix(portTypeQName));
+                    String portTypeNamespaceURI = PrefixHelper.getPrefixNamespaceURI(myRolePortType.get(0), PrefixHelper.getPrefix(portTypeQName));
                     return messageActivity.getPortType(portTypeQName, portTypeNamespaceURI);
                 }
             }

@@ -1,6 +1,7 @@
 package isabel.model;
 
-import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.Node;
 
 public class PrefixHelper {
 
@@ -21,12 +22,23 @@ public class PrefixHelper {
 		}
 	}
 
-    public static String getPrefixNamespaceURI(Document document, String namespacePrefix) throws NavigationException {
-        if (namespacePrefix.isEmpty()) {
-            throw new NavigationException(
-                    "Document has no namespace for this prefix");
+    public static String getPrefixNamespaceURI(Node node, String namespacePrefix) throws NavigationException {
+        if (!(node instanceof Element)) {
+			throw new NavigationException("A element is required as node.");
+		}
+        Element element = (Element) node;
+    	if (namespacePrefix.isEmpty()) {
+            throw new NavigationException("namespacePrefix is empty");
         }
 
-        return document.getRootElement().getNamespaceURI(namespacePrefix);
+        String namespaceURI = element.getNamespaceURI(namespacePrefix);
+        if (namespaceURI == null) {
+			if ("process".equals(element.getLocalName())) {
+				throw new NavigationException("Document has no namespace for this prefix");
+			} else {
+				return getPrefixNamespaceURI(element.getParent(), namespacePrefix);
+			}
+		}
+		return namespaceURI;
     }
 }

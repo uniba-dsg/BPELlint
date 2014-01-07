@@ -37,8 +37,7 @@ public class ValidatorNavigator {
         String messageQName = inputNodes.get(0).getValue();
         String qNamePrefix = PrefixHelper.getPrefix(messageQName);
         String messageName = PrefixHelper.removePrefix(messageQName);
-        String messageNamespaceURI = PrefixHelper.getPrefixNamespaceURI(
-                operation.getDocument(), qNamePrefix);
+        String messageNamespaceURI = PrefixHelper.getPrefixNamespaceURI(operation, qNamePrefix);
 
         Node message = null;
         for (XmlFile wsdlEntry : wsdlImports) {
