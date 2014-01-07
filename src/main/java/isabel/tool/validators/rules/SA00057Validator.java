@@ -54,7 +54,7 @@ public class SA00057Validator extends Validator {
 			Set<String> activityJoinCorrelationSetNames = new HashSet<>();
 			for (CorrelationElement correlation : receiveOrOnMessage.getCorrelations()) {
 				if (correlation.isJoinInitiate()) {
-					activityJoinCorrelationSetNames.add(correlation.getCorrelationSet());
+					activityJoinCorrelationSetNames.add(correlation.getCorrelationSetAttribute());
 				}
 			}
 			correlationgStartActivitiesCounter++;

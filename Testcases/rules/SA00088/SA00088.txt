@@ -1,5 +1,5 @@
 <correlationSet> is missing in associated or enclosing scopes
-enclosing <onEvent> message has no such propertyAlias
+referenced <correlationSet> has no propertyAlias for the <onEvent> message
 @@@
 For <onEvent>, the resolution order of the correlation set(s) referenced by <correlation> MUST be first the associated scope and then the ancestor scopes.
 @@@

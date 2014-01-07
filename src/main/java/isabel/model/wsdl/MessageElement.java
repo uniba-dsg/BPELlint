@@ -8,6 +8,7 @@ import nu.xom.Nodes;
 import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
+import isabel.model.PrefixHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.Standards;
 
@@ -58,6 +59,21 @@ public class MessageElement extends ContainerAwareReferable {
 
 	public String getName() {
 		return message.getAttribute("name");
+	}
+
+	public List<PropertyAliasElement> getPropertyAliases() throws NavigationException {
+		List<PropertyAliasElement> propertyAliases = new LinkedList<>();
+		Nodes allPropertyAliases = toXOM().query("//vprop:propertyAlias", Standards.CONTEXT);
+		for (Node propertyAliasNode : allPropertyAliases) {
+			PropertyAliasElement propertyAlias = new PropertyAliasElement(propertyAliasNode, getProcessContainer());
+			if (getName().equals(PrefixHelper.removePrefix(propertyAlias.getMessageTypeAttribute()))) {
+				propertyAliases.add(propertyAlias);
+			}
+		}
+		if (propertyAliases.isEmpty()) {
+			throw new NavigationException("No propertyAlias for this message");
+		}
+		return propertyAliases;
 	}
 
 }

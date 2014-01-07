@@ -133,7 +133,7 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00021/CorrelationSet-Properties-Undefined.bpel", "21, 10"},
 				{"Testcases/rules/SA00021/From-Property-Undefined.bpel", "21, 10"},
-				{"Testcases/rules/SA00021/OnEvent-Variable-Undefined.bpel", "21"},
+				{"Testcases/rules/SA00021/OnEvent-Variable-Undefined.bpel", "21, 88"},
 				{"Testcases/rules/SA00021/To-Property-Undefined.bpel", "21, 10"},
 
 				{"Testcases/rules/SA00022/Duplicate-propertyAliasElement.bpel", "22"},
@@ -201,7 +201,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00047/EmptyMessage-Invoke-FromParts.bpel", "47, 53"},
 				{"Testcases/rules/SA00047/EmptyMessage-Invoke-ToParts-FromParts.bpel", "47, 54, 53"},
 				{"Testcases/rules/SA00047/EmptyMessage-Invoke-ToParts.bpel", "47, 54"},
-				{"Testcases/rules/SA00047/EmptyMessage-OnEvent-FromParts.bpel", "47, 53"},
+				{"Testcases/rules/SA00047/EmptyMessage-OnEvent-FromParts.bpel", "47, 53, 88"},
 				{"Testcases/rules/SA00047/EmptyMessage-OnMessage-FromParts.bpel", "47, 53"},
 				{"Testcases/rules/SA00047/EmptyMessage-Receive-FromParts.bpel", "47, 53"},
 				{"Testcases/rules/SA00047/EmptyMessage-Reply-ToParts.bpel", "47, 54"},
