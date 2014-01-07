@@ -1,0 +1,33 @@
+<partnerLink> missmatch enclosing <onEvent> requires myRole attribute
+<partnerLink> missmatch enclosing <onEvent> requires another operation
+<partnerLink> is missing
+@@@
+The partnerLink reference of <onEvent> MUST resolve to a partner link declared in the process in the following order: the associated scope first and then the ancestor scopes.
+@@@
+FOREACH <onEvent>
+    SET $partnerLink TO getPartnerLink(<onEvent><scope>)
+    FAIL UNLESS $partnerLink@myRole EXIST
+    FAIL UNLESS <onEvent>@operation EQUALS getOperation($partnerLink)
+
+getPartnerLink: $scope -> <partnerLink>
+    FOREACH $scope<partnerLinks><partnerLink>
+        IF <onEvent>@partnerLink EQUALS <onEvent><scope><partnerLinks><partnerLink>@name
+            RETURN <onEvent><scope><partnerLinks><partnerLink>
+    FAIL IF $scope EQUALS <process>
+    RETURN getPartnerLink(enclosingScope($scope))
+
+enclosingScope: $node -> $scope
+    IF $node EQUALS <scope>
+        RETURN $node
+    IF $node EQUALS <process>
+        RETURN $node
+    ELSE
+        RETURN enclosingScope($node)
+
+getOperation: $partnerLink ->
+TODO
+@@@
+OnEventScopeDifferingPartnerLinkOperation.bpel
+OnEventScopeDifferingPartnerLinkRole.bpel
+OnEventScopeNoPartnerLink.bpel
+@@@

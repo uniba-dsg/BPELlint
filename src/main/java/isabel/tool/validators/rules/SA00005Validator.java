@@ -22,7 +22,7 @@ public class SA00005Validator extends Validator {
 
                 String localPortTypeDefinition = PrefixHelper.removePrefix(messageActivity.getPortTypeAttribute());
 
-                if (!portType.getName().equals(localPortTypeDefinition)) {
+                if (!localPortTypeDefinition.isEmpty() && !portType.getName().equals(localPortTypeDefinition)) {
                     addViolation(messageActivity);
                 }
             } catch (NavigationException e) {

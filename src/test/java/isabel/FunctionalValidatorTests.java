@@ -406,6 +406,10 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
 				{"Testcases/rules/SA00083/EmptyEventHandlersInScope.bpel", "83"},
 
+				{"Testcases/rules/SA00084/OnEventScopeDifferingPartnerLinkOperation.bpel", "84, 10"},
+				{"Testcases/rules/SA00084/OnEventScopeDifferingPartnerLinkRole.bpel", "84, 10"},
+				{"Testcases/rules/SA00084/OnEventScopeNoPartnerLink.bpel", "84"},
+
 				{"Testcases/rules/SA00085/OnEventFormPartsVariableElement.bpel", "85"},
 				{"Testcases/rules/SA00085/OnEventFormPartsVariableMessageType.bpel", "85"},
 				{"Testcases/rules/SA00085/OnEventFormPartsElement.bpel", "85"},
