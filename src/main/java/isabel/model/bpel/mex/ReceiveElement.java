@@ -24,7 +24,7 @@ public class ReceiveElement extends ContainerAwareReferable implements StartActi
     public ReceiveElement(Node node, ProcessContainer processContainer) {
 		super(node, processContainer);
 		receive = new NodeHelper(node, "receive");
-        delegate = new MessageActivityImpl(node, processContainer);
+        delegate = new MessageActivityImpl(this, processContainer);
 	}
     
     @Override

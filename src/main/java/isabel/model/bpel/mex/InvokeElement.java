@@ -26,7 +26,7 @@ public class InvokeElement extends ContainerAwareReferable implements MessageAct
 	public InvokeElement(Node invoke, ProcessContainer processContainer) {
 		super(invoke, processContainer);
 		this.invoke = new NodeHelper(invoke, "invoke");
-		this.messageActivityDelegate = new MessageActivityImpl(invoke, processContainer);
+		this.messageActivityDelegate = new MessageActivityImpl(this, processContainer);
 		this.compensateTargetDelegate = new CompensateTargetableImpl(invoke, processContainer);
 	}
 

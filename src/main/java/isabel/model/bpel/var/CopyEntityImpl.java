@@ -17,7 +17,7 @@ public class CopyEntityImpl extends ContainerAwareReferable implements CopyEntit
 	public CopyEntityImpl(Node node, ProcessContainer processContainer) {
 		super(node, processContainer);
 		this.fromTo = new NodeHelper(node);
-		this.partnerLinkDelegate = new PartnerLinkedImpl(toXOM(), getProcessContainer(), getPartnerLinkAttribute());
+		this.partnerLinkDelegate = new PartnerLinkedImpl(this, getProcessContainer(), getPartnerLinkAttribute());
 	}
 
 	@Override

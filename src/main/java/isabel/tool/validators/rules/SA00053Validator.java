@@ -1,8 +1,12 @@
 package isabel.tool.validators.rules;
 
 import static isabel.model.bpel.mex.MessageActivity.Type.*;
+
+import java.util.List;
+
 import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.bpel.mex.MessageActivityImpl;
 import isabel.model.bpel.var.FromPartElement;
 import isabel.model.bpel.var.FromPartsElement;
@@ -11,7 +15,6 @@ import isabel.model.wsdl.PartElement;
 import isabel.tool.impl.ValidationCollector;
 import nu.xom.Node;
 import nu.xom.Nodes;
-
 import static isabel.model.Standards.CONTEXT;
 
 public class SA00053Validator extends Validator {
@@ -23,20 +26,12 @@ public class SA00053Validator extends Validator {
 
     @Override
     public void validate() {
-        hasPartForEveryFromPart("//bpel:invoke");
-        hasPartForEveryFromPart("//bpel:receive");
-        hasPartForEveryFromPart("//bpel:onMessage");
-        hasPartForEveryFromPart("//bpel:onEvent");
+        hasPartForEveryFromPart(fileHandler.getAllIncommingMessageActivities());
     }
 
-    private void hasPartForEveryFromPart(String xPathOutgoingOperation) {
-        Nodes incomingOperations = fileHandler.getBpel().getDocument()
-                .query(xPathOutgoingOperation, CONTEXT);
-
-        for (Node incomingOperation : incomingOperations) {
+    private void hasPartForEveryFromPart(List<MessageActivity> incomingOperations) {
+        for (MessageActivity messageActivity : incomingOperations) {
             try {
-
-                MessageActivityImpl messageActivity = new MessageActivityImpl(incomingOperation, fileHandler);
                 MessageElement message;
                 if (INVOKE.equals(messageActivity.getType())) {
                     message = messageActivity.getOperation().getOutput().getMessage();
@@ -46,9 +41,9 @@ public class SA00053Validator extends Validator {
                     throw new IllegalStateException("Should not happen!");
                 }
 
-                Nodes fromPartsNode = incomingOperation.query("bpel:fromParts", CONTEXT);
+                Nodes fromPartsNode = messageActivity.toXOM().query("bpel:fromParts", CONTEXT);
                 if (!fromPartsNode.hasAny()) {
-                	return;
+                	continue;
                 }
                 FromPartsElement fromParts = new FromPartsElement(fromPartsNode.get(0), fileHandler);
 

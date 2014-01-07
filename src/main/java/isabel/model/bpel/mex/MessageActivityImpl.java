@@ -18,10 +18,10 @@ public class MessageActivityImpl extends ContainerAwareReferable implements Mess
     private final NodeHelper nodeHelper;
 	private final PartnerLinkedImpl partnerLinkedDelegate;
 
-    public MessageActivityImpl(Node messageActivity, ProcessContainer processContainer) {
-    	super(messageActivity, processContainer);
+    public MessageActivityImpl(Referable messageActivity, ProcessContainer processContainer) {
+    	super(messageActivity.toXOM(), processContainer);
         this.nodeHelper = new NodeHelper(messageActivity);
-        partnerLinkedDelegate = new PartnerLinkedImpl(toXOM(), getProcessContainer(), getPartnerLinkAttribute());
+        partnerLinkedDelegate = new PartnerLinkedImpl(messageActivity, getProcessContainer(), getPartnerLinkAttribute());
     }
 
     @Override
