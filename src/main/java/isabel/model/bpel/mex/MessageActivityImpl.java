@@ -9,7 +9,6 @@ import isabel.model.bpel.PartnerLinkElement;
 import isabel.model.bpel.PartnerLinkedImpl;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
-import nu.xom.Node;
 import nu.xom.Nodes;
 import static isabel.model.Standards.CONTEXT;
 
@@ -18,10 +17,10 @@ public class MessageActivityImpl extends ContainerAwareReferable implements Mess
     private final NodeHelper nodeHelper;
 	private final PartnerLinkedImpl partnerLinkedDelegate;
 
-    public MessageActivityImpl(Node messageActivity, ProcessContainer processContainer) {
-    	super(messageActivity, processContainer);
+    public MessageActivityImpl(Referable messageActivity, ProcessContainer processContainer) {
+    	super(messageActivity.toXOM(), processContainer);
         this.nodeHelper = new NodeHelper(messageActivity);
-        partnerLinkedDelegate = new PartnerLinkedImpl(toXOM(), getProcessContainer(), getPartnerLinkAttribute());
+        partnerLinkedDelegate = new PartnerLinkedImpl(messageActivity, getProcessContainer(), getPartnerLinkAttribute());
     }
 
     @Override

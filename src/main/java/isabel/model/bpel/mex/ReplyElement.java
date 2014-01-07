@@ -20,7 +20,7 @@ public class ReplyElement extends ContainerAwareReferable implements MessageActi
     public ReplyElement(Node node, ProcessContainer processContainer) {
         super(node, processContainer);
         reply = new NodeHelper(node, "reply");
-        delegate = new MessageActivityImpl(node, processContainer);
+        delegate = new MessageActivityImpl(this, processContainer);
     }
 
     @Override

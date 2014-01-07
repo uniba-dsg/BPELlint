@@ -124,7 +124,7 @@ public class SA00060Validator extends Validator {
 
 		private void checkSimultaniousMarkUp(Set<ComparableNode> messageActivities) {
 			for (ComparableNode comparableNode : messageActivities) {
-				MessageActivityImpl messageActivity = new MessageActivityImpl(comparableNode.toXOM(), fileHandler);
+				MessageActivityImpl messageActivity = new MessageActivityImpl(comparableNode, fileHandler);
 				if ("".equals(messageActivity.getMessageExchangeAttribute())) {
 					addViolation(comparableNode);
 				}
@@ -195,7 +195,7 @@ public class SA00060Validator extends Validator {
 				operationalNodes.size() / 2 + 1);
 		for (Node node : operationalNodes) {
 			try {
-				MessageActivityImpl messageActivity = new MessageActivityImpl(node, fileHandler);
+				MessageActivityImpl messageActivity = new MessageActivityImpl(new NodeHelper(node), fileHandler);
 				OperationElement operationElement = messageActivity.getOperation();
 				if (!operationElement.isRequestResponse()) {
 					continue;

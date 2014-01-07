@@ -22,7 +22,7 @@ public class OnMessageElement extends ContainerAwareReferable implements
 	public OnMessageElement(Node node, ProcessContainer processContainer) {
 		super(node, processContainer);
 		onMessage = new NodeHelper(node, "onMessage");
-		delegate = new MessageActivityImpl(node, processContainer);
+		delegate = new MessageActivityImpl(this, processContainer);
 	}
 
 	@Override

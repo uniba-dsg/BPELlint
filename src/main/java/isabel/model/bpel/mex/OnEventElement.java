@@ -29,7 +29,7 @@ public class OnEventElement extends ContainerAwareReferable implements
 	public OnEventElement(Node onEvent, ProcessContainer processContainer) {
 		super(onEvent, processContainer);
 		this.onEvent = new NodeHelper(onEvent, "onEvent");
-		this.delegate = new MessageActivityImpl(onEvent, processContainer);
+		this.delegate = new MessageActivityImpl(this, processContainer);
 		this.variableDelegate = new VariableLikeImpl(onEvent, processContainer);
 	}
 

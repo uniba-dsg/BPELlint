@@ -676,6 +676,16 @@ public class ProcessContainer {
 		return result;
 	}
 
+	public List<MessageActivity> getAllIncommingMessageActivities() {
+		List<MessageActivity> result = new LinkedList<>();
+		result.addAll(getAllInvokes());
+		result.addAll(getAllReceives());
+		result.addAll(getAllOnMessages());
+		result.addAll(getAllOnEvents());
+
+		return result;
+	}
+	
 	void validate() {
 		// assertion
 		if (getWsdls().isEmpty()) {
