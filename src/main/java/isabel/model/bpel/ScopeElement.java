@@ -105,4 +105,8 @@ public class ScopeElement extends ContainerAwareReferable implements CompensateT
 		return "yes".equals(scope.getAttribute("isolated"));
 	}
 
+	public String getNameAttribute() {
+		return scope.getAttribute("name");
+	}
+
 }

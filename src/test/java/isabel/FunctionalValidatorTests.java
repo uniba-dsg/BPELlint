@@ -434,6 +434,8 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00091/IsolatedScopeInIsolatedSope.bpel", "91"},
 
+				{"Testcases/rules/SA00092/ScopeNameDuplicate.bpel", "92"},
+
 		};
 		return Arrays.asList(data);
 	}
