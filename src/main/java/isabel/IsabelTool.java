@@ -20,7 +20,6 @@ import isabel.io.CommandLineInterpreter;
 import isabel.io.ValidationResultPrinter;
 import isabel.io.VerbosityLevel;
 import isabel.tool.Isabel;
-import isabel.tool.ValidationException;
 import isabel.tool.ValidationResult;
 import org.pmw.tinylog.Logger;
 
