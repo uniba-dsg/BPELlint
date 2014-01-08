@@ -55,4 +55,11 @@ public class CatchElement extends ContainerAwareReferable implements VariableLik
 		return fctHandlerImpl.getRootScopes();
 	}
 
+	public boolean hasFaultNameAttribute() {
+		return catchElement.hasAttribute("faultName");
+	}
+
+	public String getFaultNameAttribute() {
+		return catchElement.getAttribute("faultName");
+	}
 }

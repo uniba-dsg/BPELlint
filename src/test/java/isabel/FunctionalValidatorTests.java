@@ -436,6 +436,12 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00092/ScopeNameDuplicate.bpel", "92"},
 
+				{"Testcases/rules/SA00093/SameCatchFaultElement.bpel", "93"},
+				{"Testcases/rules/SA00093/SameCatchFaultElementFaultName.bpel", "93"},
+				{"Testcases/rules/SA00093/SameCatchFaultMessageType.bpel", "93"},
+				{"Testcases/rules/SA00093/SameCatchFaultMessageTypeFaultName.bpel", "93"},
+				{"Testcases/rules/SA00093/SameCatchFaultName.bpel", "93"},
+
 		};
 		return Arrays.asList(data);
 	}
