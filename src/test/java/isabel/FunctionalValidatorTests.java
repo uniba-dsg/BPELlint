@@ -432,6 +432,8 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00090/OnEventVariable.bpel", "90"},
 				{"Testcases/rules/SA00090/OnEventVariableElementMessageType.bpel", "90"},
 
+				{"Testcases/rules/SA00091/IsolatedScopeInIsolatedSope.bpel", "91"},
+
 		};
 		return Arrays.asList(data);
 	}

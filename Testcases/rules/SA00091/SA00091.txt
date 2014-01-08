@@ -1,0 +1,16 @@
+isolated attribute must not be 'yes'
+@@@
+A scope with the isolated attribute set to 'yes' is called an isolated scope. Isolated scopes MUST NOT contain other isolated scopes.
+@@@
+FOREACH <scope>@isolated
+    IF 'yes' EQUALS <scope>@isolated
+        FAIL IF containsIsolatedScopes(<scope>)
+
+containsIsolatedScopes: $scope -> boolean
+    FOREACH <scope>@isolated
+        IF $scope ANCESTOR_OF <scope>
+            RETURN 'true'
+    RETURN 'false'
+@@@
+IsolatedScopeInIsolatedSope.bpel
+@@@

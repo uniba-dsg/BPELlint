@@ -24,13 +24,14 @@ import nu.xom.Nodes;
 public class ScopeElement extends ContainerAwareReferable implements CompensateTargetable {
 
 	private final CompensateTargetable compensateTargetDelegate;
+	private NodeHelper scope;
 
 	public ScopeElement(Node node, ProcessContainer processContainer) {
 		super(node, processContainer);
 		try {
-			new NodeHelper(node, "scope");
+			scope = new NodeHelper(node, "scope");
 		} catch (IllegalArgumentException e) {
-			new NodeHelper(node, "process");
+			scope = new NodeHelper(node, "process");
 		}
 		compensateTargetDelegate = new CompensateTargetableImpl(node, processContainer);
 	}
@@ -98,6 +99,10 @@ public class ScopeElement extends ContainerAwareReferable implements CompensateT
 			throw new NavigationException("<scope> has no <variables> defined");
 		}
 		return new VariablesElement(variables.get(0), getProcessContainer()).getVariables();
+	}
+
+	public boolean isIsolated() {
+		return "yes".equals(scope.getAttribute("isolated"));
 	}
 
 }

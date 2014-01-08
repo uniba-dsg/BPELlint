@@ -1,3 +1,0 @@
-Place Short Description Here.
-@@@
-A scope with the isolated attribute set to 'yes' is called an isolated scope. Isolated scopes MUST NOT contain other isolated scopes.
