@@ -109,6 +109,12 @@ public class SA00061Validator extends Validator {
 	
 	private boolean isMessageExchangeInScope(Node node, String messageExchange) {
 		NodeHelper nodeHelper = new NodeHelper(node);
+		if ("onEvent".equals(nodeHelper.getLocalName())) {
+			// SA00089 allows onEvents to use messageExchanges defined in the associated scope
+			if (node.query("./bpel:scope/bpel:messageExchanges/bpel:messageExchange[@name='" + messageExchange + "']", Standards.CONTEXT).hasAny()) {
+				return true;
+			} 
+		}
 		if (!"scope".equals(nodeHelper.getLocalName())
 				&& !"process".equals(nodeHelper.getLocalName())) {
 			return isMessageExchangeInScope(node.getParent(), 

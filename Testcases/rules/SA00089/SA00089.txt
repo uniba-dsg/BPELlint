@@ -1,0 +1,17 @@
+missing corresponding <messageExchange>
+@@@
+For <onEvent>, when the messageExchange attribute is explicitly specified, the resolution order of the message exchange referenced by messageExchange attribute MUST be first the associated scope and then the ancestor scopes.
+@@@
+FOREACH <onEvent>@messageExchange
+    FAIL UNLESS hasMessageExchangeEnclosed(<onEvent><scope>, <onEvent>@messageExchange)
+
+hasMessageExchangeEnclosed: $node, $exchangeName -> boolean
+    IF <scope> EQUALS $node
+        IF $exchangeName EQUALS ANY $node<messageExchanges><messageExchange>@name
+            RETURN 'true
+    IF <process> EQUALS $node
+        RETURN 'false'
+    RETURN hasMessageExchangeEnclosed(PARENT $node, $exchangeName)
+@@@
+OnEventNoMessageExchange.bpel
+@@@

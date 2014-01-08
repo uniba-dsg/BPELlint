@@ -299,10 +299,10 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00060/OnEventFiloSecondMexMissing.bpel", "60"},
 
 				{"Testcases/rules/SA00061/OnEventMessageExchangeNotInScope.bpel", "61"},
-				{"Testcases/rules/SA00061/OnEventNoMessageExchangeInScope.bpel", "61"},
+				{"Testcases/rules/SA00061/OnEventNoMessageExchangeInScope.bpel", "61, 89"},
 				{"Testcases/rules/SA00061/OnEventReplyMessageExchangeNotInScope.bpel", "61"},
 				{"Testcases/rules/SA00061/OnEventMessageExchangeNotInProcess.bpel", "61"},
-				{"Testcases/rules/SA00061/OnEventNoMessageExchangeInProcess.bpel", "61"},
+				{"Testcases/rules/SA00061/OnEventNoMessageExchangeInProcess.bpel", "61, 89"},
 				{"Testcases/rules/SA00061/OnEventReplyMessageExchangeNotInProcess.bpel", "61"},
 				{"Testcases/rules/SA00061/OnMessageMessageExchangeNotInProcess.bpel", "61"},
 				{"Testcases/rules/SA00061/OnMessageMessageExchangeOutOfScope.bpel", "61"},
@@ -426,6 +426,8 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00088/OnEventCorrelationWrongType.bpel", "88"},
 				{"Testcases/rules/SA00088/OnEventCorrelationNoSet.bpel", "88"},
 				{"Testcases/rules/SA00088/OnEventCorrelationSetUnreachable.bpel", "88"},
+
+				{"Testcases/rules/SA00089/OnEventNoMessageExchange.bpel", "89, 61"},
 
 				{"Testcases/rules/SA00090/OnEventVariable.bpel", "90"},
 				{"Testcases/rules/SA00090/OnEventVariableElementMessageType.bpel", "90"},

@@ -9,6 +9,7 @@ import isabel.model.ProcessContainer;
 import isabel.model.Standards;
 import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.PartnerLinkElement;
+import isabel.model.bpel.ProcessElement;
 import isabel.model.bpel.ScopeElement;
 import isabel.model.bpel.var.FromPartElement;
 import isabel.model.bpel.var.FromPartsElement;
@@ -133,6 +134,22 @@ public class OnEventElement extends ContainerAwareReferable implements
 			throw new NavigationException("<onEvent> has no <fromParts>");
 		}
 		return new FromPartsElement(fromParts.get(0), getProcessContainer()).getAllFromParts();
+	}
+
+	public MessageExchangeElement getMessageExchange() throws NavigationException {
+		return getMessageExchange(getAsociatedScope());
+	}
+
+	private MessageExchangeElement getMessageExchange(ScopeElement scope) throws NavigationException {
+		Nodes messageExchange = scope.toXOM().query("./bpel:messageExchanges/bpel:messageExchange[@name='" + getMessageExchangeAttribute() + "']",Standards.CONTEXT);
+		if (!messageExchange.hasAny()) {
+			if (scope instanceof ProcessElement) {
+				throw new NavigationException("<messageExchange> of this name ("+getMessageExchangeAttribute()+") is missing.");
+			} else {
+				return getMessageExchange(scope.getEnclosingScope());
+			}
+		}
+		return new MessageExchangeElement(messageExchange.get(0), getProcessContainer());
 	}
 
 }
