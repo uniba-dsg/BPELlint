@@ -1,0 +1,9 @@
+variable must not be used out of <onEvent>
+<onEvent> variable used out of defining event handler
+@@@
+For <onEvent>, the variable references are resolved to the associated scope only and MUST NOT be resolved to the ancestor scopes.
+@@@
+FOREACH <onEvent>@variable
+@@@
+OnEventVariableOutboundUse.bpel
+@@@

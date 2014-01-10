@@ -442,6 +442,9 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00093/SameCatchFaultMessageTypeFaultName.bpel", "93"},
 				{"Testcases/rules/SA00093/SameCatchFaultName.bpel", "93"},
 
+				{"Testcases/rules/SA00095/OnEventVariableOutboundUseAssign.bpel", "95, 34"},
+				{"Testcases/rules/SA00095/OnEventVariableOutboundUseReceive.bpel", "95"},
+
 		};
 		return Arrays.asList(data);
 	}
