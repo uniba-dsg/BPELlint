@@ -1,6 +1,6 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.ComparableNode;
+import isabel.model.NodeToId;
 import isabel.model.Referable;
 import isabel.tool.Violation;
 import isabel.model.NodeHelper;
@@ -28,9 +28,9 @@ public abstract class Validator {
 	public abstract int getSaNumber();
 
 	private void addViolation(String fileName, Node node, int type) {
-		ComparableNode comparableNode = new ComparableNode(node);
+		NodeToId identifiableNode = new NodeToId(node);
 		validationCollector.add(new Violation(fileName, getSaNumber(), type,
-				comparableNode.getLineNumber(), comparableNode.getColumnNumber()));
+				identifiableNode.getLineNumber(), identifiableNode.getColumnNumber()));
 	}
 
     protected void addViolation(Referable node) {

@@ -2,8 +2,6 @@ package isabel.model;
 
 import java.util.Objects;
 
-import nu.xom.Attribute;
-import nu.xom.Element;
 import nu.xom.Node;
 
 public class ComparableNode implements Comparable<ComparableNode>, Referable {
@@ -16,43 +14,14 @@ public class ComparableNode implements Comparable<ComparableNode>, Referable {
 	public ComparableNode(Node node) {
 		Objects.requireNonNull(node, "null can not be compared");
 		this.node = node;
+		NodeToId nodeToId = new NodeToId(node);
 		fileName = node.getBaseURI();
-		lineNumber = getLineNumber(node);
-		columnNumber = getColumnNumber(node);
+		lineNumber = nodeToId.getLineNumber();
+		columnNumber = nodeToId.getColumnNumber();
 	}
 
 	public ComparableNode(Referable referable) {
 		this(referable.toXOM());
-	}
-
-	private int getLineNumber(Node node) {
-		if (node instanceof Element) {
-			Element element = (Element) node;
-			return (Integer) element.getUserData("lineNumber");
-		} else if (node instanceof Attribute) {
-			return getLineNumber(node.getParent());
-		} else {
-			throw new IllegalArgumentException("Node need to be an Element or Attribute.");
-		}
-	}
-
-	private int getColumnNumber(Node node) {
-		if (node instanceof Element) {
-			Element element = (Element) node;
-			return (Integer) element.getUserData("columnNumber");
-		} else if (node instanceof Attribute) {
-			return getColumnNumber(node.getParent());
-		} else {
-			throw new IllegalArgumentException("Node need to be an Element or Attribute.");
-		}
-	}
-	
-	public int getLineNumber() {
-		return lineNumber;
-	}
-
-	public int getColumnNumber() {
-		return columnNumber;
 	}
 
 	@Override
@@ -67,24 +36,21 @@ public class ComparableNode implements Comparable<ComparableNode>, Referable {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+	public boolean equals(Object object) {
+		if (object == null) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ComparableNode other = (ComparableNode) obj;
-		if (columnNumber != other.columnNumber)
-			return false;
-		if (fileName == null) {
-			if (other.fileName != null)
-				return false;
-		} else if (!fileName.equals(other.fileName))
-			return false;
-		if (lineNumber != other.lineNumber)
-			return false;
-		return true;
+		} 
+		if (object instanceof Referable) {
+			return toString().equals(new NodeToId(((Referable) object).toXOM()).toId());
+		} else if (object instanceof Node){
+			return toString().equals(new NodeToId((Node) object).toId());
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return new NodeToId(node).toId();
 	}
 
 	@Override
@@ -104,5 +70,4 @@ public class ComparableNode implements Comparable<ComparableNode>, Referable {
 	public Node toXOM() {
 		return node;
 	}
-
 }
