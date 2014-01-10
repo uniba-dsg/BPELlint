@@ -1,5 +1,6 @@
 package isabel.tool.validators.rules;
 
+import isabel.io.EnvironmentVariableInterpreter;
 import isabel.model.ProcessContainer;
 import isabel.tool.impl.ValidationCollector;
 
@@ -24,8 +25,11 @@ public class ValidatorsHandler {
 	}
 
 	public void validate() {
+		List<Integer> rulesToValidate = new EnvironmentVariableInterpreter().getRulesToValidate();
 		for (Validator validator : createValidators())
-			validator.validate();
+			if (rulesToValidate.contains(validator.getSaNumber())) {
+				validator.validate();
+			}
 	}
 
 	private List<Validator> createValidators() {

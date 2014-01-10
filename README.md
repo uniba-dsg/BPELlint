@@ -43,6 +43,9 @@ $ gradlew javadoc # Generating JavaDoc
 The folder `Testcases/betsy` is copied by hand for convenience from *betsy* `src/main/tests/files`.
 Checkout https://github.com/uniba-dsg/betsy to get the latest version.
 
+The environment variable `ISABEL_SA_RULES` constrains the SA rules that are validated.
+When `ISABEL_SA_RULES` is not set or set to `all` then all SA rules are validated if set to `61,2,10` then SA00002, SA00010 and SA00061 are validated.
+
 # Authors (in alphabetical order)
 
 David Bimamisa, Christian Preissinger, Stephan Schuberth
