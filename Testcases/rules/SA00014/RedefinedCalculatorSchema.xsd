@@ -4,7 +4,7 @@
 	xmlns:tns="http://xml.netbeans.org/schema/CalculatorSchema"
 	elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-	<xsd:redefine schemaLocation="CalculatorSchema.xsd">
+	<xsd:redefine schemaLocation="../CalculatorSchema.xsd">
 		<xsd:complexType name="calculationInputType">
 			<xsd:complexContent>
 				<xsd:extension base="tns:calculationInputType">
