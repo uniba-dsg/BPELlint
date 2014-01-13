@@ -8,7 +8,6 @@ import isabel.model.bpel.var.VariableElement;
 import isabel.model.bpel.var.VariableLike;
 import nu.xom.*;
 
-import java.util.List;
 import java.util.Objects;
 
 import static isabel.model.Standards.CONTEXT;
@@ -20,42 +19,7 @@ public class ValidatorNavigator {
 	public ValidatorNavigator(ProcessContainer processContainer) {
 		this.processContainer = processContainer;
 	}
-	
-    public Node operationToMessage(List<XmlFile> wsdlImports,
-                                   Node operation) throws NavigationException {
 
-        if (operation == null)
-            throw new NavigationException("Operation not defined");
-
-        Nodes inputNodes = operation.query("child::wsdl:input/@message",
-                CONTEXT);
-
-        if (inputNodes.isEmpty()) {
-            return null;
-        }
-
-        String messageQName = inputNodes.get(0).getValue();
-        String qNamePrefix = PrefixHelper.getPrefix(messageQName);
-        String messageName = PrefixHelper.removePrefix(messageQName);
-        String messageNamespaceURI = PrefixHelper.getPrefixNamespaceURI(operation, qNamePrefix);
-
-        Node message = null;
-        for (XmlFile wsdlEntry : wsdlImports) {
-            String targetNamespace = wsdlEntry.getTargetNamespace();
-            if (targetNamespace.equals(messageNamespaceURI)) {
-                Nodes messageNodes = wsdlEntry.getDocument().query(
-                        "//wsdl:message[@name='" + messageName + "']", CONTEXT);
-
-                if (messageNodes.hasAny()) {
-                    message = messageNodes.get(0);
-                    break;
-                }
-
-            }
-        }
-
-        return message;
-    }
 
     public boolean hasInputVariable(MessageActivity msgActivity) {
         Nodes inputVar = msgActivity.toXOM().query("attribute::inputVariable", CONTEXT);
