@@ -29,6 +29,12 @@ public class SA00014Validator extends Validator {
 				if (areSimilar(wsdl, peerWsdl)) {
 					compare(wsdl.getDocument(), peerWsdl.getDocument(), "//plink:partnerLinkType");
 					compare(wsdl.getDocument(), peerWsdl.getDocument(), "//wsdl:portType");
+					compare(wsdl.getDocument(), peerWsdl.getDocument(), "//wsdl:operation");
+					compare(wsdl.getDocument(), peerWsdl.getDocument(), "//wsdl:message");
+					compare(wsdl.getDocument(), peerWsdl.getDocument(), "//vprop:property");
+					compare(wsdl.getDocument(), peerWsdl.getDocument(), "//vprop:propertyAlias");
+					compare(wsdl.getDocument(), peerWsdl.getDocument(), "//wsdl:service");
+					compare(wsdl.getDocument(), peerWsdl.getDocument(), "//wsdl:binding");
 				}
 				compareTypes(wsdl, peerWsdl);
 			}
