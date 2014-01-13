@@ -22,11 +22,25 @@ public class EnvironmentVariableInterpreter {
 
 	private List<Integer> interpretRulesToValidate(String variable) {
 		if (variable == null || "ALL".equals(variable.toUpperCase()) || variable.isEmpty()) {
-			return Arrays.asList(ALL_SA_RULES);
+			return getAllRules();
 			// TODO add section checks i.e. all rules, that involve an <onEvent>
+		} else if ("STABLE".equals(variable.toUpperCase())) {
+			List<Integer> allRules = getAllRules();
+			allRules.removeAll(experimental());
+			return allRules;
+		} else if ("EXPERIMENTAL".equals(variable.toUpperCase())) {
+			return experimental();
 		} else {
 			return parse(variable);
 		}
+	}
+
+	private List<Integer> experimental() {
+		return Arrays.asList(new Integer[] {56, 60});
+	}
+
+	private List<Integer> getAllRules() {
+		return new LinkedList<>(Arrays.asList(ALL_SA_RULES));
 	}
 
 	private List<Integer> parse(String variable) {
