@@ -19,8 +19,8 @@ public class SA00067Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (SourcesElement sources : fileHandler.getAllSourcesContainer()) {
-			for (TargetsElement targetsNode : fileHandler.getAllTargetsContainer()) {
+		for (SourcesElement sources : processContainer.getAllSourcesContainer()) {
+			for (TargetsElement targetsNode : processContainer.getAllTargetsContainer()) {
 				checkForDoubleLinks(sources, targetsNode);
 			}
 		}

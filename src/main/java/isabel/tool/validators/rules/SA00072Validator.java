@@ -23,7 +23,7 @@ public class SA00072Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (SourceElement source : fileHandler.getAllSources()) {
+		for (SourceElement source : processContainer.getAllSources()) {
 			linkNames = new HashSet<>();
 			linkNames.add(source.getLinkName());
 			if (isCreatingControlCycle(source)) {

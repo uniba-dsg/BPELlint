@@ -33,7 +33,7 @@ public class SA00021Validator extends Validator {
     }
 
     private void validateFor(String toOrFrom) {
-        Nodes fromToSet = fileHandler.getBpel().getDocument()
+        Nodes fromToSet = processContainer.getBpel().getDocument()
                 .query(toOrFrom, CONTEXT);
         for (Node fromTo : fromToSet) {
             String property = new NodeHelper(fromTo).getAttribute("property");
@@ -57,7 +57,7 @@ public class SA00021Validator extends Validator {
 
         if (!type.isEmpty()) {
             XmlFile wsdl = getCorrespondingWsdl(property, variable.toXOM());
-            for (PropertyAliasElement propertyAlias : fileHandler.getPropertyAliases(wsdl)) {
+            for (PropertyAliasElement propertyAlias : processContainer.getPropertyAliases(wsdl)) {
                 String propertyName = PrefixHelper.removePrefix(propertyAlias.getPropertyNameAttribute());
 
                 if (PrefixHelper.removePrefix(property).equals(propertyName)) {
@@ -97,15 +97,15 @@ public class SA00021Validator extends Validator {
     private XmlFile getCorrespondingWsdl(String property, Node node)
             throws NavigationException {
         String targetNamespace = PrefixHelper.getPrefixNamespaceURI(node, PrefixHelper.getPrefix(property));
-        return fileHandler.getWsdlByTargetNamespace(targetNamespace);
+        return processContainer.getWsdlByTargetNamespace(targetNamespace);
     }
 
     private void verifyThatEachCorrelationSetHasAnExistingProperty() {
-        Nodes correlationSets = fileHandler.getCorrelationSets();
-        List<String> properties = toIdentifiers(fileHandler.getAllProperties());
+        Nodes correlationSets = processContainer.getCorrelationSets();
+        List<String> properties = toIdentifiers(processContainer.getAllProperties());
 
         for (Node correlationSet : correlationSets) {
-            List<String> propertyIdentifiers = new CorrelationSetElement(correlationSet, fileHandler).getPropertyIdentifiers();
+            List<String> propertyIdentifiers = new CorrelationSetElement(correlationSet, processContainer).getPropertyIdentifiers();
             propertyIdentifiers.removeAll(properties);
 
             if (!propertyIdentifiers.isEmpty()) {
@@ -130,8 +130,8 @@ public class SA00021Validator extends Validator {
 			return variable.getVariableMessageType();
 		} else if (variable.hasVariableElement()) {
 			return variable.getVariableElement();
-		} else if (variable instanceof VariableElement && new VariableElement(variable.toXOM(), fileHandler).hasType()) {
-			return new VariableElement(variable.toXOM(), fileHandler).getType();
+		} else if (variable instanceof VariableElement && new VariableElement(variable.toXOM(), processContainer).hasType()) {
+			return new VariableElement(variable.toXOM(), processContainer).getType();
 		} else {
 			throw new NavigationException("This variable is untyped.");
 		}

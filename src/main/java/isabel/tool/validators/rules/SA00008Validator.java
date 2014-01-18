@@ -13,7 +13,7 @@ public class SA00008Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (CompensateElement compensate : fileHandler.getAllCompensates()) {
+		for (CompensateElement compensate : processContainer.getAllCompensates()) {
 
             if (!compensate.isWithinFaultHandler()
                     && !compensate.isWithinCompensationHandler()

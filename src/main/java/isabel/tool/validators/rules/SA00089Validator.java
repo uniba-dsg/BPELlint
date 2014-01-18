@@ -14,7 +14,7 @@ public class SA00089Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (OnEventElement onEvent : fileHandler.getAllOnEvents()) {
+		for (OnEventElement onEvent : processContainer.getAllOnEvents()) {
 			if (!onEvent.getMessageExchangeAttribute().isEmpty()) {
 				try {
 					onEvent.getMessageExchange();

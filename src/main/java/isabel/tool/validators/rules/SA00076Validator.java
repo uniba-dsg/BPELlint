@@ -16,7 +16,7 @@ public class SA00076Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes forEachLoops = fileHandler.getBpel().getDocument()
+		Nodes forEachLoops = processContainer.getBpel().getDocument()
 				.query("//bpel:forEach", Standards.CONTEXT);
 		for (Node forEach : forEachLoops) {
 			NodeHelper forEachHelper = new NodeHelper(forEach);

@@ -28,17 +28,17 @@ public class SA00054Validator extends Validator {
 	}
 
 	private void hasPartForEveryToPart(String xPathOutgoingOperation) {
-		Nodes outgoingOperations = fileHandler.getBpel().getDocument()
+		Nodes outgoingOperations = processContainer.getBpel().getDocument()
 				.query(xPathOutgoingOperation, CONTEXT);
 
 		for (Node outgoingOperation : outgoingOperations) {
 			try {
 				MessageElement message;
 				if ("invoke".equals(PrefixHelper.removePrefix(xPathOutgoingOperation))) {
-					message = new InvokeElement(outgoingOperation, fileHandler).getOperation()
+					message = new InvokeElement(outgoingOperation, processContainer).getOperation()
 							.getInput().getMessage();
 				} else {
-					message = new ReplyElement(outgoingOperation, fileHandler).getOperation()
+					message = new ReplyElement(outgoingOperation, processContainer).getOperation()
 							.getOutput().getMessage();
 				}
 
@@ -46,7 +46,7 @@ public class SA00054Validator extends Validator {
 				if (!toPartsNode.hasAny()) {
 					return;
 				}
-				ToPartsElement toParts = new ToPartsElement(toPartsNode.get(0), fileHandler);
+				ToPartsElement toParts = new ToPartsElement(toPartsNode.get(0), processContainer);
 				for (ToPartElement toPart : toParts.getAllToParts()) {
 					if (!hasToPartCorrespondingMessagePart(toPart, message)) {
 						addViolation(toPart);

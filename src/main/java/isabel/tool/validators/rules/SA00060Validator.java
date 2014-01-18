@@ -39,7 +39,7 @@ public class SA00060Validator extends Validator {
 		void add(MessageActivity messageActivity) {
 			if (messageActivity.getType() == Type.ON_EVENT) {
 				onEvents.add(messageActivity);
-				validate(new OnEventElement(messageActivity.toXOM(), fileHandler));
+				validate(new OnEventElement(messageActivity.toXOM(), processContainer));
 			}
 			if (messageActivity.getType() == Type.ON_MESSAGE) {
 				onMessages.add(messageActivity);
@@ -124,7 +124,7 @@ public class SA00060Validator extends Validator {
 
 		private void checkSimultaniousMarkUp(Set<ComparableNode> messageActivities) {
 			for (ComparableNode comparableNode : messageActivities) {
-				MessageActivityImpl messageActivity = new MessageActivityImpl(comparableNode, fileHandler);
+				MessageActivityImpl messageActivity = new MessageActivityImpl(comparableNode, processContainer);
 				if ("".equals(messageActivity.getMessageExchangeAttribute())) {
 					addViolation(comparableNode);
 				}
@@ -189,13 +189,13 @@ public class SA00060Validator extends Validator {
 	}
 
 	private Map<ComparableNode, OperationMembers> getAllRequestResponseMessageExchanges() {
-		Nodes operationalNodes = fileHandler.getProcess().toXOM()
+		Nodes operationalNodes = processContainer.getProcess().toXOM()
 				.query("//bpel:*[@operation]", Standards.CONTEXT);
 		Map<ComparableNode, OperationMembers> operations = new HashMap<>(
 				operationalNodes.size() / 2 + 1);
 		for (Node node : operationalNodes) {
 			try {
-				MessageActivityImpl messageActivity = new MessageActivityImpl(new NodeHelper(node), fileHandler);
+				MessageActivityImpl messageActivity = new MessageActivityImpl(new NodeHelper(node), processContainer);
 				OperationElement operationElement = messageActivity.getOperation();
 				if (!operationElement.isRequestResponse()) {
 					continue;
@@ -237,7 +237,7 @@ public class SA00060Validator extends Validator {
 	}
 
 	private boolean isMarked(OnEventElement onEvent, Node node) {
-		return isMarked(onEvent, new ReplyElement(node, fileHandler));
+		return isMarked(onEvent, new ReplyElement(node, processContainer));
 	}
 
 	private boolean isMarked(MessageActivity messageActivity, MessageActivity reply) {

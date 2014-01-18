@@ -39,7 +39,7 @@ public class SA00057Validator extends Validator {
 	private List<Set<String>> listAllJoinCorrelationSetNames() {
 		List<Set<String>> joinCorrelationSetNames = new LinkedList<>();
 		correlationgStartActivitiesCounter = 0;
-		for (StartActivity receiveOrOnMessage : fileHandler.getAllStartAcivities()) {
+		for (StartActivity receiveOrOnMessage : processContainer.getAllStartAcivities()) {
 			try {
 				joinCorrelationSetNames.add(checkActivity(receiveOrOnMessage));
 			} catch (NavigationException e) {
@@ -69,7 +69,7 @@ public class SA00057Validator extends Validator {
 		for (Set<String> setA : joinCorrelationSetNames) {
 			for (Set<String> setB : joinCorrelationSetNames) {
 				if (!(Sets.intersection(setA, setB).size() > 0)) {
-					addViolation(fileHandler.getProcess());
+					addViolation(processContainer.getProcess());
 				}
 			}
 		}

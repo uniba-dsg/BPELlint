@@ -21,9 +21,9 @@ public class SA00046Validator extends Validator {
 
     @Override
     public void validate() {
-        for (CorrelationsElement node : fileHandler.getAllCorrelationsWithinInvokes()) {
+        for (CorrelationsElement node : processContainer.getAllCorrelationsWithinInvokes()) {
             try {
-                OperationElement operation = new InvokeElement(node.toXOM().getParent(), fileHandler).getOperation();
+                OperationElement operation = new InvokeElement(node.toXOM().getParent(), processContainer).getOperation();
 
                 if (operation.isRequestResponse()) {
                     reportViolation(node.getCorrelationWithoutPattern(), PATTERN_REQUIRED_IN_REQUEST_RESPONSE_INVOKE);

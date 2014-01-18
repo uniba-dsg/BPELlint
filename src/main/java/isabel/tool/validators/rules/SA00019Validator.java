@@ -16,7 +16,7 @@ public class SA00019Validator extends Validator {
 
     @Override
     public void validate() {
-        for (PropertyElement property : fileHandler.getAllProperties()) {
+        for (PropertyElement property : processContainer.getAllProperties()) {
             if (property.hasNeitherTypeNorElement()) {
                 addViolation(property, NEITHER_TYPE_NOR_ELEMENT);
             } else if (property.hasTypeAndElement()) {

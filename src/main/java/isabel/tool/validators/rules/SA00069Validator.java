@@ -17,7 +17,7 @@ public class SA00069Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (TargetsElement targets : fileHandler.getAllTargetsContainer()) {
+		for (TargetsElement targets : processContainer.getAllTargetsContainer()) {
 			checkLinkNameUniqueness(targets);
 		}
 	}

@@ -22,7 +22,7 @@ public class SA00003Validator extends Validator {
     @Override
     public void validate() {
         List<Node> processAndScopeNodes = new ArrayList<>();
-        processAndScopeNodes.add(fileHandler.getProcess().toXOM());
+        processAndScopeNodes.add(processContainer.getProcess().toXOM());
         processAndScopeNodes.addAll(getScopes());
 
         for (Node processOrScope : processAndScopeNodes) {
@@ -34,7 +34,7 @@ public class SA00003Validator extends Validator {
     }
 
     private List<Node> getScopes() {
-        return NodesUtil.toList(fileHandler.getAllScopes());
+        return NodesUtil.toList(processContainer.getAllScopes());
     }
 
     private boolean hasExitOnStandardFault(String bool, Node enclosingScopes) {

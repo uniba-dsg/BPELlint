@@ -13,7 +13,7 @@ public class SA00006Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (RethrowElement rethrow : fileHandler.getAllRethrows()) {
+		for (RethrowElement rethrow : processContainer.getAllRethrows()) {
 
 			if (!rethrow.isWithinFaultHandler()) {
 				addViolation(rethrow);

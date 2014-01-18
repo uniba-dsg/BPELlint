@@ -20,7 +20,7 @@ public class SA00025Validator extends Validator {
     public void validate() {
 
 
-        for (VariableElement variable : fileHandler.getAllVariables()) {
+        for (VariableElement variable : processContainer.getAllVariables()) {
 
             if (!variable.hasVariableMessageType() && !variable.hasType() && !variable.hasVariableElement()) {
                 addViolation(variable, MESSAGE_TYPE_OR_TYPE_OR_ELEMENT_MISSING);

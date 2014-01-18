@@ -18,10 +18,10 @@ public class SA00011Validator extends Validator {
 
     @Override
     public void validate() {
-        List<XmlFile> allWsdls = fileHandler.getWsdls();
-        List<XmlFile> allXsds = fileHandler.getXsds();
+        List<XmlFile> allWsdls = processContainer.getWsdls();
+        List<XmlFile> allXsds = processContainer.getXsds();
 
-        for (ImportElement importElement : fileHandler.getAllImports()) {
+        for (ImportElement importElement : processContainer.getAllImports()) {
             boolean validFile = isValidFile(allWsdls, importElement) || isValidFile(allXsds, importElement);
 
             if (!validFile) {
@@ -31,7 +31,7 @@ public class SA00011Validator extends Validator {
     }
 
     private boolean isValidFile(List<XmlFile> xmlFileList, ImportElement importElement) {
-        Path absolutePath = importElement.getAbsoluteLocation(this.fileHandler.getAbsoluteBpelFolder());
+        Path absolutePath = importElement.getAbsoluteLocation(this.processContainer.getAbsoluteBpelFolder());
 
         for (XmlFile xmlFile : xmlFileList) {
             Path filePath = xmlFile.getFilePath();

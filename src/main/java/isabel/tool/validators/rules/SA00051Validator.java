@@ -14,7 +14,7 @@ public class SA00051Validator extends Validator {
 	@Override
 	public void validate() {
 
-		for (InvokeElement invoke : fileHandler.getAllInvokes()) {
+		for (InvokeElement invoke : processContainer.getAllInvokes()) {
             if (invoke.hasToParts() && invoke.hasInputVariable()) {
 				addViolation(invoke);
 			}

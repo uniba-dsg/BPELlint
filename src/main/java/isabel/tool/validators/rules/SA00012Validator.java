@@ -17,10 +17,10 @@ public class SA00012Validator extends Validator {
 
     @Override
     public void validate() {
-        List<ImportElement> imports = fileHandler.getAllImports();
+        List<ImportElement> imports = processContainer.getAllImports();
 
-        List<XmlFile> allWsdls = fileHandler.getDirectlyImportedWsdls();
-        List<XmlFile> allXsds = fileHandler.getDirectlyImportedXsds();
+        List<XmlFile> allWsdls = processContainer.getDirectlyImportedWsdls();
+        List<XmlFile> allXsds = processContainer.getDirectlyImportedXsds();
 
         for (ImportElement node : imports) {
             boolean importedFileIsValid = isValidFile(allWsdls, node) && isValidFile(allXsds, node);
@@ -39,7 +39,7 @@ public class SA00012Validator extends Validator {
 
             for (XmlFile xmlFile : xmlFileList) {
 
-                Path canonicalPath = fileHandler.getAbsoluteBpelFolder().resolve(node.getLocation()).toAbsolutePath().normalize();
+                Path canonicalPath = processContainer.getAbsoluteBpelFolder().resolve(node.getLocation()).toAbsolutePath().normalize();
                 if (xmlFile.getFilePath().equals(canonicalPath)) {
 
                     if (!"".equals(xmlFile.getTargetNamespace())) {

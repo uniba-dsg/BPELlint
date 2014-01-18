@@ -16,7 +16,7 @@ public class SA00092Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (ScopeElement scope : fileHandler.getAllScopes()) {
+		for (ScopeElement scope : processContainer.getAllScopes()) {
 			checkForScopeNameDuplicates(scope);
 		}
 	}

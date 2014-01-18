@@ -15,7 +15,7 @@ public class SA00062Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes picksWithCreateInstanceYes = fileHandler.getBpel().getDocument()
+		Nodes picksWithCreateInstanceYes = processContainer.getBpel().getDocument()
 				.query("//bpel:pick[@createInstance='yes']", Standards.CONTEXT);
 		for (Node pick : picksWithCreateInstanceYes) {
 			Nodes onAlarms = pick.query("bpel:onAlarm", Standards.CONTEXT);

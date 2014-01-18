@@ -13,7 +13,7 @@ public class SA00020Validator extends Validator {
 
     @Override
     public void validate() {
-        for (PropertyAliasElement propertyAlias : fileHandler.getAllPropertyAliases()) {
+        for (PropertyAliasElement propertyAlias : processContainer.getAllPropertyAliases()) {
             boolean messageTypeAndPart = propertyAlias.hasMessageType()
                     && propertyAlias.hasPart()
                     && !propertyAlias.hasType()

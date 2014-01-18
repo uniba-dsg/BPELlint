@@ -12,7 +12,7 @@ public class SA00032Validator extends Validator {
 
     @Override
     public void validate() {
-        for (CopyEntity fromTo : fileHandler.getAllCopyEntities()) {
+        for (CopyEntity fromTo : processContainer.getAllCopyEntities()) {
 		    if (!(fromTo.isEmpty() || fromTo.isMessageVariableAssignment()
 		            || fromTo.isPartnerLinkAssignment() || fromTo.isVariableAssignment()
 		            || fromTo.isQueryResultAssignment() || fromTo.isLiteralAssignment())) {

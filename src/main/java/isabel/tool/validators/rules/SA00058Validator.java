@@ -18,7 +18,7 @@ public class SA00058Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (ReceiveElement receive : fileHandler.getAllReceives()) {
+		for (ReceiveElement receive : processContainer.getAllReceives()) {
 			try {
 				OperationElement operation = receive.getOperation();
 				validateReceive(receive, operation);
@@ -26,7 +26,7 @@ public class SA00058Validator extends Validator {
 				// This node could not be validated without a operation
 			}
 		}
-		for (ReplyElement reply : fileHandler.getAllReplies()) {
+		for (ReplyElement reply : processContainer.getAllReplies()) {
 			try {
 				OperationElement operation = reply.getOperation();
 				if(reply.hasFaultNameAttribute()){
@@ -42,7 +42,7 @@ public class SA00058Validator extends Validator {
 
 	private void validateReceive(ReceiveElement receive, OperationElement operation) {
 		try {
-			VariableHelper variable = new VariableHelper(fileHandler, navigator.getVariableByName(receive, receive.getVariableAttribute()));
+			VariableHelper variable = new VariableHelper(processContainer, navigator.getVariableByName(receive, receive.getVariableAttribute()));
 			if (!variable.hasCorrespondingMessage(operation.getInput().getMessage())){
 				addViolation(receive);
 			}
@@ -53,7 +53,7 @@ public class SA00058Validator extends Validator {
 
 	private void validateReply(ReplyElement reply, OperationElement operation) {
 		try {
-			VariableHelper variable = new VariableHelper(fileHandler, navigator.getVariableByName(reply, reply.getVariableAttribute()));
+			VariableHelper variable = new VariableHelper(processContainer, navigator.getVariableByName(reply, reply.getVariableAttribute()));
 			if (!variable.hasCorrespondingMessage(operation.getOutput().getMessage())) {
 				addViolation(reply);
 			}
@@ -64,7 +64,7 @@ public class SA00058Validator extends Validator {
 	
 	private void validateFault(ReplyElement reply, OperationElement operation) {
 		try {
-			VariableHelper variable = new VariableHelper(fileHandler, navigator.getVariableByName(reply, reply.getVariableAttribute()));
+			VariableHelper variable = new VariableHelper(processContainer, navigator.getVariableByName(reply, reply.getVariableAttribute()));
 			if (!variable.hasCorrespondingMessage(operation.getFault().getMessage())) {
 				addViolation(reply);
 			}

@@ -13,7 +13,7 @@ public class SA00090Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (OnEventElement onEvent : fileHandler.getAllOnEvents()) {
+		for (OnEventElement onEvent : processContainer.getAllOnEvents()) {
 			if (!onEvent.hasVariableAttribute()) {
 				continue;
 			}

@@ -16,9 +16,9 @@ public class SA00024Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes variables = fileHandler.getBpel().getDocument()
+		Nodes variables = processContainer.getBpel().getDocument()
 				.query("//bpel:variable/@name", CONTEXT);
-		Nodes onEvents = fileHandler.getBpel().getDocument()
+		Nodes onEvents = processContainer.getBpel().getDocument()
 				.query("//bpel:onEvent/@variable", CONTEXT);
 
 		for (Node variable : variables) {

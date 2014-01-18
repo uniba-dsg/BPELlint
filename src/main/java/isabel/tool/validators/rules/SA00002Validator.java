@@ -16,7 +16,7 @@ public class SA00002Validator extends Validator {
 
     @Override
     public void validate() {
-        for (PortTypeElement portType : fileHandler.getAllPortTypes()) {
+        for (PortTypeElement portType : processContainer.getAllPortTypes()) {
             Set<String> nameSet = new HashSet<>();
             for (Attribute nameAttribute : portType.getOperationNames()) {
                 if (nameSet.contains(nameAttribute.toXML())) {

@@ -13,7 +13,7 @@ public class SA00055Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (ReceiveElement receive : fileHandler.getAllReceives()) {
+		for (ReceiveElement receive : processContainer.getAllReceives()) {
 			if (receive.hasFromParts() && receive.hasVariable()) {
 				addViolation(receive);
 			}

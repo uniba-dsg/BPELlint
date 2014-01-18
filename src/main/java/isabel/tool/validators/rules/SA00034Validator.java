@@ -32,13 +32,13 @@ public class SA00034Validator extends Validator {
     }
 
     private List<Node> getTos() {
-        Nodes toNodes = fileHandler.getBpel().getDocument()
+        Nodes toNodes = processContainer.getBpel().getDocument()
                 .query("//bpel:to[@variable]", CONTEXT);
         return NodesUtil.toList(toNodes);
     }
 
     private List<Node> getFroms() {
-        Nodes fromNodes = fileHandler.getBpel().getDocument()
+        Nodes fromNodes = processContainer.getBpel().getDocument()
                 .query("//bpel:copy/bpel:from[@variable]", CONTEXT);
         return NodesUtil.toList(fromNodes);
     }

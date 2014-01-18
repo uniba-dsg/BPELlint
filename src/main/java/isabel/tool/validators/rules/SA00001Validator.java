@@ -15,7 +15,7 @@ public class SA00001Validator extends Validator {
 
     @Override
     public void validate() {
-        for (OperationElement operation : fileHandler.getAllOperations()) {
+        for (OperationElement operation : processContainer.getAllOperations()) {
             if (operation.isNotification()) {
                 addViolation(operation, NOTIFICATION_FAULT);
             }

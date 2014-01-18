@@ -16,7 +16,7 @@ public class SA00071Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (TargetElement target : fileHandler.getAllTargets()) {
+		for (TargetElement target : processContainer.getAllTargets()) {
 			checkIsInFaultOrTerminationHandler(target);
 		}
 	}

@@ -26,7 +26,7 @@ public class SA00045Validator extends Validator {
 
     @Override
     public void validate() {
-        for (CorrelationSetElement correlationSet : fileHandler.getAllCorrelationSets()) {
+        for (CorrelationSetElement correlationSet : processContainer.getAllCorrelationSets()) {
             try {
                 if (!isSimpleType(correlationSet)) {
                     addViolation(correlationSet);
@@ -46,7 +46,7 @@ public class SA00045Validator extends Validator {
         String propertyTypeTargetNamespace = getImportNamespace(property, namespacePrefix);
 
         if (XSD_NAMESPACE.equals(propertyTypeTargetNamespace)) {
-            Document xmlSchema = fileHandler.getXmlSchema();
+            Document xmlSchema = processContainer.getXmlSchema();
             Nodes simpleTypes = xmlSchema.query("//xsd:simpleType", CONTEXT);
             for (Node simpleType : simpleTypes) {
                 String simpleTypeName = new NodeHelper(simpleType).getAttribute("name");
@@ -90,7 +90,7 @@ public class SA00045Validator extends Validator {
 
     public PropertyAliasElement navigateFromPropertyAliasNameToPropertyAlias(Nodes aliases, String propertyAliasAttribute) throws NavigationException {
         for (Node propertyAlias : aliases) {
-            PropertyAliasElement propertyAliasElement = new PropertyAliasElement(propertyAlias, fileHandler);
+            PropertyAliasElement propertyAliasElement = new PropertyAliasElement(propertyAlias, processContainer);
             String propertyAliasName = PrefixHelper.removePrefix(propertyAliasElement.getPropertyName());
 
             if (propertyAliasName.equals(propertyAliasAttribute)) {
@@ -105,7 +105,7 @@ public class SA00045Validator extends Validator {
         String namespacePrefix = correlationSet.getCorrelationPropertyAliasPrefix();
         String correspondingTargetNamespace = getImportNamespace(correlationSet, namespacePrefix);
 
-        for (XmlFile wsdlFile : fileHandler.getWsdls()) {
+        for (XmlFile wsdlFile : processContainer.getWsdls()) {
             if (wsdlFile.getTargetNamespace().equals(correspondingTargetNamespace)) {
                 return wsdlFile;
             }

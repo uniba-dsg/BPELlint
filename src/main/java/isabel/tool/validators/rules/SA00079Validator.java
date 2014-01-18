@@ -16,7 +16,7 @@ public class SA00079Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (FctHandler fctHandler : fileHandler.getAllFctHandler()) {
+		for (FctHandler fctHandler : processContainer.getAllFctHandler()) {
 			List<ScopeElement> rootScopes = fctHandler.getRootScopes();
 			for (ScopeElement scope : rootScopes) {
 				if (scope.hasCompensationHandler()) {

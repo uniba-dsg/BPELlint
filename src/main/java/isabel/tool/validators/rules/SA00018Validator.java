@@ -16,7 +16,7 @@ public class SA00018Validator extends Validator {
 
     @Override
     public void validate() {
-        for (PartnerLinksElement partnerLinksContainer : fileHandler.getAllPartnerLinksContainer()) {
+        for (PartnerLinksElement partnerLinksContainer : processContainer.getAllPartnerLinksContainer()) {
             Set<String> uniqueNames = new HashSet<>();
             for (PartnerLinkElement partnerLink : partnerLinksContainer.getPartnerLinks()) {
                 String name = partnerLink.getName();

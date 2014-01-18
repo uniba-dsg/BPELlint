@@ -16,7 +16,7 @@ public class SA00005Validator extends Validator {
 
     @Override
     public void validate() {
-        for (MessageActivity messageActivity : fileHandler.getMessageActivities()) {
+        for (MessageActivity messageActivity : processContainer.getMessageActivities()) {
             try {
                 PortTypeElement portType = messageActivity.getPortType();
 

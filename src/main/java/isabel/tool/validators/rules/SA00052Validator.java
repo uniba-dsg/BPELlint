@@ -12,7 +12,7 @@ public class SA00052Validator extends Validator {
 
     @Override
     public void validate() {
-        for (InvokeElement invoke : fileHandler.getAllInvokes()) {
+        for (InvokeElement invoke : processContainer.getAllInvokes()) {
             if (invoke.hasOutputVariable() && invoke.hasFromParts()) {
                 addViolation(invoke);
             }

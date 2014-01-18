@@ -17,7 +17,7 @@ public class SA00082Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (ScopeElement scope : fileHandler.getAllScopes()) {
+		for (ScopeElement scope : processContainer.getAllScopes()) {
 			Set<String> ownSources = scope.getSourceLinkNames();
 			Set<String> ownTargets = scope.getTargetLinkNames();
 			for (ScopeElement peerScope : scope.getPeerScopes()) {

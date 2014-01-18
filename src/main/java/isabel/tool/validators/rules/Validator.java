@@ -12,15 +12,15 @@ public abstract class Validator {
 
 	private static final int DEFAULT_TYPE = 1;
 
-	protected final ProcessContainer fileHandler;
+	protected final ProcessContainer processContainer;
 	protected final ValidatorNavigator navigator;
 	private final ValidationCollector validationCollector;
 
-	public Validator(ProcessContainer files,
+	public Validator(ProcessContainer processContainer,
 	                 ValidationCollector validationCollector) {
-		this.fileHandler = files;
+		this.processContainer = processContainer;
 		this.validationCollector = validationCollector;
-		navigator = new ValidatorNavigator(fileHandler);
+		navigator = new ValidatorNavigator(processContainer);
 	}
 
 	public abstract void validate();
@@ -50,7 +50,7 @@ public abstract class Validator {
 	}
 
 	public String getBpelFileName() {
-		return fileHandler.getBpel().getFilePath().getFileName().toString();
+		return processContainer.getBpel().getFilePath().getFileName().toString();
 	}
 
 }

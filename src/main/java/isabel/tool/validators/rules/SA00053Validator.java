@@ -24,7 +24,7 @@ public class SA00053Validator extends Validator {
 
     @Override
     public void validate() {
-        hasPartForEveryFromPart(fileHandler.getAllIncommingMessageActivities());
+        hasPartForEveryFromPart(processContainer.getAllIncommingMessageActivities());
     }
 
     private void hasPartForEveryFromPart(List<MessageActivity> incomingOperations) {
@@ -43,7 +43,7 @@ public class SA00053Validator extends Validator {
                 if (!fromPartsNode.hasAny()) {
                 	continue;
                 }
-                FromPartsElement fromParts = new FromPartsElement(fromPartsNode.get(0), fileHandler);
+                FromPartsElement fromParts = new FromPartsElement(fromPartsNode.get(0), processContainer);
 
 				for (FromPartElement fromPart : fromParts.getAllFromParts()) {
 					if (!hasFromPartCorrespondingMessagePart(fromPart, message)) {

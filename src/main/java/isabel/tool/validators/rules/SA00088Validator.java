@@ -23,7 +23,7 @@ public class SA00088Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (OnEventElement onEvent : fileHandler.getAllOnEvents()) {
+		for (OnEventElement onEvent : processContainer.getAllOnEvents()) {
 			try {
 				for (CorrelationElement correlation : onEvent.getCorrelations()) {
 					try {

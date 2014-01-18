@@ -29,13 +29,13 @@ public class SA00050Validator extends Validator {
     }
 
     private void hasToPartForEveryMessagePartInInvokes() {
-        for (InvokeElement invoke : fileHandler.getAllInvokes()) {
+        for (InvokeElement invoke : processContainer.getAllInvokes()) {
             try {
                 Nodes toPartsNode = invoke.toXOM().query("bpel:toParts", CONTEXT);
                 if (!toPartsNode.hasAny()) {
                 	return;
                 }
-                List<ToPartElement> toParts = new ToPartsElement(toPartsNode.get(0), fileHandler).getAllToParts();
+                List<ToPartElement> toParts = new ToPartsElement(toPartsNode.get(0), processContainer).getAllToParts();
 
                 MessageElement message = invoke.getOperation().getInput().getMessage();
                 List<PartElement> messageParts = message.getParts();
@@ -54,13 +54,13 @@ public class SA00050Validator extends Validator {
     }
 
     private void hasToPartForEveryMessagePartInReplies() {
-        for (ReplyElement reply : fileHandler.getAllReplies()) {
+        for (ReplyElement reply : processContainer.getAllReplies()) {
             try {
             	Nodes toPartsNode = reply.toXOM().query("bpel:toParts", CONTEXT);
                 if (!toPartsNode.hasAny()) {
                 	return;
                 }
-                List<ToPartElement> toParts = new ToPartsElement(toPartsNode.get(0), fileHandler).getAllToParts();
+                List<ToPartElement> toParts = new ToPartsElement(toPartsNode.get(0), processContainer).getAllToParts();
 
                 MessageElement message = reply.getOperation().getOutput().getMessage();
 				for (PartElement part : message.getParts()) {

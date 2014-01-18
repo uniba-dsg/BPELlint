@@ -19,7 +19,7 @@ public class SA00084Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (OnEventElement onEvent : fileHandler.getAllOnEvents()) {
+		for (OnEventElement onEvent : processContainer.getAllOnEvents()) {
 			try {
 				PartnerLinkElement partnerLink = onEvent.getPartnerLink();
 				if (!partnerLink.hasMyRole()) {

@@ -22,7 +22,7 @@ public class SA00066Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (LinkElement link : fileHandler.getAllLinks()) {
+		for (LinkElement link : processContainer.getAllLinks()) {
 			int amountOfSources = count("source", link);
 			if (amountOfSources > 1) {
 				addViolation(link, TOO_MANY_SOURCES);

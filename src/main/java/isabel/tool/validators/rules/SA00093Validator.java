@@ -17,7 +17,7 @@ public class SA00093Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (FaultHandlersElement faultHandlers : fileHandler.getAllFaultHandlerContainers()) {
+		for (FaultHandlersElement faultHandlers : processContainer.getAllFaultHandlerContainers()) {
 			try {
 				List<CatchElement> catches = faultHandlers.getCatches();
 				for (CatchElement catchElement : catches) {

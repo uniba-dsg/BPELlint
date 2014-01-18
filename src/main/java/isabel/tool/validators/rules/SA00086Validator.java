@@ -16,7 +16,7 @@ public class SA00086Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (OnEventElement onEvent : fileHandler.getAllOnEvents()) {
+		for (OnEventElement onEvent : processContainer.getAllOnEvents()) {
 			try {
 				checkForExplicitVariableDoublication(onEvent);
 			} catch (NavigationException e) {

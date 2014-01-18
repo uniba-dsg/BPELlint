@@ -23,14 +23,14 @@ public class SA00037Validator extends Validator {
 	public void validate() {
 		Nodes partnerLinkTos = getPartnerLinkTos();
 		for (Node to : partnerLinkTos) {
-			if (!correspondingPartnerLinkHasPartnerRole(new ToElement(to, fileHandler))) {
+			if (!correspondingPartnerLinkHasPartnerRole(new ToElement(to, processContainer))) {
 				addViolation(to, errorType);
 			}
 		}
 	}
 
 	private Nodes getPartnerLinkTos() {
-		Document bpelDocument = fileHandler.getBpel().getDocument();
+		Document bpelDocument = processContainer.getBpel().getDocument();
         return bpelDocument.query("//bpel:to[@partnerLink]", CONTEXT);
 	}
 

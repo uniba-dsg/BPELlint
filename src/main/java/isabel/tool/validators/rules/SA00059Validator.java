@@ -14,7 +14,7 @@ public class SA00059Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (ReplyElement reply : fileHandler.getAllReplies()) {
+		for (ReplyElement reply : processContainer.getAllReplies()) {
 			if (new NodeHelper(reply).hasQueryResult("bpel:toParts")
 					&& new NodeHelper(reply).hasAttribute("variable")) {
 				addViolation(reply);

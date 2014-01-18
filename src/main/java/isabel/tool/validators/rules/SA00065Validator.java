@@ -14,7 +14,7 @@ public class SA00065Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (LinkEntity linkEntity : fileHandler.getAllLinkEntities()) {
+		for (LinkEntity linkEntity : processContainer.getAllLinkEntities()) {
 			try {
 				linkEntity.getLink();
 			} catch (NavigationException e) {

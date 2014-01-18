@@ -17,7 +17,7 @@ public class SA00044Validator extends Validator {
 
     @Override
     public void validate() {
-        for (CorrelationSetsElement correlationSetContainer : fileHandler.getAllCorrelationSetsContainer()) {
+        for (CorrelationSetsElement correlationSetContainer : processContainer.getAllCorrelationSetsContainer()) {
             Set<String> names = new HashSet<>();
             for (CorrelationSetElement correlationSet : correlationSetContainer.getCorrelationSets()) {
                 String name = correlationSet.getName();

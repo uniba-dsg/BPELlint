@@ -29,7 +29,7 @@ public class SA00010Validator extends Validator {
 	}
 
 	private Nodes allBpelNodes() {
-		return fileHandler.getBpel().getDocument().query("//bpel:*", CONTEXT);
+		return processContainer.getBpel().getDocument().query("//bpel:*", CONTEXT);
 	}
 
 	private boolean typeDefinitionExists(Node node) {
@@ -107,7 +107,7 @@ public class SA00010Validator extends Validator {
 	}
 
 	private boolean isInAnyWsdl(String definitionType, String type) {
-		return inAnyFile(definitionType, type, fileHandler.getWsdls());
+		return inAnyFile(definitionType, type, processContainer.getWsdls());
 	}
 
 	private boolean inAnyFile(String definitionType, String type,
@@ -136,7 +136,7 @@ public class SA00010Validator extends Validator {
 	}
 
 	private boolean isInAnyXsd(String definitionType, String type) {
-		for (Node domEntry : fileHandler.getSchemas()) {
+		for (Node domEntry : processContainer.getSchemas()) {
 			Nodes rightNamedElements = domEntry.getDocument().query(
 					"//*[@name='" + type + "']", CONTEXT);
 			if (isContained(definitionType, rightNamedElements)){

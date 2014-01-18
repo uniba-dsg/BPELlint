@@ -17,7 +17,7 @@ public class SA00023Validator extends Validator {
 
     @Override
     public void validate() {
-        for (VariablesElement variablesContainer : fileHandler.getAllVariablesContainer()) {
+        for (VariablesElement variablesContainer : processContainer.getAllVariablesContainer()) {
             Set<String> names = new HashSet<>();
             for (VariableElement variable : variablesContainer.getVariables()) {
                 String name = variable.getVariableName();

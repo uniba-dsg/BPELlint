@@ -23,7 +23,7 @@ public class SA00095Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (OnEventElement onEvent : fileHandler.getAllOnEvents()) {
+		for (OnEventElement onEvent : processContainer.getAllOnEvents()) {
 			this.variableName = onEvent.getVariableName();
 			if (onEvent.hasVariableAttribute() && isVariableNotDefinedBefore(onEvent)) {
 				if (hasVariableInPeersDefinitions(onEvent.getEnclosingScope(), onEvent)) {
@@ -40,7 +40,7 @@ public class SA00095Validator extends Validator {
 			if (onEvent.equals(node)) {
 				continue;
 			}
-			ContainerAwareReferable childToCheck = new ContainerAwareReferable(node, fileHandler);
+			ContainerAwareReferable childToCheck = new ContainerAwareReferable(node, processContainer);
 			if (containsSameVariable(childToCheck)) {
 				if (isVaribleDefiningScope(childToCheck)) {
 					continue;

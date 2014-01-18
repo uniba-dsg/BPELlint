@@ -17,7 +17,7 @@ public class SA00013Validator extends Validator {
 
     @Override
     public void validate() {
-        for (ImportElement importNode : fileHandler.getAllImports()) {
+        for (ImportElement importNode : processContainer.getAllImports()) {
             if (!hasCorrectType(importNode)) {
                 addViolation(importNode);
             }
@@ -26,9 +26,9 @@ public class SA00013Validator extends Validator {
 
     private boolean hasCorrectType(ImportElement fileImport) {
         return isImportTypedWithinThisFiles(fileImport,
-                fileHandler.getWsdls())
+                processContainer.getWsdls())
                 || isImportTypedWithinThisFiles(fileImport,
-                fileHandler.getXsds());
+                processContainer.getXsds());
     }
 
     private boolean isImportTypedWithinThisFiles(ImportElement fileImport,
@@ -44,7 +44,7 @@ public class SA00013Validator extends Validator {
     }
 
     public boolean isCorrespondingFile(ImportElement fileImport, Path xmlFile) {
-        Path location = fileImport.getAbsoluteLocation(fileHandler.getAbsoluteBpelFolder());
+        Path location = fileImport.getAbsoluteLocation(processContainer.getAbsoluteBpelFolder());
         return xmlFile.equals(location);
     }
 

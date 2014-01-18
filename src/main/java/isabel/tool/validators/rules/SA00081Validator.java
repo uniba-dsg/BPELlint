@@ -13,7 +13,7 @@ public class SA00081Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (CatchElement catchElement : fileHandler.getAllCatch()) {
+		for (CatchElement catchElement : processContainer.getAllCatch()) {
 			if (!hasDefinitType(catchElement)) {
 				addViolation(catchElement);
 			}

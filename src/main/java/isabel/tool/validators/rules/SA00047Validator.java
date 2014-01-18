@@ -25,7 +25,7 @@ public class SA00047Validator extends Validator {
     @Override
     public void validate() {
 
-        for (MessageActivity messageActivity : fileHandler.getMessageActivities()) {
+        for (MessageActivity messageActivity : processContainer.getMessageActivities()) {
             try {
                 if (hasMessagePart(messageActivity)) {
                     validateMessagePartConstraint(messageActivity);

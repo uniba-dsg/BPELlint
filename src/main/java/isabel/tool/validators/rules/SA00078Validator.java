@@ -15,7 +15,7 @@ public class SA00078Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (CompensateScopeElement compensateScope : fileHandler
+		for (CompensateScopeElement compensateScope : processContainer
 				.getAllCompensateScopes()) {
 			try {
 				CompensateTargetable targetScope = compensateScope.getTarget();

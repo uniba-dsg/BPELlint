@@ -19,7 +19,7 @@ public class SA00070Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (LinkEntity sourceOrTarget : fileHandler.getAllLinkEntities()) {
+		for (LinkEntity sourceOrTarget : processContainer.getAllLinkEntities()) {
 			checkForBoundaryElement(sourceOrTarget);
 		}
 	}

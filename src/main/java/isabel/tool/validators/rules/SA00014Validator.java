@@ -21,8 +21,8 @@ public class SA00014Validator extends Validator {
 	}
 
 	private void validateWsdls() {
-		for (XmlFile wsdl : fileHandler.getWsdls()) {
-			for (XmlFile peerWsdl : fileHandler.getWsdls()) {
+		for (XmlFile wsdl : processContainer.getWsdls()) {
+			for (XmlFile peerWsdl : processContainer.getWsdls()) {
 				if (wsdl.equals(peerWsdl)) {
 					continue;
 				}
@@ -86,7 +86,7 @@ public class SA00014Validator extends Validator {
 	private void compareTypesToXsds(XmlFile wsdl) {
 		Nodes nodes = wsdl.getDocument().query("//wsdl:types/xsd:schema", Standards.CONTEXT);
 		for (Node node : nodes) {
-			for (XmlFile schema : fileHandler.getXsds()) {
+			for (XmlFile schema : processContainer.getXsds()) {
 				for (Node peerNode : schema.getDocument().query("//xsd:schema", Standards.CONTEXT)) {
 					compareSchemas(node, peerNode);
 				}
@@ -95,12 +95,12 @@ public class SA00014Validator extends Validator {
 	}
 
 	private void validateXsds() {
-		for (XmlFile xsd : fileHandler.getXsds()) {
+		for (XmlFile xsd : processContainer.getXsds()) {
 			Nodes redefine = xsd.getDocument().query("//xsd:redefine", Standards.CONTEXT);
 			if (redefine.hasAny()) {
 				addViolation(redefine.get(0));
 			}
-			for (XmlFile peerXsd : fileHandler.getXsds()) {
+			for (XmlFile peerXsd : processContainer.getXsds()) {
 				if (xsd.equals(peerXsd)) {
 					continue;
 				}

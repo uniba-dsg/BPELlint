@@ -13,7 +13,7 @@ public class SA00083Validator extends Validator {
 
     @Override
     public void validate() {
-        for (EventHandlersElement faultHandler : fileHandler.getAllEventHandlers()) {
+        for (EventHandlersElement faultHandler : processContainer.getAllEventHandlers()) {
             if (!faultHandler.hasOnEvents() && !faultHandler.hasOnAlarms()) {
                 addViolation(faultHandler);
             }

@@ -40,7 +40,7 @@ public class SA00056Validator extends Validator {
 		Set<ComparableNode> startActivities = new HashSet<>();
 		Set<ComparableNode> otherReceiveActivities = new HashSet<>();
 
-		for (ReceiveElement receive : fileHandler.getAllReceives()) {
+		for (ReceiveElement receive : processContainer.getAllReceives()) {
 			ComparableNode comparableActivity = new ComparableNode(receive.toXOM());
 			dom.add(comparableActivity);
 			if (receive.isStartActivity()) {
@@ -51,7 +51,7 @@ public class SA00056Validator extends Validator {
 				otherReceiveActivities.add(comparableActivity);
 			}
 		}
-		for (PickElement pick : fileHandler.getAllPicks()) {
+		for (PickElement pick : processContainer.getAllPicks()) {
 			ComparableNode comparableActivity = new ComparableNode(pick.toXOM());
 			dom.add(comparableActivity);
 			NodeHelper nodeHelper = new NodeHelper(pick.toXOM());
@@ -99,7 +99,7 @@ public class SA00056Validator extends Validator {
 			dom.add(comparableNode);
 			if ("scope".equals(node.getLocalName())) {
 				continue;
-			} else if ("pick".equals(node.getLocalName()) && new PickElement(node, fileHandler).isStartActivity()) {
+			} else if ("pick".equals(node.getLocalName()) && new PickElement(node, processContainer).isStartActivity()) {
 				continue;
 			} else if ("sequence".equals(node.getLocalName())) {
 				continue;

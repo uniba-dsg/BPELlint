@@ -14,7 +14,7 @@ public class SA00077Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (CompensateScopeElement compensateScope : fileHandler.getAllCompensateScopes()) {
+		for (CompensateScopeElement compensateScope : processContainer.getAllCompensateScopes()) {
 			if (!hasTarget(compensateScope)) {
 				addViolation(compensateScope);
 			}

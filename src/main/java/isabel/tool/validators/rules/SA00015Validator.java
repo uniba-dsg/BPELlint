@@ -14,7 +14,7 @@ public class SA00015Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Element rootElement = this.fileHandler.getBpel().getDocument()
+		Element rootElement = this.processContainer.getBpel().getDocument()
 				.getRootElement();
 		NodeHelper processElement = new NodeHelper(rootElement);
 		boolean hasReceiveWithCreateInstanceYes = processElement

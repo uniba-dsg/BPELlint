@@ -19,7 +19,7 @@ public class SA00087Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (OnEventElement onEvent : fileHandler.getAllOnEvents()) {
+		for (OnEventElement onEvent : processContainer.getAllOnEvents()) {
 			try {
 				checkTypeOfMessage(onEvent);
 			} catch (NavigationException e) {

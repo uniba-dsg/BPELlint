@@ -14,7 +14,7 @@ public class SA00091Validator extends Validator {
 
 	@Override
 	public void validate() {
-		for (ScopeElement scope : fileHandler.getAllScopes()) {
+		for (ScopeElement scope : processContainer.getAllScopes()) {
 			if (scope.isIsolated()) {
 				checkContainsNoIsolatedScopes(scope);
 			}
@@ -23,7 +23,7 @@ public class SA00091Validator extends Validator {
 	}
 
 	private void checkContainsNoIsolatedScopes(ScopeElement isolatedScope) {
-		for (ScopeElement scope : fileHandler.getAllScopes()) {
+		for (ScopeElement scope : processContainer.getAllScopes()) {
 			if (!isChild(scope, isolatedScope) || scope.equals(isolatedScope)) {
 				continue;
 			}

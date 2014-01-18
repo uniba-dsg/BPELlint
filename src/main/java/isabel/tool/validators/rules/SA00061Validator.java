@@ -50,11 +50,11 @@ public class SA00061Validator extends Validator {
 	}
 
 	private List<Node> getMessageActivites() {
-		Nodes receiveNodes = fileHandler.getBpel().getDocument()
+		Nodes receiveNodes = processContainer.getBpel().getDocument()
 				.query("//bpel:receive[@messageExchange]", Standards.CONTEXT);
-		Nodes onEventNodes = fileHandler.getBpel().getDocument()
+		Nodes onEventNodes = processContainer.getBpel().getDocument()
 				.query("//bpel:onEvent[@messageExchange]", Standards.CONTEXT);
-		Nodes onMessageNodes = fileHandler.getBpel().getDocument()
+		Nodes onMessageNodes = processContainer.getBpel().getDocument()
 				.query("//bpel:onMessage[@messageExchange]", Standards.CONTEXT);
 
 		List<Node> messageActivities = new LinkedList<>();
@@ -95,7 +95,7 @@ public class SA00061Validator extends Validator {
 	}
 
 	private List<Node> getReplys() {
-		List<Node> replyNodes = NodesUtil.toList(fileHandler.getBpel()
+		List<Node> replyNodes = NodesUtil.toList(processContainer.getBpel()
 				.getDocument()
 				.query("//bpel:reply[@messageExchange]", Standards.CONTEXT));
 		return replyNodes;
