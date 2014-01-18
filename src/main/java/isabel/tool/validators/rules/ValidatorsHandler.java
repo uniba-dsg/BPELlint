@@ -2,34 +2,32 @@ package isabel.tool.validators.rules;
 
 import isabel.io.EnvironmentVariableInterpreter;
 import isabel.model.ProcessContainer;
+import isabel.tool.ValidationResult;
+import isabel.tool.impl.SimpleValidationResult;
 import isabel.tool.impl.ValidationCollector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ValidatorsHandler {
 
 	private final ProcessContainer files;
-	private final ValidationCollector violationCollector;
+	private final ValidationCollector violationCollector = new SimpleValidationResult();
 
-	public ValidatorsHandler(ProcessContainer files,
-			ValidationCollector violationCollector) {
-		if (files == null)
-			throw new IllegalArgumentException(
-					"ValidationCollector must not be null");
-		if (violationCollector == null)
-			throw new IllegalArgumentException("FileHandler must not be null");
-
+	public ValidatorsHandler(ProcessContainer files) {
+		Objects.requireNonNull(files, "ValidationCollector must not be null");
 		this.files = files;
-		this.violationCollector = violationCollector;
 	}
 
-	public void validate() {
+	public ValidationResult validate() {
 		List<Integer> rulesToValidate = new EnvironmentVariableInterpreter().getRulesToValidate();
-		for (Validator validator : createValidators())
+		for (Validator validator : createValidators()) {
 			if (rulesToValidate.contains(validator.getSaNumber())) {
 				validator.validate();
 			}
+		}
+		return (ValidationResult) violationCollector;
 	}
 
 	private List<Validator> createValidators() {

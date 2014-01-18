@@ -1,6 +1,5 @@
 package isabel.tool;
 
-import isabel.tool.impl.SimpleValidationResult;
 import isabel.model.ProcessContainer;
 import isabel.imports.ImportException;
 import isabel.imports.ProcessContainerLoader;
@@ -77,13 +76,10 @@ public class Isabel {
         }
     }
 
-    private SimpleValidationResult validateAgainstSARules(
+    private ValidationResult validateAgainstSARules(
             ProcessContainer processContainer) {
-        SimpleValidationResult validationResult = new SimpleValidationResult();
-        ValidatorsHandler validators = new ValidatorsHandler(processContainer,
-                validationResult);
-        validators.validate();
-        return validationResult;
+        ValidatorsHandler validators = new ValidatorsHandler(processContainer);
+        return validators.validate();
     }
 
 }
