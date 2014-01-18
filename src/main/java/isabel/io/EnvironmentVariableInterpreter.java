@@ -50,7 +50,7 @@ public class EnvironmentVariableInterpreter {
 				Integer ruleNumber = Integer.valueOf(string.trim());
 				ruleNumbers.add(ruleNumber);
 			} catch (NumberFormatException e) {
-				new IllegalArgumentException("Variable " + ISABEL_SA_RULES_ENVIRONMENT_VARIABLE
+				throw new IllegalArgumentException("Variable " + ISABEL_SA_RULES_ENVIRONMENT_VARIABLE
 						+ "is not set properly. Got [" + variable
 						+ "] but expected somthing like [61,10,63].",e);
 			}
