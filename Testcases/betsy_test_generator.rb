@@ -49,6 +49,10 @@ Dir.glob("rules/SA000*").each do |rule_path|
 
 			FileUtils.cp File.join(rule_path,location), File.join(target_bpel_path,location_filename)
 
+      if bpel_name == "SA00014-ImportRedefine" or bpel_name == "SA00014-WsdlImportRedefine"
+        FileUtils.cp File.join(rule_path, "CalculatorSchema-Copy.xsd"), File.join(target_bpel_path, "CalculatorSchema-Copy.xsd")
+      end
+
       if location_filename == "TestInterface.wsdl"
 
         wsdl_path = File.join(target_bpel_path,location_filename)
