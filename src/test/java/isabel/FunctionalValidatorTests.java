@@ -110,7 +110,6 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00014/ImportXsdAndDefineInside.bpel", "14"},
 				{"Testcases/rules/SA00014/ImportXsdAndWsdlXsdCopy.bpel", "14"},
 				{"Testcases/rules/SA00014/ImportXsdAndXsdCopy.bpel", "14"},
-				{"Testcases/rules/SA00014/WsdlImportRedefine.bpel", "14"},
 
 				{"Testcases/rules/SA00015/NoActivityWithCreateInstanceSetToYes.bpel", "15"},
 				{"Testcases/rules/SA00015/OnlyActivityWithCreateInstanceSetToNo.bpel", "15"},
