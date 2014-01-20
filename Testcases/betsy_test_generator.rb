@@ -49,6 +49,23 @@ Dir.glob("rules/SA000*").each do |rule_path|
 
 			FileUtils.cp File.join(rule_path,location), File.join(target_bpel_path,location_filename)
 
+      if location_filename == "TestInterface.wsdl"
+
+        wsdl_path = File.join(target_bpel_path,location_filename)
+        puts wsdl_path
+        wsdl_doc = Nokogiri::XML(File.open(wsdl_path))
+        wsdl_imports = wsdl_doc.xpath("//wsdl:import", "wsdl" => "http://schemas.xmlsoap.org/wsdl/")
+        puts "FOUND IMPORT" if wsdl_imports.size > 0
+        wsdl_imports.each do |import_element|
+
+          puts "ADDITIONAL FILE REQUIRED"
+
+          wsdl_location = import_element[:location]
+
+          FileUtils.cp File.join(rule_path, wsdl_location), File.join(target_bpel_path, File.basename(wsdl_location))
+        end
+      end
+
 			import[:location] = location_filename
 		end
 
