@@ -23,8 +23,8 @@ public class SA00093Validator extends Validator {
 				for (CatchElement catchElement : catches) {
 					checkForCatchSimilarities(catchElement, catches);
 				}
-			} catch (NavigationException e) {
-				// ignore faulHandlers without <catch>
+			} catch (NavigationException ignore) {
+				// ignore faultHandlers without <catch>
 			}
 		}
 	}

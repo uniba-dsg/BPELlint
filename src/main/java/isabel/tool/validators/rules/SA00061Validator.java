@@ -24,7 +24,7 @@ public class SA00061Validator extends Validator {
 
 	@Override
 	public void validate() {
-		List<Node> messageActivities = getMessageActivites();
+		List<Node> messageActivities = getMessageActivities();
 
 		for (Node node : messageActivities) {
 			if (!hasMessageExchangePartner(node, "reply")) {
@@ -32,7 +32,7 @@ public class SA00061Validator extends Validator {
 			}
 		}
 
-		List<Node> replyNodes = getReplys();
+		List<Node> replyNodes = getReplies();
 		for (Node node : replyNodes) {
 			if (!hasMessageExchangePartner(node, "receive")
 					&& !hasMessageExchangePartner(node, "onMessage")
@@ -49,7 +49,7 @@ public class SA00061Validator extends Validator {
 		}
 	}
 
-	private List<Node> getMessageActivites() {
+	private List<Node> getMessageActivities() {
 		Nodes receiveNodes = processContainer.getBpel().getDocument()
 				.query("//bpel:receive[@messageExchange]", Standards.CONTEXT);
 		Nodes onEventNodes = processContainer.getBpel().getDocument()
@@ -94,11 +94,10 @@ public class SA00061Validator extends Validator {
 		return true;
 	}
 
-	private List<Node> getReplys() {
-		List<Node> replyNodes = NodesUtil.toList(processContainer.getBpel()
-				.getDocument()
-				.query("//bpel:reply[@messageExchange]", Standards.CONTEXT));
-		return replyNodes;
+	private List<Node> getReplies() {
+        return NodesUtil.toList(processContainer.getBpel()
+                .getDocument()
+                .query("//bpel:reply[@messageExchange]", Standards.CONTEXT));
 	}
 
 	private boolean hasMessageExchange(Node node) {

@@ -17,7 +17,7 @@ public class PartnerLinkedImpl extends ContainerAwareReferable implements Partne
 		super(element.toXOM(), processContainer);
 		this.partnerLinkName = partnerLinkName;
 		if (element instanceof OnEventElement) {
-			startScope = ((OnEventElement) element).getAsociatedScope();
+			startScope = ((OnEventElement) element).getAssociatedScope();
 		} else {
 			startScope = getEnclosingScope();
 		}

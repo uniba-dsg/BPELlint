@@ -14,7 +14,7 @@ public class MessageExchangeElement extends ContainerAwareReferable{
 		this.messageExchange = new NodeHelper(messageExchange, "messageExchange");
 	}
 
-	public String getNameAttrigbute() {
+	public String getNameAttribute() {
 		return messageExchange.getAttribute("name");
 	}
 }

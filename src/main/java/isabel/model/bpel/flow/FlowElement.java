@@ -34,8 +34,7 @@ public class FlowElement extends ContainerAwareReferable {
 		if(!links.hasAny()){
 			throw new OptionalElementNotPresentException("Optional Element <links> not present in <flow>");
 		}
-		LinksElement linksElement = new LinksElement(links.get(0), getProcessContainer());
-		return linksElement;
+        return new LinksElement(links.get(0), getProcessContainer());
 	}
 
 	public SourceElement getSourceElement(String linkName) throws NavigationException {

@@ -115,7 +115,7 @@ public class NodeHelper implements Referable {
     }
 
     public NodeHelper getFirstChildElement() throws NavigationException {
-        int amountOfChildren = getAmountOfChildern();
+        int amountOfChildren = getAmountOfChildren();
         if (amountOfChildren == 0) {
             throw new NavigationException("Node has no child.");
         }
@@ -127,7 +127,7 @@ public class NodeHelper implements Referable {
         return new NodeHelper(child);
     }
 
-    public int getAmountOfChildern() {
+    public int getAmountOfChildren() {
         Nodes directChildren = node.query("./*");
         return directChildren.size();
     }
@@ -170,7 +170,7 @@ public class NodeHelper implements Referable {
     }
 
     public boolean hasNoChildren() {
-        return getAmountOfChildern() == 0;
+        return getAmountOfChildren() == 0;
     }
 
     public boolean hasNoContent() {

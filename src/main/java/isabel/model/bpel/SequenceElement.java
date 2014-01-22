@@ -19,16 +19,16 @@ public class SequenceElement extends ContainerAwareReferable {
 		new NodeHelper(sequence, "sequence");
 	}
 
-	public List<Node> getChildsInOrder() {
-		List<ComparableNode> childs = new LinkedList<>();
+	public List<Node> getChildrenInOrder() {
+		List<ComparableNode> children = new LinkedList<>();
 		Nodes childNodes = toXOM().query("./*");
 		for (Node node : childNodes) {
-			childs.add(new ComparableNode(node));
+			children.add(new ComparableNode(node));
 		}
 
-		Collections.sort(childs);
+		Collections.sort(children);
 
-		return NodesUtil.toList(childs);
+		return NodesUtil.toList(children);
 	}
 
 }

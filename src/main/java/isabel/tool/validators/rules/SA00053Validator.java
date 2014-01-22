@@ -24,7 +24,7 @@ public class SA00053Validator extends Validator {
 
     @Override
     public void validate() {
-        hasPartForEveryFromPart(processContainer.getAllIncommingMessageActivities());
+        hasPartForEveryFromPart(processContainer.getAllIncomingMessageActivities());
     }
 
     private void hasPartForEveryFromPart(List<MessageActivity> incomingOperations) {

@@ -616,7 +616,7 @@ public class ProcessContainer {
 		return result;
 	}
 
-	public List<StartActivity> getAllStartAcivities() {
+	public List<StartActivity> getAllStartActivities() {
 		List<StartActivity> result = new LinkedList<>();
 		result.addAll(getAllReceives());
 		result.addAll(getAllOnMessages());
@@ -655,7 +655,7 @@ public class ProcessContainer {
 		return result;
 	}
 
-	public List<CompensationHandlerElement> getAllCompenationHandler() {
+	public List<CompensationHandlerElement> getAllCompensationHandler() {
 		List<CompensationHandlerElement> result = new LinkedList<>();
 
 		for (Node node : getBpel().getDocument().query(
@@ -670,13 +670,13 @@ public class ProcessContainer {
 		List<FctHandler> result = new LinkedList<>();
 		result.addAll(getAllCatch());
 		result.addAll(getAllCatchAll());
-		result.addAll(getAllCompenationHandler());
+		result.addAll(getAllCompensationHandler());
 		result.addAll(getAllTerminationHandler());
 
 		return result;
 	}
 
-	public List<MessageActivity> getAllIncommingMessageActivities() {
+	public List<MessageActivity> getAllIncomingMessageActivities() {
 		List<MessageActivity> result = new LinkedList<>();
 		result.addAll(getAllInvokes());
 		result.addAll(getAllReceives());

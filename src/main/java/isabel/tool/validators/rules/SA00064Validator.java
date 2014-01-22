@@ -18,11 +18,11 @@ public class SA00064Validator extends Validator {
 	@Override
 	public void validate() {
 		for (LinksElement links : processContainer.getAllLinksContainer()) {
-			checkLinkeNameUniqueness(links);
+			checkLinksNameUniqueness(links);
 		}
 	}
 
-	private void checkLinkeNameUniqueness(LinksElement linksElement) {
+	private void checkLinksNameUniqueness(LinksElement linksElement) {
 		Set<String> uniqueNames = new HashSet<>();
 		for (LinkElement link : linksElement.getAllLinks()) {
 			String name = link.getName();

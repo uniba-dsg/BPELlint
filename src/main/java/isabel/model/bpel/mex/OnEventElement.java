@@ -114,7 +114,7 @@ public class OnEventElement extends ContainerAwareReferable implements
 		return !"".equals(getVariableName());
 	}
 
-	public ScopeElement getAsociatedScope() {
+	public ScopeElement getAssociatedScope() {
 		Node scope = toXOM().query("./bpel:scope", Standards.CONTEXT).get(0);
 		return new ScopeElement(scope, getProcessContainer());
 	}
@@ -137,7 +137,7 @@ public class OnEventElement extends ContainerAwareReferable implements
 	}
 
 	public MessageExchangeElement getMessageExchange() throws NavigationException {
-		return getMessageExchange(getAsociatedScope());
+		return getMessageExchange(getAssociatedScope());
 	}
 
 	private MessageExchangeElement getMessageExchange(ScopeElement scope) throws NavigationException {

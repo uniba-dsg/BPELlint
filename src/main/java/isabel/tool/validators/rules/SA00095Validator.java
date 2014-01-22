@@ -42,7 +42,7 @@ public class SA00095Validator extends Validator {
 			}
 			ContainerAwareReferable childToCheck = new ContainerAwareReferable(node, processContainer);
 			if (containsSameVariable(childToCheck)) {
-				if (isVaribleDefiningScope(childToCheck)) {
+				if (isVariableDefiningScope(childToCheck)) {
 					continue;
 				}
 				return hasVariableInPeersDefinitions(childToCheck, onEvent);
@@ -62,7 +62,7 @@ public class SA00095Validator extends Validator {
 		return "bpel:variables/bpel:variable[@name='" + variableName + "']|bpel:onEvent[@variable='" + variableName + "']";
 	}
 
-	private boolean isVaribleDefiningScope(Referable referable) {
+	private boolean isVariableDefiningScope(Referable referable) {
 		return referable.toXOM().query(variableSearchString(), Standards.CONTEXT).hasAny();
 	}
 

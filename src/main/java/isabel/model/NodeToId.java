@@ -52,8 +52,8 @@ public class NodeToId {
 	}
 
 	public String toId() {
-		return node.getBaseURI() + "#" + new Integer(getLineNumber()).toString() + ":"
-				+ new Integer(getColumnNumber()).toString() + "_"
+		return node.getBaseURI() + "#" + Integer.toString(getLineNumber()) + ":"
+				+ Integer.toString(getColumnNumber()) + "_"
 				+ new NodeHelper(node).getLocalName();
 	}
 }

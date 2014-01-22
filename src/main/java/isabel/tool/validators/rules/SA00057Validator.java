@@ -15,7 +15,7 @@ import com.google.common.collect.Sets;
 
 public class SA00057Validator extends Validator {
 
-	private int correlationgStartActivitiesCounter;
+	private int correlatingStartActivitiesCounter;
 
 	public SA00057Validator(ProcessContainer files,
 			ValidationCollector validationCollector) {
@@ -33,13 +33,13 @@ public class SA00057Validator extends Validator {
 	}
 
 	private boolean isSingleStartingPoint() {
-		return correlationgStartActivitiesCounter == 1;
+		return correlatingStartActivitiesCounter == 1;
 	}
 
 	private List<Set<String>> listAllJoinCorrelationSetNames() {
 		List<Set<String>> joinCorrelationSetNames = new LinkedList<>();
-		correlationgStartActivitiesCounter = 0;
-		for (StartActivity receiveOrOnMessage : processContainer.getAllStartAcivities()) {
+		correlatingStartActivitiesCounter = 0;
+		for (StartActivity receiveOrOnMessage : processContainer.getAllStartActivities()) {
 			try {
 				joinCorrelationSetNames.add(checkActivity(receiveOrOnMessage));
 			} catch (NavigationException e) {
@@ -57,7 +57,7 @@ public class SA00057Validator extends Validator {
 					activityJoinCorrelationSetNames.add(correlation.getCorrelationSetAttribute());
 				}
 			}
-			correlationgStartActivitiesCounter++;
+			correlatingStartActivitiesCounter++;
 			return activityJoinCorrelationSetNames;
 		} else {
 			throw new NavigationException("This is not a start activity.");

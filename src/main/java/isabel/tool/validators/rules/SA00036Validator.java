@@ -22,7 +22,7 @@ public class SA00036Validator extends Validator {
 
     @Override
     public void validate() {
-        Nodes endpointReferenceFroms = getEndpoinReferenceFroms();
+        Nodes endpointReferenceFroms = getEndpointReferenceFroms();
         for (Node from : endpointReferenceFroms) {
             if (!correspondingPartnerLinkHasPartnerRole(new FromElement(from, processContainer))) {
                 addViolation(from, errorType);
@@ -30,7 +30,7 @@ public class SA00036Validator extends Validator {
         }
     }
 
-    private Nodes getEndpoinReferenceFroms() {
+    private Nodes getEndpointReferenceFroms() {
         Document bpelDocument = processContainer.getBpel().getDocument();
         return bpelDocument.query("//bpel:from[@endpointReference='partnerRole']", CONTEXT);
     }

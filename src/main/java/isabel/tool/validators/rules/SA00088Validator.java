@@ -15,7 +15,7 @@ import java.util.List;
 public class SA00088Validator extends Validator {
 
 	private static final int MISSING_CORRELATION_SET = 1;
-	private static final int CORRELATION_SET_MISSMATCH = 2;
+	private static final int CORRELATION_SET_MISMATCH = 2;
 
 	public SA00088Validator(ProcessContainer files, ValidationCollector validationCollector) {
 		super(files, validationCollector);
@@ -28,7 +28,7 @@ public class SA00088Validator extends Validator {
 				for (CorrelationElement correlation : onEvent.getCorrelations()) {
 					try {
 						CorrelationSetElement correlationSet = correlation
-								.getCorrelationSet(onEvent.getAsociatedScope());
+								.getCorrelationSet(onEvent.getAssociatedScope());
 						checkMessageHasPropertyAlias(onEvent, correlationSet);
 					} catch (NavigationException e) {
 						addViolation(correlation, MISSING_CORRELATION_SET);
@@ -61,7 +61,7 @@ public class SA00088Validator extends Validator {
 		} catch (NavigationException e) {
 			//see below
 		}
-		addViolation(onEvent, CORRELATION_SET_MISSMATCH);
+		addViolation(onEvent, CORRELATION_SET_MISMATCH);
 	}
 
 	@Override

@@ -12,8 +12,8 @@ import static isabel.model.Standards.CONTEXT;
 public class SA00047Validator extends Validator {
 
 	private static final int TO_PARTS_OR_FROM_PARTS_NOT_ALLOWED = 1;
-	private static final int VARIABLE_ATTRIBUTE_OR_FROM_PATRS_MISSING = 2;
-	private static final int VARIABLE_ATTRIBUTE_OR_TO_PATRS_MISSING = 3;
+	private static final int VARIABLE_ATTRIBUTE_OR_FROM_PARTS_MISSING = 2;
+	private static final int VARIABLE_ATTRIBUTE_OR_TO_PARTS_MISSING = 3;
 	private static final int INPUT_VARIABLE_OR_TO_PARTS_FOR_INVOKE_MISSING = 4;
 	private static final int INPUT_VARIABLE_OR_TO_PARTS_AND_OUTPUT_VARIABLE_OR_FROM_PART_FOR_INVOKE_MISSING = 5;
 
@@ -42,10 +42,10 @@ public class SA00047Validator extends Validator {
             throws NavigationException {
         if (messageActivity.isReceiving()
                 && !hasVariableOrFromPart(messageActivity)) {
-            addViolation(messageActivity, VARIABLE_ATTRIBUTE_OR_FROM_PATRS_MISSING);
+            addViolation(messageActivity, VARIABLE_ATTRIBUTE_OR_FROM_PARTS_MISSING);
         } else if (isReply(messageActivity)
                 && !hasVariableOrToPart(messageActivity)) {
-            addViolation(messageActivity, VARIABLE_ATTRIBUTE_OR_TO_PATRS_MISSING);
+            addViolation(messageActivity, VARIABLE_ATTRIBUTE_OR_TO_PARTS_MISSING);
         } else if (isInvoke(messageActivity)) {
             validateInvokeMessagePartConstraint(messageActivity);
         }

@@ -72,8 +72,8 @@ public class SA00056Validator extends Validator {
 		}
 
 		for (ComparableNode flow : startingFlows) {
-			Nodes flowChilds = flow.toXOM().query("./*");
-			for (Node node : flowChilds) {
+			Nodes flowChildren = flow.toXOM().query("./*");
+			for (Node node : flowChildren) {
 				SortedSet<ComparableNode> tailSet = dom.tailSet(new ComparableNode(node));
 				if(Sets.intersection(startActivities, tailSet).isEmpty() && !Sets.intersection(otherReceiveActivities, tailSet).isEmpty()){
 					// FIXME this is not working with properly linked flow structures ... and it does not prohibit other activities than non starting parallel <pick> and receive.
@@ -97,19 +97,13 @@ public class SA00056Validator extends Validator {
 			node = node.getParent();
 			ComparableNode comparableNode = new ComparableNode(node.toXOM());
 			dom.add(comparableNode);
-			if ("scope".equals(node.getLocalName())) {
-				continue;
-			} else if ("pick".equals(node.getLocalName()) && new PickElement(node, processContainer).isStartActivity()) {
-				continue;
-			} else if ("sequence".equals(node.getLocalName())) {
-				continue;
-			} else if ("flow".equals(node.getLocalName())) {
-				startingFlows.add(comparableNode);
-				continue;
-			} else {
-				addViolation(node, START_ACTIVITY_HAS_INVALID_PARENT);
-				break;
-			}
+            if ("scope".equals(node.getLocalName()) || "pick".equals(node.getLocalName()) && new PickElement(node, processContainer).isStartActivity() || "sequence".equals(node.getLocalName())) {
+            } else if ("flow".equals(node.getLocalName())) {
+                startingFlows.add(comparableNode);
+            } else {
+                addViolation(node, START_ACTIVITY_HAS_INVALID_PARENT);
+                break;
+            }
 		} 
 	}
 

@@ -69,14 +69,14 @@ public class SA00060Validator extends Validator {
 			return onEvents.size() + onMessages.size() + receives.size() <= 1;
 		}
 
-		boolean areMarkedForSimultaniousOnEvent() {
+		boolean areMarkedForSimultaneousOnEvent() {
 			if (onEvents.isEmpty()) {
 				return true;
 			}
 			return haveAllReplies(onMessages) && haveAllReplies(receives);
 		}
 
-		void areMarkedForSimultaniousRequestResponse() {
+		void areMarkedForSimultaneousRequestResponse() {
 			if (receives.size() + onMessages.size() <= 1) {
 				return;
 			}
@@ -89,12 +89,12 @@ public class SA00060Validator extends Validator {
 				Set<ComparableNode> receivingActivityTailSet = dom.tailSet(new ComparableNode(
 						messageActivity.toXOM()));
 
-				Set<ComparableNode> intersection = intersectionnRequestResponse(receivingActivityTailSet);
-				checkForSimultaniousActivities(intersection);
+				Set<ComparableNode> intersection = intersectionRequestResponse(receivingActivityTailSet);
+				checkForSimultaneousActivities(intersection);
 			}
 		}
 
-		private Set<ComparableNode> intersectionnRequestResponse(Set<ComparableNode> tailSet) {
+		private Set<ComparableNode> intersectionRequestResponse(Set<ComparableNode> tailSet) {
 			Set<ComparableNode> intersection = new HashSet<>();
 			for (Referable reply : replies) {
 				Set<ComparableNode> replyHeadSet = dom.headSet(new ComparableNode(reply));
@@ -108,21 +108,21 @@ public class SA00060Validator extends Validator {
 			return intersection;
 		}
 
-		private void checkForSimultaniousActivities(Set<ComparableNode> intersection) {
+		private void checkForSimultaneousActivities(Set<ComparableNode> intersection) {
 			if (intersection.isEmpty()) {
 				return;
 			}
-			Set<ComparableNode> intermidiaryReceives = Sets.intersection(intersection,
-					convertForComparission(receives));
-			Set<ComparableNode> intermidiaryOnMessage = Sets.intersection(intersection,
-					convertForComparission(onMessages));
-			if (!(intermidiaryReceives.size() <= 1 && intermidiaryOnMessage.size() <= 1)) {
-				checkSimultaniousMarkUp(intermidiaryReceives);
-				checkSimultaniousMarkUp(intermidiaryOnMessage);
+			Set<ComparableNode> intermediaryReceives = Sets.intersection(intersection,
+					convertForComparison(receives));
+			Set<ComparableNode> intermediaryOnMessage = Sets.intersection(intersection,
+					convertForComparison(onMessages));
+			if (!(intermediaryReceives.size() <= 1 && intermediaryOnMessage.size() <= 1)) {
+				checkSimultaneousMarkUp(intermediaryReceives);
+				checkSimultaneousMarkUp(intermediaryOnMessage);
 			}
 		}
 
-		private void checkSimultaniousMarkUp(Set<ComparableNode> messageActivities) {
+		private void checkSimultaneousMarkUp(Set<ComparableNode> messageActivities) {
 			for (ComparableNode comparableNode : messageActivities) {
 				MessageActivityImpl messageActivity = new MessageActivityImpl(comparableNode, processContainer);
 				if ("".equals(messageActivity.getMessageExchangeAttribute())) {
@@ -146,7 +146,7 @@ public class SA00060Validator extends Validator {
 
 		private boolean hasOnEventInScope(MessageActivity messageActivity) {
 			Set<ComparableNode> headSet = dom.headSet(new ComparableNode(messageActivity.toXOM()));
-			return Sets.intersection(headSet, convertForComparission(onEvents)).size() > 0;
+			return Sets.intersection(headSet, convertForComparison(onEvents)).size() > 0;
 		}
 
 		private boolean hasReply(MessageActivity messageActivity) {
@@ -158,7 +158,7 @@ public class SA00060Validator extends Validator {
 			return false;
 		}
 
-		private Set<ComparableNode> convertForComparission(List<MessageActivity> messageActivities) {
+		private Set<ComparableNode> convertForComparison(List<MessageActivity> messageActivities) {
 			/*
 			 * TODO this could be part of ComparableNode as static method
 			 */
@@ -183,8 +183,8 @@ public class SA00060Validator extends Validator {
 			if (operationMembers.isSimple()) {
 				continue;
 			}
-			operationMembers.areMarkedForSimultaniousOnEvent();
-			operationMembers.areMarkedForSimultaniousRequestResponse();
+			operationMembers.areMarkedForSimultaneousOnEvent();
+			operationMembers.areMarkedForSimultaneousRequestResponse();
 		}
 	}
 

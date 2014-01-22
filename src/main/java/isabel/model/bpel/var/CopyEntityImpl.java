@@ -33,10 +33,10 @@ public class CopyEntityImpl extends ContainerAwareReferable implements CopyEntit
 	        if (fromTo.getAmountOfAttributes() > 2) {
 	            return false;
 	        }
-	        if (fromTo.getAmountOfChildern() > 1) {
+	        if (fromTo.getAmountOfChildren() > 1) {
 	            return false;
 	        }
-	        if (fromTo.getAmountOfChildern() == 1) {
+	        if (fromTo.getAmountOfChildren() == 1) {
 	            NodeHelper query;
 	            try {
 	                query = fromTo.getFirstChildElement();
@@ -75,7 +75,7 @@ public class CopyEntityImpl extends ContainerAwareReferable implements CopyEntit
                 return false;
             }
         }
-        if (fromTo.getAmountOfChildern() > 0) {
+        if (fromTo.getAmountOfChildren() > 0) {
             return false;
         }
 
@@ -87,7 +87,7 @@ public class CopyEntityImpl extends ContainerAwareReferable implements CopyEntit
 		if (!fromTo.hasAttribute("variable")) {
             return false;
         }
-        if (fromTo.getAmountOfChildern() > 0) {
+        if (fromTo.getAmountOfChildren() > 0) {
             return false;
         }
 
@@ -100,7 +100,7 @@ public class CopyEntityImpl extends ContainerAwareReferable implements CopyEntit
 		if (fromTo.getAmountOfAttributes() > 1) {
             return false;
         }
-        if (fromTo.getAmountOfChildern() > 0) {
+        if (fromTo.getAmountOfChildren() > 0) {
             return false;
         }
         return fromTo.getAmountOfAttributes() == 0

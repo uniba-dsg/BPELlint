@@ -18,25 +18,25 @@ public class SA00086Validator extends Validator {
 	public void validate() {
 		for (OnEventElement onEvent : processContainer.getAllOnEvents()) {
 			try {
-				checkForExplicitVariableDoublication(onEvent);
+				checkForExplicitVariableDuplication(onEvent);
 			} catch (NavigationException e) {
 				// ignore, no variable => no explicit variable definition
 			}
 		}
 	}
 
-	private void checkForExplicitVariableDoublication(OnEventElement onEvent)
+	private void checkForExplicitVariableDuplication(OnEventElement onEvent)
 			throws NavigationException {
-		for (VariableElement variable : onEvent.getAsociatedScope().getAllVariables()) {
+		for (VariableElement variable : onEvent.getAssociatedScope().getAllVariables()) {
 			if (onEvent.getVariableName().equals(variable.getVariableName())) {
 				addViolation(variable);
 			}
-			checkForExplicitFromPartToVariableDoublication(onEvent, variable);
+			checkForExplicitFromPartToVariableDuplication(onEvent, variable);
 		}
 	}
 
-	private void checkForExplicitFromPartToVariableDoublication(
-			OnEventElement onEvent, VariableElement variable) {
+	private void checkForExplicitFromPartToVariableDuplication(
+            OnEventElement onEvent, VariableElement variable) {
 		try {
 			for (FromPartElement fromPart : onEvent.getFromParts()) {
 				if (fromPart.getToVariable().equals(variable.getVariableName())) {

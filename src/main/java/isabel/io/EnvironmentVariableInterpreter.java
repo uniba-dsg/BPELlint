@@ -23,7 +23,6 @@ public class EnvironmentVariableInterpreter {
 	private List<Integer> interpretRulesToValidate(String variable) {
 		if (variable == null || "ALL".equals(variable.toUpperCase()) || variable.isEmpty()) {
 			return getAllRules();
-			// TODO add section checks i.e. all rules, that involve an <onEvent>
 		} else if ("STABLE".equals(variable.toUpperCase())) {
 			List<Integer> allRules = getAllRules();
 			allRules.removeAll(experimental());
@@ -36,7 +35,7 @@ public class EnvironmentVariableInterpreter {
 	}
 
 	private List<Integer> experimental() {
-		return Arrays.asList(new Integer[] {56, 60});
+		return Arrays.asList(56, 60);
 	}
 
 	private List<Integer> getAllRules() {
@@ -52,7 +51,7 @@ public class EnvironmentVariableInterpreter {
 			} catch (NumberFormatException e) {
 				throw new IllegalArgumentException("Variable " + ISABEL_SA_RULES_ENVIRONMENT_VARIABLE
 						+ "is not set properly. Got [" + variable
-						+ "] but expected somthing like [61,10,63].",e);
+						+ "] but expected something like [61,10,63].",e);
 			}
 		}
 		return ruleNumbers;
