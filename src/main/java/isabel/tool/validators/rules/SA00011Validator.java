@@ -41,7 +41,7 @@ public class SA00011Validator extends Validator {
 
                 Logger.debug("Comparing [" + importElement.getNamespace()
                         + "] with [" + xmlFile.getTargetNamespace() + "]");
-                if (importElement.getNamespace().equals(xmlFile.getTargetNamespace())) {
+                if (importElement.getNamespace().equals(xmlFile.getTargetNamespace()) || importElement.getNamespace().isEmpty()) {
                     return true;
                 }
             }

@@ -101,7 +101,7 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00011/Import-WrongNameSpace.bpel", "11"},
 
-				{"Testcases/rules/SA00012/Import-NoNameSpace.bpel", "12, 11"},
+				{"Testcases/rules/SA00012/Import-NoNameSpace.bpel", "12"},
 
 				{"Testcases/rules/SA00013/Import-WrongImportType.bpel", "13"},
 
