@@ -6,13 +6,13 @@
     targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/receive"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface">
-   <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="../TestInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" />
+   <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="TestInterface-SecondPortType.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" />
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
     <variables>
         <variable name="InitData" messageType="ti:executeProcessAsyncRequest"/>
     </variables>
-    <receive name="Receive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessAsync" portType="ti:nonExistantPortTypeName" variable="InitData"/>
+    <receive name="Receive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessAsync" portType="ti:SecondTestInterfacePortType" variable="InitData"/>
 </process>
 

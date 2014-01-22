@@ -72,11 +72,11 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00003/ExitOnStandardFaultButCatchingStandardFaultInIndirectNestedFaultHandlers.bpel", "3"},
 				{"Testcases/rules/SA00003/ExitOnStandardFaultButCatchingStandardFaultInNestedFaultHandlers.bpel", "3"},
 
-				{"Testcases/rules/SA00005/InvokeWithNonExistentPortType.bpel", "5, 10"},
-				{"Testcases/rules/SA00005/OnEventWithNonExistentPortType.bpel", "5, 10"},
-				{"Testcases/rules/SA00005/OnMessageWithNonExistentPortType.bpel", "5, 10"},
-				{"Testcases/rules/SA00005/ReceiveWithNonExistentPortType.bpel", "5, 10"},
-				{"Testcases/rules/SA00005/ReplyWithNonExistentPortType.bpel", "5, 10"},
+				{"Testcases/rules/SA00005/InvokeWithNonExistentPortType.bpel", "5"},
+				{"Testcases/rules/SA00005/OnEventWithNonExistentPortType.bpel", "5"},
+				{"Testcases/rules/SA00005/OnMessageWithNonExistentPortType.bpel", "5"},
+				{"Testcases/rules/SA00005/ReceiveWithNonExistentPortType.bpel", "5"},
+				{"Testcases/rules/SA00005/ReplyWithNonExistentPortType.bpel", "5"},
 
 				{"Testcases/rules/SA00006/RethrowOutsideFaultHandlers.bpel", "6"},
 
