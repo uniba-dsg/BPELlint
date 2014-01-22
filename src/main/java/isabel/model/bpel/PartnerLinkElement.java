@@ -50,12 +50,12 @@ public class PartnerLinkElement extends ContainerAwareReferable {
         return partnerLink.getAttribute("myRole");
     }
 
-    public PortTypeElement partnerLinkToPortType(ProcessContainer fileHandler, MessageActivityImpl messageActivity)
+    public PortTypeElement partnerLinkToPortType(MessageActivityImpl messageActivity)
             throws NavigationException {
         String partnerLinkTypeAttribute = getPartnerLinkType();
         String wsdlImportNamespace = PrefixHelper.getPrefixNamespaceURI(toXOM(),
                 PrefixHelper.getPrefix(partnerLinkTypeAttribute));
-        Document correspondingWsdlDom = fileHandler.getWsdlByTargetNamespace(wsdlImportNamespace).getDocument();
+        Document correspondingWsdlDom = getProcessContainer().getWsdlByTargetNamespace(wsdlImportNamespace).getDocument();
 
         if (correspondingWsdlDom != null) {
             String partnerLinkTypeName = PrefixHelper

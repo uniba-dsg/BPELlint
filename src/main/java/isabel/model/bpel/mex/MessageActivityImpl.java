@@ -47,7 +47,7 @@ public class MessageActivityImpl extends ContainerAwareReferable implements Mess
 
     @Override
     public PortTypeElement getPortType() throws NavigationException {
-        return getPartnerLink().partnerLinkToPortType(getProcessContainer(), this);
+        return getPartnerLink().partnerLinkToPortType(this);
     }
 
     @Override
