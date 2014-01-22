@@ -43,7 +43,7 @@ public class SA00014Validator extends Validator {
 	}
 
 	private boolean areSimilar(XmlFile file, XmlFile peerFile) {
-		return file.getTargetNamespace().equals(peerFile.getTargetNamespace()) && !file.getFilePath().equals(peerFile.getFilePath());
+		return file.getTargetNamespace().equals(peerFile.getTargetNamespace());
 	}
 
 	private void compare(Node startNode, Node peerStartNode, String searchString) {
