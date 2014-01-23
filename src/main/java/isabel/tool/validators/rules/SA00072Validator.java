@@ -46,9 +46,8 @@ public class SA00072Validator extends Validator {
 				}
 				cyclic = cyclic	|| isCreatingControlCycle(sourceElement);
 			}
-		} catch (OptionalElementNotPresentException ignore) {
+		} catch (OptionalElementNotPresentException |  NavigationException ignore) {
 			// no source => reached an end of the graph => no cycles so far
-		} catch (NavigationException ignore) {
 			// ignore navigation error because a cycle can not exist without a working link
 		}
 

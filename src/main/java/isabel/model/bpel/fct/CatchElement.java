@@ -12,8 +12,8 @@ import nu.xom.Node;
 
 public class CatchElement extends ContainerAwareReferable implements VariableLike, FctHandler {
 
-	private NodeHelper catchElement;
-	private FctHandlerImpl fctHandlerImpl;
+	private final NodeHelper catchElement;
+	private final FctHandlerImpl fctHandlerImpl;
 
 	public CatchElement(Node catchNode, ProcessContainer processContainer) {
 		super(catchNode, processContainer);

@@ -34,9 +34,8 @@ public class BPELProcessForgotten {
     }
 
     private static List<Path> getPathsFromData(Collection<Object[]> data1) {
-        Collection<Object[]> datas = data1;
         List<Path> usedBpelFiles = new LinkedList<>();
-        for (Object[] data : datas) {
+        for (Object[] data : data1) {
             usedBpelFiles.add(Paths.get(data[0].toString()));
         }
         return usedBpelFiles;

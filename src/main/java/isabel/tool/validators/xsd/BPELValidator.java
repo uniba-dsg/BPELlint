@@ -15,7 +15,7 @@ import java.nio.file.Path;
 
 class BPELValidator {
 
-    private static SchemaFactory sFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    private static final SchemaFactory sFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
     private final Validator validator;
 

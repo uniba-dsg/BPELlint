@@ -7,7 +7,7 @@ import nu.xom.Node;
 
 public class EventHandlersElement extends ContainerAwareReferable {
 
-    private NodeHelper eventHandlers;
+    private final NodeHelper eventHandlers;
 
 	public EventHandlersElement(Node eventHandlers, ProcessContainer processContainer) {
         super(eventHandlers, processContainer);

@@ -11,7 +11,7 @@ import nu.xom.Node;
 
 public class CatchAllElement extends ContainerAwareReferable implements FctHandler {
 
-	private FctHandlerImpl fctHandlerImpl;
+	private final FctHandlerImpl fctHandlerImpl;
 
 	public CatchAllElement(Node catchAll, ProcessContainer processContainer) {
 		super(catchAll, processContainer);

@@ -44,7 +44,7 @@ public class NodeToId {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || obj instanceof NodeToId) {
+		if (obj == null || !(obj instanceof NodeToId)) {
 			return false;
 		}
 		NodeToId other = (NodeToId) obj;

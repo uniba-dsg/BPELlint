@@ -14,7 +14,7 @@ import static isabel.model.Standards.CONTEXT;
 
 public class ValidatorNavigator {
 
-	private ProcessContainer processContainer;
+	private final ProcessContainer processContainer;
 
 	public ValidatorNavigator(ProcessContainer processContainer) {
 		this.processContainer = processContainer;

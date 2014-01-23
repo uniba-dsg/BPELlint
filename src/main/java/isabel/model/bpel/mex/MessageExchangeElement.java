@@ -7,7 +7,7 @@ import isabel.model.ProcessContainer;
 
 public class MessageExchangeElement extends ContainerAwareReferable{
 
-	private NodeHelper messageExchange;
+	private final NodeHelper messageExchange;
 
 	public MessageExchangeElement(Node messageExchange, ProcessContainer processContainer) {
 		super(messageExchange, processContainer);

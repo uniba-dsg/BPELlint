@@ -15,7 +15,7 @@ import static isabel.model.Standards.CONTEXT;
 
 public class PartnerLinkElement extends ContainerAwareReferable {
 
-    private NodeHelper partnerLink;
+    private final NodeHelper partnerLink;
 
 	public PartnerLinkElement(Node node, ProcessContainer processContainer) {
         super(node, processContainer);
