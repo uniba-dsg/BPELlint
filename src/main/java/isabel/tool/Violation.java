@@ -23,14 +23,18 @@ public class Violation implements Comparable<Violation> {
 
 	@Override
 	public int compareTo(Violation o) {
+        if(o == null){
+            throw new NullPointerException("cannot compare to null");
+        }
+
 		if (isSameFile(o)) {
 			if (isSameRow(o)) {
-				return column - o.column;
+				return Integer.compare(column, o.column);
 			} else {
-				return (row - o.row);
+				return Integer.compare(row, o.row);
 			}
 		} else {
-			return (fileName.hashCode() - o.fileName.hashCode());
+			return fileName.compareTo(o.fileName);
 		}
 	}
 

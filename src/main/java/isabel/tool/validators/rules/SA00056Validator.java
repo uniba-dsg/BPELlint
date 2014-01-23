@@ -97,10 +97,10 @@ public class SA00056Validator extends Validator {
 			node = node.getParent();
 			ComparableNode comparableNode = new ComparableNode(node.toXOM());
 			dom.add(comparableNode);
-            if ("scope".equals(node.getLocalName()) || "pick".equals(node.getLocalName()) && new PickElement(node, processContainer).isStartActivity() || "sequence".equals(node.getLocalName())) {
-            } else if ("flow".equals(node.getLocalName())) {
+
+            if ("flow".equals(node.getLocalName())) {
                 startingFlows.add(comparableNode);
-            } else {
+            } else if (!("scope".equals(node.getLocalName()) || "pick".equals(node.getLocalName()) && new PickElement(node, processContainer).isStartActivity() || "sequence".equals(node.getLocalName()))){
                 addViolation(node, START_ACTIVITY_HAS_INVALID_PARENT);
                 break;
             }

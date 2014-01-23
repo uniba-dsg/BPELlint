@@ -70,11 +70,8 @@ public class SA00060Validator extends Validator {
 		}
 
 		boolean areMarkedForSimultaneousOnEvent() {
-			if (onEvents.isEmpty()) {
-				return true;
-			}
-			return haveAllReplies(onMessages) && haveAllReplies(receives);
-		}
+            return onEvents.isEmpty() || haveAllReplies(onMessages) && haveAllReplies(receives);
+        }
 
 		void areMarkedForSimultaneousRequestResponse() {
 			if (receives.size() + onMessages.size() <= 1) {
