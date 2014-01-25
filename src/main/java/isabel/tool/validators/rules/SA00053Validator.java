@@ -33,11 +33,9 @@ public class SA00053Validator extends Validator {
                 MessageElement message;
                 if (INVOKE.equals(messageActivity.getType())) {
                     message = messageActivity.getOperation().getOutput().getMessage();
-                } else if(messageActivity.isReceiving()) {
-                    message = messageActivity.getOperation().getInput().getMessage();
                 } else {
-                    throw new IllegalStateException("Should not happen!");
-                }
+                    message = messageActivity.getOperation().getInput().getMessage();
+                } 
 
                 Nodes fromPartsNode = messageActivity.toXOM().query("bpel:fromParts", CONTEXT);
                 if (!fromPartsNode.hasAny()) {
