@@ -52,7 +52,7 @@ public class SA00067Validator extends Validator {
 					linkNames.add(linkName);
 				}
 			} catch (NavigationException e) {
-				// ignore because a connection is not possible is a link is missing
+				// ignore because a connection is not possible if a link is missing
 			}
 		}
 		return linkNames;
