@@ -1,21 +1,21 @@
 package isabel.tool.validators.rules;
 
+import static isabel.model.Standards.CONTEXT;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
-import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
 import isabel.model.XmlFile;
-import nu.xom.Node;
-import nu.xom.Nodes;
+import isabel.tool.impl.ValidationCollector;
 
 import java.util.List;
 
-import static isabel.model.Standards.CONTEXT;
+import nu.xom.Node;
+import nu.xom.Nodes;
 
 public class SA00010Validator extends Validator {
 
 	public SA00010Validator(ProcessContainer files,
-	                        ValidationCollector violationCollector) {
+			ValidationCollector violationCollector) {
 		super(files, violationCollector);
 	}
 
@@ -29,74 +29,59 @@ public class SA00010Validator extends Validator {
 	}
 
 	private Nodes allBpelNodes() {
-		return processContainer.getBpel().getDocument().query("//bpel:*", CONTEXT);
+		return processContainer.getBpel().getDocument()
+				.query("//bpel:*", CONTEXT);
 	}
 
 	private boolean typeDefinitionExists(Node node) {
 		String elementName = NodeHelper.toElement(node).getQualifiedName();
 
 		switch (elementName) {
-			case "partnerLink":
-				String partnerLinkType = getType(node, "partnerLinkType");
-				return isInAnyWsdl("partnerLinkType", partnerLinkType);
+		case "partnerLink":
+			String partnerLinkType = getType(node, "partnerLinkType");
+			return isInAnyWsdl("partnerLinkType", partnerLinkType);
 
-			case "variable":
-				String variableType = getType(node, "messageType");
-				if (!"".equals(variableType)) {
-					return isInAnyWsdl("message", variableType);
-				}
+		case "variable":
+			String variableType = getType(node, "messageType");
+			if (!"".equals(variableType)) {
+				return isInAnyWsdl("message", variableType);
+			}
 
-				variableType = getType(node, "type");
-				if (!"".equals(variableType)) {
-					return isInAnyXsd("simpleType", variableType)
-							|| isInAnyXsd("complexType", variableType);
-				}
+			variableType = getType(node, "type");
+			if (!"".equals(variableType)) {
+				return isInAnyXsd("simpleType", variableType) || isInAnyXsd("complexType", variableType);
+			}
 
-				variableType = getType(node, "element");
-				return "".equals(variableType)
-						|| isInAnyXsd("element", variableType);
+			variableType = getType(node, "element");
+			return "".equals(variableType) || isInAnyXsd("element", variableType);
 
-			case "correlationSet":
-				String correlationSetType = getType(node, "properties");
-				return isInAnyWsdl("property", correlationSetType);
+		case "correlationSet":
+			String correlationSetType = getType(node, "properties");
+			return isInAnyWsdl("property", correlationSetType);
 
-			case "reply":
-				String replyType = getType(node, "portType");
-				return isInAnyWsdl("portType", replyType);
+		case "catch":
+			String catchType = getType(node, "faultMessageType");
+			if (!"".equals(catchType)) {
+				return isInAnyWsdl("message", catchType);
+			}
 
-			case "catch":
-				String catchType = getType(node, "faultMessageType");
-				if (!"".equals(catchType)) {
-					return isInAnyWsdl("message", catchType);
-				}
+			catchType = getType(node, "faultElement");
+			return "".equals(catchType) || isInAnyXsd("element", catchType);
 
-				catchType = getType(node, "faultElement");
-				return "".equals(catchType) || isInAnyXsd("element", catchType);
+		case "reply":
+		case "receive":
+		case "invoke":
+		case "onMessage":
+		case "onEvent":
+			String messageActivityType = getType(node, "portType");
+			return isInAnyWsdl("portType", messageActivityType);
 
-			case "receive":
-				String receiveType = getType(node, "portType");
-				return isInAnyWsdl("portType", receiveType);
-
-			case "invoke":
-				String invokeType = getType(node, "portType");
-				return isInAnyWsdl("portType", invokeType);
-
-			case "onMessage":
-				String onMessageType = getType(node, "portType");
-				return isInAnyWsdl("portType", onMessageType);
-
-			case "onEvent":
-				String onEventType = getType(node, "portType");
-				return isInAnyWsdl("portType", onEventType);
-
-			case "to":
-				String toType = getType(node, "property");
-				return "".equals(toType) || isInAnyWsdl("property", toType);
-			case "from":
-				String fromType = getType(node, "property");
-				return "".equals(fromType) || isInAnyWsdl("property", fromType);
-			default:
-				return true;
+		case "to":
+		case "from":
+			String copyEntityType = getType(node, "property");
+			return "".equals(copyEntityType) || isInAnyWsdl("property", copyEntityType);
+		default:
+			return true;
 		}
 	}
 
@@ -111,12 +96,12 @@ public class SA00010Validator extends Validator {
 	}
 
 	private boolean inAnyFile(String definitionType, String type,
-	                          List<XmlFile> files) {
+			List<XmlFile> files) {
 		for (XmlFile domEntry : files) {
 			Nodes rightNamedElements = domEntry.getDocument().query(
 					"//*[@name='" + type + "']", CONTEXT);
 
-			if (isContained(definitionType, rightNamedElements)){
+			if (isContained(definitionType, rightNamedElements)) {
 				return true;
 			}
 		}
@@ -139,7 +124,7 @@ public class SA00010Validator extends Validator {
 		for (Node domEntry : processContainer.getSchemas()) {
 			Nodes rightNamedElements = domEntry.getDocument().query(
 					"//*[@name='" + type + "']", CONTEXT);
-			if (isContained(definitionType, rightNamedElements)){
+			if (isContained(definitionType, rightNamedElements)) {
 				return true;
 			}
 		}
