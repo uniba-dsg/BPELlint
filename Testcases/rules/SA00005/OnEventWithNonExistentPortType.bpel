@@ -3,8 +3,10 @@
     name="Scope-EventHandlers-Parts"
     targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeEventHandlersParts"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:tns="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
     xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <!-- xmlns:tns is REQUIRED for CoreBPEL which needs this namespace for making TempInt explicit -->
     <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="TestInterface-SecondPortType.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
