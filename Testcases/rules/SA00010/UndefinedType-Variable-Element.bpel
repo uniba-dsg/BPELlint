@@ -15,11 +15,11 @@
         <partnerLink name="TestPartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"/>
     </partnerLinks>
     <variables>
-		<variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
-		<variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
-		<variable name="PartnerInitData" messageType="tp:executeProcessSyncRequest"/>
-		<variable name="PartnerReplyData" messageType="tp:executeProcessSyncResponse"/>
-		<variable name="undefined" element="xsd:undefinedElement"/>
+        <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
+        <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
+        <variable name="PartnerInitData" messageType="tp:executeProcessSyncRequest"/>
+        <variable name="PartnerReplyData" messageType="tp:executeProcessSyncResponse"/>
+        <variable name="undefined" element="xsd:undefinedElement"/>
     </variables>
     <sequence>
         <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData"/>
@@ -33,9 +33,7 @@
                     <literal>
                         <sref:service-ref>
                             <addr:EndpointReference>
-                                <addr:Address>
-                                    http://localhost:2000/bpel-assigned-testpartner
-                                </addr:Address>
+                                <addr:Address>http://PARTNER_IP_AND_PORT/bpel-assigned-testpartner</addr:Address>
                             </addr:EndpointReference>
                         </sref:service-ref>
                     </literal>
