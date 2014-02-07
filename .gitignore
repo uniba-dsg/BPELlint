@@ -9,3 +9,4 @@ build/
 *.iws
 out/
 bin/
+.idea/
