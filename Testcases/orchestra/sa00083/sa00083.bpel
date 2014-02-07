@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process
+    name="sa00083"
+    targetNamespace="http://orchestra.ow2.org/sa00083"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor"
+    xmlns:tns="http://orchestra.ow2.org/sa00083">
+   <import namespace="http://orchestra.ow2.org/sa00083" location="sa00083.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+   <partnerLinks>
+      <partnerLink name="sa00083PTL" partnerLinkType="tns:sa00083" myRole="sa00083PortTypeRole"/>
+   </partnerLinks>
+   <sequence>
+      <receive name="start" createInstance="yes" partnerLink="sa00083PTL" operation="sa00083Operation" portType="tns:sa00083PortType"/>
+      <scope name="Scope2">
+         <eventHandlers>
+         </eventHandlers>
+         <empty name="Empty2"/>
+      </scope>
+   </sequence>
+</process>

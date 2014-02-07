@@ -27,8 +27,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(value = Parameterized.class)
 public class FunctionalValidatorTests {
 
-	private final Set<Integer> violatedRules;
-	private final String bpel;
+	protected final Set<Integer> violatedRules;
+    protected final String bpel;
 
 	public FunctionalValidatorTests(String bpel, String violatedRules) {
 		this.violatedRules = parseString(violatedRules);

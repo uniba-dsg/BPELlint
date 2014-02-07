@@ -1,0 +1,25 @@
+<wsdl:definitions targetNamespace="http://orchestra.ow2.org/waitWS"
+                  xmlns:tns="http://orchestra.ow2.org/waitWS"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <message name="inputMsg"/>
+
+  <portType name="waitWSPT">
+    <operation name="wait">
+      <input message="inputMsg"/>
+    </operation>
+  </portType>
+
+  <binding name="waitWSPTSOAPBinding" type="tns:waitWSPT">
+    <operation name="wait"/>
+  </binding>
+
+  <service name="waitWSService">
+    <port name="waitWSPort" binding="tns:waitWSPTSOAPBinding">
+      <soap:address location="http://localhost:${HttpDefaultPort}/orchestra/waitWSPort"/>
+    </port>
+  </service>
+</wsdl:definitions>

@@ -1,0 +1,33 @@
+<process name="sa00057" targetNamespace="http://example.com/sa00057" 
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:tns="http://example.com/sa00057"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable http://docs.oasis-open.org/wsbpel/2.0/CS01/process/executable/ws-bpel_executable.xsd">
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="sa00057.wsdl" namespace="http://example.com/sa00057" />
+
+  <partnerLinks>
+    <partnerLink myRole="role" name="saPL" partnerLinkType="tns:saLT" />
+    <partnerLink myRole="role" name="sa2PL" partnerLinkType="tns:sa2LT" />
+  </partnerLinks>
+  
+  <correlationSets>
+    <correlationSet name="cs1" properties="tns:id" />
+  </correlationSets>
+
+  <flow>
+    <receive operation="submit" partnerLink="saPL" createInstance="yes">
+      <correlations>
+        <correlation set="cs1" initiate="no"/>
+      </correlations>
+    </receive>
+    <receive operation="submit" partnerLink="sa2PL" createInstance="yes">
+      <correlations>
+        <correlation set="cs1" initiate="yes"/>
+      </correlations>
+    </receive>
+  </flow>
+
+</process>

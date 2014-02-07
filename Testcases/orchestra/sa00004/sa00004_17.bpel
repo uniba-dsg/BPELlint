@@ -1,0 +1,37 @@
+<process name="sa00004_3" targetNamespace="http://example.com/sa00004"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:addr="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://example.com/sa00004"
+  xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:stringws="http://orchestra.ow2.org/stringWS">
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="sa00004.wsdl"
+    namespace="http://example.com/sa00004" />
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="../wsutils/stringWS.wsdl"
+    namespace="http://orchestra.ow2.org/stringWS" />
+
+  <partnerLinks>
+    <partnerLink myRole="role" name="saPL" partnerLinkType="tns:saLT" />
+  </partnerLinks>
+
+  <variables>
+    <variable name="var1" type="xsd:string" />
+  </variables>
+
+  <sequence>
+  <forEach name="foreach02" counterName="var1" parallel="no">
+    <startCounterValue>7</startCounterValue>
+    <finalCounterValue>14</finalCounterValue>
+    <completionCondition>
+      <branches expressionLanguage="foreach02ExpressionLanguageBranches"
+        successfulBranchesOnly="yes">8+2=10</branches>
+    </completionCondition>
+    <scope name="foreach02Scope">
+      <empty name="foreach02Empty01" />
+    </scope>
+  </forEach>
+  </sequence>
+
+</process>

@@ -1,0 +1,119 @@
+<wsdl:definitions targetNamespace="http://example.com/sa00004"
+  xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+  xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:tns="http://example.com/sa00004"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+  xmlns:stringws="http://orchestra.ow2.org/stringWS">
+
+  <wsdl:import location="../wsutils/stringWS.wsdl"
+    namespace="http://orchestra.ow2.org/stringWS" />
+
+  <plnk:partnerLinkType name="definitiontest01LT">
+    <plnk:role name="role" portType="tns:definitiontestPT" />
+  </plnk:partnerLinkType>
+
+  <plnk:partnerLinkType name="definitiontest02LT">
+    <plnk:role name="role" portType="tns:definitiontestPT" />
+  </plnk:partnerLinkType>
+
+  <plnk:partnerLinkType name="definitiontest01LT">
+    <plnk:role name="role" portType="tns:definitiontestPT" />
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="definitiontest02LT">
+    <plnk:role name="role" portType="tns:definitiontestPT" />
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="definitiontest03LT">
+    <plnk:role name="role" portType="tns:definitiontestPT" />
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="definitiontest04LT">
+    <plnk:role name="role" portType="tns:definitiontestPT" />
+  </plnk:partnerLinkType>
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://orchestra.ow2.org/definitiontest">
+      <xsd:element name="submitRequest" type="xsd:string" />
+    </xsd:schema>
+
+    <xsd:schema targetNamespace="http://orchestra.ow2.org/definitiontest">
+      <xsd:complexType name="bigProduct">
+        <xsd:sequence>
+          <xsd:element name="quantity" type="xsd:int" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="myElement">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:choice>
+                  <xsd:element name="element1.1.1" type="xsd:string" />
+                  <xsd:element name="element1.1.2" type="xsd:string" />
+                </xsd:choice>
+                <xsd:element name="element1.2" type="xsd:integer" />
+              </xsd:sequence>
+              <xsd:attribute name="myElementAttr" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="amount" type="xsd:int" />
+        <xsd:attribute name="reference" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:element name="bigProduct" type="tns:bigProduct" />
+
+      <xsd:element name="string" type="xsd:string" />
+      <xsd:element name="int" type="xsd:int" />
+    </xsd:schema>
+  </wsdl:types>
+
+  <vprop:property name="correlationSet01Id" type="xsd:int" />
+  <vprop:property name="correlationSet02Id" type="xsd:int" />
+
+  <vprop:property name="auctionId" type="xsd:int" />
+
+  <vprop:propertyAlias messageType="tns:submitRequest"
+    part="input" propertyName="tns:auctionId" />
+
+  <message name="InvMessage">
+    <part name="inv" type="xsd:string" />
+  </message>
+
+  <message name="submitRequest">
+    <part name="input" type="xsd:int" />
+  </message>
+
+  <message name="receiveRequest">
+    <part name="product" element="tns:bigProduct" />
+  </message>
+
+  <portType name="definitiontestPT">
+    <operation name="submit">
+      <input message="tns:submitRequest" />
+      <output message="tns:InvMessage" />
+    </operation>
+    <operation name="submitFromPart">
+      <input message="tns:receiveRequest" />
+      <output message="tns:receiveRequest" />
+    </operation>
+    <operation name="pick01Op01">
+      <input message="tns:submitRequest" />
+      <output message="tns:InvMessage" />
+    </operation>
+    <operation name="pick01Op02">
+      <input message="tns:submitRequest" />
+      <output message="tns:InvMessage" />
+    </operation>
+    <operation name="pick03Op01">
+      <input message="tns:submitRequest" />
+      <output message="tns:InvMessage" />
+    </operation>
+  </portType>
+
+  <portType name="definitiontest02PT">
+    <operation name="unused">
+      <input message="tns:submitRequest" />
+    </operation>
+  </portType>
+  <plnk:partnerLinkType name="stringWSLT">
+    <plnk:role name="stringModifier" portType="stringws:stringWSPT" />
+  </plnk:partnerLinkType>
+  
+
+</wsdl:definitions>

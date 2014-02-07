@@ -1,0 +1,36 @@
+<process name="sa00004_3" targetNamespace="http://example.com/sa00004"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:addr="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://example.com/sa00004"
+  xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:stringws="http://orchestra.ow2.org/stringWS">
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="sa00004.wsdl"
+    namespace="http://example.com/sa00004" />
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="../wsutils/stringWS.wsdl"
+    namespace="http://orchestra.ow2.org/stringWS" />
+
+  <partnerLinks>
+    <partnerLink myRole="role" name="saPL" partnerLinkType="tns:saLT" />
+  </partnerLinks>
+
+  <variables>
+    <variable name="var1" type="xsd:string" />
+  </variables>
+
+  <sequence>
+    <assign name="assign03" validate="no">
+      <copy>
+        <from variable="bigProduct">
+          <query queryLanguage="tns:unknownLanguage">tns:myElement/@myElementAttr</query>
+        </from>
+        <to variable="st1">
+          <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0:to">tns:myElement/@myElementAttr/to</query>
+        </to>
+      </copy>
+    </assign>
+  </sequence>
+
+</process>

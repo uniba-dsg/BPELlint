@@ -1,0 +1,32 @@
+<process name="sa00004_3" targetNamespace="http://example.com/sa00004"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:addr="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://example.com/sa00004"
+  xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:stringws="http://orchestra.ow2.org/stringWS">
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="sa00004.wsdl"
+    namespace="http://example.com/sa00004" />
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="../wsutils/stringWS.wsdl"
+    namespace="http://orchestra.ow2.org/stringWS" />
+
+  <partnerLinks>
+    <partnerLink myRole="role" name="saPL" partnerLinkType="tns:saLT" />
+  </partnerLinks>
+
+  <variables>
+    <variable name="var1" type="xsd:string" />
+  </variables>
+
+  <sequence>
+    <assign name="assign03" validate="no">
+      <copy>
+        <from>1+2+3+4+5+6+7+8+9+10</from>
+        <to expressionLanguage="http://orchestra.ow2.org/definitiontest">10+9+8+7+6+5+4+3+2+1</to>
+      </copy>
+    </assign>
+  </sequence>
+
+</process>

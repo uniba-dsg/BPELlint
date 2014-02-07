@@ -1,0 +1,47 @@
+<wsdl:definitions targetNamespace="http://orchestra.ow2.org/stringWS"
+  xmlns:tns="http://orchestra.ow2.org/stringWS"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://orchestra.ow2.org/stringWS">
+      <xsd:element name="suffix" type="xsd:string" />
+    </xsd:schema>
+  </wsdl:types>
+
+  <message name="suffixRequest">
+    <part name="input" element="tns:suffix" />
+  </message>
+
+  <message name="suffixResponse">
+    <part name="output" element="tns:suffix" />
+  </message>
+
+  <portType name="stringWSPT">
+    <operation name="suffix">
+      <input message="tns:suffixRequest" />
+      <output message="tns:suffixResponse" />
+    </operation>
+  </portType>
+
+  <binding name="stringWSPTSOAPBinding" type="tns:stringWSPT">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="suffix">
+      <soap:operation soapAction="http://orchestra.ow2.org/stringWS"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="stringWSService">
+    <port name="stringWSPort" binding="tns:stringWSPTSOAPBinding">
+      <soap:address location="http://localhost:${HttpDefaultPort}/orchestra/stringWSPort"/>
+    </port>
+  </service>
+</wsdl:definitions>

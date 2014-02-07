@@ -1,0 +1,47 @@
+<wsdl:definitions targetNamespace="http://orchestra.ow2.org/saveWS"
+  xmlns:tns="http://orchestra.ow2.org/saveWS"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://orchestra.ow2.org/saveWS">
+      <xsd:element name="save" type="xsd:string" />
+    </xsd:schema>
+  </wsdl:types>
+
+  <message name="saveRequest">
+    <part name="input" element="tns:save" />
+  </message>
+
+  <message name="saveResponse">
+    <part name="output" element="tns:save" />
+  </message>
+
+  <portType name="saveWSPT">
+    <operation name="save">
+      <input message="tns:saveRequest" />
+      <output message="tns:saveResponse" />
+    </operation>
+  </portType>
+
+  <binding name="saveWSPTSOAPBinding" type="tns:saveWSPT">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="save">
+      <soap:operation soapAction="http://orchestra.ow2.org/saveWS"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="saveWSService">
+    <port name="saveWSPort" binding="tns:saveWSPTSOAPBinding">
+      <soap:address location="http://localhost:${HttpDefaultPort}/orchestra/saveWSPort"/>
+    </port>
+  </service>
+</wsdl:definitions>

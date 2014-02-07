@@ -1,0 +1,25 @@
+<wsdl:definitions targetNamespace="http://orchestra.ow2.org/failWS"
+                  xmlns:tns="http://orchestra.ow2.org/failWS"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <message name="inputMsg"/>
+
+  <portType name="failWSPT">
+    <operation name="fail">
+      <input message="inputMsg"/>
+    </operation>
+  </portType>
+
+  <binding name="failWSPTSOAPBinding" type="tns:failWSPT">
+    <operation name="fail"/>
+  </binding>
+
+  <service name="failWSService">
+    <port name="failWSPort" binding="tns:failWSPTSOAPBinding">
+      <soap:address location="http://localhost:${HttpDefaultPort}/orchestra/failWSPort"/>
+    </port>
+  </service>
+</wsdl:definitions>

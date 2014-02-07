@@ -1,0 +1,45 @@
+<process name="sa00003_3" targetNamespace="http://example.com/sa00003"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:addr="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://example.com/sa00003"
+  xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  exitOnStandardFault="yes">
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="sa00003.wsdl"
+    namespace="http://example.com/sa00003" />
+
+
+  <partnerLinks>
+    <partnerLink myRole="role" name="saPL" partnerLinkType="tns:saLT" />
+  </partnerLinks>
+
+  <variables>
+    <variable name="var1" type="xsd:string" />
+  </variables>
+
+  <sequence>
+    <!-- Scope inherits exitOnStandardFault attribute from parent scope or 
+      process -->
+    <scope>
+      <partnerLinks>
+        <partnerLink partnerRole="reply" name="replyPL"
+          partnerLinkType="tns:replyLT" />
+      </partnerLinks>
+      <sequence>
+        <receive createInstance="yes" operation="submit"
+          partnerLink="saPL" portType="tns:saPT" variable="var1">
+        </receive>
+        <!-- Invoke have an implicit scope that inherits exitOnStandardFault 
+          attribute from parent scope or process -->
+        <invoke partnerLink="replyPL" operation="reply"
+          inputVariable="var1" portType="tns:replyPT">
+          <catch faultName="bpel:correlationViolation">
+            <empty />
+          </catch>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+
+</process>

@@ -1,0 +1,46 @@
+<process name="sa00052"
+  targetNamespace="http://example.com/sa00052"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:addr="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://example.com/sa00052"
+  xmlns:personws="http://orchestra.ow2.org/personWS">
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="sa00052.wsdl"
+          namespace="http://example.com/sa00052"/>
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="../wsutils/personWS.wsdl"
+          namespace="http://orchestra.ow2.org/personWS"/>
+ 
+
+  <partnerLinks>
+    <partnerLink myRole="role" name="saPL" partnerLinkType="tns:saLT"/>
+    <partnerLink partnerRole="personModifier" name="personWSPL" partnerLinkType="tns:personWSLT"/>
+  </partnerLinks>
+
+  <variables>
+    <variable name="var1"     type="xsd:string"/>
+    <variable name="request"    messageType="personws:addRequest"/>
+    <variable name="response"   messageType="personws:addResponse"/>
+    <variable name="lastName" type="xsd:string" />
+  </variables>
+
+  <sequence>
+    <receive createInstance="yes"
+               operation="submit" partnerLink="saPL"
+               portType="tns:saPT" variable="var1">
+    </receive>
+    <invoke portType="personws:personWSPT" operation="addPerson"
+            partnerLink="personWSPL"
+            inputVariable="request" outputVariable="response">
+      <fromParts>
+        <fromPart part="lastName" toVariable="lastName"></fromPart>
+      </fromParts>
+    </invoke>
+    <reply operation="submit" partnerLink="saPL"
+               portType="tns:saPT" variable="var1">
+    </reply>
+
+  </sequence>
+
+</process>

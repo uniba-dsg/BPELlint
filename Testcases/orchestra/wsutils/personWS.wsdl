@@ -1,0 +1,112 @@
+<wsdl:definitions targetNamespace="http://orchestra.ow2.org/personWS"
+  xmlns:tns="http://orchestra.ow2.org/personWS"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://orchestra.ow2.org/personWS">
+      <xsd:element name="createPerson" type="tns:person" />
+      <xsd:element name="firstName" type="xsd:string"/>
+      <xsd:element name="list" type="tns:person"/>
+      <xsd:complexType name="person">
+        <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+          <xsd:element name="firstName" type="xsd:string"/>
+          <xsd:element name="lastName" type="xsd:string"/>
+          <xsd:element name="age" type="xsd:int"/>
+          <xsd:element name="address">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="street" type="xsd:string"/>
+                <xsd:element name="zip" type="xsd:int"/>
+                <xsd:element name="city" type="xsd:string"/>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+
+  <message name="createRequest">
+    <part name="firstName" type="xsd:string" />
+    <part name="lastName" type="xsd:string" />
+    <part name="age" type="xsd:int" />
+    <part name="street" type="xsd:string" />
+    <part name="zip" type="xsd:int" />
+    <part name="city" type="xsd:string" />
+  </message>
+
+  <message name="createResponse">
+    <part name="person" element="tns:createPerson" />
+  </message>
+
+  <message name="addRequest">
+    <part name="personToAdd" type="tns:person" />
+    <part name="personsList" element="tns:list" />
+  </message>
+
+  <message name="addResponse">
+    <part name="personsList" element="tns:list" />
+  </message>
+
+  <message name="returnReceivedMessage">
+    <part name="personsList" element="tns:list" />
+    <part name="person" type="tns:person" />
+    <part name="firstName" element="tns:firstName" />
+    <part name="lastName" type="xsd:string" />
+  </message>
+
+  <portType name="personWSPT">
+    <operation name="createPerson">
+      <input message="tns:createRequest" />
+      <output message="tns:createResponse" />
+    </operation>
+    <operation name="addPerson">
+      <input message="tns:addRequest" />
+      <output message="tns:addResponse" />
+    </operation>
+    <operation name="returnReceived">
+      <input message="tns:returnReceivedMessage" />
+      <output message="tns:returnReceivedMessage" />
+    </operation>
+  </portType>
+
+  <binding name="personWSPTSOAPBinding" type="tns:personWSPT">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="createPerson">
+      <soap:operation soapAction="http://orchestra.ow2.org/createPerson"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="addPerson">
+      <soap:operation soapAction="http://orchestra.ow2.org/addPerson"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="returnReceived">
+      <soap:operation soapAction="http://orchestra.ow2.org/returnReceived"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="personWSService">
+    <port name="personWSPort" binding="tns:personWSPTSOAPBinding">
+      <soap:address location="http://localhost:${HttpDefaultPort}/orchestra/personWSPort"/>
+    </port>
+  </service>
+</wsdl:definitions>

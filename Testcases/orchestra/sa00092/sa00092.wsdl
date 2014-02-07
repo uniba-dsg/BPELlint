@@ -1,0 +1,20 @@
+<wsdl:definitions targetNamespace="http://example.com/sa00092"
+  xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+  xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+  xmlns:tns="http://example.com/sa00092"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <plnk:partnerLinkType name="saLT">
+    <plnk:role myRole="role" name="role" portType="tns:saPT" />
+  </plnk:partnerLinkType>
+
+  <portType name="saPT">
+    <operation name="submit">
+      <input message="xsd:string" />
+    </operation>
+  </portType>
+
+</wsdl:definitions>

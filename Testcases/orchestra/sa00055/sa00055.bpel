@@ -1,0 +1,32 @@
+<process name="sa00055"
+  targetNamespace="http://example.com/sa00055"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:addr="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://example.com/sa00055">
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="sa00055.wsdl"
+          namespace="http://example.com/sa00055"/>
+ 
+
+  <partnerLinks>
+    <partnerLink myRole="role" name="saPL" partnerLinkType="tns:saLT"/>
+  </partnerLinks>
+
+  <variables>
+    <variable name="var1"     type="tns:samt"/>
+  </variables>
+
+  <sequence>
+    <receive createInstance="yes"
+               operation="submit" partnerLink="saPL"
+               portType="tns:saPT" variable="var1">
+      <fromParts>
+        <fromPart part="intType"    toVariable="intType"/>
+      </fromParts>
+    </receive>
+
+  </sequence>
+
+</process>

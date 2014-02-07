@@ -1,0 +1,65 @@
+<process name="sa00004_3" targetNamespace="http://example.com/sa00004"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:addr="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://example.com/sa00004"
+  xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:stringws="http://orchestra.ow2.org/stringWS">
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="sa00004.wsdl"
+    namespace="http://example.com/sa00004" />
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="../wsutils/stringWS.wsdl"
+    namespace="http://orchestra.ow2.org/stringWS" />
+
+  <partnerLinks>
+    <partnerLink myRole="role" name="saPL" partnerLinkType="tns:saLT" />
+  </partnerLinks>
+
+  <variables>
+    <variable name="var1" type="xsd:string" />
+  </variables>
+
+  <sequence>
+  <flow name="flow01">
+    <links>
+      <link name="flow01Link01"></link>
+      <link name="flow01Link02"></link>
+      <link name="flow01Link03"></link>
+    </links>
+    <empty name="flow01Empty01">
+      <sources>
+        <source linkName="flow01Link01">
+          <transitionCondition>2+2=1</transitionCondition>
+        </source>
+      </sources>
+    </empty>
+    <empty name="flow01Empty02">
+      <sources>
+        <source linkName="flow01Link02">
+          <transitionCondition>2+2=2</transitionCondition>
+        </source>
+      </sources>
+
+    </empty>
+    <empty name="flow01Empty03">
+      <sources>
+        <source linkName="flow01Link03">
+          <transitionCondition
+            expressionLanguage="flow01Link03TransitionConditionExpressionLanguage">2+2=3</transitionCondition>
+        </source>
+      </sources>
+
+    </empty>
+    <empty>
+      <targets>
+        <joinCondition>1+1=2</joinCondition>
+        <target linkName="flow01Link01" />
+        <target linkName="flow01Link02" />
+        <target linkName="flow01Link03" />
+      </targets>
+    </empty>
+  </flow>
+  </sequence>
+
+</process>

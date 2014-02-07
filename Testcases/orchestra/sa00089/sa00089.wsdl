@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="sa00089" targetNamespace="http://orchestra.ow2.org/sa00089"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://orchestra.ow2.org/sa00089" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <types/>
+    <message name="sa00089OperationRequest"/>
+    <portType name="sa00089PortType">
+        <operation name="sa00089Operation">
+            <input name="input1" message="tns:sa00089OperationRequest"/>
+        </operation>
+    </portType>
+    <binding name="sa00089Binding" type="tns:sa00089PortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="sa00089Operation">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal" namespace="http://orchestra.ow2.org/sa00089"/>
+            </input>
+        </operation>
+    </binding>
+    <service name="sa00089Service">
+        <port name="sa00089Port" binding="tns:sa00089Binding">
+            <soap:address location="http://localhost:${HttpDefaultPort}/sa00089Service/sa00089Port"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="sa00089">
+        <!-- A partner link type is automatically generated when a new port type is added. Partner link types are used by BPEL processes. 
+In a BPEL process, a partner link represents the interaction between the BPEL process and a partner service. Each partner link is associated with a partner link type.
+A partner link type characterizes the conversational relationship between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="sa00089PortTypeRole" portType="tns:sa00089PortType"/>
+    </plnk:partnerLinkType>
+</definitions>

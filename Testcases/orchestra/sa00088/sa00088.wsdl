@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="sa00088" targetNamespace="http://orchestra.ow2.org/sa00088"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:tns="http://orchestra.ow2.org/sa00088" 
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <types/>
+    <message name="sa00088OperationRequest">
+      <part name="p1" element="tns:element" />
+    </message>
+    <portType name="sa00088PortType">
+        <operation name="sa00088Operation">
+            <input name="input1" message="tns:sa00088OperationRequest"/>
+        </operation>
+    </portType>
+    <binding name="sa00088Binding" type="tns:sa00088PortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="sa00088Operation">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal" namespace="http://orchestra.ow2.org/sa00088"/>
+            </input>
+        </operation>
+    </binding>
+    <service name="sa00088Service">
+        <port name="sa00088Port" binding="tns:sa00088Binding">
+            <soap:address location="http://localhost:${HttpDefaultPort}/sa00088Service/sa00088Port"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="sa00088">
+        <!-- A partner link type is automatically generated when a new port type is added. Partner link types are used by BPEL processes. 
+In a BPEL process, a partner link represents the interaction between the BPEL process and a partner service. Each partner link is associated with a partner link type.
+A partner link type characterizes the conversational relationship between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="sa00088PortTypeRole" portType="tns:sa00088PortType"/>
+    </plnk:partnerLinkType>
+    
+    <vprop:property name="id" type="tns:element" />
+    <vprop:propertyAlias messageType="tns:sa00088OperationRequest" part="p1"
+                         propertyName="tns:id"/>
+</definitions>

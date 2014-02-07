@@ -1,0 +1,26 @@
+<wsdl:definitions targetNamespace="http://example.com/sa00052"
+  xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+  xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+  xmlns:tns="http://example.com/sa00052"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:personws="http://orchestra.ow2.org/personWS">
+  
+  <wsdl:import location="../wsutils/personWS.wsdl" namespace="http://orchestra.ow2.org/personWS"/>
+  
+  <plnk:partnerLinkType name="saLT">
+    <plnk:role name="role" portType="tns:saPT" />
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="personWSLT">
+    <plnk:role name="personModifier" portType="personws:personWSPT" />
+  </plnk:partnerLinkType>
+
+  <portType name="saPT">
+    <operation name="submit">
+      <input message="xsd:string" />
+    </operation>
+  </portType>
+
+</wsdl:definitions>

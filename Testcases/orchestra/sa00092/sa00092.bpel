@@ -1,0 +1,28 @@
+<process name="sa00092" targetNamespace="http://example.com/sa00092" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://example.com/sa00092"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable http://docs.oasis-open.org/wsbpel/2.0/CS01/process/executable/ws-bpel_executable.xsd">
+
+  <import importType="http://schemas.xmlsoap.org/wsdl/" location="sa00092.wsdl" namespace="http://example.com/sa00092" />
+
+  <partnerLinks>
+    <partnerLink myRole="role" name="saPL" partnerLinkType="tns:saLT" />
+  </partnerLinks>
+
+  <sequence>
+    <receive operation="submit" partnerLink="saPL" createInstance="yes" />
+
+    <scope name="scopeName">
+      <sequence>
+        <scope name="scopeName">
+          <empty />
+        </scope>
+
+        <scope name="scopeName">
+          <empty />
+        </scope>
+      </sequence>
+    </scope>
+  </sequence>
+
+</process>
