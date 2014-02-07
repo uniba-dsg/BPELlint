@@ -1,35 +1,59 @@
 package isabel.io;
 
+import org.apache.commons.cli.*;
+
 public class CommandLineInterpreter {
-	public static final String USAGE = "Usage: [--full] PATH\nPATH can be a BPEL file or a Folder containing BPEL files";
-	public final VerbosityLevel verbosityLevel;
-	public final String path;
 
-	public CommandLineInterpreter(String[] args) {
-		if (args == null || args.length == 0) {
-			throw new IllegalArgumentException(USAGE);
-		}
+    public static final String NO_SCHEMA_VALIDATION = "no-schema-validation";
+    public static final String FULL_DETAILS = "full";
+    public static final String HELP = "help";
 
-		VerbosityLevel verbosityLevel = VerbosityLevel.NORMAL;
-		String path = "";
+    public CLIOptions parse(String[] args) throws ParseException {
+        CommandLineParser parser = new BasicParser();
+        try {
+            CommandLine cmd = parser.parse(getOptions(), args);
 
-		for (String string : args) {
-			switch (string) {
-				case "--full":
-				case "-f":
-					verbosityLevel = VerbosityLevel.FULL;
-					break;
-				default:
-					path = string;
-			}
-		}
+            if(cmd.hasOption(HELP)){
+                printUsage();
+                System.exit(-1);
+            }
 
-		if (path.isEmpty()) {
-			throw new IllegalArgumentException(USAGE);
-		}
 
-		this.verbosityLevel = verbosityLevel;
-		this.path = path;
-	}
+            CLIOptions result = new CLIOptions();
+
+            result.schemaValidation = !cmd.hasOption(NO_SCHEMA_VALIDATION);
+
+            if (cmd.hasOption(FULL_DETAILS)) {
+                result.verbosityLevel = VerbosityLevel.FULL;
+            } else {
+                result.verbosityLevel = VerbosityLevel.NORMAL;
+            }
+
+            result.paths = cmd.getArgs();
+
+            return result;
+        } catch (ParseException e) {
+            printUsage();
+            throw e;
+        }
+    }
+
+    private Options getOptions() {
+        Options options = new Options();
+        options.addOption("f", FULL_DETAILS, false, "Prints out the definitions of the violated rules as well.");
+        options.addOption("s", NO_SCHEMA_VALIDATION, false, "Disables xsd schema validations.");
+        options.addOption("h", HELP, false, "Print usage information.");
+        return options;
+    }
+
+    private void printUsage() {
+        String firstLine = "BPELlint [OPTIONS] PATH";
+        String header = "PATH can be either a FILE or a DIRECTORY.\n\n";
+        String footer = "\nPlease report issues at https://github.com/BPELtools/BPELlint/issues";
+        new HelpFormatter().printHelp(firstLine,
+                header,
+                getOptions(),
+                footer);
+    }
 
 }

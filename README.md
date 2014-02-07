@@ -17,8 +17,15 @@ Dual licensed under [LGPL Version 3](http://www.gnu.org/licenses/lgpl-3.0.html) 
 Requirements (see above) have to be fulfilled to execute `isabel`.
 
 ```bash
-$ isabel [options] <PATH>
-# -f,--full                  Prints out the definitions of the violated rules as well
+usage: isabel [OPTIONS] PATH
+PATH can be either a FILE or a DIRECTORY.
+
+ -f,--full                   Prints out the definitions of the violated
+                             rules as well.
+ -h,--help                   Print usage information.
+ -s,--no-schema-validation   Disables xsd schema validations.
+
+Please report issues at https://github.com/BPELtools/BPELlint/issues
 
 Examples:
 $ isabel empty.bpel # Validates the <empty.bpel> file.

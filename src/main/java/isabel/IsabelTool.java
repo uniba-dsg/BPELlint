@@ -16,10 +16,12 @@ package isabel;
  *#####################################################################
  */
 
+import isabel.io.CLIOptions;
 import isabel.io.CommandLineInterpreter;
 import isabel.io.ValidationResultPrinter;
 import isabel.io.VerbosityLevel;
 import isabel.tool.Isabel;
+import isabel.tool.ValidationException;
 import isabel.tool.ValidationResult;
 import org.pmw.tinylog.Logger;
 
@@ -35,19 +37,35 @@ public class IsabelTool {
 
     public static void main(String[] args) {
         try {
-            CommandLineInterpreter input = new CommandLineInterpreter(args);
-            validate(Paths.get(input.path), input.verbosityLevel);
+            CommandLineInterpreter input = new CommandLineInterpreter();
+            CLIOptions options = input.parse(args);
+
+            Isabel isabel = buildValidator(options);
+
+            for(String path : options.paths) {
+                validate(Paths.get(path), options.verbosityLevel, isabel);
+            }
+
+
         } catch (Exception e) {
             Logger.info(e);
             System.out.println("Error: " + e.getMessage());
         }
     }
 
-    private static void validate(Path path, VerbosityLevel verbosityLevel)
+    private static Isabel buildValidator(CLIOptions options) throws ValidationException {
+        if(options.schemaValidation) {
+            return new Isabel();
+        } else {
+            return Isabel.buildWithoutSchemaValidation();
+        }
+    }
+
+    private static void validate(Path path, VerbosityLevel verbosityLevel, Isabel isabel)
             throws IOException {
         if (isBpelFile(path)) {
             try {
-                ValidationResult validationResult = new Isabel().validate(path);
+                ValidationResult validationResult = isabel.validate(path);
                 validationResultPrinter.printResults(verbosityLevel, validationResult);
             } catch (Exception e) {
                 Logger.info(e);
@@ -57,9 +75,11 @@ public class IsabelTool {
             // file tree iteration
             try (DirectoryStream<Path> directoryPaths = Files.newDirectoryStream(path)) {
                 for (Path directoryPath : directoryPaths) {
-                    validate(directoryPath, verbosityLevel);
+                    validate(directoryPath, verbosityLevel, isabel);
                 }
             }
+        } else {
+            throw new IOException("could not find file under " + path);
         }
     }
 

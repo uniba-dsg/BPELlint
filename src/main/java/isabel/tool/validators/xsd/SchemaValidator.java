@@ -4,20 +4,39 @@ import isabel.tool.ValidationException;
 
 import java.nio.file.Path;
 
-public class SchemaValidator {
+public class SchemaValidator implements SchemaValidatorFacade {
 
-	private static SchemaValidator schemaValidator;
+    public static SchemaValidatorFacade NULL_OBJECT = new SchemaValidatorFacade() {
 
-	public static SchemaValidator newInstance() throws ValidationException {
-		if (schemaValidator == null) {
-			schemaValidator = new SchemaValidator();
+        @Override
+        public void validateBpel(Path file) throws ValidationException {
+
+        }
+
+        @Override
+        public void validateWsdl(Path file) throws ValidationException {
+
+        }
+
+        @Override
+        public void validateXsd(Path file) throws ValidationException {
+
+        }
+
+    };
+
+	private static SchemaValidatorFacade schemaValidatorFacade;
+
+	public static SchemaValidatorFacade getInstance() throws ValidationException {
+		if (schemaValidatorFacade == null) {
+			schemaValidatorFacade = new SchemaValidator();
 		}
-		return schemaValidator;
+		return schemaValidatorFacade;
 	}
 
-	private BPELValidator bpelValidator;
-	private WSDLValidator wsdlValidator;
-	private XSDValidator xsdValidator;
+	protected BPELValidator bpelValidator;
+    protected WSDLValidator wsdlValidator;
+    protected XSDValidator xsdValidator;
 
 	private SchemaValidator() throws ValidationException {
 		xsdValidator = new XSDValidator();
@@ -25,15 +44,19 @@ public class SchemaValidator {
 		bpelValidator = new BPELValidator();
 	}
 
-	public void validateBpel(Path file) throws ValidationException {
+	@Override
+    public void validateBpel(Path file) throws ValidationException {
 		bpelValidator.validate(file);
 	}
 
-	public void validateWsdl(Path file) throws ValidationException {
+	@Override
+    public void validateWsdl(Path file) throws ValidationException {
 		wsdlValidator.validate(file);
 	}
 
-	public void validateXsd(Path file) throws ValidationException {
+	@Override
+    public void validateXsd(Path file) throws ValidationException {
 		xsdValidator.validate(file);
 	}
+
 }

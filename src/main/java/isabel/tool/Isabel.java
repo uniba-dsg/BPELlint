@@ -6,6 +6,7 @@ import isabel.imports.ProcessContainerLoader;
 import isabel.model.XmlFile;
 import isabel.tool.validators.rules.ValidatorsHandler;
 import isabel.tool.validators.xsd.SchemaValidator;
+import isabel.tool.validators.xsd.SchemaValidatorFacade;
 import isabel.tool.validators.xsd.XMLValidator;
 
 import java.nio.file.Files;
@@ -19,6 +20,16 @@ import java.nio.file.Paths;
  *         Distributed Systems Group - University of Bamberg - SS 2012
  */
 public class Isabel {
+
+    private SchemaValidatorFacade schemaValidatorFacade;
+
+    public Isabel() throws ValidationException {
+        schemaValidatorFacade = SchemaValidator.getInstance();
+    }
+
+    private Isabel(SchemaValidatorFacade schemaValidatorFacade) {
+        this.schemaValidatorFacade = schemaValidatorFacade;
+    }
 
     /**
      * @param bpelPath The BPEL file of the process, which should be analyzed
@@ -39,8 +50,8 @@ public class Isabel {
 
         // validate well-formedness and correct schema of bpel file
         new XMLValidator().validate(bpelPath);
-        SchemaValidator schemaValidator = SchemaValidator.newInstance();
-        schemaValidator.validateBpel(bpelPath);
+
+        schemaValidatorFacade.validateBpel(bpelPath);
 
         // load files
         ProcessContainer processContainer = loadProcessContainer(bpelPath);
@@ -61,25 +72,26 @@ public class Isabel {
     }
 
     private void validateWsdlAndXsdFiles(ProcessContainer processContainer) throws ValidationException {
-        SchemaValidator schemaValidator = SchemaValidator.newInstance();
-
         for (XmlFile xsdXmlFile : processContainer.getXsds()) {
             // do not validate XMLSchema as this does not work somehow
             if (xsdXmlFile.getFilePath().equals(Paths.get(""))) {
                 continue;
             }
-            schemaValidator.validateXsd(xsdXmlFile.getFilePath());
+            schemaValidatorFacade.validateXsd(xsdXmlFile.getFilePath());
         }
 
         for (XmlFile wsdlXmlFile : processContainer.getWsdls()) {
-            schemaValidator.validateWsdl(wsdlXmlFile.getFilePath());
+            schemaValidatorFacade.validateWsdl(wsdlXmlFile.getFilePath());
         }
     }
 
     private ValidationResult validateAgainstSARules(
             ProcessContainer processContainer) {
-        ValidatorsHandler validators = new ValidatorsHandler(processContainer);
-        return validators.validate();
+        return new ValidatorsHandler(processContainer).validate();
+    }
+
+    public static Isabel buildWithoutSchemaValidation() {
+        return new Isabel(SchemaValidator.NULL_OBJECT);
     }
 
 }
