@@ -10,7 +10,6 @@
     </partnerLinks>
     <scope name="Scope">
         <variables>
-        	<!-- duplicated variable "replyData" in scope "Scope" -->
             <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
             <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
             <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>

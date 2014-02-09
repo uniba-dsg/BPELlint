@@ -10,7 +10,6 @@
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
     <variables>
-    	<!-- duplicated variable "replyData" within process -->
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse" />
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse" />
         <variable name="SimpleInt" type="xs:int" >

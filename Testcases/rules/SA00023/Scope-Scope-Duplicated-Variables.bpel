@@ -19,12 +19,11 @@
                 <onAlarm>
                     <documentation>As the deadline has already passed, the handler should execute immediately</documentation>
                     <until>'2012-03-28T12:26:24.0'</until>
-                    <scope name="InnerScope">
+                    <scope name="Scope">
                          <variables>
-                         	<!-- duplicated variable "replyData" in InnerScope -->
-			        		<variable name="replyData" messageType="ti:executeProcessSyncResponse"/>
-			        		<variable name="replyData" messageType="ti:executeProcessSyncResponse"/>
-			   			 </variables>
+                            <variable name="replyData" messageType="ti:executeProcessSyncResponse"/>
+                            <variable name="replyData" messageType="ti:executeProcessSyncResponse"/>
+                        </variables>
                         <sequence name="Sequence">
                             <assign name="AssignReplyData">
                                 <copy>
