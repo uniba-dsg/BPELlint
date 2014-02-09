@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-    name="Invoke-Correlation-InitAsync"
-    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/invokeCorrelationInitAsync"
+    name="Invoke-Sync"
+    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/invokeSync"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
     xmlns:tp="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner">
@@ -12,45 +12,30 @@
         <partnerLink name="TestPartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"/>
     </partnerLinks>
     <variables>
-        <variable name="InitData" messageType="ti:executeProcessAsyncRequest"/>
-        <variable name="syncInitData" messageType="ti:executeProcessSyncRequest"/>
-        <variable name="syncReplyData" messageType="ti:executeProcessSyncResponse"/>
-        <variable name="PartnerInitData" messageType="tp:executeProcessSyncRequest"/>
         <variable name="PartnerReplyData" messageType="tp:executeProcessSyncResponse"/>
+        <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
+        <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
+        <variable name="PartnerInitData" messageType="tp:executeProcessSyncRequest"/>
     </variables>
-    <correlationSets>
-        <correlationSet name="CorrelationSet" properties="ti:correlationId"/>
-    </correlationSets>
     <sequence>
-        <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessAsync" portType="ti:TestInterfacePortType" variable="InitData">
-            <correlations>
-                <correlation set="CorrelationSet" initiate="yes"/>
-            </correlations>
-        </receive>
-         <assign name="AssignPartnerInitData">
+        <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData"/>
+        <assign name="AssignPartnerInitData">
             <copy>
                 <from variable="InitData" part="inputPart"/>
                 <to variable="PartnerInitData" part="inputPart"/>
             </copy>
         </assign>
-        <!--  inputVariable/toParts and outputVariable/fromParts are missing  -->
-        <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessSync" portType="tp:TestPartnerPortType" inputVariable="PartnerInitData">
-            <correlations>
-                <correlation set="CorrelationSet" initiate="no"  pattern="request-response"/>
-            </correlations>
-        </invoke>
-        <receive name="CorrelatedReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" createInstance="no" variable="syncInitData">
-            <correlations>
-                <correlation set="CorrelationSet" initiate="no"/>
-            </correlations>
-        </receive>
+        <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessSync" portType="tp:TestPartnerPortType"/>
         <assign name="AssignReplyData">
             <copy>
                 <from variable="PartnerReplyData" part="outputPart"/>
-                <to variable="syncReplyData" part="outputPart"/>
+                <to variable="ReplyData" part="outputPart"/>
             </copy>
         </assign>
-        <reply name="ReplyToSecondReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="syncReplyData"/>
+        <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
     </sequence>
 </process>
+
+
+
 
