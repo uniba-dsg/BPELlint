@@ -34,7 +34,6 @@
             </copy>
         </assign>
         <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessSync" portType="tp:TestPartnerPortType" inputVariable="PartnerInitData" outputVariable="PartnerReplyData">
-            <!-- pattern attribute is missing -->
             <correlations>
                 <correlation set="CorrelationSet" initiate="no" />
             </correlations>
