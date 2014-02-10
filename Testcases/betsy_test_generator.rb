@@ -21,11 +21,14 @@ Dir.glob("rules/SA000*").each do |rule_path|
 	rule_number = File.basename(rule_path).to_i
 	rule_name = File.basename(rule_path)
 
+  index = 0
+
 	Dir.glob("#{rule_path}/**/*.bpel").each do |bpel|
 
 	   	bpel_filename = rule_name + "-" + File.basename(bpel)
 	   	bpel_name = bpel_filename[0..-6]
-		target_bpel_path = File.join(TARGET_PATH, "sa-rules", rule_name, bpel_name)
+      index = index + 1
+		target_bpel_path = File.join(TARGET_PATH, "sa-rules", rule_name, "#{rule_name}-#{index}")
 		target_bpel_file_path = File.join(target_bpel_path, bpel_filename)
 
 		FileUtils.mkdir_p target_bpel_path
