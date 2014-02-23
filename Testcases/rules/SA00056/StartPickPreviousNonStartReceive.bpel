@@ -34,8 +34,8 @@
             </copy>
         </assign>
         <flow>
-            <pick name="NextPick">
-                <onMessage messageExchange="secondExchange" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitDataTwo">
+            <pick name="NextPick" createInstance="yes">
+                <onMessage messageExchange="secondExchange" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitDataTwo">
                     <correlations>
                         <correlation set="CorrelationSet" initiate="no"/>
                     </correlations>
