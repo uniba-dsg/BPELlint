@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-    name="Invoke-Sync"
-    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/invokeSync"
-    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-    xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
-    xmlns:tp="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner">
+        name="Invoke-FromParts"
+        targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/invokeFromParts"
+        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+        xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
+        xmlns:tp="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="../TestInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
-    <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestPartner.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner"/>
+    <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner" location="../TestPartner.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
         <partnerLink name="TestPartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"/>
     </partnerLinks>
     <variables>
-        <variable messageType="tp:executeProcessSyncResponse" name="PartnerReplyData"/>
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
-        <variable messageType="tp:executeProcessSyncRequest" name="PartnerInitData"/>
+        <variable name="TempInt" type="xs:int"/>
+        <variable name="PartnerInitData" messageType="tp:executeProcessSyncRequest"/>
     </variables>
-     <sequence>
+    <sequence>
         <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData"/>
         <assign name="AssignPartnerInitData">
             <copy>
@@ -27,16 +28,16 @@
         </assign>
         <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessSync" portType="tp:TestPartnerPortType" inputVariable="PartnerInitData">
             <fromParts>
-                <fromPart part="inputPart" toVariable="InitData"/>
+                <fromPart part="outputPart" toVariable="TempInt" />
                 <fromPart part="invalidNonExisitentPart" toVariable="InitData"/>
             </fromParts>
         </invoke>
-        <assign name="AssignReplyData">
+        <assign>
             <copy>
-                <from variable="PartnerReplyData" part="outputPart"/>
+                <from variable="TempInt" />
                 <to variable="ReplyData" part="outputPart"/>
             </copy>
         </assign>
-        <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"/>
+        <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
     </sequence>
 </process>
