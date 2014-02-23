@@ -1,57 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-    name="Flow-Starting-Receive-OnMessage-Correlation"
-    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/flowStartingReceiveOnMessageCorrelation"
-    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-    xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        name="Pick-Receive-FIFO-MessageExchanges"
+        targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/pickReceiveFIFOMessageExchanges"
+        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+        xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface">
     <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="../TestInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
+    <messageExchanges>
+        <messageExchange name="firstExchange"/>
+        <messageExchange name="secondExchange"/>
+    </messageExchanges>
     <variables>
-        <variable name="ReplyData1" messageType="ti:executeProcessSyncResponse"/>
-        <variable name="InitData1" messageType="ti:executeProcessSyncRequest"/>
-        <variable name="ReplyData2" messageType="ti:executeProcessSyncStringResponse"/>
-        <variable name="InitData2" messageType="ti:executeProcessSyncStringRequest"/>
-        <variable name="ReplyData3" messageType="ti:executeProcessSyncStringResponse"/>
-        <variable name="InitData3" messageType="ti:executeProcessSyncStringRequest"/>
+        <variable name="ReplyDataOne" messageType="ti:executeProcessSyncResponse"/>
+        <variable name="InitDataOne" messageType="ti:executeProcessSyncRequest"/>
+        <variable name="ReplyDataTwo" messageType="ti:executeProcessSyncResponse"/>
+        <variable name="InitDataTwo" messageType="ti:executeProcessSyncRequest"/>
     </variables>
     <correlationSets>
         <correlationSet name="CorrelationSet" properties="ti:correlationId"/>
     </correlationSets>
     <sequence>
-        <flow name="Flow">
-            <pick name="Pick" createInstance="no">
-                <onMessage partnerLink="MyRoleLink" operation="startProcessSyncString" portType="ti:TestInterfacePortType" variable="InitData2">
-                    <correlations>
-                        <correlation set="CorrelationSet" initiate="join"/>
-                    </correlations>
-                    <sequence name="Sequence">
-                        <assign name="AssignStringReplyData">
-                            <copy>
-                                <from>'0'</from>
-                                <to variable="ReplyData2" part="outputPart"/>
-                            </copy>
-                        </assign>
-                        <reply name="ReplyToInitialReceive2" partnerLink="MyRoleLink" operation="startProcessSyncString" portType="ti:TestInterfacePortType" variable="ReplyData2"/>
-                    </sequence>
-                </onMessage>
-            </pick>
-        </flow><sequence>
-        <receive name="Receive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSyncString" portType="ti:TestInterfacePortType" variable="InitData3">
-            <correlations>
-                <correlation set="CorrelationSet" initiate="no"/>
-            </correlations>
-        </receive>
-        <assign name="AssignReplyData">
+        <pick name="InitialPick" createInstance="no">
+            <onMessage messageExchange="firstExchange" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitDataOne">
+                <correlations>
+                    <correlation set="CorrelationSet" initiate="yes"/>
+                </correlations>
+                <assign name="AssignReplyData">
+                    <copy>
+                        <from><literal>1</literal></from>
+                        <to variable="ReplyDataOne" part="outputPart"/>
+                    </copy>
+                </assign>
+            </onMessage>
+        </pick>
+        <flow>
+            <receive messageExchange="secondExchange" name="NextReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitDataTwo">
+                <correlations>
+                    <correlation set="CorrelationSet" initiate="no"/>
+                </correlations>
+            </receive>
+            <reply messageExchange="firstExchange" name="ReplyToInitialPick" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyDataOne"/>
+        </flow>
+        <assign name="AssignReplyDataTwo" >
             <copy>
-                <from>
-                    concat($InitData2.inputPart,$InitData1.inputPart)
-                </from>
-                <to variable="ReplyData3" part="outputPart"/>
+                <from><literal>2</literal></from>
+                <to variable="ReplyDataTwo" part="outputPart"/>
             </copy>
         </assign>
-        <reply name="ReplyToReceive" partnerLink="MyRoleLink" operation="startProcessSyncString" portType="ti:TestInterfacePortType" variable="ReplyData3"/>
-    </sequence></sequence>
+        <reply messageExchange="secondExchange" name="ReplyToNextReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyDataTwo"/>
+    </sequence>
 </process>
