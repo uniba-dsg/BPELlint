@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-    name="ReceiveReply"
-    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/receiveReply"
+    name="ReceiveReply-FromParts"
+    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/receiveReplyFromParts"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-    xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface">
+    xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="../TestInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
@@ -11,19 +12,21 @@
     <variables>
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="InitData" messageType="ti:executeProcessSyncRequest"/>
+        <variable name="TempInt" type="xs:int" />
     </variables>
     <sequence>
-        <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData">
-       		<fromParts>
-        		<fromPart part="inputPart" toVariable="invalidNonExisitentVariable"/>
-        	</fromParts>
+        <receive name="InitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" createInstance="yes" variable="InitData">
+            <fromParts>
+                <fromPart part="inputPart" toVariable="TempInt" />
+            </fromParts>
         </receive>
-        <assign name="AssignReplyData">
+        <assign>
             <copy>
-                <from variable="InitData" part="inputPart"/>
+                <from variable="TempInt"/>
                 <to variable="ReplyData" part="outputPart"/>
             </copy>
         </assign>
-        <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
+        <reply name="CorrelatedReply" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData" />
+
     </sequence>
 </process>
