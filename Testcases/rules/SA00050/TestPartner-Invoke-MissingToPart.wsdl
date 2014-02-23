@@ -22,6 +22,7 @@
             <xsd:element name="testElementSyncRequest" type="xsd:int"/>
             <xsd:element name="testElementAsyncRequest" type="xsd:int"/>
             <xsd:element name="testElementSyncResponse" type="xsd:int"/>
+            <xsd:element name="testElementFault" type="xsd:int"/>
         </xsd:schema>
     </types>
 
@@ -36,6 +37,9 @@
         <part name="outputPart" element="tns:testElementSyncResponse"/>
     </message>
     <message name="emptyMessage"/>
+    <message name="faultMessage">
+        <part element="tns:testElementFault" name="outputPart"/>
+    </message>
 
     <portType name="TestPartnerPortType">
         <operation name="startProcessAsync">
@@ -44,6 +48,7 @@
         <operation name="startProcessSync">
             <input name="syncInput" message="tns:executeProcessSyncRequest"/>
             <output name="syncOutput" message="tns:executeProcessSyncResponse"/>
+            <fault message="tns:faultMessage" name="CustomFault"/>
         </operation>
         <operation name="startProcessWithEmptyMessage">
             <input name="emptyInput" message="tns:emptyMessage"/>
@@ -66,6 +71,9 @@
             <output name="syncOutput">
                 <soap:body use="literal"/>
             </output>
+            <fault name="CustomFault">
+                <soap:fault name="CustomFault" use="literal"></soap:fault>
+            </fault>
         </operation>
         <operation name="startProcessWithEmptyMessage">
             <soap:operation/>
@@ -77,7 +85,7 @@
 
     <service name="TestService">
         <port binding="tns:TestPartnerPortTypeBinding" name="TestPort">
-            <soap:address location="http://localhost:2000/bpel-testpartner"></soap:address>
+            <soap:address location="http://PARTNER_IP_AND_PORT/bpel-testpartner"></soap:address>
         </port>
     </service>
 
