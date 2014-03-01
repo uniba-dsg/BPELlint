@@ -23,7 +23,7 @@
             </correlations>
         </receive>
         <pick name="Pick" createInstance="no">
-            <onMessage partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:undefinedPortType" variable="syncInitData">
+            <onMessage partnerLink="MyRoleLink" operation="undefined" portType="ti:TestInterfacePortType" variable="syncInitData">
                 <correlations>
                     <correlation set="CorrelationSet" initiate="no"/>
                 </correlations>

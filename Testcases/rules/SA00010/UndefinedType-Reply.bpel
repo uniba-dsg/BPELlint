@@ -34,7 +34,7 @@
                             <to variable="ReplyData" part="outputPart"/>
                         </copy>
                     </assign>
-                    <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:undefined" variable="ReplyData"/>
+                    <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="undefined" portType="ti:TestInterfacePortType" variable="ReplyData"/>
                 </sequence>
             </onMessage>
         </pick>

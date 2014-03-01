@@ -63,7 +63,7 @@ public class MessageActivityImpl extends ContainerAwareReferable implements Mess
 		}
 		return new CorrelationsElement(correlationsNode.get(0), getProcessContainer()).getCorrelationWithoutPattern();
 	}
-	
+
     @Override
     public String getPartnerLinkAttribute() {
         return nodeHelper.getAttribute("partnerLink");

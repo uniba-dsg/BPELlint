@@ -89,12 +89,12 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00010/UndefinedType-Catch-FaultMessageType.bpel", "10"},
 				{"Testcases/rules/SA00010/UndefinedType-CorrelationSet.bpel", "10, 21"},
 				{"Testcases/rules/SA00010/UndefinedType-From.bpel", "10, 21"},
-				{"Testcases/rules/SA00010/UndefinedType-Invoke.bpel", "10, 5"},
-				{"Testcases/rules/SA00010/UndefinedType-OnEvent.bpel", "10, 5"},
-				{"Testcases/rules/SA00010/UndefinedType-OnMessage.bpel", "10, 5"},
+				{"Testcases/rules/SA00010/UndefinedType-Invoke.bpel", "10"},
+				{"Testcases/rules/SA00010/UndefinedType-OnEvent.bpel", "10, 84"},
+				{"Testcases/rules/SA00010/UndefinedType-OnMessage.bpel", "10"},
 				{"Testcases/rules/SA00010/UndefinedType-PartnerLink.bpel", "10"},
-				{"Testcases/rules/SA00010/UndefinedType-Receive.bpel", "10, 5"},
-				{"Testcases/rules/SA00010/UndefinedType-Reply.bpel", "10, 5"},
+				{"Testcases/rules/SA00010/UndefinedType-Receive.bpel", "10"},
+				{"Testcases/rules/SA00010/UndefinedType-Reply.bpel", "10"},
 				{"Testcases/rules/SA00010/UndefinedType-To.bpel", "10, 21"},
 				{"Testcases/rules/SA00010/UndefinedType-Variable-Element.bpel", "10"},
 				{"Testcases/rules/SA00010/UndefinedType-Variable-MessageType.bpel", "10"},
@@ -115,7 +115,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00015/NoActivityWithCreateInstanceSetToYes.bpel", "15"},
 				{"Testcases/rules/SA00015/OnlyActivityWithCreateInstanceSetToNo.bpel", "15"},
 
-				{"Testcases/rules/SA00016/PartnerLinkWithoutMyRoleAndPartnerRole.bpel", "16"},
+				{"Testcases/rules/SA00016/PartnerLinkWithoutMyRoleAndPartnerRole.bpel", "16, 10"},
 
 				{"Testcases/rules/SA00017/InitializePartnerRoleUsedOnPartnerLinkWithoutPartnerRole.bpel", "17"},
 
@@ -414,8 +414,8 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00083/EmptyEventHandlersInScope.bpel", "83"},
 
 				{"Testcases/rules/SA00084/OnEventScopeDifferingPartnerLinkOperation.bpel", "84, 10"},
-				{"Testcases/rules/SA00084/OnEventScopeDifferingPartnerLinkRole.bpel", "84, 10"},
-				{"Testcases/rules/SA00084/OnEventScopeNoPartnerLink.bpel", "84"},
+				{"Testcases/rules/SA00084/OnEventScopeDifferingPartnerLinkRole.bpel", "84"},
+				{"Testcases/rules/SA00084/OnEventScopeNoPartnerLink.bpel", "84, 10"},
 
 				{"Testcases/rules/SA00085/OnEventFormPartsVariableElement.bpel", "85"},
 				{"Testcases/rules/SA00085/OnEventFormPartsVariableMessageType.bpel", "85"},

@@ -41,7 +41,7 @@ public class OperationElement extends ContainerAwareReferable {
 
 		return new OperationInputElement(input.get(0), getProcessContainer());
 	}
-	
+
 	public OperationMessage getOutput() throws NavigationException {
 		Nodes output = toXOM().query("./wsdl:output", CONTEXT);
 		if (!output.hasAny()) {
@@ -50,7 +50,7 @@ public class OperationElement extends ContainerAwareReferable {
 
 		return new OperationOutputElement(output.get(0), getProcessContainer());
 	}
-	
+
 	public OperationMessage getFault() throws NavigationException {
 		Nodes fault = toXOM().query("./wsdl:fault", CONTEXT);
 		if (!fault.hasAny()) {
@@ -58,6 +58,16 @@ public class OperationElement extends ContainerAwareReferable {
 		}
 
 		return new OperationFaultElement(fault.get(0), getProcessContainer());
+	}
+
+	public PortTypeElement getPortType() throws NavigationException {
+		Nodes portType = toXOM().query("./..", CONTEXT);
+		try {
+			PortTypeElement portTypeElement = new PortTypeElement(portType.get(0), getProcessContainer());
+			return portTypeElement;
+		} catch (IllegalArgumentException e) {
+			throw new NavigationException("<portType> can not be found");
+		}
 	}
 
 	private boolean isFirstChildOutput() {

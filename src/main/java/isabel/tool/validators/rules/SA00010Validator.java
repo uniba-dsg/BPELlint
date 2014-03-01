@@ -1,10 +1,15 @@
 package isabel.tool.validators.rules;
 
 import static isabel.model.Standards.CONTEXT;
+import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.XmlFile;
+import isabel.model.bpel.mex.MessageActivity;
+import isabel.model.bpel.mex.MessageActivityImpl;
+import isabel.model.bpel.mex.OnEventElement;
+import isabel.model.wsdl.OperationOverloadException;
 import isabel.tool.impl.ValidationCollector;
 
 import java.util.List;
@@ -33,39 +38,39 @@ public class SA00010Validator extends Validator {
 				.query("//bpel:*", CONTEXT);
 	}
 
-	private boolean typeDefinitionExists(Node node) {
-		String elementName = NodeHelper.toElement(node).getQualifiedName();
+	private boolean typeDefinitionExists(Node element) {
+		NodeHelper nodeHelper = new NodeHelper(element);
 
-		switch (elementName) {
+		switch (nodeHelper.getLocalName()) {
 		case "partnerLink":
-			String partnerLinkType = getType(node, "partnerLinkType");
+			String partnerLinkType = getType(nodeHelper, "partnerLinkType");
 			return isInAnyWsdl("partnerLinkType", partnerLinkType);
 
 		case "variable":
-			String variableType = getType(node, "messageType");
+			String variableType = getType(nodeHelper, "messageType");
 			if (!"".equals(variableType)) {
 				return isInAnyWsdl("message", variableType);
 			}
 
-			variableType = getType(node, "type");
+			variableType = getType(nodeHelper, "type");
 			if (!"".equals(variableType)) {
 				return isInAnyXsd("simpleType", variableType) || isInAnyXsd("complexType", variableType);
 			}
 
-			variableType = getType(node, "element");
+			variableType = getType(nodeHelper, "element");
 			return "".equals(variableType) || isInAnyXsd("element", variableType);
 
 		case "correlationSet":
-			String correlationSetType = getType(node, "properties");
+			String correlationSetType = getType(nodeHelper, "properties");
 			return isInAnyWsdl("property", correlationSetType);
 
 		case "catch":
-			String catchType = getType(node, "faultMessageType");
+			String catchType = getType(nodeHelper, "faultMessageType");
 			if (!"".equals(catchType)) {
 				return isInAnyWsdl("message", catchType);
 			}
 
-			catchType = getType(node, "faultElement");
+			catchType = getType(nodeHelper, "faultElement");
 			return "".equals(catchType) || isInAnyXsd("element", catchType);
 
 		case "reply":
@@ -73,21 +78,39 @@ public class SA00010Validator extends Validator {
 		case "invoke":
 		case "onMessage":
 		case "onEvent":
-			String messageActivityType = getType(node, "portType");
+			String messageActivityType;
+			try {
+				messageActivityType = getPortType(nodeHelper);
+			} catch (NavigationException e) {
+				return false;
+			}
 			return isInAnyWsdl("portType", messageActivityType);
 
 		case "to":
 		case "from":
-			String copyEntityType = getType(node, "property");
+			String copyEntityType = getType(nodeHelper, "property");
 			return "".equals(copyEntityType) || isInAnyWsdl("property", copyEntityType);
 		default:
 			return true;
 		}
 	}
 
-	private String getType(Node node, String definitionType) {
-		String attributeValue = new NodeHelper(node)
-				.getAttribute(definitionType);
+	private String getPortType(NodeHelper nodeHelper) throws NavigationException {
+		MessageActivity messageActivity;
+		if ("onEvent".equals(nodeHelper.getLocalName())) {
+			messageActivity = new OnEventElement(nodeHelper.toXOM(), processContainer);
+		} else {
+			messageActivity = new MessageActivityImpl(nodeHelper, processContainer);
+		}
+		try {
+			return messageActivity.getOperation().getPortType().getName();
+		} catch (OperationOverloadException overloadedOperations) {
+			return overloadedOperations.getOperations().get(0).getPortType().getName();
+		}
+	}
+
+	private String getType(NodeHelper node, String definitionType) {
+		String attributeValue = node.getAttribute(definitionType);
 		return PrefixHelper.removePrefix(attributeValue);
 	}
 

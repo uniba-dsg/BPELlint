@@ -83,7 +83,7 @@ public class PartnerLinkElement extends ContainerAwareReferable {
             }
         }
 
-        throw new NavigationException("PortType not defined");
+        throw new NavigationException("PortType not defined in " + correspondingWsdlDom.getBaseURI());
     }
 
     public boolean hasNeitherMyRoleNorPartnerRole() {

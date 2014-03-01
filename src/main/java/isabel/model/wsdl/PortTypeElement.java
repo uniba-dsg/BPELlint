@@ -23,15 +23,15 @@ public class PortTypeElement extends ContainerAwareReferable {
     }
 
     public OperationElement getOperationByName(String operationName)
-            throws NavigationException {
+            throws NavigationException, OperationOverloadException {
         Nodes operations = toXOM().query("child::wsdl:operation[attribute::name='" + operationName + "']", CONTEXT);
         if (!operations.hasAny()) {
         	throw new NavigationException("Operation not defined");
         }
-        if (!(operations.size() == 1)) {
-        	throw new NavigationException("Operation name overloaded");
-        }
-        
+		if (!(operations.size() == 1)) {
+			throw new OperationOverloadException("Operation name overloaded", operations, getProcessContainer());
+		}
+
         return new OperationElement(operations.get(0), getProcessContainer());
     }
 

@@ -20,7 +20,7 @@
         <variable name="PartnerReplyData" messageType="tp:executeProcessSyncResponse"/>
     </variables>
     <sequence>
-        <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:undefinedPortType" variable="InitData"/>
+        <receive name="InitialReceive" createInstance="yes" partnerLink="MyRoleLink" operation="undefined" portType="ti:TestInterfacePortType" variable="InitData"/>
         <assign name="AssignPartnerLinkAndInitData">
             <copy>
                 <from variable="InitData" part="inputPart"/>

@@ -36,7 +36,7 @@
                portType="ti:TestInterfacePortType" variable="replyData"/>
         <scope name="OuterScope">
             <eventHandlers>
-                <onEvent partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:undefinedPortType"
+                <onEvent partnerLink="MyRoleLink" operation="undefined" portType="ti:TestInterfacePortType"
                          variable="InitDataSync" messageType="ti:executeProcessSyncRequest">
                     <correlations>
                         <correlation set="CorrelationSet" initiate="no"/>

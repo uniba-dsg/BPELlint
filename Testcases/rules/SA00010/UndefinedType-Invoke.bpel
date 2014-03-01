@@ -24,7 +24,7 @@
                 <to variable="PartnerInitData" part="inputPart"/>
             </copy>
         </assign>
-        <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessAsync" portType="tp:undefinedPortType" inputVariable="PartnerInitData"/>
+        <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="undefined" portType="tp:TestPartnerPortType" inputVariable="PartnerInitData"/>
         <assign name="AssignReplyData">
             <copy>
                 <from variable="InitData" part="inputPart"/>
