@@ -15,8 +15,6 @@ import com.google.common.collect.Sets;
 
 public class SA00057Validator extends Validator {
 
-	private int correlatingStartActivitiesCounter;
-
 	public SA00057Validator(ProcessContainer files,
 			ValidationCollector validationCollector) {
 		super(files, validationCollector);
@@ -24,22 +22,23 @@ public class SA00057Validator extends Validator {
 
 	@Override
 	public void validate() {
-		List<Set<String>> joinCorrelationSetNames = listAllJoinCorrelationSetNames();
-		
-		if (isSingleStartingPoint()) {
+		List<StartActivity> startActivities = processContainer.getAllStartActivities();
+		List<Set<String>> joinCorrelationSetNames = listAllJoinCorrelationSetNames(startActivities);
+
+		if (isSingleStartingPoint(joinCorrelationSetNames)) {
 			return;
-		}	
+		}
 		haveAtLeastOneSharedCorrelationSet(joinCorrelationSetNames);
 	}
 
-	private boolean isSingleStartingPoint() {
-		return correlatingStartActivitiesCounter == 1;
+	private boolean isSingleStartingPoint(List<Set<String>> joinCorrelationSetNames) {
+		// There might be no start activity with correlation set
+		return joinCorrelationSetNames.size() <= 1;
 	}
 
-	private List<Set<String>> listAllJoinCorrelationSetNames() {
+	private List<Set<String>> listAllJoinCorrelationSetNames(List<StartActivity> startActivities) {
 		List<Set<String>> joinCorrelationSetNames = new LinkedList<>();
-		correlatingStartActivitiesCounter = 0;
-		for (StartActivity receiveOrOnMessage : processContainer.getAllStartActivities()) {
+		for (StartActivity receiveOrOnMessage : startActivities) {
 			try {
 				joinCorrelationSetNames.add(checkActivity(receiveOrOnMessage));
 			} catch (NavigationException e) {
@@ -50,18 +49,16 @@ public class SA00057Validator extends Validator {
 	}
 
 	private Set<String> checkActivity(StartActivity receiveOrOnMessage) throws NavigationException {
-		if (receiveOrOnMessage.isStartActivity()) {
-			Set<String> activityJoinCorrelationSetNames = new HashSet<>();
-			for (CorrelationElement correlation : receiveOrOnMessage.getCorrelations()) {
-				if (correlation.isJoinInitiate()) {
-					activityJoinCorrelationSetNames.add(correlation.getCorrelationSetAttribute());
-				}
-			}
-			correlatingStartActivitiesCounter++;
-			return activityJoinCorrelationSetNames;
-		} else {
+		if (!receiveOrOnMessage.isStartActivity()) {
 			throw new NavigationException("This is not a start activity.");
 		}
+		Set<String> activityJoinCorrelationSetNames = new HashSet<>();
+		for (CorrelationElement correlation : receiveOrOnMessage.getCorrelations()) {
+			if (correlation.isJoinInitiate()) {
+				activityJoinCorrelationSetNames.add(correlation.getCorrelationSetAttribute());
+			}
+		}
+		return activityJoinCorrelationSetNames;
 	}
 
 	private void haveAtLeastOneSharedCorrelationSet(
