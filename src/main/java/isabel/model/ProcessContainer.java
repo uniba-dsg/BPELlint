@@ -617,11 +617,17 @@ public class ProcessContainer {
 	}
 
 	public List<StartActivity> getAllStartActivities() {
-		List<StartActivity> result = new LinkedList<>();
-		result.addAll(getAllReceives());
-		result.addAll(getAllOnMessages());
+		List<StartActivity> possibleStarts = new LinkedList<>();
+		possibleStarts.addAll(getAllReceives());
+		possibleStarts.addAll(getAllOnMessages());
 
-		return result;
+		List<StartActivity> startActivities = new LinkedList<>();
+		for (StartActivity startActivity : possibleStarts) {
+			if (startActivity.isStartActivity()) {
+				startActivities.add(startActivity);
+			}
+		}
+		return startActivities;
 	}
 
 	public List<TerminationHandlerElement> getAllTerminationHandler() {

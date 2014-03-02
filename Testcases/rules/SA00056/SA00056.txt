@@ -1,6 +1,6 @@
-this element must not contain a start activity
-there is preceding and receiving activity, that creates no instance
+preceding activity creates no instance
 <flow> has starting and non starting branches
+element must not contain a start activity
 @@@
 A 'start activity' is a <receive> or <pick> activity that is annotated with a createInstance='yes' attribute. Activities other than the following: start activities, <scope>, <flow> and <sequence> MUST NOT be performed prior to or simultaneously with start activities.
 @@@

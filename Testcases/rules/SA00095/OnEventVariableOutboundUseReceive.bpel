@@ -58,7 +58,7 @@
                 </onEvent>
             </eventHandlers>
             <sequence>
-                <receive name="AdditionalReceive" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessAsync" portType="ti:TestInterfacePortType" variable="InitDataSync"/>
+                <receive name="AdditionalReceive" createInstance="no" partnerLink="MyRoleLink" operation="startProcessAsync" portType="ti:TestInterfacePortType" variable="InitDataSync"/>
                 <wait name="WaitFor10Seconds">
                     <for>'P0Y0M0DT0H0M10.0S'</for>
                 </wait>
