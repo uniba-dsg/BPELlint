@@ -1,78 +1,74 @@
 package isabel.tool.validators.rules;
 
-import isabel.model.NodeHelper;
-import isabel.model.NodesUtil;
-import isabel.tool.impl.ValidationCollector;
+import static isabel.model.Standards.CONTEXT;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.ScopeElement;
+import isabel.model.bpel.fct.CatchElement;
+import isabel.model.bpel.mex.InvokeElement;
+import isabel.tool.impl.ValidationCollector;
+
+import java.util.List;
+
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static isabel.model.Standards.CONTEXT;
-
 public class SA00003Validator extends Validator {
 
-    public SA00003Validator(ProcessContainer files,
-                            ValidationCollector violationCollector) {
-        super(files, violationCollector);
-    }
+	public SA00003Validator(ProcessContainer files, ValidationCollector violationCollector) {
+		super(files, violationCollector);
+	}
 
-    @Override
-    public void validate() {
-        List<Node> processAndScopeNodes = new ArrayList<>();
-        processAndScopeNodes.add(processContainer.getProcess().toXOM());
-        processAndScopeNodes.addAll(getScopes());
+	@Override
+	public void validate() {
+		validateScopes();
+		validateInvokes();
+	}
 
-        for (Node processOrScope : processAndScopeNodes) {
-            if (hasExitOnStandardFault("yes", processOrScope)
-                    && isCatchingStandardFaults(processOrScope)) {
-                addViolation(processOrScope);
-            }
-        }
-    }
+	private void validateScopes() {
+		List<ScopeElement> allScopes = processContainer.getAllScopes();
+		allScopes.add(processContainer.getProcess());
+		for (ScopeElement scope : allScopes) {
+			if (scope.hasExitOnStandardFault() && catchesStandardFaultDirectly(scope)) {
+				addViolation(scope);
+			}
+		}
+	}
 
-    private List<Node> getScopes() {
-        return NodesUtil.toList(processContainer.getAllScopes());
-    }
+	private void validateInvokes() {
+		for (InvokeElement invoke : processContainer.getAllInvokes()) {
+			if (invoke.getEnclosingScope().hasExitOnStandardFault()
+					&& catchesStandardFaultDirectly(invoke)) {
+				addViolation(invoke);
+			}
+		}
+	}
 
-    private boolean hasExitOnStandardFault(String bool, Node enclosingScopes) {
-        String exitOnStandardFault = new NodeHelper(enclosingScopes)
-                .getAttribute("exitOnStandardFault");
-        return bool.equals(exitOnStandardFault);
-    }
+	private boolean catchesStandardFaultDirectly(ScopeElement scope) {
+		Nodes catches = scope.toXOM().query("bpel:faultHandlers/bpel:catch", CONTEXT);
+		return catchesStandardFaultDirectly(catches);
+	}
 
-    private boolean isCatchingStandardFaults(Node currentScope) {
-        if (catchesStandardFaultDirectly(currentScope))
-            return true;
-        boolean foundStandardFault = false;
-        for (Node scope : currentScope.query("bpel:scope", CONTEXT)) {
-            if (!hasExitOnStandardFault("no", scope)) {
-                foundStandardFault |= isCatchingStandardFaults(scope);
-            }
-        }
-        return foundStandardFault;
-    }
+	private boolean catchesStandardFaultDirectly(InvokeElement invoke) {
+		Nodes catches = invoke.toXOM().query("bpel:catch", CONTEXT);
+		return catchesStandardFaultDirectly(catches);
+	}
 
-    private boolean catchesStandardFaultDirectly(Node currentScope) {
-        Nodes catches = currentScope.query("bpel:faultHandlers/bpel:catch",
-                CONTEXT);
-        for (Node catchNode : catches) {
-            String attribute = new NodeHelper(catchNode)
-                    .getAttribute("faultName");
-            for (String fault : BPELFaults.VALUES) {
-                if (fault.equals(attribute)) {
-                    return true;
-                }
-            }
+	private boolean catchesStandardFaultDirectly(Nodes catches) {
+		for (Node catchNode : catches) {
+			String faultNameAttribute = new CatchElement(catchNode, processContainer)
+					.getFaultNameAttribute();
+			for (String faultName : BPELFaults.VALUES) {
+				if (faultName.equals(faultNameAttribute)) {
+					return true;
+				}
+			}
 
-        }
-        return false;
-    }
+		}
+		return false;
+	}
 
-    @Override
-    public int getSaNumber() {
-        return 3;
-    }
+	@Override
+	public int getSaNumber() {
+		return 3;
+	}
 }

@@ -109,4 +109,18 @@ public class ScopeElement extends ContainerAwareReferable implements CompensateT
 		return scope.getAttribute("name");
 	}
 
+	public boolean hasExitOnStandardFault() {
+		String exitOnStandardFault = scope.getAttribute("exitOnStandardFault");
+		if ("yes".equals(exitOnStandardFault)) {
+			return true;
+		} else if ("no".equals(exitOnStandardFault)) {
+			return false;
+		} else {
+			if ("process".equals(scope.getLocalName())) {
+				return false;
+			}
+			return getEnclosingScope().hasExitOnStandardFault();
+		}
+	}
+
 }

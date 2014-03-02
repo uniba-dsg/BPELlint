@@ -7,7 +7,7 @@ public class BPELFaults {
 			"bpel:conflictingRequest", "bpel:correlationViolation",
 			"bpel:invalidBranchCondition ", "bpel:invalidExpressionValue",
 			"bpel:invalidVariables", "bpel:mismatchedAssignmentFailure",
-			"bpel:missingReply", "bpel:missingRequest ",
+			"bpel:missingReply", "bpel:missingRequest",
 			"bpel:scopeInitializationFailure", "bpel:selectionFailure ",
 			"bpel:subLanguageExecutionFault", "bpel:uninitializedPartnerRole",
 			"bpel:uninitializedVariable", "bpel:unsupportedReference",
