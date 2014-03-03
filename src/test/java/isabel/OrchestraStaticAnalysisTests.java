@@ -107,7 +107,7 @@ public class OrchestraStaticAnalysisTests extends FunctionalValidatorTests{
 
                 {"Testcases/orchestra/sa00057/sa00057.bpel", "57"},
                 {"Testcases/orchestra/sa00057/sa00057_2.bpel", "57"},
-                {"Testcases/orchestra/sa00057/sa00057_3.bpel", "57"}, // TODO modify result or implementation according to Simon's feedback
+                {"Testcases/orchestra/sa00057/sa00057_3.bpel", "57"},
                 {"Testcases/orchestra/sa00057/sa00057_4.bpel", "57"},
 
                 {"Testcases/orchestra/sa00059/sa00059.bpel", "59"},

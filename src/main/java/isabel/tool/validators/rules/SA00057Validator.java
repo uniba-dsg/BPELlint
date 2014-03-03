@@ -15,6 +15,9 @@ import com.google.common.collect.Sets;
 
 public class SA00057Validator extends Validator {
 
+	private static final int MISSING_CORRELATION = 2;
+	private static final int NO_SHARED_CORRELATION_SET = 1;
+
 	public SA00057Validator(ProcessContainer files,
 			ValidationCollector validationCollector) {
 		super(files, validationCollector);
@@ -23,17 +26,28 @@ public class SA00057Validator extends Validator {
 	@Override
 	public void validate() {
 		List<StartActivity> startActivities = processContainer.getAllStartActivities();
-		List<Set<String>> joinCorrelationSetNames = listAllJoinCorrelationSetNames(startActivities);
-
-		if (isSingleStartingPoint(joinCorrelationSetNames)) {
+		if (isSingleStartingPoint(startActivities) || hasNoCorrelation(startActivities)) {
 			return;
 		}
+
+		List<Set<String>> joinCorrelationSetNames = listAllJoinCorrelationSetNames(startActivities);
 		haveAtLeastOneSharedCorrelationSet(joinCorrelationSetNames);
 	}
 
-	private boolean isSingleStartingPoint(List<Set<String>> joinCorrelationSetNames) {
-		// There might be no start activity with correlation set
-		return joinCorrelationSetNames.size() <= 1;
+	private boolean hasNoCorrelation(List<StartActivity> startActivities) {
+		for (StartActivity startActivity : startActivities) {
+			try {
+				startActivity.getCorrelations();
+				return false;
+			} catch (NavigationException e) {
+				// has no correlation => continue
+			}
+		}
+		return true;
+	}
+
+	private boolean isSingleStartingPoint(List<StartActivity> startActivities) {
+		return startActivities.size() == 1;
 	}
 
 	private List<Set<String>> listAllJoinCorrelationSetNames(List<StartActivity> startActivities) {
@@ -42,7 +56,7 @@ public class SA00057Validator extends Validator {
 			try {
 				joinCorrelationSetNames.add(checkActivity(receiveOrOnMessage));
 			} catch (NavigationException e) {
-				// no starting point with correlation => continue with next start activity
+				addViolation(receiveOrOnMessage, MISSING_CORRELATION);
 			}
 		}
 		return joinCorrelationSetNames;
@@ -66,7 +80,7 @@ public class SA00057Validator extends Validator {
 		for (Set<String> setA : joinCorrelationSetNames) {
 			for (Set<String> setB : joinCorrelationSetNames) {
 				if (!(Sets.intersection(setA, setB).size() > 0)) {
-					addViolation(processContainer.getProcess());
+					addViolation(processContainer.getProcess(), NO_SHARED_CORRELATION_SET);
 				}
 			}
 		}
