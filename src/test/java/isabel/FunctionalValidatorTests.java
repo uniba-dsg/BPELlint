@@ -353,7 +353,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00070/SourceOutOfRepeatUntil.bpel", "70"},
 				{"Testcases/rules/SA00070/SourceOutOfForEach.bpel", "70"},
 				{"Testcases/rules/SA00070/SourceOutOfEventHandlers.bpel", "70"},
-				{"Testcases/rules/SA00070/SourceOutOfCompensationHandler.bpel", "70"},
+				{"Testcases/rules/SA00070/SourceOutOfCompensationHandler.bpel", "70, 56"}, // TODO this test can be modified by betsy test modification placing the start activity before the flow
 				{"Testcases/rules/SA00070/TargetOutOfWhile.bpel", "70"},
 				{"Testcases/rules/SA00070/TargetOutOfRepeatUntil.bpel", "70"},
 				{"Testcases/rules/SA00070/TargetOutOfForEach.bpel", "70"},
@@ -365,8 +365,8 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00070/LinkOutOfEventHandlers.bpel", "70"},
 				{"Testcases/rules/SA00070/LinkOutOfCompensationHandler.bpel", "70"},
 
-				{"Testcases/rules/SA00071/CatchIncommingLink.bpel", "71"},
-				{"Testcases/rules/SA00071/CatchAllIncommingLink.bpel", "71"},
+				{"Testcases/rules/SA00071/CatchIncommingLink.bpel", "71, 56"}, // TODO this test can be modified by betsy test modification placing the start activity before the flow
+				{"Testcases/rules/SA00071/CatchAllIncommingLink.bpel", "71, 56"}, // TODO this test can be modified by betsy test modification placing the start activity before the flow
 				{"Testcases/rules/SA00071/TerminationHandlerIncommingLink.bpel", "71"},
 
 				{"Testcases/rules/SA00072/FlowSelfLinked.bpel", "72"},
