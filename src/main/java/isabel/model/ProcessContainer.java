@@ -696,10 +696,10 @@ public class ProcessContainer {
 	void validate() {
 		// assertion
 		//FIXME required to be optional for Lohmann tests
-		if (getWsdls().isEmpty()) {
-			throw new IllegalStateException(
-					"At least one WSDL file is required");
-		}
+//		if (getWsdls().isEmpty()) {
+//			throw new IllegalStateException(
+//					"At least one WSDL file is required");
+//		}
 	}
 
 	@Override

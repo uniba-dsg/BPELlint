@@ -46,7 +46,8 @@ public class SchemaValidator implements SchemaValidatorFacade {
 
 	@Override
     public void validateBpel(Path file) throws ValidationException {
-		bpelValidator.validate(file);
+		// FIXME this may be optional
+		// bpelValidator.validate(file);
 	}
 
 	@Override

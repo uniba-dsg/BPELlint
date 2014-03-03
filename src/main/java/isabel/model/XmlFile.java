@@ -65,9 +65,10 @@ public class XmlFile {
     }
 
     public void failUnlessBpel() {
-        if (!isBpel()) {
-            throw new IllegalArgumentException("file " + getFilePath() + " is no BPEL file!");
-        }
+    	// FIXME this may be optional
+//        if (!isBpel()) {
+//            throw new IllegalArgumentException("file " + getFilePath() + " is no BPEL file!");
+//        }
     }
 
     public boolean isXsd() {

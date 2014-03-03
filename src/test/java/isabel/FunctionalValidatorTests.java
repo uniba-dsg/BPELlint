@@ -153,6 +153,9 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00023/Scope-Duplicated-Variables.bpel", "23"},
 				{"Testcases/rules/SA00023/Scope-Scope-Duplicated-Variables.bpel", "23"},
 
+				{"Testcases/rules/SA00024/OnEvent-containing-dot.bpel", "24"},
+				{"Testcases/rules/SA00024/Variable-containing-dot.bpel", "24"},
+
 				{"Testcases/rules/SA00025/Variable-havingMessageTypeAndElement.bpel", "25"},
 				{"Testcases/rules/SA00025/Variable-havingTypeAndElement.bpel", "25"},
 				{"Testcases/rules/SA00025/Variable-havingTypeAndMessageType.bpel", "25"},
