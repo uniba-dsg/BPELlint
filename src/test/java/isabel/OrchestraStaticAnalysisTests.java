@@ -46,30 +46,30 @@ public class OrchestraStaticAnalysisTests extends FunctionalValidatorTests{
                 {"Testcases/orchestra/sa00003/sa00003_2.bpel", "3"},
                 {"Testcases/orchestra/sa00003/sa00003_3.bpel", "3"},
 
-                // TODO cannot be checked yet, engine dependent rule is not implemented
-//                {"Testcases/orchestra/sa00004/sa00004_1.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_10.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_11.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_12.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_13.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_14.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_15.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_16.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_17.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_18.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_19.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_2.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_20.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_21.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_22.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_23.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_3.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_4.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_5.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_6.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_7.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_8.bpel", "4"},
-//                {"Testcases/orchestra/sa00004/sa00004_9.bpel", "4"},
+                // cannot be checked yet, engine dependent rule is not implemented [all tests are reported by SA#10]
+                {"Testcases/orchestra/sa00004/sa00004_1.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_10.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_11.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_12.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_13.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_14.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_15.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_16.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_17.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_18.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_19.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_2.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_20.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_21.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_22.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_23.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_3.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_4.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_5.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_6.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_7.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_8.bpel", "4"},
+                {"Testcases/orchestra/sa00004/sa00004_9.bpel", "4"},
 
                 {"Testcases/orchestra/sa00005/sa00005.bpel", "5"},
 
@@ -122,13 +122,13 @@ public class OrchestraStaticAnalysisTests extends FunctionalValidatorTests{
 
                 {"Testcases/orchestra/sa00069/sa00069.bpel", "69"},
 
-                // TODO not yet implemented, expression parsing
-//                {"Testcases/orchestra/sa00074/sa00074.bpel", "74"},
-//                {"Testcases/orchestra/sa00074/sa00074_2.bpel", "74"},
-//                {"Testcases/orchestra/sa00074/sa00074_3.bpel", "74"},
+                // not yet implemented, expression parsing [no error observed by Validators]
+                {"Testcases/orchestra/sa00074/sa00074.bpel", "74"},
+                {"Testcases/orchestra/sa00074/sa00074_2.bpel", "74"},
+                {"Testcases/orchestra/sa00074/sa00074_3.bpel", "74"},
 
-                // TODO not yet implemented, expression parsing
-//                {"Testcases/orchestra/sa00075/sa00075.bpel", "75"},
+                // not yet implemented, expression parsing [no error observed by Validators]
+                {"Testcases/orchestra/sa00075/sa00075.bpel", "75"},
 
                 {"Testcases/orchestra/sa00076/sa00076.bpel", "76"},
 

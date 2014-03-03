@@ -29,6 +29,7 @@ public class BPEL2oWFNTests extends FunctionalValidatorTests{
     public static Collection<Object[]> data() throws IOException {
         List<Object[]> bpelFiles = new LinkedList<>();
         bpelFiles.addAll(BPEL2oWFNTests.satests());
+        bpelFiles.addAll(new HappyPathTests(Paths.get("Testcases/bpel2owfn/testfiles")).list());
 
         return bpelFiles;
     }
@@ -97,7 +98,8 @@ public class BPEL2oWFNTests extends FunctionalValidatorTests{
         return Arrays.asList(data);
     }
 
-    @Test
+    @Override
+	@Test
     public void testValidators() throws Exception {
         ValidationResult validationResult = Isabel.buildWithoutSchemaValidation().validate(Paths.get(bpel));
 
