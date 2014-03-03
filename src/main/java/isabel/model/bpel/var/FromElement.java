@@ -5,6 +5,7 @@ import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.PartnerLinkElement;
+import isabel.model.wsdl.PropertyAliasElement;
 import nu.xom.Node;
 
 public class FromElement extends ContainerAwareReferable implements CopyEntity  {
@@ -50,6 +51,11 @@ public class FromElement extends ContainerAwareReferable implements CopyEntity  
 	@Override
 	public PartnerLinkElement getPartnerLink() throws NavigationException {
 		return delegate.getPartnerLink();
+	}
+
+	@Override
+	public PropertyAliasElement getVariablePropertyAlias() throws NavigationException {
+		return delegate.getVariablePropertyAlias();
 	}
 
 }

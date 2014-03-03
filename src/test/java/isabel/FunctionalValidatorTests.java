@@ -87,7 +87,7 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00010/UndefinedType-Catch-FaultElement.bpel", "10"},
 				{"Testcases/rules/SA00010/UndefinedType-Catch-FaultMessageType.bpel", "10"},
-				{"Testcases/rules/SA00010/UndefinedType-CorrelationSet.bpel", "10, 21"},
+				{"Testcases/rules/SA00010/UndefinedType-CorrelationSet.bpel", "10"},
 				{"Testcases/rules/SA00010/UndefinedType-From.bpel", "10, 21"},
 				{"Testcases/rules/SA00010/UndefinedType-Invoke.bpel", "10"},
 				{"Testcases/rules/SA00010/UndefinedType-OnEvent.bpel", "10, 84"},
@@ -138,10 +138,12 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00020/PropertyAlias-PartTypeElementAttributes.bpel", "20"},
 				{"Testcases/rules/SA00020/PropertyAlias-TypeElementAttributes.bpel", "20"},
 
-				{"Testcases/rules/SA00021/CorrelationSet-Properties-Undefined.bpel", "21, 10"},
-				{"Testcases/rules/SA00021/From-Property-Undefined.bpel", "21, 10"},
-				{"Testcases/rules/SA00021/OnEvent-Variable-Undefined.bpel", "21, 88"},
-				{"Testcases/rules/SA00021/To-Property-Undefined.bpel", "21, 10"},
+				{"Testcases/rules/SA00021/From-Property-Undefined.bpel", "21, 10"}, // test not optimal
+				{"Testcases/rules/SA00021/OnEvent-Variable-Undefined.bpel", "21, 88"}, // test not optimal
+				{"Testcases/rules/SA00021/To-Property-Undefined.bpel", "21, 10"}, // test not optimal
+				{"Testcases/rules/SA00021/From-Property-AlienAlias.bpel", "21"},
+				{"Testcases/rules/SA00021/OnEvent-Variable-AlienAlias.bpel", "21"},
+				{"Testcases/rules/SA00021/To-Property-AlienAlias.bpel", "21"},
 
 				{"Testcases/rules/SA00022/Duplicate-propertyAliasElement.bpel", "22"},
 				{"Testcases/rules/SA00022/Duplicate-propertyAliasMessageType.bpel", "22"},

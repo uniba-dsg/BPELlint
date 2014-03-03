@@ -17,6 +17,8 @@ import isabel.model.bpel.var.VariableLike;
 import isabel.model.bpel.var.VariableLikeImpl;
 import isabel.model.wsdl.OperationElement;
 import isabel.model.wsdl.PortTypeElement;
+import isabel.model.wsdl.PropertyAliasElement;
+import isabel.model.wsdl.PropertyElement;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
@@ -150,6 +152,12 @@ public class OnEventElement extends ContainerAwareReferable implements
 			}
 		}
 		return new MessageExchangeElement(messageExchange.get(0), getProcessContainer());
+	}
+
+	@Override
+	public PropertyAliasElement resolvePropertyAlias(PropertyElement property)
+			throws NavigationException {
+		return variableDelegate.resolvePropertyAlias(property);
 	}
 
 }

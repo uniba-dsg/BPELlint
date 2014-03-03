@@ -37,7 +37,7 @@ public class PrefixHelper {
 			String namespaceURI = element.getNamespaceURI(namespacePrefix);
 			if (namespaceURI == null) {
 				if ("process".equals(element.getLocalName())) {
-					throw new NavigationException("Document has no namespace for this prefix");
+					throw new NavigationException("Document has no namespace for this prefix \""+namespacePrefix+"\"");
 				} else {
 					return getPrefixNamespaceURI(element.getParent(), namespacePrefix);
 				}
@@ -45,5 +45,9 @@ public class PrefixHelper {
 			return namespaceURI;
 		}
 		throw new NavigationException("node need to be instance of Element or Attribute");
+	}
+
+	public static String resolveQNameToNamespace(Node node, String namespacePrefix) throws NavigationException {
+		return getPrefixNamespaceURI(node, getPrefix(namespacePrefix));
 	}
 }

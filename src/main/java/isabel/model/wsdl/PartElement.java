@@ -22,4 +22,15 @@ public class PartElement extends ContainerAwareReferable {
 		return part.getAttribute("name");
 	}
 
+	public boolean hasTypeAttribute() {
+		return part.hasAttribute("type");
+	}
+
+	public String getTypeAttribute() {
+		return part.getAttribute("type");
+	}
+
+	public boolean hasElement() {
+		return part.hasAttribute("element");
+	}
 }

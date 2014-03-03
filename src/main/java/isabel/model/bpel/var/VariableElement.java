@@ -1,8 +1,11 @@
 package isabel.model.bpel.var;
 
 import isabel.model.ContainerAwareReferable;
+import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
+import isabel.model.wsdl.PropertyAliasElement;
+import isabel.model.wsdl.PropertyElement;
 import nu.xom.Node;
 
 public class VariableElement extends ContainerAwareReferable implements VariableLike {
@@ -25,7 +28,7 @@ public class VariableElement extends ContainerAwareReferable implements Variable
     public boolean hasVariableMessageType() {
         return variableDelegate.hasVariableMessageType();
     }
-	
+
     @Override
     public boolean hasVariableElement() {
         return variableDelegate.hasVariableElement();
@@ -35,7 +38,7 @@ public class VariableElement extends ContainerAwareReferable implements Variable
 	public String getVariableElement() {
 		return variableDelegate.getVariableElement();
 	}
-	
+
 	@Override
     public String getVariableName() {
         return variableDelegate.getVariableName();
@@ -44,10 +47,17 @@ public class VariableElement extends ContainerAwareReferable implements Variable
     public String getType() {
         return variableDelegate.getType();
     }
-    
+
     @Override
     public String getVariableMessageType() {
         return variableDelegate.getVariableMessageType();
     }
+
+
+	@Override
+	public PropertyAliasElement resolvePropertyAlias(PropertyElement property)
+			throws NavigationException {
+		return variableDelegate.resolvePropertyAlias(property);
+	}
 
 }

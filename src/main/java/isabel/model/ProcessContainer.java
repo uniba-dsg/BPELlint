@@ -173,6 +173,7 @@ public class ProcessContainer {
 	public XmlFile getWsdlByTargetNamespace(String searchedTargetNamespace)
 			throws NavigationException {
 		for (XmlFile wsdlEntry : getWsdls())
+			// returns first WSDL with this targetNamespace, might be problematic if two or more WSDLs share the same targetNamespace
 			if (wsdlEntry.getTargetNamespace().equals(searchedTargetNamespace))
 				return wsdlEntry;
 
@@ -694,6 +695,7 @@ public class ProcessContainer {
 	
 	void validate() {
 		// assertion
+		//FIXME required to be optional for Lohmann tests
 		if (getWsdls().isEmpty()) {
 			throw new IllegalStateException(
 					"At least one WSDL file is required");
@@ -714,5 +716,26 @@ public class ProcessContainer {
 		}
 
 		return result;
+	}
+
+	public Node resolveName(String targetNamespace, String name, String type) throws NavigationException {
+		List<XmlFile> xmlFiles = new LinkedList<>();
+		for (XmlFile xmlFile : getWsdls()) {
+			xmlFiles.add(xmlFile);
+		}
+		for (XmlFile xmlFile : getXsds()) {
+			xmlFiles.add(xmlFile);
+		}
+		for (XmlFile xml : xmlFiles) {
+			if (!xml.getTargetNamespace().equals(targetNamespace)) {
+				continue;
+			}
+			Nodes element = xml.getDocument().query("//" + type + "[@name='" + name + "']", CONTEXT);
+			if (!element.hasAny()) {
+				continue;
+			}
+			return element.get(0);
+		}
+		throw new NavigationException(name + " of type " + type + " is not defined in WSDL or XSD file");
 	}
 }

@@ -14,9 +14,9 @@
     </plink:partnerLinkType>
 
     <vprop:property name="correlationId" type="xsd:int"/>
-    <vprop:propertyAlias messageType="tns:executeProcessSyncRequest" part="alienAliasPart" propertyName="tns:correlationId"/>
+    <vprop:propertyAlias messageType="tns:executeProcessSyncRequest" part="inputPart" propertyName="tns:correlationId"/>
     <vprop:propertyAlias messageType="tns:executeProcessSyncStringRequest" part="inputPart" propertyName="tns:correlationId"/>
-    <vprop:propertyAlias messageType="tns:executeProcessSyncResponse" part="outputPart" propertyName="tns:correlationId"/>
+    <vprop:propertyAlias messageType="tns:executeProcessSyncResponse" part="alienAliasPart" propertyName="tns:correlationId"/>
     <vprop:propertyAlias messageType="tns:executeProcessAsyncRequest" part="inputPart" propertyName="tns:correlationId"/>
 
     <import namespace="http://dsg.wiai.uniba.de/bpel-engine-comparison/xsd/months" location="months.xsd"/>
@@ -35,13 +35,13 @@
 
     <message name="executeProcessSyncRequest">
         <part name="inputPart" element="tns:testElementSyncRequest"/>
-        <part name="alienAliasPart" element="tns:monthNumber"/>
     </message>
     <message name="executeProcessAsyncRequest">
         <part name="inputPart" element="tns:testElementAsyncRequest"/>
     </message>
     <message name="executeProcessSyncResponse">
         <part name="outputPart" element="tns:testElementSyncResponse"/>
+        <part name="alienAliasPart" element="tns:monthNumber"/>
     </message>
     <message name="executeProcessSyncFault">
         <part name="payload" element="tns:testElementSyncFault"/>

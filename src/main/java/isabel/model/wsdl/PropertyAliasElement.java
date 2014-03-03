@@ -85,8 +85,24 @@ public class PropertyAliasElement extends ContainerAwareReferable {
 	public String getMessageTypeAttribute() {
 		return propertyAlias.getAttribute("messageType");
 	}
+	 public String getPart() {
+			return propertyAlias.getAttribute("part");
+	}
 
 	public String getPropertyNameAttribute() {
 		return propertyAlias.getAttribute("propertyName");
+	}
+
+	public MessageElement getReferencedMessage() throws NavigationException {
+		if (!hasMessageType()) {
+			throw new NavigationException("propertyAlias is not referencing a message");
+		}
+
+		String ns = PrefixHelper.getPrefix(getMessageTypeAttribute());
+		String namespace = propertyAlias.asElement().getNamespaceURI(ns);
+		String messageName = PrefixHelper.removePrefix(getMessageTypeAttribute());
+
+		Node message = getProcessContainer().resolveName(namespace, messageName, "wsdl:message");
+		return new MessageElement(message, getProcessContainer());
 	}
 }
