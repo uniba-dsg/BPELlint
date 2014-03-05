@@ -104,6 +104,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00012/Import-NoNameSpace.bpel", "12"},
 
 				{"Testcases/rules/SA00013/Import-WrongImportType.bpel", "13"},
+				{"Testcases/rules/SA00013/WrongXsdImportType.bpel", "13"},
 
 				{"Testcases/rules/SA00014/ImportRedefine.bpel", "14"},
 				{"Testcases/rules/SA00014/ImportWsdlAndWsdlCopy.bpel", "14"},
@@ -113,12 +114,15 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00015/NoActivityWithCreateInstanceSetToYes.bpel", "15"},
 				{"Testcases/rules/SA00015/OnlyActivityWithCreateInstanceSetToNo.bpel", "15"},
+				{"Testcases/rules/SA00015/PickCreateInstanceMissing.bpel", "15"},
+				{"Testcases/rules/SA00015/PickCreateInstanceNo.bpel", "15"},
 
 				{"Testcases/rules/SA00016/PartnerLinkWithoutMyRoleAndPartnerRole.bpel", "16, 10"},
 
 				{"Testcases/rules/SA00017/InitializePartnerRoleUsedOnPartnerLinkWithoutPartnerRole.bpel", "17"},
 
 				{"Testcases/rules/SA00018/TwoPartnerLinksWithSameName.bpel", "18"},
+				{"Testcases/rules/SA00018/ScopeSamePartnerLinkTwice.bpel", "18"},
 
 				{"Testcases/rules/SA00019/PropertyWithoutTypeOrElement.bpel", "19"},
 				{"Testcases/rules/SA00019/PropertyWithTypeAndElement.bpel", "19"},
@@ -147,6 +151,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00022/Duplicate-propertyAliasElement.bpel", "22"},
 				{"Testcases/rules/SA00022/Duplicate-propertyAliasMessageType.bpel", "22"},
 				{"Testcases/rules/SA00022/Duplicate-propertyAliasType.bpel", "22"},
+				{"Testcases/rules/SA00022/DoubleImportedPropertyAlias.bpel", "22"},
 
 				{"Testcases/rules/SA00023/Process-Duplicated-Variables.bpel", "23"},
 				{"Testcases/rules/SA00023/Scope-Duplicated-Variables.bpel", "23"},

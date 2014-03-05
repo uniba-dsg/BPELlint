@@ -35,6 +35,7 @@ public class XsdSchemaValidatorTests {
 		Object[][] data = new Object[][]{
 				{"Testcases/rules/SA00024/OnEvent-containing-dot.bpel"},
 				{"Testcases/rules/SA00024/Variable-containing-dot.bpel"},
+				{"Testcases/rules/SA00024/CatchContainingDot.bpel"},
 		};
 		return Arrays.asList(data);
 	}

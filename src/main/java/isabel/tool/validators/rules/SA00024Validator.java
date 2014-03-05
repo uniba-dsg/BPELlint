@@ -16,20 +16,20 @@ public class SA00024Validator extends Validator {
 
 	@Override
 	public void validate() {
-		Nodes variables = processContainer.getBpel().getDocument()
-				.query("//bpel:variable/@name", CONTEXT);
-		Nodes onEvents = processContainer.getBpel().getDocument()
-				.query("//bpel:onEvent/@variable", CONTEXT);
+		Nodes variables = processContainer.getProcess().toXOM().query("//bpel:variable/@name", CONTEXT);
+		checkForDots(variables);
 
-		for (Node variable : variables) {
-			if (variable.getValue().contains(".")) {
-				addViolation(variable);
-			}
-		}
+		Nodes onEvents = processContainer.getProcess().toXOM().query("//bpel:onEvent/@variable", CONTEXT);
+		checkForDots(onEvents);
 
-		for (Node onEvent : onEvents) {
-			if (onEvent.getValue().contains(".")) {
-				addViolation(onEvent);
+		Nodes catches = processContainer.getProcess().toXOM().query("//bpel:catch/@faultVariable", CONTEXT);
+		checkForDots(catches);
+	}
+
+	private void checkForDots(Nodes variableNames) {
+		for (Node variableName : variableNames) {
+			if (variableName.getValue().contains(".")) {
+				addViolation(variableName);
 			}
 		}
 	}
