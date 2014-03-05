@@ -170,16 +170,6 @@ public class ProcessContainer {
 				"XMLSchema should have been imported, but haven't.");
 	}
 
-	public XmlFile getWsdlByTargetNamespace(String searchedTargetNamespace)
-			throws NavigationException {
-		for (XmlFile wsdlEntry : getWsdls())
-			// returns first WSDL with this targetNamespace, might be problematic if two or more WSDLs share the same targetNamespace
-			if (wsdlEntry.getTargetNamespace().equals(searchedTargetNamespace))
-				return wsdlEntry;
-
-		throw new NavigationException("Document does not exist");
-	}
-
 	public Nodes getCorrelationSets() {
 		return getBpel().getDocument().query("//bpel:correlationSet", CONTEXT);
 	}
