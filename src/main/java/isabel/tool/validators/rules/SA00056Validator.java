@@ -26,7 +26,7 @@ public class SA00056Validator extends Validator {
 	private static final int FLOW_HAS_STARTING_AND_NON_STARTING_BRANCHES = 2;
 	private static final int MUST_NOT_CONTAIN_START_ACTIVITY = 3;
 
-	private volatile int amountOfHiddenStartActivities;
+	private int amountOfHiddenStartActivities;
 	private List<ComparableNode> startBranches;
 	private List<ComparableNode> nonStartBranches;
 

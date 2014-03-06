@@ -1,6 +1,5 @@
 package isabel.model.bpel.var;
 
-import isabel.model.ComparableNode;
 import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
@@ -52,7 +51,7 @@ public class VariableLikeImpl extends ContainerAwareReferable implements Variabl
 	public PropertyAliasElement resolvePropertyAlias(PropertyElement property)
 			throws NavigationException {
 		for (PropertyAliasElement propertyAlias : getProcessContainer().getAllPropertyAliases()) {
-			if (new ComparableNode(propertyAlias.getProperty()).equals(property)) {
+			if (propertyAlias.getProperty().equals(property)) {
 				if (isEqual(getVariableMessageType(), propertyAlias.getMessageTypeAttribute())) {
 					return propertyAlias;
 				} else if (isEqual(getVariableElement(), propertyAlias.getElementAttribute())) {
