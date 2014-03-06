@@ -141,12 +141,15 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00020/PropertyAlias-PartTypeElementAttributes.bpel", "20"},
 				{"Testcases/rules/SA00020/PropertyAlias-TypeElementAttributes.bpel", "20"},
 
-				{"Testcases/rules/SA00021/From-Property-Undefined.bpel", "21, 10"}, // test not optimal
-				{"Testcases/rules/SA00021/OnEvent-Variable-Undefined.bpel", "21, 88"}, // test not optimal
-				{"Testcases/rules/SA00021/To-Property-Undefined.bpel", "21, 10"}, // test not optimal
 				{"Testcases/rules/SA00021/From-Property-AlienAlias.bpel", "21"},
 				{"Testcases/rules/SA00021/OnEvent-Variable-AlienAlias.bpel", "21"},
 				{"Testcases/rules/SA00021/To-Property-AlienAlias.bpel", "21"},
+				{"Testcases/rules/SA00021/InvokeCorrelationAlienAlias.bpel", "21"},
+				{"Testcases/rules/SA00021/InvokeToCorrelationAlienAlias.bpel", "21"},
+				{"Testcases/rules/SA00021/OnEventCorrelationAlienAlias.bpel", "21"},
+				{"Testcases/rules/SA00021/OnMessageCorrelationAlienAlias.bpel", "21"},
+				{"Testcases/rules/SA00021/ReceiveCorrelationAlienAlias.bpel", "21"},
+				{"Testcases/rules/SA00021/ReplyCorrelationAlienAlias.bpel", "21"},
 
 				{"Testcases/rules/SA00022/Duplicate-propertyAliasElement.bpel", "22"},
 				{"Testcases/rules/SA00022/Duplicate-propertyAliasMessageType.bpel", "22"},
