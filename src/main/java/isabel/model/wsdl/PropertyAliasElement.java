@@ -5,10 +5,7 @@ import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
 import isabel.model.ProcessContainer;
-import nu.xom.Document;
 import nu.xom.Node;
-import nu.xom.Nodes;
-import static isabel.model.Standards.CONTEXT;
 
 public class PropertyAliasElement extends ContainerAwareReferable {
 
@@ -19,16 +16,14 @@ public class PropertyAliasElement extends ContainerAwareReferable {
         this.propertyAlias = new NodeHelper(propertyAlias, "propertyAlias");
     }
 
-    public PropertyElement getProperty()
-            throws NavigationException {
-        Document wsdlDom = toXOM().getDocument();
-        Nodes properties = wsdlDom.query("//vprop:property", CONTEXT);
-
-        for (Node propertyNode : properties) {
-            String propertyName = new NodeHelper(propertyNode).getAttribute("name");
-
-            if (propertyName.equals(PrefixHelper.removePrefix(getPropertyAttribute()))) {
-                return new PropertyElement(propertyNode, getProcessContainer());
+    public PropertyElement getProperty() throws NavigationException {
+    	String targetNamespace = PrefixHelper.resolveQNameToNamespace(propertyAlias.toXOM(), getPropertyAttribute());
+    	String targetName = PrefixHelper.removePrefix(getPropertyAttribute());
+        for (PropertyElement property : getProcessContainer().getAllProperties()) {
+        	String name = PrefixHelper.removePrefix(property.getName());
+        	String namespace = property.toXOM().getDocument().getRootElement().getAttributeValue("targetNamespace");
+            if (targetName.equals(name) && targetNamespace.equals(namespace)) {
+                return property;
             }
         }
         throw new NavigationException("Referenced <property> does not exist.");

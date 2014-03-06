@@ -710,10 +710,10 @@ public class ProcessContainer {
 
 	public Node resolveName(String targetNamespace, String name, String type) throws NavigationException {
 		List<XmlFile> xmlFiles = new LinkedList<>();
-		for (XmlFile xmlFile : getWsdls()) {
+		for (XmlFile xmlFile : getDirectlyImportedWsdls()) {
 			xmlFiles.add(xmlFile);
 		}
-		for (XmlFile xmlFile : getXsds()) {
+		for (XmlFile xmlFile : getDirectlyImportedXsds()) {
 			xmlFiles.add(xmlFile);
 		}
 		for (XmlFile xml : xmlFiles) {

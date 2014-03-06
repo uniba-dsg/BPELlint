@@ -29,12 +29,10 @@ public class PropertyElement extends ContainerAwareReferable {
     public boolean hasTypeAndElement() {
         return hasType() && hasElement();
     }
-    
-    public String toIdentifier() {
-		String targetNamespace = property.getTargetNamespace();
-		String name = property.getAttribute("name");
-		return "{" + targetNamespace + "}" + name;
-	}
+
+    public String getName() {
+    	return property.getAttribute("name");
+    }
 
 	public String getTypeAttribute() {
 		return property.getAttribute("type");

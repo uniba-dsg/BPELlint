@@ -1,15 +1,14 @@
 package isabel.model.bpel.var;
 
+import isabel.model.ComparableNode;
 import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
 import isabel.model.ProcessContainer;
-import isabel.model.Standards;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.model.wsdl.PropertyElement;
 import nu.xom.Node;
-import nu.xom.Nodes;
 
 public class VariableLikeImpl extends ContainerAwareReferable implements VariableLike {
 
@@ -52,18 +51,16 @@ public class VariableLikeImpl extends ContainerAwareReferable implements Variabl
 	@Override
 	public PropertyAliasElement resolvePropertyAlias(PropertyElement property)
 			throws NavigationException {
-		Nodes aliases = property.toXOM().query("./../vprop:propertyAlias",Standards.CONTEXT);
-
-		for (Node aliasNode : aliases) {
-			NodeHelper alias = new NodeHelper(aliasNode);
-
-			if (isEqual(getVariableMessageType(), alias.getAttribute("messageType"))) {
-				return new PropertyAliasElement(aliasNode, getProcessContainer());
-			} else if (isEqual(getVariableElement(), alias.getAttribute("element"))) {
-				return new PropertyAliasElement(aliasNode, getProcessContainer());
-			} else if (isEqual(getType(), alias.getAttribute("type"))) {
-				return new PropertyAliasElement(aliasNode, getProcessContainer());
-			} 
+		for (PropertyAliasElement propertyAlias : getProcessContainer().getAllPropertyAliases()) {
+			if (new ComparableNode(propertyAlias.getProperty()).equals(property)) {
+				if (isEqual(getVariableMessageType(), propertyAlias.getMessageTypeAttribute())) {
+					return propertyAlias;
+				} else if (isEqual(getVariableElement(), propertyAlias.getElementAttribute())) {
+					return propertyAlias;
+				} else if (isEqual(getType(), propertyAlias.getTypeAttribute())) {
+					return propertyAlias;
+				} 
+			}
 		}
 
 		throw new NavigationException("This variable has no propertyAlias.");

@@ -47,7 +47,7 @@ public class PrefixHelper {
 		throw new NavigationException("node need to be instance of Element or Attribute");
 	}
 
-	public static String resolveQNameToNamespace(Node node, String namespacePrefix) throws NavigationException {
-		return getPrefixNamespaceURI(node, getPrefix(namespacePrefix));
+	public static String resolveQNameToNamespace(Node node, String qName) throws NavigationException {
+		return getPrefixNamespaceURI(node, getPrefix(qName));
 	}
 }
