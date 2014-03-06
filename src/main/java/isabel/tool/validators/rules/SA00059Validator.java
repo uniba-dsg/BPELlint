@@ -1,7 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.bpel.mex.ReplyElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 

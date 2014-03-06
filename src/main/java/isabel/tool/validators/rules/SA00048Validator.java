@@ -3,7 +3,7 @@ package isabel.tool.validators.rules;
 import isabel.model.*;
 import isabel.model.bpel.mex.InvokeElement;
 import isabel.model.wsdl.OperationElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00048Validator extends Validator {
 	

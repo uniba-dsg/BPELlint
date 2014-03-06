@@ -10,7 +10,7 @@ import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.bpel.mex.MessageActivityImpl;
 import isabel.model.bpel.mex.OnEventElement;
 import isabel.model.wsdl.OperationOverloadException;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 import java.util.List;
 

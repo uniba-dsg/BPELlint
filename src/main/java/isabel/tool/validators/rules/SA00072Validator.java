@@ -10,7 +10,7 @@ import isabel.model.bpel.flow.FlowElement;
 import isabel.model.bpel.flow.LinkedActivity;
 import isabel.model.bpel.flow.SourceElement;
 import isabel.model.bpel.flow.TargetElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00072Validator extends Validator {
 

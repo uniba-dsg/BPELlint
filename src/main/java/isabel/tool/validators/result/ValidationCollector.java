@@ -1,6 +1,6 @@
-package isabel.tool.impl;
+package isabel.tool.validators.result;
 
-import isabel.tool.Violation;
+
 
 public interface ValidationCollector {
 

@@ -1,4 +1,4 @@
-package isabel.tool;
+package isabel.tool.validators.result;
 
 import java.util.List;
 import java.util.Set;

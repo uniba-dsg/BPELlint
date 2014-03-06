@@ -3,8 +3,9 @@ package isabel;
 import isabel.io.ValidationResultPrinter;
 import isabel.io.VerbosityLevel;
 import isabel.tool.Isabel;
-import isabel.tool.ValidationException;
-import isabel.tool.ValidationResult;
+import isabel.tool.validators.ValidationException;
+import isabel.tool.validators.result.ValidationResult;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

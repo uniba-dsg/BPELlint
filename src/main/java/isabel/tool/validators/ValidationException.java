@@ -1,4 +1,4 @@
-package isabel.tool;
+package isabel.tool.validators;
 
 public class ValidationException extends Exception {
 

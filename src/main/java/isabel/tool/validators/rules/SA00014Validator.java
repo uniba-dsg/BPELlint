@@ -6,7 +6,7 @@ import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.Standards;
 import isabel.model.XmlFile;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00014Validator extends Validator {
 

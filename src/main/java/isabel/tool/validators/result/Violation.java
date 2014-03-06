@@ -1,4 +1,4 @@
-package isabel.tool;
+package isabel.tool.validators.result;
 
 public class Violation implements Comparable<Violation> {
 

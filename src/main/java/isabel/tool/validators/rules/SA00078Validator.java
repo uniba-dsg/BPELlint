@@ -4,7 +4,7 @@ import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.fct.CompensateScopeElement;
 import isabel.model.bpel.fct.CompensateTargetable;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00078Validator extends Validator {
 

@@ -6,7 +6,7 @@ import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.CorrelationsElement;
 import isabel.model.bpel.mex.InvokeElement;
 import isabel.model.wsdl.OperationElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 import java.util.List;
 

@@ -1,7 +1,8 @@
 package isabel;
 
-import isabel.imports.ImportException;
-import isabel.imports.ProcessContainerLoader;
+import isabel.tool.imports.ImportException;
+import isabel.tool.imports.ProcessContainerLoader;
+
 import org.junit.Before;
 import org.junit.Test;
 

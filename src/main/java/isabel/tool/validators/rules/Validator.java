@@ -1,11 +1,12 @@
 package isabel.tool.validators.rules;
 
+import isabel.model.Navigator;
 import isabel.model.NodeToId;
 import isabel.model.Referable;
-import isabel.tool.Violation;
 import isabel.model.NodeHelper;
-import isabel.tool.impl.ValidationCollector;
 import isabel.model.ProcessContainer;
+import isabel.tool.validators.result.ValidationCollector;
+import isabel.tool.validators.result.Violation;
 import nu.xom.Node;
 
 public abstract class Validator {
@@ -13,14 +14,14 @@ public abstract class Validator {
 	private static final int DEFAULT_TYPE = 1;
 
 	protected final ProcessContainer processContainer;
-	protected final ValidatorNavigator navigator;
+	protected final Navigator navigator;
 	private final ValidationCollector validationCollector;
 
 	public Validator(ProcessContainer processContainer,
 	                 ValidationCollector validationCollector) {
 		this.processContainer = processContainer;
 		this.validationCollector = validationCollector;
-		navigator = new ValidatorNavigator(processContainer);
+		navigator = new Navigator(processContainer);
 	}
 
 	public abstract void validate();

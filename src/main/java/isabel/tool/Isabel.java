@@ -1,10 +1,12 @@
 package isabel.tool;
 
 import isabel.model.ProcessContainer;
-import isabel.imports.ImportException;
-import isabel.imports.ProcessContainerLoader;
 import isabel.model.XmlFile;
-import isabel.tool.validators.rules.ValidatorsHandler;
+import isabel.tool.imports.ImportException;
+import isabel.tool.imports.ProcessContainerLoader;
+import isabel.tool.validators.ValidationException;
+import isabel.tool.validators.ValidatorsHandler;
+import isabel.tool.validators.result.ValidationResult;
 import isabel.tool.validators.xsd.SchemaValidator;
 import isabel.tool.validators.xsd.SchemaValidatorFacade;
 import isabel.tool.validators.xsd.XMLValidator;

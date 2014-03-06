@@ -5,7 +5,7 @@ import isabel.model.PrefixHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.wsdl.PortTypeElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00005Validator extends Validator {
 

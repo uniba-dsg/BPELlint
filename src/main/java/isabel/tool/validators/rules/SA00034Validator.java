@@ -4,7 +4,7 @@ import isabel.model.bpel.var.VariableLike;
 import isabel.model.NodeHelper;
 import isabel.model.NodesUtil;
 import isabel.model.NavigationException;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 import isabel.model.ProcessContainer;
 import nu.xom.Node;
 import nu.xom.Nodes;

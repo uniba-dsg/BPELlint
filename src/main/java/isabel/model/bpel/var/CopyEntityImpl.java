@@ -2,6 +2,7 @@ package isabel.model.bpel.var;
 
 import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
+import isabel.model.Navigator;
 import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
 import isabel.model.ProcessContainer;
@@ -10,7 +11,6 @@ import isabel.model.bpel.PartnerLinked;
 import isabel.model.bpel.PartnerLinkedImpl;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.model.wsdl.PropertyElement;
-import isabel.tool.validators.rules.ValidatorNavigator;
 import nu.xom.Node;
 
 public class CopyEntityImpl extends ContainerAwareReferable implements CopyEntity {
@@ -143,7 +143,7 @@ public class CopyEntityImpl extends ContainerAwareReferable implements CopyEntit
 		String name = PrefixHelper.removePrefix(fromTo.getAttribute("property"));
 		Node property = getProcessContainer().resolveName(targetNamespace, name, "vprop:property");
 
-		VariableLike variable = new ValidatorNavigator(getProcessContainer()).getVariableByName(fromTo, fromTo.getAttribute("variable"));
+		VariableLike variable = new Navigator(getProcessContainer()).getVariableByName(fromTo, fromTo.getAttribute("variable"));
 		return variable.resolvePropertyAlias(new PropertyElement(property, getProcessContainer()));
 	}
 

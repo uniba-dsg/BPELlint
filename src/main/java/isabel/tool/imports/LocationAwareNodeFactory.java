@@ -1,4 +1,4 @@
-package isabel.imports;
+package isabel.tool.imports;
 
 import nu.xom.Element;
 import nu.xom.NodeFactory;

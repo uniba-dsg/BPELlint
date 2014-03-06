@@ -2,7 +2,7 @@ package isabel.tool.validators.rules;
 
 import isabel.model.NodeHelper;
 import isabel.model.Standards;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 import isabel.model.ProcessContainer;
 import nu.xom.Node;
 import nu.xom.Nodes;

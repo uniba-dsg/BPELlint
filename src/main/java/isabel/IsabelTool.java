@@ -21,8 +21,9 @@ import isabel.io.CommandLineInterpreter;
 import isabel.io.ValidationResultPrinter;
 import isabel.io.VerbosityLevel;
 import isabel.tool.Isabel;
-import isabel.tool.ValidationException;
-import isabel.tool.ValidationResult;
+import isabel.tool.validators.ValidationException;
+import isabel.tool.validators.result.ValidationResult;
+
 import org.pmw.tinylog.Logger;
 
 import java.io.IOException;

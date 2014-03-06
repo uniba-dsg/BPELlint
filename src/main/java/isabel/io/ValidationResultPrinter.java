@@ -1,7 +1,7 @@
 package isabel.io;
 
-import isabel.tool.ValidationResult;
-import isabel.tool.Violation;
+import isabel.tool.validators.result.ValidationResult;
+import isabel.tool.validators.result.Violation;
 
 import java.io.PrintStream;
 import java.util.List;

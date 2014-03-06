@@ -4,7 +4,7 @@ import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.CorrelationElement;
 import isabel.model.bpel.mex.StartActivity;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 import java.util.HashSet;
 import java.util.LinkedList;

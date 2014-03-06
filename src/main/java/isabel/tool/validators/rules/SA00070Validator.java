@@ -9,7 +9,7 @@ import isabel.model.Standards;
 import isabel.model.bpel.flow.LinkElement;
 import isabel.model.bpel.flow.LinkEntity;
 import isabel.model.bpel.flow.SourceElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00070Validator extends Validator {
 

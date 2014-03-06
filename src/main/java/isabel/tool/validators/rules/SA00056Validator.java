@@ -11,7 +11,7 @@ import isabel.model.bpel.ScopeElement;
 import isabel.model.bpel.flow.TargetElement;
 import isabel.model.bpel.mex.ReceiveElement;
 import isabel.model.bpel.mex.StartActivity;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 import java.util.Collections;
 import java.util.LinkedList;

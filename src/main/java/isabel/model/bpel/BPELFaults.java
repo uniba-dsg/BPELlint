@@ -1,4 +1,4 @@
-package isabel.tool.validators.rules;
+package isabel.model.bpel;
 
 public class BPELFaults {
 

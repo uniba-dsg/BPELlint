@@ -5,7 +5,7 @@ import isabel.model.bpel.var.CopyEntityImpl;
 import isabel.model.wsdl.MessageElement;
 import isabel.model.wsdl.PartElement;
 import isabel.model.wsdl.PropertyAliasElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 import nu.xom.Node;
 import nu.xom.Nodes;
 

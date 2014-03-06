@@ -5,7 +5,7 @@ import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;
 import isabel.model.Standards;
 import isabel.model.bpel.flow.TargetElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00071Validator extends Validator {
 

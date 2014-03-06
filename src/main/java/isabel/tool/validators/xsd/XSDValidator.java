@@ -1,6 +1,7 @@
 package isabel.tool.validators.xsd;
 
-import isabel.tool.ValidationException;
+import isabel.tool.validators.ValidationException;
+
 import org.pmw.tinylog.Logger;
 import org.xml.sax.SAXException;
 

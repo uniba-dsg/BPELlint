@@ -3,7 +3,7 @@ package isabel.tool.validators.rules;
 import java.util.HashSet;
 import java.util.Set;
 
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.flow.LinkElement;
 import isabel.model.bpel.flow.LinksElement;

@@ -1,6 +1,7 @@
 package isabel;
 
-import isabel.tool.Violation;
+import isabel.tool.validators.result.Violation;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

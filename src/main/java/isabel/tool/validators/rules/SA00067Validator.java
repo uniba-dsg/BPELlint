@@ -5,7 +5,7 @@ import isabel.model.ProcessContainer;
 import isabel.model.bpel.flow.LinkEntity;
 import isabel.model.bpel.flow.SourcesElement;
 import isabel.model.bpel.flow.TargetsElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 import java.util.HashSet;
 import java.util.Set;

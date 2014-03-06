@@ -3,7 +3,7 @@ package isabel.tool.validators.rules;
 import nu.xom.Node;
 import nu.xom.Nodes;
 import isabel.model.Standards;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.flow.FlowElement;
 import isabel.model.bpel.flow.LinkElement;

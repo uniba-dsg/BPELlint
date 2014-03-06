@@ -1,7 +1,6 @@
-package isabel.tool.impl;
+package isabel.tool.validators.result;
 
-import isabel.tool.ValidationResult;
-import isabel.tool.Violation;
+
 
 import java.util.*;
 

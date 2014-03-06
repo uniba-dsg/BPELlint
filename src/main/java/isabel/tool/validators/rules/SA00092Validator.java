@@ -5,7 +5,7 @@ import java.util.Set;
 
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.ScopeElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00092Validator extends Validator {
 

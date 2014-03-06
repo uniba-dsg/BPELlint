@@ -4,7 +4,7 @@ import isabel.model.NavigationException;
 import isabel.model.ProcessContainer;
 import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.wsdl.OperationElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 import nu.xom.Nodes;
 
 import static isabel.model.Standards.CONTEXT;

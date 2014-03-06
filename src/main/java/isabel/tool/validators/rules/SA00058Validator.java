@@ -6,7 +6,7 @@ import isabel.model.VariableHelper;
 import isabel.model.bpel.mex.ReceiveElement;
 import isabel.model.bpel.mex.ReplyElement;
 import isabel.model.wsdl.OperationElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00058Validator extends Validator {
 

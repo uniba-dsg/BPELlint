@@ -1,4 +1,4 @@
-package isabel.imports;
+package isabel.tool.imports;
 
 public class ImportException extends Exception {
 

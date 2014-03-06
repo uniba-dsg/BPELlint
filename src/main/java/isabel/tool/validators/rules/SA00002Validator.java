@@ -1,7 +1,7 @@
 package isabel.tool.validators.rules;
 
 import isabel.model.wsdl.PortTypeElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 import isabel.model.ProcessContainer;
 import nu.xom.Attribute;
 

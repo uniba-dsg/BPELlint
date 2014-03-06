@@ -25,7 +25,7 @@ import isabel.model.bpel.mex.MessageActivityImpl;
 import isabel.model.bpel.mex.OnEventElement;
 import isabel.model.bpel.mex.ReplyElement;
 import isabel.model.wsdl.OperationElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00060Validator extends Validator {
 

@@ -8,7 +8,7 @@ import nu.xom.Nodes;
 import isabel.model.NodeHelper;
 import isabel.model.NodesUtil;
 import isabel.model.Standards;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 import isabel.model.ProcessContainer;
 
 public class SA00061Validator extends Validator {

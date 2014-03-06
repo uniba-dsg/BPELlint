@@ -3,7 +3,8 @@ package isabel.tool.validators.rules;
 import isabel.model.ProcessContainer;
 import isabel.model.XmlFile;
 import isabel.model.bpel.ImportElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
+
 import org.pmw.tinylog.Logger;
 
 import java.nio.file.Path;

@@ -8,7 +8,7 @@ import isabel.model.Referable;
 import isabel.model.Standards;
 import isabel.model.bpel.ProcessElement;
 import isabel.model.bpel.mex.OnEventElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00095Validator extends Validator {
 

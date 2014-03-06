@@ -1,4 +1,4 @@
-package isabel.imports;
+package isabel.tool.imports;
 
 import isabel.model.NodeHelper;
 import isabel.model.ProcessContainer;

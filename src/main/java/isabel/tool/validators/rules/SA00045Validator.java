@@ -7,7 +7,7 @@ import isabel.model.NodeHelper;
 import isabel.model.PrefixHelper;
 import isabel.model.NavigationException;
 import isabel.model.Referable;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 import isabel.model.ProcessContainer;
 import isabel.model.XmlFile;
 import nu.xom.Document;

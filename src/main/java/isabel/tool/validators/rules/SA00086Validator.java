@@ -5,7 +5,7 @@ import isabel.model.ProcessContainer;
 import isabel.model.bpel.mex.OnEventElement;
 import isabel.model.bpel.var.FromPartElement;
 import isabel.model.bpel.var.VariableElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 public class SA00086Validator extends Validator {
 

@@ -2,10 +2,11 @@ package isabel.tool.validators.rules;
 
 import static isabel.model.Standards.CONTEXT;
 import isabel.model.ProcessContainer;
+import isabel.model.bpel.BPELFaults;
 import isabel.model.bpel.ScopeElement;
 import isabel.model.bpel.fct.CatchElement;
 import isabel.model.bpel.mex.InvokeElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 import java.util.List;
 

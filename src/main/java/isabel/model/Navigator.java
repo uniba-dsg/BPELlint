@@ -1,6 +1,5 @@
-package isabel.tool.validators.rules;
+package isabel.model;
 
-import isabel.model.*;
 import isabel.model.bpel.fct.CatchElement;
 import isabel.model.bpel.mex.MessageActivity;
 import isabel.model.bpel.mex.OnEventElement;
@@ -12,11 +11,11 @@ import java.util.Objects;
 
 import static isabel.model.Standards.CONTEXT;
 
-public class ValidatorNavigator {
+public class Navigator {
 
 	private final ProcessContainer processContainer;
 
-	public ValidatorNavigator(ProcessContainer processContainer) {
+	public Navigator(ProcessContainer processContainer) {
 		this.processContainer = processContainer;
 	}
 
@@ -40,7 +39,7 @@ public class ValidatorNavigator {
         }
         return "";
     }
-    
+
     public VariableLike getVariableByName(Referable referable, String variableName) throws NavigationException {
         Objects.requireNonNull(variableName, "VariableName must not be null!");
 

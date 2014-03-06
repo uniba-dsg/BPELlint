@@ -9,7 +9,7 @@ import isabel.model.bpel.var.ToPartElement;
 import isabel.model.bpel.var.ToPartsElement;
 import isabel.model.wsdl.MessageElement;
 import isabel.model.wsdl.PartElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 import nu.xom.Node;
 import nu.xom.Nodes;
 

@@ -8,7 +8,7 @@ import isabel.model.bpel.CorrelationSetElement;
 import isabel.model.bpel.mex.OnEventElement;
 import isabel.model.wsdl.MessageElement;
 import isabel.model.wsdl.PropertyAliasElement;
-import isabel.tool.impl.ValidationCollector;
+import isabel.tool.validators.result.ValidationCollector;
 
 import java.util.List;
 
