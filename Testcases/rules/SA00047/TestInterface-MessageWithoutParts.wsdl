@@ -14,6 +14,7 @@
 
     <vprop:property name="correlationId" type="xsd:int"/>
     <vprop:propertyAlias messageType="tns:executeProcessSyncRequest" part="inputPart" propertyName="tns:correlationId"/>
+    <vprop:propertyAlias messageType="tns:executeProcessSyncStringRequest" part="inputPart" propertyName="tns:correlationId"/>
     <vprop:propertyAlias messageType="tns:executeProcessSyncResponse" part="outputPart" propertyName="tns:correlationId" />
     <vprop:propertyAlias messageType="tns:executeProcessAsyncRequest" part="inputPart" propertyName="tns:correlationId"/>
 
@@ -23,6 +24,8 @@
             <xsd:element name="testElementAsyncRequest" type="xsd:int"/>
             <xsd:element name="testElementSyncResponse" type="xsd:int"/>
             <xsd:element name="testElementSyncFault" type="xsd:int"/>
+            <xsd:element name="testElementSyncStringRequest" type="xsd:int"/>
+            <xsd:element name="testElementSyncStringResponse" type="xsd:string"/>
         </xsd:schema>
     </types>
 
@@ -38,8 +41,14 @@
     <message name="executeProcessSyncFault">
         <part name="payload" element="tns:testElementSyncFault"/>
     </message>
-	<message name="emptyMessage"/>
-	
+    <message name="executeProcessSyncStringRequest">
+        <part name="inputPart" element="tns:testElementSyncStringRequest"/>
+    </message>
+    <message name="executeProcessSyncStringResponse">
+        <part name="outputPart" element="tns:testElementSyncStringResponse"/>
+    </message>
+    <message name="emptyMessage"/>
+
     <portType name="TestInterfacePortType">
         <operation name="startProcessAsync">
             <input name="asyncInput" message="tns:executeProcessAsyncRequest"/>
@@ -49,10 +58,14 @@
             <output name="syncOutput" message="tns:executeProcessSyncResponse"/>
             <fault name="syncFault" message="tns:executeProcessSyncFault"/>
         </operation>
+        <operation name="startProcessSyncString">
+            <input name="syncInputString" message="tns:executeProcessSyncStringRequest"/>
+            <output name="syncOutputString" message="tns:executeProcessSyncStringResponse"/>
+        </operation>
         <operation name="startProcessSyncWithEmptyMessage">
-            <input name="emptyInput" message="tns:emptyMessage"/>
-            <output name="emptyOutput" message="tns:emptyMessage"/>
-        </operation>        
+            <input message="tns:emptyMessage" name="emptyInput"/>
+            <output message="tns:emptyMessage" name="emptyOutput"/>
+         </operation>
     </portType>
 
     <binding name="TestInterfacePortTypeBinding" type="tns:TestInterfacePortType">
@@ -75,15 +88,24 @@
                 <soap:fault name="syncFault" use="literal"/>
             </fault>
         </operation>
+        <operation name="startProcessSyncString">
+            <soap:operation soapAction="syncString"/>
+            <input name="syncInputString">
+                <soap:body use="literal"/>
+            </input>
+            <output name="syncOutputString">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
         <operation name="startProcessSyncWithEmptyMessage">
-            <soap:operation/>
+            <soap:operation></soap:operation>
             <input name="emptyInput">
                 <soap:body use="literal"/>
             </input>
             <output name="emptyOutput">
                 <soap:body use="literal"/>
-            </output>            
-        </operation>        
+            </output>
+        </operation>
     </binding>
 
     <service name="TestInterfaceService">

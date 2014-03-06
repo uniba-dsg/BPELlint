@@ -24,7 +24,6 @@
                 <to variable="PartnerInitData" part="inputPart"/>
             </copy>
         </assign>
-        <!-- no @inputVariable and <toParts> -->
         <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessAsync" portType="tp:TestPartnerPortType" />
         <assign name="AssignReplyData">
             <copy>

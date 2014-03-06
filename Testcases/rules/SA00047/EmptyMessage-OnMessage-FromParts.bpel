@@ -1,45 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-    name="Pick-Correlations-InitAsync"
-    targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/pickCorrelations"
-    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-    xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" >
-    <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="./TestInterface-MessageWithoutParts.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+        name="Pick-CreateInstance-FromParts"
+        targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/pick-createInstance-fromParts"
+        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+        xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="./TestInterface-MessageWithoutParts.wsdl"
+            importType="http://schemas.xmlsoap.org/wsdl/"/>
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
     <variables>
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
-        <variable name="InitData" messageType="ti:executeProcessAsyncRequest"/>
-        <variable name="syncInitData" messageType="ti:executeProcessSyncRequest"/>
+        <variable name="TempInt" type="xs:int"/>
     </variables>
-    <correlationSets>
-        <correlationSet name="CorrelationSet" properties="ti:correlationId"/>
-    </correlationSets>
     <sequence>
-        <receive name="StartProcess" createInstance="yes" partnerLink="MyRoleLink" operation="startProcessAsync" portType="ti:TestInterfacePortType" variable="InitData">
-            <correlations>
-                <correlation set="CorrelationSet" initiate="yes"/>
-            </correlations>
-        </receive>
-        <pick name="Pick" createInstance="no">
-        	<!-- <onMessage> operation does not contain any <message><part> definitions -->
+        <pick name="Pick" createInstance="yes">
             <onMessage partnerLink="MyRoleLink" operation="startProcessSyncWithEmptyMessage" portType="ti:TestInterfacePortType">
-                <correlations>
-                    <correlation set="CorrelationSet" initiate="no"/>
-                </correlations>
-                <!-- uses <fromParts>  instead of attribute variable  -->
-                 <fromParts>
-                		<fromPart part="inputPart" toVariable="syncInitData" />
-            	</fromParts>
+                <fromParts>
+                    <fromPart part="inputPart" toVariable="TempInt"/>
+                </fromParts>
                 <sequence name="Sequence">
-                    <assign name="AssignReplyData">
+                    <assign>
                         <copy>
-                            <from variable="syncInitData" part="inputPart"/>
+                            <from variable="TempInt"/>
                             <to variable="ReplyData" part="outputPart"/>
                         </copy>
                     </assign>
-                    <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData"/>
+                    <reply name="ReplyToInitialReceive" partnerLink="MyRoleLink" operation="startProcessSync"
+                           portType="ti:TestInterfacePortType" variable="ReplyData"/>
                 </sequence>
             </onMessage>
         </pick>

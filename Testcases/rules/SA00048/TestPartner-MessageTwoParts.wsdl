@@ -57,7 +57,7 @@
             <input name="emptyInput" message="tns:emptyMessage"/>
         </operation>
         <operation name="startProcessSyncTwoParts">
-            <input name="syncInputTwo" message="tns:executeProcessSyncTwoParts"/>
+            <input name="syncInputTwo" message="tns:testElementSyncRequest"/>
             <output name="syncOutputTwo" message="tns:executeProcessSyncTwoParts"/>
         </operation>        
     </portType>

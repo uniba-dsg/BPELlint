@@ -10,23 +10,21 @@
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
     <variables>
-        <variable name="ReplyData" messageType="ti:emptyMessage"/>
+        <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="TempInt" type="xs:int" />
     </variables>
     <sequence>
-    	<!-- receive and reply operation does not contain any <message><part> definitions -->
         <receive name="InitialReceive" partnerLink="MyRoleLink" operation="startProcessSyncWithEmptyMessage" portType="ti:TestInterfacePortType" createInstance="yes">
-            <!-- ...thus <fromParts> is not allowed -->
             <fromParts>
                 <fromPart part="inputPart" toVariable="TempInt" />
             </fromParts>
         </receive>
         <assign>
             <copy>
-                <from/>
-                <to variable="ReplyData"/>
+                <from variable="TempInt"/>
+                <to variable="ReplyData" part="outputPart"/>
             </copy>
         </assign>
-        <reply name="CorrelatedReply" partnerLink="MyRoleLink" operation="startProcessSyncWithEmptyMessage" portType="ti:TestInterfacePortType" variable="ReplyData" />
+        <reply name="CorrelatedReply" partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="ReplyData" />
     </sequence>
 </process>

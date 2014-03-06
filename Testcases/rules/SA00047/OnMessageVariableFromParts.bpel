@@ -11,12 +11,16 @@
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
     <variables>
+        <variable name="InitData" messageType="ti:executeProcessAsyncRequest"/>
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
         <variable name="TempInt" type="xs:int"/>
     </variables>
     <sequence>
         <pick name="Pick" createInstance="yes">
-            <onMessage partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType">
+            <onMessage partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="InitData">
+                <fromParts>
+                    <fromPart part="inputPart" toVariable="TempInt"/>
+                </fromParts>
                 <sequence name="Sequence">
                     <assign>
                         <copy>

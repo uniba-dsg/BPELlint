@@ -20,10 +20,13 @@
         <correlationSet name="CorrelationSet" properties="ti:correlationId"/>
     </correlationSets>
     <eventHandlers>
-        <onEvent partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" >
+        <onEvent partnerLink="MyRoleLink" operation="startProcessSync" portType="ti:TestInterfacePortType" variable="EventData" messageType="ti:executeProcessSyncRequest">
             <correlations>
                 <correlation set="CorrelationSet" initiate="no"/>
             </correlations>
+            <fromParts>
+                <fromPart part="inputPart" toVariable="TempInt" />
+            </fromParts>
             <scope name="Scope">
                 <sequence name="Sequence">
                     <assign name="AssignReplyData">

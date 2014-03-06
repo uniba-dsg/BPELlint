@@ -285,10 +285,14 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00056/StartReceiveParalellNonStartReceive.bpel", "56"},
 				{"Testcases/rules/SA00056/StartReceivePreviousNonStartPick.bpel", "56"},
 				{"Testcases/rules/SA00056/StartReceivePreviousNonStartReceive.bpel", "56"},
+				{"Testcases/rules/SA00056/FlowLateStartReceive.bpel", "56"},
 
 				{"Testcases/rules/SA00057/OnMessageCorrelationYesAndJoin.bpel", "57"},
 				{"Testcases/rules/SA00057/OnMessageReceiveCorrelationYesAndJoin.bpel", "57"},
 				{"Testcases/rules/SA00057/ReceiveCorrelationYesAndJoin.bpel", "57"},
+				{"Testcases/rules/SA00057/OnMessageSingleCorrelation.bpel", "57"},
+				{"Testcases/rules/SA00057/OnMessageReceiveSingleCorrelation.bpel", "57"},
+				{"Testcases/rules/SA00057/ReceiveSingleCorrelation.bpel", "57"},
 
 				{"Testcases/rules/SA00058/ReceiveDeviantMessageType.bpel", "58"},
 				{"Testcases/rules/SA00058/ReceiveDeviantType.bpel", "58"},

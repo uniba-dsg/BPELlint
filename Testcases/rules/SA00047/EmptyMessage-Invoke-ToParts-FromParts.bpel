@@ -26,9 +26,7 @@
                 <to variable="TempInt"/>
             </copy>
         </assign>
-          <!-- operation does not contain any <message><part> definitions -->
-        <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessSyncWithEmptyMessage" portType="tp:TestPartnerPortType">
-          	 <!-- thus <toParts> and <fromParts> are not allowed -->
+        <invoke name="InvokePartner" partnerLink="TestPartnerLink" operation="startProcessWithEmptyMessage" portType="tp:TestPartnerPortType">
             <toParts>
                 <toPart part="inputPart" fromVariable="TempInt"/>
             </toParts>
