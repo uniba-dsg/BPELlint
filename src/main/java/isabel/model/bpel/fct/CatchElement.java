@@ -8,10 +8,13 @@ import isabel.model.ProcessContainer;
 import isabel.model.Standards;
 import isabel.model.bpel.ScopeElement;
 import isabel.model.bpel.var.VariableLike;
+import isabel.model.bpel.var.VariableLikeImpl;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.model.wsdl.PropertyElement;
 
 import java.util.List;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -72,22 +75,7 @@ public class CatchElement extends ContainerAwareReferable implements VariableLik
 	@Override
 	public PropertyAliasElement resolvePropertyAlias(PropertyElement property)
 			throws NavigationException {
-		Nodes aliases = property.toXOM().query("./../vprop:propertyAlias",Standards.CONTEXT);
-
-		for (Node aliasNode : aliases) {
-			NodeHelper alias = new NodeHelper(aliasNode);
-
-			if (isEqual(getVariableMessageType(), alias.getAttribute("faultMessageType"))) {
-				return new PropertyAliasElement(aliasNode, getProcessContainer());
-			} else if (isEqual(getVariableElement(), alias.getAttribute("faultElement"))) {
-				return new PropertyAliasElement(aliasNode, getProcessContainer());
-			}
-		}
-
-		throw new NavigationException("This variable has no propertyAlias.");
-	}
-
-	private boolean isEqual(String qName1, String qName2) {
-		return PrefixHelper.removePrefix(qName1).equals(PrefixHelper.removePrefix(qName2));
+		//TODO implement
+		throw new NotImplementedException();
 	}
 }
