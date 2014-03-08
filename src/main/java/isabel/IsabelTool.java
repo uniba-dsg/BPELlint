@@ -31,10 +31,12 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class IsabelTool {
 
     private static final ValidationResultPrinter validationResultPrinter = new ValidationResultPrinter();
+    private static boolean pathContainsBPELfiles = false;
 
     public static void main(String[] args) {
         try {
@@ -47,6 +49,9 @@ public class IsabelTool {
                 validate(Paths.get(path), options.verbosityLevel, isabel);
             }
 
+            if (!pathContainsBPELfiles) {
+            	throw new IOException("could not find file under " + Arrays.toString(options.paths));
+			}
 
         } catch (Exception e) {
             Logger.info(e);
@@ -66,6 +71,7 @@ public class IsabelTool {
             throws IOException {
         if (isBpelFile(path)) {
             try {
+            	pathContainsBPELfiles = true;
                 ValidationResult validationResult = isabel.validate(path);
                 validationResultPrinter.printResults(verbosityLevel, validationResult);
             } catch (Exception e) {
@@ -79,8 +85,6 @@ public class IsabelTool {
                     validate(directoryPath, verbosityLevel, isabel);
                 }
             }
-        } else {
-            throw new IOException("could not find file under " + path);
         }
     }
 
