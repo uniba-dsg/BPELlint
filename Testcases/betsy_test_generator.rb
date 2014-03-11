@@ -56,7 +56,7 @@ Dir.glob("rules/SA000*").each do |rule_path|
         FileUtils.cp File.join(rule_path, "CalculatorSchema-Copy.xsd"), File.join(target_bpel_path, "CalculatorSchema-Copy.xsd")
       end
 
-      if location_filename == "TestInterface.wsdl"
+      if location_filename == "TestInterface.wsdl" or location_filename == "TestPartner.wsdl"
 
         wsdl_path = File.join(target_bpel_path,location_filename)
         puts wsdl_path
