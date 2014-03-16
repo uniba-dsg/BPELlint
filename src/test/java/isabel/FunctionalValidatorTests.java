@@ -412,7 +412,6 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00079/HandlersCompensationInCompensationRootScope.bpel", "79"},
 
 				{"Testcases/rules/SA00080/EmptyFaultHandlersInProcess.bpel", "80"},
-				{"Testcases/rules/SA00080/EmptyFaultHandlersInProcess.bpel", "80"},
 				{"Testcases/rules/SA00080/EmptyFaultHandlersInScope.bpel", "80"},
 
 				{"Testcases/rules/SA00081/CatchVariableTypeElement.bpel", "81"},
@@ -423,7 +422,6 @@ public class FunctionalValidatorTests {
 
 				{"Testcases/rules/SA00082/CyclicLinkedPeerScopes.bpel", "82"},
 
-				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
 				{"Testcases/rules/SA00083/EmptyEventHandlersInProcess.bpel", "83"},
 				{"Testcases/rules/SA00083/EmptyEventHandlersInScope.bpel", "83"},
 
