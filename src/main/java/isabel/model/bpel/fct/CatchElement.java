@@ -3,12 +3,9 @@ package isabel.model.bpel.fct;
 import isabel.model.ContainerAwareReferable;
 import isabel.model.NavigationException;
 import isabel.model.NodeHelper;
-import isabel.model.PrefixHelper;
 import isabel.model.ProcessContainer;
-import isabel.model.Standards;
 import isabel.model.bpel.ScopeElement;
 import isabel.model.bpel.var.VariableLike;
-import isabel.model.bpel.var.VariableLikeImpl;
 import isabel.model.wsdl.PropertyAliasElement;
 import isabel.model.wsdl.PropertyElement;
 
@@ -17,7 +14,6 @@ import java.util.List;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import nu.xom.Node;
-import nu.xom.Nodes;
 
 public class CatchElement extends ContainerAwareReferable implements VariableLike, FctHandler {
 

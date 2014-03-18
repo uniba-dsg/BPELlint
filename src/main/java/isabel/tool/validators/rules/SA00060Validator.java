@@ -55,9 +55,6 @@ public class SA00060Validator extends Validator {
 		}
 
 		private void listAncestors(Referable startActivity) {
-			/*
-			 * TODO copied from SA00056. DOM may be extractable in extra class
-			 */
 			NodeHelper node = new NodeHelper(startActivity.toXOM());
 			while (!"process".equals(node.getParent().getLocalName())) {
 				node = node.getParent();

@@ -21,16 +21,13 @@ public class SA00021Validator extends Validator {
 	public void validate() {
 		validateFor("//bpel:from[@property]");
 		validateFor("//bpel:to[@property]");
+		// TODO correlation in message activities
 	}
 
 	private void validateFor(String toOrFrom) {
 		Nodes fromToSet = processContainer.getBpel().getDocument().query(toOrFrom, CONTEXT);
 		for (Node fromTo : fromToSet) {
 			try {
-				//TODO remove
-				if (new NodeHelper(fromTo).getFilePath().endsWith("OnEvent-Variable-Undefined.bpel")) {
-					System.out.println("");
-				}
 				hasCorrespondingPropertyAlias(fromTo);
 			} catch (NavigationException e) {
 				addViolation(fromTo);
