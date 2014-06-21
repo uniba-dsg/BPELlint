@@ -1,6 +1,6 @@
-# ISABEL (I statically analyze BPEL files flawlessly)
+# BPELlint
 
-The tool Isabel validates BPEL files according to 30 static analysis rules from the BPEL 2.0 specification.
+The tool BPELlint validates BPEL files according to 75 static analysis rules from the BPEL 2.0 specification.
 
 This software is licensed under the LGPL Version 3 Open Source License.
 
@@ -14,10 +14,10 @@ Dual licensed under [LGPL Version 3](http://www.gnu.org/licenses/lgpl-3.0.html) 
 
 ## Usage
 
-Requirements (see above) have to be fulfilled to execute `isabel`.
+Requirements (see above) have to be fulfilled to execute `BPELlint`.
 
 ```bash
-usage: isabel [OPTIONS] PATH
+usage: BPELlint [OPTIONS] PATH
 PATH can be either a FILE or a DIRECTORY.
 
  -f,--full                   Prints out the definitions of the violated
@@ -28,10 +28,10 @@ PATH can be either a FILE or a DIRECTORY.
 Please report issues at https://github.com/BPELtools/BPELlint/issues
 
 Examples:
-$ isabel empty.bpel # Validates the <empty.bpel> file.
-$ isabel folder # Validates *.bpel files within the <folder> and all its subfolders.
+$ BPELlint empty.bpel # Validates the <empty.bpel> file.
+$ BPELlint folder # Validates *.bpel files within the <folder> and all its subfolders.
 
-$ isabel -f empty.bpel # Validates the <empty.bpel> file including rule definition.
+$ BPELlint -f empty.bpel # Validates the <empty.bpel> file including rule definition.
 ```
 
 Only the .bpel file path or directory has to be given as parameter, all needed and referenced files will be loaded.
@@ -50,8 +50,8 @@ $ gradlew javadoc # Generating JavaDoc
 The folder `Testcases/betsy` is copied by hand for convenience from *betsy* `src/main/tests/files`.
 Checkout https://github.com/uniba-dsg/betsy to get the latest version.
 
-The environment variable `ISABEL_SA_RULES` constrains the SA rules that are validated.
-When `ISABEL_SA_RULES` is not set or set to `all` then all SA rules are validated if set to `61,2,10` then SA00002, SA00010 and SA00061 are validated.
+The environment variable `BPEL_LINT_SA_RULES` constrains the SA rules that are validated.
+When `BPEL_LINT_SA_RULES` is not set or set to `all` then all SA rules are validated if set to `61,2,10` then SA00002, SA00010 and SA00061 are validated.
 
 # Authors (in alphabetical order)
 
