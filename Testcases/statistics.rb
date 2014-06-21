@@ -1,7 +1,7 @@
 # Prints statistics about how many tests are used and what rules are already implemented.
 class ProgressStatistics
 
-  MISSING_RULES = [47]
+  MISSING_RULES = [49]
 
   attr_accessor :implemented, :sa_tests
 
@@ -44,7 +44,7 @@ end
 
 # computation
 $ps = ProgressStatistics.new
-Dir.glob("c:/projects/isabel/TestCases/**/SA*.txt") do |file|
+Dir.glob("p:/repos/BPELlint/Testcases/**/SA*.txt") do |file|
   $ps.add_implemented_rule file
 end
 $ps.print

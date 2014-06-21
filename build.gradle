@@ -5,7 +5,7 @@ apply plugin: "application"
 apply from: "https://raw.github.com/breskeby/gradleplugins/master/emmaPlugin/emma.gradle"
 
 
-mainClassName = "isabel.IsabelTool"
+mainClassName = "bpellint.BpelLintTool"
 
 repositories {
     mavenCentral()
