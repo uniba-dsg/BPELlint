@@ -146,7 +146,6 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00021/From-Property-AlienAlias.bpel", "21"},
 				{"Testcases/rules/SA00021/OnEvent-Variable-AlienAlias.bpel", "21"},
 				{"Testcases/rules/SA00021/To-Property-AlienAlias.bpel", "21"},
-				{"Testcases/rules/SA00021/InvokeCorrelationAlienAlias.bpel", "21"},
 				{"Testcases/rules/SA00021/InvokeToCorrelationAlienAlias.bpel", "21"},
 				{"Testcases/rules/SA00021/OnEventCorrelationAlienAlias.bpel", "21"},
 				{"Testcases/rules/SA00021/OnMessageCorrelationAlienAlias.bpel", "21"},
@@ -210,8 +209,8 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00044/Process-CorrelationSet-Ambiguous.bpel", "44"},
 				{"Testcases/rules/SA00044/Scope-CorrelationSets-Ambiguous.bpel", "44"},
 
-				{"Testcases/rules/SA00045/Property-TypeComplexType.bpel", "45"},
-				{"Testcases/rules/SA00045/Property-TypeMissing.bpel", "45, 19"},
+				{"Testcases/rules/SA00045/Property-TypeComplexType.bpel", "45, 21"}, // SA00021 is violated because complexType cannot be aliased by int
+				{"Testcases/rules/SA00045/Property-TypeMissing.bpel", "45, 19, 21"}, // SA00021 is violated because no type cannot be aliased by int
 
 				{"Testcases/rules/SA00046/Invoke-OneWay-Correlation-Pattern.bpel", "46"},
 				{"Testcases/rules/SA00046/Invoke-RequestResponse-Correlation-PatternMissing.bpel", "46"},
@@ -219,7 +218,7 @@ public class FunctionalValidatorTests {
 				{"Testcases/rules/SA00047/EmptyMessage-Invoke-FromParts.bpel", "47, 53"},
 				{"Testcases/rules/SA00047/EmptyMessage-Invoke-ToParts-FromParts.bpel", "47, 54, 53"},
 				{"Testcases/rules/SA00047/EmptyMessage-Invoke-ToParts.bpel", "47, 54"},
-				{"Testcases/rules/SA00047/EmptyMessage-OnEvent-FromParts.bpel", "47, 53, 88"},
+				{"Testcases/rules/SA00047/EmptyMessage-OnEvent-FromParts.bpel", "47, 53, 88, 21"}, // SA00021 is violated because empty message cannot correlate
 				{"Testcases/rules/SA00047/EmptyMessage-OnMessage-FromParts.bpel", "47, 53"},
 				{"Testcases/rules/SA00047/EmptyMessage-Receive-FromParts.bpel", "47, 53"},
 				{"Testcases/rules/SA00047/EmptyMessage-Reply-ToParts.bpel", "47, 54"},

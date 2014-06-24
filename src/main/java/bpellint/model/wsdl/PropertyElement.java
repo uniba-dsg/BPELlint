@@ -5,7 +5,7 @@ import bpellint.model.NodeHelper;
 import bpellint.model.ProcessContainer;
 import nu.xom.Node;
 
-public class PropertyElement extends ContainerAwareReferable {
+public class PropertyElement extends ContainerAwareReferable implements Comparable<PropertyElement>{
 
 	private final NodeHelper property;
 
@@ -37,5 +37,10 @@ public class PropertyElement extends ContainerAwareReferable {
 	public String getTypeAttribute() {
 		return property.getAttribute("type");
 	}
-    
+
+	@Override
+	public int compareTo(PropertyElement property) {
+		return getName().compareTo(property.getName());
+	}
+
 }

@@ -1,12 +1,14 @@
 package bpellint.model.bpel;
 
+import nu.xom.Node;
+import nu.xom.Nodes;
 import bpellint.model.ContainerAwareReferable;
 import bpellint.model.NavigationException;
 import bpellint.model.NodeHelper;
 import bpellint.model.ProcessContainer;
 import bpellint.model.Standards;
-import nu.xom.Node;
-import nu.xom.Nodes;
+import bpellint.model.bpel.mex.MessageActivity;
+import bpellint.model.bpel.mex.MessageActivityImpl;
 
 public class CorrelationElement extends ContainerAwareReferable {
 
@@ -43,5 +45,9 @@ public class CorrelationElement extends ContainerAwareReferable {
 			}
 		}
 		return new CorrelationSetElement(correlationSet.get(0), getProcessContainer());
+	}
+
+	public MessageActivity getCorrespondingMessageActivity() {
+		return new MessageActivityImpl(new NodeHelper(toXOM().getParent().getParent()), getProcessContainer());
 	}
 }

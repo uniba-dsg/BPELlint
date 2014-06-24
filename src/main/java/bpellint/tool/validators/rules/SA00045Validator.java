@@ -1,21 +1,18 @@
 package bpellint.tool.validators.rules;
 
+import static bpellint.model.Standards.CONTEXT;
+import nu.xom.Document;
+import nu.xom.Node;
+import nu.xom.Nodes;
 import bpellint.model.NavigationException;
-import bpellint.model.NodeHelper;
 import bpellint.model.PrefixHelper;
 import bpellint.model.ProcessContainer;
-import bpellint.model.Referable;
+import bpellint.model.SimpleTypeChecker;
 import bpellint.model.XmlFile;
 import bpellint.model.bpel.CorrelationSetElement;
 import bpellint.model.wsdl.PropertyAliasElement;
 import bpellint.model.wsdl.PropertyElement;
 import bpellint.tool.validators.result.ValidationCollector;
-import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Node;
-import nu.xom.Nodes;
-import static bpellint.model.Standards.CONTEXT;
-import static bpellint.model.Standards.XSD_NAMESPACE;
 
 public class SA00045Validator extends Validator {
 
@@ -42,39 +39,10 @@ public class SA00045Validator extends Validator {
         PropertyElement property = getPropertyAlias(correlationSet).getProperty();
 
         String propertyType = property.getTypeAttribute();
-        String namespacePrefix = PrefixHelper.getPrefix(propertyType);
-        String propertyTypeTargetNamespace = getImportNamespace(property, namespacePrefix);
-
-        if (XSD_NAMESPACE.equals(propertyTypeTargetNamespace)) {
-            Document xmlSchema = processContainer.getXmlSchema();
-            Nodes simpleTypes = xmlSchema.query("//xsd:simpleType", CONTEXT);
-            for (Node simpleType : simpleTypes) {
-                String simpleTypeName = new NodeHelper(simpleType).getAttribute("name");
-
-                if (PrefixHelper.removePrefix(propertyType).equals(
-                        simpleTypeName)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return new SimpleTypeChecker(processContainer, property).isSimpleType(propertyType);
     }
 
-    public String getImportNamespace(Referable node, String namespacePrefix) {
-        Element rootElement = node.toXOM().getDocument().getRootElement();
-
-        try {
-            return rootElement.getNamespaceURI(namespacePrefix);
-        } catch (NullPointerException e) {
-            /*
-             * if the prefix is undefined in the root element, getNamespaceURI
-			 * will throw a nullPointerException.
-			 */
-            return "";
-        }
-    }
-
-    private PropertyAliasElement getPropertyAlias(CorrelationSetElement correlationSet) throws NavigationException {
+	private PropertyAliasElement getPropertyAlias(CorrelationSetElement correlationSet) throws NavigationException {
         XmlFile wsdlEntry = getCorrespondingWsdlToCorrelationSet(correlationSet);
         Document wsdlFile = wsdlEntry.getDocument();
         return getCorrespondingPropertyAlias(correlationSet, wsdlFile);
@@ -103,7 +71,7 @@ public class SA00045Validator extends Validator {
 
     public XmlFile getCorrespondingWsdlToCorrelationSet(CorrelationSetElement correlationSet) throws NavigationException {
         String namespacePrefix = correlationSet.getCorrelationPropertyAliasPrefix();
-        String correspondingTargetNamespace = getImportNamespace(correlationSet, namespacePrefix);
+        String correspondingTargetNamespace = SimpleTypeChecker.getImportNamespace(correlationSet, namespacePrefix);
 
         for (XmlFile wsdlFile : processContainer.getWsdls()) {
             if (wsdlFile.getTargetNamespace().equals(correspondingTargetNamespace)) {

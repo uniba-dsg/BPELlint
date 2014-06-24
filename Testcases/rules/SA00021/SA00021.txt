@@ -1,4 +1,5 @@
 <propertyAlias> not defined in any *.wsdl
+<propertyAlias> for correlated message is undefined
 @@@
 Static analysis MUST detect property usages where propertyAliases for the associated variable's type are not found in any WSDL definitions directly imported by the WS-BPEL process.
 @@@
