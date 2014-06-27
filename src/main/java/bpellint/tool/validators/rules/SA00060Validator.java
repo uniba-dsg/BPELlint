@@ -56,10 +56,10 @@ public class SA00060Validator extends Validator {
 		}
 
 		private void listAncestors(Referable startActivity) {
-			NodeHelper node = new NodeHelper(startActivity.toXOM());
+			NodeHelper node = new NodeHelper(startActivity);
 			while (!"process".equals(node.getParent().getLocalName())) {
 				node = node.getParent();
-				dom.add(new ComparableNode(node.toXOM()));
+				dom.add(new ComparableNode(node));
 			}
 		}
 
@@ -81,8 +81,7 @@ public class SA00060Validator extends Validator {
 
 		private void checkAllMarkedUp(List<MessageActivity> messageExchange) {
 			for (Referable messageActivity : messageExchange) {
-				Set<ComparableNode> receivingActivityTailSet = dom.tailSet(new ComparableNode(
-						messageActivity.toXOM()));
+				Set<ComparableNode> receivingActivityTailSet = dom.tailSet(new ComparableNode(messageActivity));
 
 				Set<ComparableNode> intersection = intersectionRequestResponse(receivingActivityTailSet);
 				checkForSimultaneousActivities(intersection);
@@ -95,8 +94,7 @@ public class SA00060Validator extends Validator {
 				Set<ComparableNode> replyHeadSet = dom.headSet(new ComparableNode(reply));
 				Set<ComparableNode> replyIntersection = Sets.intersection(tailSet, replyHeadSet);
 				if (!replyIntersection.isEmpty()
-						&& (intersection.size() > replyIntersection.size() || intersection
-								.isEmpty())) {
+						&& (intersection.size() > replyIntersection.size() || intersection.isEmpty())) {
 					intersection = replyIntersection;
 				}
 			}
@@ -107,10 +105,8 @@ public class SA00060Validator extends Validator {
 			if (intersection.isEmpty()) {
 				return;
 			}
-			Set<ComparableNode> intermediaryReceives = Sets.intersection(intersection,
-					convertForComparison(receives));
-			Set<ComparableNode> intermediaryOnMessage = Sets.intersection(intersection,
-					convertForComparison(onMessages));
+			Set<ComparableNode> intermediaryReceives = Sets.intersection(intersection, convertForComparison(receives));
+			Set<ComparableNode> intermediaryOnMessage = Sets.intersection(intersection, convertForComparison(onMessages));
 			if (!(intermediaryReceives.size() <= 1 && intermediaryOnMessage.size() <= 1)) {
 				checkSimultaneousMarkUp(intermediaryReceives);
 				checkSimultaneousMarkUp(intermediaryOnMessage);
@@ -140,7 +136,7 @@ public class SA00060Validator extends Validator {
 		}
 
 		private boolean hasOnEventInScope(MessageActivity messageActivity) {
-			Set<ComparableNode> headSet = dom.headSet(new ComparableNode(messageActivity.toXOM()));
+			Set<ComparableNode> headSet = dom.headSet(new ComparableNode(messageActivity));
 			return Sets.intersection(headSet, convertForComparison(onEvents)).size() > 0;
 		}
 
@@ -159,7 +155,7 @@ public class SA00060Validator extends Validator {
 			 */
 			Set<ComparableNode> comparableNodes = new HashSet<>();
 			for (Referable referable : messageActivities) {
-				comparableNodes.add(new ComparableNode(referable.toXOM()));
+				comparableNodes.add(new ComparableNode(referable));
 			}
 			return comparableNodes;
 		}
@@ -186,8 +182,7 @@ public class SA00060Validator extends Validator {
 	private Map<ComparableNode, OperationMembers> getAllRequestResponseMessageExchanges() {
 		Nodes operationalNodes = processContainer.getProcess().toXOM()
 				.query("//bpel:*[@operation]", Standards.CONTEXT);
-		Map<ComparableNode, OperationMembers> operations = new HashMap<>(
-				operationalNodes.size() / 2 + 1);
+		Map<ComparableNode, OperationMembers> operations = new HashMap<>(operationalNodes.size() / 2 + 1);
 		for (Node node : operationalNodes) {
 			try {
 				MessageActivityImpl messageActivity = new MessageActivityImpl(new NodeHelper(node), processContainer);
@@ -236,8 +231,7 @@ public class SA00060Validator extends Validator {
 	}
 
 	private boolean isMarked(MessageActivity messageActivity, MessageActivity reply) {
-		return reply.getMessageExchangeAttribute().equals(
-				messageActivity.getMessageExchangeAttribute())
+		return reply.getMessageExchangeAttribute().equals(messageActivity.getMessageExchangeAttribute())
 				&& !messageActivity.getMessageExchangeAttribute().isEmpty();
 	}
 
