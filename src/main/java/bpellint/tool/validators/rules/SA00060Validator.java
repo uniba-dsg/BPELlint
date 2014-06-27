@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import bpellint.model.ComparableNode;
 import bpellint.model.NavigationException;
 import bpellint.model.NodeHelper;
+import bpellint.model.NodeToId;
 import bpellint.model.ProcessContainer;
 import bpellint.model.Referable;
 import bpellint.model.Standards;
@@ -35,6 +36,7 @@ public class SA00060Validator extends Validator {
 		private List<MessageActivity> onMessages = new LinkedList<>();
 		private List<MessageActivity> receives = new LinkedList<>();
 		private List<MessageActivity> replies = new LinkedList<>();
+		private Map<ComparableNode, List<MessageActivity>> messageActivitiesInFlows = new HashMap<>();
 		private TreeSet<ComparableNode> dom = new TreeSet<>();
 
 		void add(MessageActivity messageActivity) {
@@ -55,13 +57,29 @@ public class SA00060Validator extends Validator {
 			listAncestors(messageActivity);
 		}
 
-		private void listAncestors(Referable startActivity) {
+		private void listAncestors(MessageActivity startActivity) {
 			NodeHelper node = new NodeHelper(startActivity);
 			while (!"process".equals(node.getParent().getLocalName())) {
 				node = node.getParent();
 				dom.add(new ComparableNode(node));
+				rememberFlows(startActivity,node);
 			}
 		}
+
+		private void rememberFlows(MessageActivity startActivity,
+				NodeHelper node) {
+			if(!"flow".equals(node.getLocalName())){
+				return;
+			}
+			ComparableNode comparableNode = new ComparableNode(node);
+			if (messageActivitiesInFlows.get(comparableNode) == null) {
+				messageActivitiesInFlows.put(comparableNode, new LinkedList<MessageActivity>());
+			}
+			messageActivitiesInFlows.get(comparableNode).add(startActivity);
+
+		}
+
+
 
 		boolean isSimple() {
 			return onEvents.size() + onMessages.size() + receives.size() <= 1;
@@ -117,8 +135,54 @@ public class SA00060Validator extends Validator {
 			for (ComparableNode comparableNode : messageActivities) {
 				MessageActivityImpl messageActivity = new MessageActivityImpl(comparableNode, processContainer);
 				if ("".equals(messageActivity.getMessageExchangeAttribute())) {
-					addViolation(comparableNode);
+					reportViolation(comparableNode);
 				}
+			}
+		}
+
+		private void reportViolation(Referable referable) {
+			addViolation(referable);
+			checkForFalseNeagtiveChance(referable);
+		}
+
+		private void checkForFalseNeagtiveChance(Referable referable) {
+			ComparableNode erroneousNode = new ComparableNode(referable);
+			List<ComparableNode> flowElements = new LinkedList<>(messageActivitiesInFlows.keySet());
+			for (ComparableNode flow : flowElements) {
+				if(isFlowCritical(messageActivitiesInFlows.get(flow), erroneousNode)){
+					// TODO WARN: Too many replies or initiators of the same operation in flow
+					NodeToId nodeToId = new NodeToId(referable.toXOM());
+					System.out.println("WARN: Too many replies or initiators of the same operation in flow " + referable.toXOM().getBaseURI() + " line: "+ nodeToId.getLineNumber());
+					System.out.println();
+				}
+			}
+		}
+		
+		private boolean isFlowCritical(List<MessageActivity> messageActivities, ComparableNode erroneousNode) {
+			boolean tooMuchOperationActivities = false;
+			boolean erroneousNodeIsContained = false;
+			boolean messageExchangeStart = false;
+			boolean messageExchangeEnd = false;
+
+			for (MessageActivity messageActivity : messageActivities) {
+				if (erroneousNode.equals(messageActivity)) {
+					erroneousNodeIsContained = true;
+				}
+				if (Type.REPLY.equals(messageActivity.getType()) && !messageExchangeEnd) {
+					messageExchangeEnd = true;
+				} else if(Type.REPLY.equals(messageActivity.getType()) && messageExchangeEnd) {
+					tooMuchOperationActivities = true;
+				} else if(!messageExchangeStart) {
+					messageExchangeStart = true;
+				} else {
+					tooMuchOperationActivities = true;
+				}
+			}
+
+			if (erroneousNodeIsContained) {
+				return tooMuchOperationActivities;
+			} else {
+				return false;
 			}
 		}
 
@@ -128,7 +192,7 @@ public class SA00060Validator extends Validator {
 					return true;
 				}
 				if (!hasReply(messageActivity)) {
-					addViolation(messageActivity);
+					reportViolation(messageActivity);
 					return false;
 				}
 			}
