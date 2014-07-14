@@ -81,6 +81,9 @@ public class SA00021Validator extends Validator {
 			List<PropertyAliasElement> messageProperties) throws NavigationException {
 		for (PropertyElement correlationProperty : correlationSetProperties) {
 			for (PropertyAliasElement propertyAlias : messageProperties) {
+				// TODO remove warning if queries are checked
+				warnIfQueryIsChildOf(propertyAlias);
+
 				PartElement part;
 				try {
 					if (!propertyAlias.getProperty().equals(correlationProperty)) {
@@ -116,6 +119,12 @@ public class SA00021Validator extends Validator {
 			}
 		}
 		return false;
+	}
+
+	private void warnIfQueryIsChildOf(PropertyAliasElement propertyAlias) {
+		if (!propertyAlias.toXOM().query("./vprop:query", CONTEXT).isEmpty()) {
+			addWarning(propertyAlias, "<vprop:query>s are not parsed at the moment");
+		}
 	}
 
 	private Map<MessageElement, List<PropertyAliasElement>> identifyMessageAliases() {
