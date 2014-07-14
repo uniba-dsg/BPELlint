@@ -4,8 +4,10 @@ package bpellint.io;
 import java.io.PrintStream;
 import java.util.List;
 
+import bpellint.tool.validators.result.Indicator;
 import bpellint.tool.validators.result.ValidationResult;
 import bpellint.tool.validators.result.Violation;
+import bpellint.tool.validators.result.Warning;
 
 public class ValidationResultPrinter {
 
@@ -30,6 +32,16 @@ public class ValidationResultPrinter {
 				printResultsFull(validationResult);
 				break;
 		}
+		printWarnings(validationResult.getWarnings());
+	}
+
+	private void printWarnings(List<Warning> warnings) {
+		printer.println("WARNINGS:\n");
+		String currentSourceFile = "";
+		for (Warning warning : warnings) {
+			printLineRowInformation(warning, warning.message, currentSourceFile);
+			currentSourceFile = warning.fileName;
+		}
 	}
 
 	private void printResults(ValidationResult validationResult) {
@@ -39,7 +51,7 @@ public class ValidationResultPrinter {
 		String previousSourceFile = "";
 		for (Violation violation : violations) {
 			String saNumber = getSANumber(violation);
-			printLineRowSA(violation, saNumber, previousSourceFile);
+			printLineRowInformation(violation, saNumber, previousSourceFile);
 			printShortDescription(saNumber, violation.type);
 			previousSourceFile = violation.fileName;
 		}
@@ -64,20 +76,20 @@ public class ValidationResultPrinter {
 		String previousSourceFile = "";
 		for (Violation violation : violations) {
 			String saNumber = getSANumber(violation);
-			printLineRowSA(violation, saNumber, previousSourceFile);
+			printLineRowInformation(violation, saNumber, previousSourceFile);
 			printShortDescription(saNumber, violation.type);
 			printLongDescription(saNumber);
 			previousSourceFile = violation.fileName;
 		}
 	}
 
-	private void printLineRowSA(Violation violation, String saNumber,
+	private void printLineRowInformation(Indicator indicator, String information,
 	                            String previousSourceFile) {
-		if (!violation.fileName.equals(previousSourceFile))
-			printer.println(violation.fileName + ":");
+		if (!indicator.fileName.equals(previousSourceFile))
+			printer.println(indicator.fileName + ":");
 
-		printer.println("\tLine " + violation.row + ", Column "
-				+ violation.column + ", " + saNumber);
+		printer.println("\tLine " + indicator.row + ", Column "
+				+ indicator.column + ", " + information);
 	}
 
 	private void printShortDescription(String SANumber, int type) {

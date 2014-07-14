@@ -8,15 +8,28 @@ public class SimpleValidationResult implements ValidationCollector,
 		ValidationResult {
 
 	private final List<Violation> violations = new ArrayList<>();
+	private final List<Warning> warnings = new ArrayList<>();
 
-	public void add(Violation violation) {
-		violations.add(violation);
+	@Override
+	public void add(Indicator indicator) {
+		if (indicator instanceof Violation) {
+			violations.add((Violation) indicator);
+		}
+		if (indicator instanceof Warning) {
+			warnings.add((Warning) indicator);
+		}
 	}
 
 	@Override
 	public List<Violation> getViolations() {
 		Collections.sort(violations);
 		return new ArrayList<>(violations);
+	}
+
+	@Override
+	public List<Warning> getWarnings() {
+		Collections.sort(warnings);
+		return new ArrayList<>(warnings);
 	}
 
 	@Override
