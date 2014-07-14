@@ -35,7 +35,7 @@ public class EnvironmentVariableInterpreter {
 	}
 
 	private List<Integer> experimental() {
-		return Arrays.asList(60);
+		return Arrays.asList(new Integer[] {21, 60});
 	}
 
 	private List<Integer> getAllRules() {
