@@ -14,6 +14,8 @@ import bpellint.model.NodeHelper;
 import bpellint.model.ProcessContainer;
 import bpellint.model.Referable;
 import bpellint.model.Standards;
+import bpellint.model.bpel.OptionalElementNotPresentException;
+import bpellint.model.bpel.flow.FlowElement;
 import bpellint.model.bpel.mex.MessageActivity;
 import bpellint.model.bpel.mex.MessageActivityImpl;
 import bpellint.model.bpel.mex.OnEventElement;
@@ -176,6 +178,26 @@ public class SA00060Validator extends Validator {
 			}
 			operationMembers.areMarkedForSimultaneousOnEvent();
 			operationMembers.areMarkedForSimultaneousRequestResponse();
+		}
+		warnInLinkedFlows();
+	}
+
+	private void warnInLinkedFlows() {
+		for (FlowElement flow : processContainer.getAllFlows()) {
+				try {
+					if (flow.getLinkElements().isEmpty()) {
+						continue;
+					}
+				} catch (OptionalElementNotPresentException e) {
+					// no links are present
+					continue;
+				}
+				Nodes messageActivities = flow.toXOM().query(".//*[@operation]", Standards.CONTEXT);
+				if (messageActivities.isEmpty()) {
+					continue;
+				}
+				addWarning(flow, "<flow> may contain properly linked message activities that are marked as SA00060 violation " +
+						"even though they cannot be executed in parallel.");
 		}
 	}
 

@@ -36,6 +36,7 @@ import bpellint.model.bpel.fct.FaultHandlersElement;
 import bpellint.model.bpel.fct.FctHandler;
 import bpellint.model.bpel.fct.RethrowElement;
 import bpellint.model.bpel.fct.TerminationHandlerElement;
+import bpellint.model.bpel.flow.FlowElement;
 import bpellint.model.bpel.flow.LinkElement;
 import bpellint.model.bpel.flow.LinkEntity;
 import bpellint.model.bpel.flow.LinksElement;
@@ -683,7 +684,18 @@ public class ProcessContainer {
 
 		return result;
 	}
-	
+
+	public List<FlowElement> getAllFlows() {
+		List<FlowElement> result = new LinkedList<>();
+
+		for (Node node : getBpel().getDocument().query(
+				"//bpel:flow", CONTEXT)) {
+			result.add(new FlowElement(node, this));
+		}
+
+		return result;
+	}
+
 	void validate() {
 		// assertion
 		//FIXME required to be optional for Lohmann tests
