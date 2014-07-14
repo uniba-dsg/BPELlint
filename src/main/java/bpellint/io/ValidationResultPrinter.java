@@ -36,7 +36,11 @@ public class ValidationResultPrinter {
 	}
 
 	private void printWarnings(List<Warning> warnings) {
-		printer.println("WARNINGS:\n");
+		if (warnings.isEmpty()) {
+			return;
+		}
+		printer.println("\n\nWARNINGS:\n");
+
 		String currentSourceFile = "";
 		for (Warning warning : warnings) {
 			printLineRowInformation(warning, warning.message, currentSourceFile);
