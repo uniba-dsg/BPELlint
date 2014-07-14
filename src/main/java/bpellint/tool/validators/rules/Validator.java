@@ -7,6 +7,7 @@ import bpellint.model.ProcessContainer;
 import bpellint.model.Referable;
 import bpellint.tool.validators.result.ValidationCollector;
 import bpellint.tool.validators.result.Violation;
+import bpellint.tool.validators.result.Warning;
 import nu.xom.Node;
 
 public abstract class Validator {
@@ -27,6 +28,16 @@ public abstract class Validator {
 	public abstract void validate();
 
 	public abstract int getSaNumber();
+
+	protected void addWarning(Referable node, String message) {
+		addWarning(node.toXOM(), message);
+    }
+
+	protected void addWarning(Node node, String message) {
+		String fileName = new NodeHelper(node).getFilePath();
+		NodeToId identifiableNode = new NodeToId(node);
+		validationCollector.add(new Warning(fileName, identifiableNode.getLineNumber(), identifiableNode.getColumnNumber(), message));
+    }
 
 	private void addViolation(String fileName, Node node, int type) {
 		NodeToId identifiableNode = new NodeToId(node);
