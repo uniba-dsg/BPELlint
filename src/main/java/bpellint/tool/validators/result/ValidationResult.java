@@ -9,7 +9,5 @@ public interface ValidationResult {
 
 	public List<Warning> getWarnings();
 
-	public boolean isValid();
-
 	public Set<Integer> getViolatedRules();
 }

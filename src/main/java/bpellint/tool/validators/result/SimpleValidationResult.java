@@ -32,8 +32,7 @@ public class SimpleValidationResult implements ValidationCollector,
 		return new ArrayList<>(warnings);
 	}
 
-	@Override
-	public boolean isValid() {
+	private boolean isValid() {
 		return violations.isEmpty();
 	}
 
