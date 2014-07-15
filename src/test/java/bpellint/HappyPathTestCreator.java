@@ -7,11 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-class HappyPathTests {
+class HappyPathTestCreator {
 
     private final Path baseDir;
 
-    HappyPathTests(Path baseDir) {
+    HappyPathTestCreator(Path baseDir) {
         this.baseDir = Objects.requireNonNull(baseDir, "baseDir must not be null");
     }
 
