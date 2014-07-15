@@ -11,6 +11,7 @@
     xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling" xmlns:sxed2="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2" xmlns:ns0="http://xml.netbeans.org/schema/fluentCalcSchema" xmlns:ns1="http://xml.netbeans.org/schema/CalculatorSchema" xmlns:ns2="http://enterprise.netbeans.org/bpel/WizardCorrelationProperties" xmlns:ns3="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService">
     <import namespace="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" location="fluentCalculatorService.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <import namespace="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" location="CalculatorService.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://xml.netbeans.org/schema/fluentCalcSchema" location="fluentCalcSchema.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
     <partnerLinks>
         <partnerLink name="CalcService" xmlns:tns="http://j2ee.netbeans.org/wsdl/CalculatorService/CalculatorService" partnerLinkType="tns:CalculatorService" partnerRole="CalculatorServicePortTypeRole"/>
         <partnerLink name="PartnerLink" xmlns:tns="http://j2ee.netbeans.org/wsdl/FluentCalculatorService/fluentCalculatorService" partnerLinkType="tns:fluentCalculatorService" myRole="fluentCalculatorServicePortTypeRole"/>

@@ -147,6 +147,13 @@ public class ProcessContainer {
 		return xsds;
 	}
 
+    public List<XmlFile> getWsdlsAndXsds() {
+        List<XmlFile> result = new LinkedList<>();
+        result.addAll(getWsdls());
+        result.addAll(getXsds());
+        return result;
+    }
+
 	public List<XmlFile> getDirectlyImportedWsdls() {
 		return directlyImportedWsdls;
 	}
