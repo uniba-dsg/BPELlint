@@ -130,8 +130,6 @@ public class SA00021Validator extends Validator {
                         }
                     }
 
-                    // TODO query parsing
-
                 }
             }
         }

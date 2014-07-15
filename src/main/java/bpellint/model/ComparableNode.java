@@ -1,6 +1,9 @@
 package bpellint.model;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import nu.xom.Node;
 
@@ -70,4 +73,12 @@ public class ComparableNode implements Comparable<ComparableNode>, Referable {
 	public Node toXOM() {
 		return node;
 	}
+
+    public static <T extends Referable> Set<ComparableNode> convertTo(List<T> referables) {
+        Set<ComparableNode> comparableNodes = new HashSet<>();
+        for (Referable referable : referables) {
+            comparableNodes.add(new ComparableNode(referable));
+        }
+        return comparableNodes;
+    }
 }

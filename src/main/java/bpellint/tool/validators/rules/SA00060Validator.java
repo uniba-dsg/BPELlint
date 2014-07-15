@@ -107,8 +107,8 @@ public class SA00060Validator extends Validator {
 			if (intersection.isEmpty()) {
 				return;
 			}
-			Set<ComparableNode> intermediaryReceives = Sets.intersection(intersection, convertForComparison(receives));
-			Set<ComparableNode> intermediaryOnMessage = Sets.intersection(intersection, convertForComparison(onMessages));
+			Set<ComparableNode> intermediaryReceives = Sets.intersection(intersection, ComparableNode.convertTo(receives));
+			Set<ComparableNode> intermediaryOnMessage = Sets.intersection(intersection, ComparableNode.convertTo(onMessages));
 			if (!(intermediaryReceives.size() <= 1 && intermediaryOnMessage.size() <= 1)) {
 				checkSimultaneousMarkUp(intermediaryReceives);
 				checkSimultaneousMarkUp(intermediaryOnMessage);
@@ -139,7 +139,7 @@ public class SA00060Validator extends Validator {
 
 		private boolean hasOnEventInScope(MessageActivity messageActivity) {
 			Set<ComparableNode> headSet = dom.headSet(new ComparableNode(messageActivity));
-			return Sets.intersection(headSet, convertForComparison(onEvents)).size() > 0;
+			return Sets.intersection(headSet, ComparableNode.convertTo(onEvents)).size() > 0;
 		}
 
 		private boolean hasReply(MessageActivity messageActivity) {
@@ -149,17 +149,6 @@ public class SA00060Validator extends Validator {
 				}
 			}
 			return false;
-		}
-
-		private Set<ComparableNode> convertForComparison(List<MessageActivity> messageActivities) {
-			/*
-			 * TODO this could be part of ComparableNode as static method
-			 */
-			Set<ComparableNode> comparableNodes = new HashSet<>();
-			for (Referable referable : messageActivities) {
-				comparableNodes.add(new ComparableNode(referable));
-			}
-			return comparableNodes;
 		}
 
 	}

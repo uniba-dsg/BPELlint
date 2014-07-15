@@ -88,7 +88,7 @@
             </input>
         </operation>
         <operation name="startProcessSyncTwoParts">
-            <soap:operation/> <!--  TODO add parts -->
+            <soap:operation/>
             <input name="syncInputTwo">
                 <soap:body use="literal"/>
             </input>
