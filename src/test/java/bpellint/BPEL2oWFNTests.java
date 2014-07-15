@@ -1,6 +1,7 @@
 package bpellint;
 
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
 
@@ -101,7 +102,7 @@ public class BPEL2oWFNTests extends FunctionalValidatorTests{
     }
 
     @Override
-	@Test
+	@Test @Ignore
     public void testValidators() throws Exception {
         ValidationResult validationResult = BpelLint.buildWithoutSchemaValidation().validate(Paths.get(bpel));
 

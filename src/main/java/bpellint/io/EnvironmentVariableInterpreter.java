@@ -7,7 +7,7 @@ import java.util.List;
 
 public class EnvironmentVariableInterpreter {
 
-    private static final String BPEL_LINT_SA_RULES_ENVIRONMENT_VARIABLE = "BPEL_LINT_SA_RULES";
+    public static final String BPEL_LINT_SA_RULES_ENVIRONMENT_VARIABLE = "BPEL_LINT_SA_RULES";
     private static final Integer[] ALL_SA_RULES = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
             15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
             37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
@@ -15,7 +15,13 @@ public class EnvironmentVariableInterpreter {
             82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95};
 
     public List<Integer> getRulesToValidate() {
-        String variable = System.getenv(BPEL_LINT_SA_RULES_ENVIRONMENT_VARIABLE);
+        String variable;
+        try {
+            variable = System.getProperty(BPEL_LINT_SA_RULES_ENVIRONMENT_VARIABLE);
+        } catch (NullPointerException e) {
+            variable = System.getenv(BPEL_LINT_SA_RULES_ENVIRONMENT_VARIABLE);
+        }
+
         List<Integer> rulesToAnalyze = interpretRulesToValidate(variable);
         return Collections.unmodifiableList(rulesToAnalyze);
     }

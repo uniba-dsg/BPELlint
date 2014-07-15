@@ -1,7 +1,8 @@
 package bpellint;
 
 
-import org.junit.Test;
+import bpellint.io.EnvironmentVariableInterpreter;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -468,7 +469,17 @@ public class FunctionalValidatorTests {
 		return Arrays.asList(data);
 	}
 
-	@Test
+    @Before
+    public void setUp() throws Exception {
+        System.setProperty(EnvironmentVariableInterpreter.BPEL_LINT_SA_RULES_ENVIRONMENT_VARIABLE, "ALL");
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        System.clearProperty(EnvironmentVariableInterpreter.BPEL_LINT_SA_RULES_ENVIRONMENT_VARIABLE);
+    }
+
+    @Test
 	public void testValidators() throws Exception {
 		ValidationResult validationResult = new BpelLint().validate(Paths.get(bpel));
 
