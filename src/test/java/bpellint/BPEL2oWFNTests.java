@@ -32,7 +32,7 @@ public class BPEL2oWFNTests extends FunctionalValidatorTests{
     public static Collection<Object[]> data() throws IOException {
         List<Object[]> bpelFiles = new LinkedList<>();
         bpelFiles.addAll(BPEL2oWFNTests.satests());
-        bpelFiles.addAll(new HappyPathTests(Paths.get("Testcases/bpel2owfn/testfiles")).list());
+        bpelFiles.addAll(new HappyPathTestCreator(Paths.get("Testcases/bpel2owfn/testfiles")).list());
 
         return bpelFiles;
     }

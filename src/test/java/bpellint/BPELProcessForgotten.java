@@ -27,7 +27,7 @@ public class BPELProcessForgotten {
     }
 
     private static Set<Path> getFunctionalBpelProcesses() {
-        return getPathsFromData(FunctionalValidatorTests.saViolationTests());
+        return getPathsFromData(SAViolationTestData.saViolationTests());
     }
 
     private static Set<Path> getXsdSchemaBpelProcesses() {
