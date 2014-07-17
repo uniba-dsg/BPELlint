@@ -25,6 +25,16 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00005/ReplyWithNonExistentPortType.bpel", "5"},
 
                 {"Testcases/rules/SA00006/RethrowOutsideFaultHandlers.bpel", "6"},
+                {"Testcases/rules/SA00006/RethrowInElse.bpel", "6"},
+                {"Testcases/rules/SA00006/RethrowInElseIf.bpel", "6"},
+                {"Testcases/rules/SA00006/RethrowInFlow.bpel", "6"},
+                {"Testcases/rules/SA00006/RethrowInIf.bpel", "6"},
+                {"Testcases/rules/SA00006/RethrowInOnAlarm.bpel", "6"},
+                {"Testcases/rules/SA00006/RethrowInOnMessage.bpel", "6"},
+                {"Testcases/rules/SA00006/RethrowInRepeatUntil.bpel", "6"},
+                {"Testcases/rules/SA00006/RethrowInScope.bpel", "6"},
+                {"Testcases/rules/SA00006/RethrowInTerminationHandlers.bpel", "6"},
+                {"Testcases/rules/SA00006/RethrowInWhile.bpel", "6"},
 
                 {"Testcases/rules/SA00007/CompensateScopeOutsideFaultHandlers.bpel", "7"},
 
