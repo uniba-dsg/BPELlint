@@ -48,6 +48,15 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00007/CompensateScopeInWhile.bpel", "7"},
 
                 {"Testcases/rules/SA00008/CompensateOutsideFaultHandlers.bpel", "8"},
+                {"Testcases/rules/SA00008/CompensateInElse.bpel", "8"},
+                {"Testcases/rules/SA00008/CompensateInElseIf.bpel", "8"},
+                {"Testcases/rules/SA00008/CompensateInFlow.bpel", "8"},
+                {"Testcases/rules/SA00008/CompensateInIf.bpel", "8"},
+                {"Testcases/rules/SA00008/CompensateInOnAlarm.bpel", "8"},
+                {"Testcases/rules/SA00008/CompensateInOnMessage.bpel", "8"},
+                {"Testcases/rules/SA00008/CompensateInRepeatUntil.bpel", "8"},
+                {"Testcases/rules/SA00008/CompensateInScope.bpel", "8"},
+                {"Testcases/rules/SA00008/CompensateInWhile.bpel", "8"},
 
                 {"Testcases/rules/SA00010/UndefinedType-Catch-FaultElement.bpel", "10"},
                 {"Testcases/rules/SA00010/UndefinedType-Catch-FaultMessageType.bpel", "10"},
