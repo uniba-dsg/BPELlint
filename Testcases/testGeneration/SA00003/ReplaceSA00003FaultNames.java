@@ -1,5 +1,3 @@
-package bpellint;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,9 +9,9 @@ import java.util.List;
 public class ReplaceSA00003FaultNames {
 
 	private static final Path sourcePath = Paths
-			.get("P:/repos/BPELlint/Testcases/rules/SA00003/new");
+			.get("./base");
 	private static final Path destinationPath = Paths
-			.get("P:/repos/BPELlint/Testcases/rules/SA00003/generated");
+			.get("./generated");
 
 	private static final String AMBIGUOUS_RECEIVE = "AR:ambiguousReceive";
 	private static final String COMPLETION_CONDITION_FAILURE = "CCF:completionConditionFailure";
@@ -90,7 +88,7 @@ public class ReplaceSA00003FaultNames {
 		}
 
 		Files.write(destinationFilePath, modifiedLines);
-		System.out.println("Generated " + destinationPath.relativize(destinationFilePath));
+		System.out.println("Generated " + destinationFilePath);
 	}
 
 	private static String modify(String line, String faultName) {
