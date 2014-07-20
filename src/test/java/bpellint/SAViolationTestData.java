@@ -25,6 +25,7 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00005/ReplyWithNonExistentPortType.bpel", "5"},
 
                 {"Testcases/rules/SA00006/RethrowOutsideFaultHandlers.bpel", "6"},
+                {"Testcases/rules/SA00006/RethrowInCompensationHandler.bpel", "6"},
                 {"Testcases/rules/SA00006/RethrowInElse.bpel", "6"},
                 {"Testcases/rules/SA00006/RethrowInElseIf.bpel", "6"},
                 {"Testcases/rules/SA00006/RethrowInFlow.bpel", "6"},
