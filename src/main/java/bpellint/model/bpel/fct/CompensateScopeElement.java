@@ -28,7 +28,7 @@ public class CompensateScopeElement extends ContainerAwareReferable {
 	}
 
 	public boolean isWithinTerminationHandler() {
-		return compensateScope.hasAncestor("bpel:terminationHandlers");
+		return compensateScope.hasAncestor("bpel:terminationHandler");
 	}
 
 	public String getTargetAttribute() {

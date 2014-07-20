@@ -45,7 +45,6 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00007/CompensateScopeInOnMessage.bpel", "7"},
                 {"Testcases/rules/SA00007/CompensateScopeInRepeatUntil.bpel", "7"},
                 {"Testcases/rules/SA00007/CompensateScopeInScope.bpel", "7,77"}, // <scope> can have a single activity. If <compensateSope> is this activity, no other <scope>/<invoke> can be placed in the same enclosing <scope>.
-                {"Testcases/rules/SA00007/CompensateScopeInTerminationHandlers.bpel", "7"},
                 {"Testcases/rules/SA00007/CompensateScopeInWhile.bpel", "7"},
 
                 {"Testcases/rules/SA00008/CompensateOutsideFaultHandlers.bpel", "8"},
