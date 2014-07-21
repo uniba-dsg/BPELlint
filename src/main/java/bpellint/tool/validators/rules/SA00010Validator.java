@@ -74,11 +74,25 @@ public class SA00010Validator extends Validator {
 			catchType = getType(nodeHelper, "faultElement");
 			return "".equals(catchType) || isInAnyXsd("element", catchType);
 
+		case "onEvent":
+			boolean onEventValid = true;
+			String onEventVariableType = getType(nodeHelper, "messageType");
+			if (!"".equals(onEventVariableType)) {
+				onEventValid = onEventValid && isInAnyWsdl("message", onEventVariableType);
+			}
+
+			onEventVariableType = getType(nodeHelper, "element");
+			if (!"".equals(onEventVariableType)) {
+				onEventValid = onEventValid && isInAnyXsd("element", onEventVariableType);
+			}
+
+			if (!onEventValid) {
+				return false;
+			}
 		case "reply":
 		case "receive":
 		case "invoke":
 		case "onMessage":
-		case "onEvent":
 			String messageActivityType;
 			try {
 				messageActivityType = getPortType(nodeHelper);

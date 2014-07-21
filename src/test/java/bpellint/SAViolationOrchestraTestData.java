@@ -130,10 +130,10 @@ public class SAViolationOrchestraTestData {
                 {"Testcases/orchestra/sa00086/sa00086.bpel", "86, 47"}, // Bad construction. receive without variable assignment for non empty message.
                 {"Testcases/orchestra/sa00086/sa00086_2.bpel", "86, 47"}, // Bad construction. receive without variable assignment for non empty message.
 
-                {"Testcases/orchestra/sa00087/sa00087.bpel", "87, 47"}, // Bad construction. receive without variable assignment for non empty message.
+                {"Testcases/orchestra/sa00087/sa00087.bpel", "87, 47, 10"}, // Bad construction. receive without variable assignment for non empty message.
                 {"Testcases/orchestra/sa00087/sa00087_2.bpel", "47"}, // Bad construction. receive without variable assignment for non empty message. messageType equals <message> name
                 {"Testcases/orchestra/sa00087/sa00087_3.bpel", "47"}, // Bad construction. receive without variable assignment for non empty message. element equals <part> element
-                {"Testcases/orchestra/sa00087/sa00087_4.bpel", "87, 47"}, // Bad construction. receive without variable assignment for non empty message.
+                {"Testcases/orchestra/sa00087/sa00087_4.bpel", "87, 47, 10"}, // Bad construction. receive without variable assignment for non empty message.
                 {"Testcases/orchestra/sa00087/sa00087_5.bpel", "87, 47"}, // Bad construction. receive without variable assignment for non empty message.
 
                 {"Testcases/orchestra/sa00088/sa00088.bpel", "88, 47"}, // Bad construction. receive without variable assignment for non empty message.

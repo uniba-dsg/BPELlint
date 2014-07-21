@@ -415,6 +415,13 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00010/UndefinedType-Variable-Element.bpel", "10"},
                 {"Testcases/rules/SA00010/UndefinedType-Variable-MessageType.bpel", "10"},
                 {"Testcases/rules/SA00010/UndefinedType-Variable-Type.bpel", "10"},
+                {"Testcases/rules/SA00010/InvokeUndefinedPartnerLink.bpel", "10"},
+                {"Testcases/rules/SA00010/OnEventUndefinedElement.bpel", "10, 87"},
+                {"Testcases/rules/SA00010/OnEventUndefinedMessageType.bpel", "10, 87"},
+                {"Testcases/rules/SA00010/OnEventUndefinedPartnerLink.bpel", "10, 84"},
+                {"Testcases/rules/SA00010/OnMessageUndefinedPartnerLink.bpel", "10"},
+                {"Testcases/rules/SA00010/ReceiveUndefinedPartnerLink.bpel", "10"},
+                {"Testcases/rules/SA00010/ReplyUndefinedPartnerLink.bpel", "10"},
 
                 {"Testcases/rules/SA00011/Import-WrongNameSpace.bpel", "11"},
 
@@ -754,8 +761,8 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00086/OnEventExplicitFromPartToVaribaleDoublicate.bpel", "86"},
 
                 {"Testcases/rules/SA00087/OnEventElementTwoParts.bpel", "87"},
-                {"Testcases/rules/SA00087/OnEventUnresolvedElement.bpel", "87"},
-                {"Testcases/rules/SA00087/OnEventUnresolvedMessageType.bpel", "87"},
+                {"Testcases/rules/SA00087/OnEventUnresolvedElement.bpel", "87, 10"},
+                {"Testcases/rules/SA00087/OnEventUnresolvedMessageType.bpel", "87, 10"},
 
                 {"Testcases/rules/SA00088/OnEventCorrelationWrongType.bpel", "88"},
                 {"Testcases/rules/SA00088/OnEventCorrelationNoSet.bpel", "88"},
