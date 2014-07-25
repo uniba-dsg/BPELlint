@@ -678,6 +678,8 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00066/LinkTwoTargets.bpel", "66"},
                 {"Testcases/rules/SA00066/LinkNoSource.bpel", "66"},
                 {"Testcases/rules/SA00066/LinkNoTarget.bpel", "66"},
+                {"Testcases/rules/SA00066/LinkTwoSourcesNoTarget.bpel", "66"},
+                {"Testcases/rules/SA00066/LinkTwoTargetsNoSource.bpel", "66"},
 
                 {"Testcases/rules/SA00067/DoubleLink.bpel", "67"},
 
