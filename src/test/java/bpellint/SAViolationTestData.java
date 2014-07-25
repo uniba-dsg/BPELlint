@@ -778,6 +778,7 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00091/IsolatedScopeInIsolatedSope.bpel", "91"},
 
                 {"Testcases/rules/SA00092/ScopeNameDuplicate.bpel", "92"},
+                {"Testcases/rules/SA00092/ScopeNameDuplicateInScope.bpel", "92"},
 
                 {"Testcases/rules/SA00093/SameCatchFaultElement.bpel", "93"},
                 {"Testcases/rules/SA00093/SameCatchFaultElementFaultName.bpel", "93"},
