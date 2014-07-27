@@ -1,5 +1,6 @@
 package bpellint.model;
 
+import bpellint.model.bpel.var.ForEachVariable;
 import nu.xom.*;
 
 import java.util.Objects;
@@ -65,6 +66,11 @@ public class Navigator {
         if ("catch".equals(elementName)) {
             if (variableName.equals(element.getAttribute("faultVariable"))) {
                 return new CatchElement(element.toXOM(), processContainer);
+            }
+        }
+        if ("forEach".equals(elementName)){
+            if (variableName.equals(element.getAttribute("counterName"))){
+                return new ForEachVariable(element.toXOM(), processContainer);
             }
         }
 
