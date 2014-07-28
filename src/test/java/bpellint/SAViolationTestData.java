@@ -619,6 +619,12 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00057/OnMessageSingleCorrelation.bpel", "57"},
                 {"Testcases/rules/SA00057/OnMessageReceiveSingleCorrelation.bpel", "57"},
                 {"Testcases/rules/SA00057/ReceiveSingleCorrelation.bpel", "57"},
+                {"Testcases/rules/SA00057/OnMessageDifferentCorrelationYesAndJoin.bpel", "57"},
+                {"Testcases/rules/SA00057/OnMessageReceiveDifferentCorrelationYesAndJoin.bpel", "57"},
+                {"Testcases/rules/SA00057/ReceiveDifferentCorrelationYesAndJoin.bpel", "57"},
+                {"Testcases/rules/SA00057/ReceiveDifferentCorrelationJoinAndJoin.bpel", "57"},
+                {"Testcases/rules/SA00057/OnMessageReceiveDifferentCorrelationJoinAndJoin.bpel", "57"},
+                {"Testcases/rules/SA00057/OnMessageDifferentCorrelationJoinAndJoin.bpel", "57"},
 
                 {"Testcases/rules/SA00058/ReceiveDeviantMessageType.bpel", "58"},
                 {"Testcases/rules/SA00058/ReceiveDeviantType.bpel", "58"},
