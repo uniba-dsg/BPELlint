@@ -620,11 +620,11 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00057/OnMessageReceiveSingleCorrelation.bpel", "57"},
                 {"Testcases/rules/SA00057/ReceiveSingleCorrelation.bpel", "57"},
 
-                {"Testcases/rules/SA00058/ReceiveDeviantMessageType.bpel", "58"},
+                {"Testcases/rules/SA00058/ReceiveDeviantMessageType_IGNORE_ME.bpel", "58"},
                 {"Testcases/rules/SA00058/ReceiveDeviantType.bpel", "58"},
-                {"Testcases/rules/SA00058/ReceiveReplyDeviantTypes.bpel", "58"},
+                {"Testcases/rules/SA00058/ReceiveReplyDeviantTypes_IGNORE_ME.bpel", "58"},
                 {"Testcases/rules/SA00058/ReceiveTwoPartsPartType.bpel", "58"},
-                {"Testcases/rules/SA00058/ReplyDeviantMessageType.bpel", "58"},
+                {"Testcases/rules/SA00058/ReplyDeviantMessageType_IGNORE_ME.bpel", "58"},
                 {"Testcases/rules/SA00058/ReplyDeviantType.bpel", "58"},
                 {"Testcases/rules/SA00058/ReplyTwoPartsPartType.bpel", "58"},
 
@@ -764,7 +764,9 @@ public class SAViolationTestData {
 
                 {"Testcases/rules/SA00087/OnEventElementTwoParts.bpel", "87"},
                 {"Testcases/rules/SA00087/OnEventUnresolvedElement.bpel", "87, 10"},
-                {"Testcases/rules/SA00087/OnEventUnresolvedMessageType.bpel", "87, 10"},
+                {"Testcases/rules/SA00087/OnEventUnresolvedMessageType_IGNORE_ME.bpel", "87, 10"},
+                {"Testcases/rules/SA00087/OnEventDifferentElementTwoPart.bpel", "87"},
+                {"Testcases/rules/SA00087/OnEventElementEmpty.bpel", "87"},
 
                 {"Testcases/rules/SA00088/OnEventCorrelationWrongType.bpel", "88"},
                 {"Testcases/rules/SA00088/OnEventCorrelationNoSet_IGNORE_ME.bpel", "88"},

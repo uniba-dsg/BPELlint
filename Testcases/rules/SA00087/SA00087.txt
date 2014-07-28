@@ -1,6 +1,7 @@
 @messageType is not the input <message>@name of the operation
 @element must not be used for messages with more than one part
 @element is not the element of the operation's input message single <part>@element
+@element must not be used for messages without part
 @@@
 For <onEvent>, the type of the variable (as specified by the messageType attribute) MUST  be the same as the type of the input message defined by operation referenced by the operation attribute. Optionally the messageType attribute may be omitted and instead the element attribute substituted if the message to be received has a single part and that part is defined with an element type. That element type MUST be an exact match of the element type referenced by the element attribute.
 @@@
