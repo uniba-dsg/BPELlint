@@ -678,6 +678,8 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00066/LinkTwoTargets.bpel", "66"},
                 {"Testcases/rules/SA00066/LinkNoSource.bpel", "66"},
                 {"Testcases/rules/SA00066/LinkNoTarget.bpel", "66"},
+                {"Testcases/rules/SA00066/LinkTwoSourcesNoTarget.bpel", "66"},
+                {"Testcases/rules/SA00066/LinkTwoTargetsNoSource.bpel", "66"},
 
                 {"Testcases/rules/SA00067/DoubleLink.bpel", "67"},
 
@@ -776,6 +778,7 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00091/IsolatedScopeInIsolatedSope.bpel", "91"},
 
                 {"Testcases/rules/SA00092/ScopeNameDuplicate.bpel", "92"},
+                {"Testcases/rules/SA00092/ScopeNameDuplicateInScope.bpel", "92"},
 
                 {"Testcases/rules/SA00093/SameCatchFaultElement.bpel", "93"},
                 {"Testcases/rules/SA00093/SameCatchFaultElementFaultName.bpel", "93"},
