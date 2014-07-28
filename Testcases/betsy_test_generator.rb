@@ -25,6 +25,11 @@ Dir.glob("rules/SA000*").each do |rule_path|
 
 	Dir.glob("#{rule_path}/**/*.bpel").each do |bpel|
 
+    if(bpel.include? "IGNORE_ME")
+      next
+    end
+
+
 	   	bpel_filename = rule_name + "-" + File.basename(bpel)
 	   	bpel_name = bpel_filename[0..-6]
       index = index + 1
