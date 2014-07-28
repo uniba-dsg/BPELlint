@@ -829,6 +829,11 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00093/SameCatchFaultMessageType.bpel", "93"},
                 {"Testcases/rules/SA00093/SameCatchFaultMessageTypeFaultName.bpel", "93"},
                 {"Testcases/rules/SA00093/SameCatchFaultName.bpel", "93"},
+                {"Testcases/rules/SA00093/ProcessSameCatchFaultElement.bpel", "93"},
+                {"Testcases/rules/SA00093/ProcessSameCatchFaultElementFaultName.bpel", "93"},
+                {"Testcases/rules/SA00093/ProcessSameCatchFaultMessageType.bpel", "93"},
+                {"Testcases/rules/SA00093/ProcessSameCatchFaultMessageTypeFaultName.bpel", "93"},
+                {"Testcases/rules/SA00093/ProcessSameCatchFaultName.bpel", "93"},
 
                 {"Testcases/rules/SA00095/OnEventVariableOutboundUseAssign.bpel", "95, 34"},
                 {"Testcases/rules/SA00095/OnEventVariableOutboundUseReceive_IGNORE_ME.bpel", "95"},
