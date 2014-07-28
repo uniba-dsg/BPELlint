@@ -620,11 +620,11 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00057/OnMessageReceiveSingleCorrelation.bpel", "57"},
                 {"Testcases/rules/SA00057/ReceiveSingleCorrelation.bpel", "57"},
 
-                {"Testcases/rules/SA00058/ReceiveDeviantMessageType.bpel", "58"},
+                {"Testcases/rules/SA00058/ReceiveDeviantMessageType_IGNORE_ME.bpel", "58"},
                 {"Testcases/rules/SA00058/ReceiveDeviantType.bpel", "58"},
-                {"Testcases/rules/SA00058/ReceiveReplyDeviantTypes.bpel", "58"},
+                {"Testcases/rules/SA00058/ReceiveReplyDeviantTypes_IGNORE_ME.bpel", "58"},
                 {"Testcases/rules/SA00058/ReceiveTwoPartsPartType.bpel", "58"},
-                {"Testcases/rules/SA00058/ReplyDeviantMessageType.bpel", "58"},
+                {"Testcases/rules/SA00058/ReplyDeviantMessageType_IGNORE_ME.bpel", "58"},
                 {"Testcases/rules/SA00058/ReplyDeviantType.bpel", "58"},
                 {"Testcases/rules/SA00058/ReplyTwoPartsPartType.bpel", "58"},
 
