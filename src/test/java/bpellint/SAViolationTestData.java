@@ -627,6 +627,18 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00058/ReplyDeviantMessageType_IGNORE_ME.bpel", "58"},
                 {"Testcases/rules/SA00058/ReplyDeviantType.bpel", "58"},
                 {"Testcases/rules/SA00058/ReplyTwoPartsPartType.bpel", "58"},
+                {"Testcases/rules/SA00058/ReceiveTwoPartsDifferentElement.bpel", "58"},
+                {"Testcases/rules/SA00058/ReplyTwoPartsDifferentElement.bpel", "58"},
+                {"Testcases/rules/SA00058/ReceiveTwoPartsType.bpel", "58"},
+                {"Testcases/rules/SA00058/ReplyTwoPartsType.bpel", "58"},
+                {"Testcases/rules/SA00058/ReceiveType.bpel", "58"},
+                {"Testcases/rules/SA00058/ReplyType.bpel", "58"},
+//                {"Testcases/rules/SA00058/.bpel", "58"},
+//                {"Testcases/rules/SA00058/.bpel", "58"},
+//                {"Testcases/rules/SA00058/.bpel", "58"},
+//                {"Testcases/rules/SA00058/.bpel", "58"},
+//                {"Testcases/rules/SA00058/.bpel", "58"},
+//                {"Testcases/rules/SA00058/.bpel", "58"},
 
                 {"Testcases/rules/SA00059/Reply-WithToPartElementAndVariableAttribute.bpel", "59"},
 
