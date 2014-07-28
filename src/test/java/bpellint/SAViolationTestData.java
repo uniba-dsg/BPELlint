@@ -430,7 +430,15 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00013/Import-WrongImportType.bpel", "13"},
                 {"Testcases/rules/SA00013/WrongXsdImportType.bpel", "13"},
 
-                {"Testcases/rules/SA00014/ImportRedefine.bpel", "14"},
+                {"Testcases/rules/SA00014/ImportRedefine_inXSD_complexType.bpel", "14"},
+                {"Testcases/rules/SA00014/ImportRedefine_inXSD_simpleType.bpel", "14"},
+                {"Testcases/rules/SA00014/ImportRedefine_inXSD_group.bpel", "14"},
+                {"Testcases/rules/SA00014/ImportRedefine_inXSD_attributeGroup.bpel", "14"},
+                {"Testcases/rules/SA00014/ImportRedefine_inWSDL_complexType.bpel", "14"},
+                {"Testcases/rules/SA00014/ImportRedefine_inWSDL_simpleType.bpel", "14"},
+                {"Testcases/rules/SA00014/ImportRedefine_inWSDL_group.bpel", "14"},
+                {"Testcases/rules/SA00014/ImportRedefine_inWSDL_attributeGroup.bpel", "14"},
+
                 {"Testcases/rules/SA00014/ImportWsdlAndWsdlCopy.bpel", "14"},
                 {"Testcases/rules/SA00014/ImportXsdAndDefineInside.bpel", "14"},
                 {"Testcases/rules/SA00014/ImportXsdAndWsdlXsdCopy.bpel", "14"},
