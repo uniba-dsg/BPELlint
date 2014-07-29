@@ -710,7 +710,7 @@ public class SAViolationTestData {
 
                 {"Testcases/rules/SA00064/LinkNameDuplicate.bpel", "64"},
 
-                {"Testcases/rules/SA00065/NoLink.bpel", "65"},
+                {"Testcases/rules/SA00065/NoLink_IGNORE_ME.bpel", "65"},
                 {"Testcases/rules/SA00065/SourceLinkIsMissing.bpel", "65, 66"},
                 {"Testcases/rules/SA00065/SourceLinkOutOfFlow.bpel", "65, 66"},
                 {"Testcases/rules/SA00065/TargetLinkIsMissing.bpel", "65, 66"},
