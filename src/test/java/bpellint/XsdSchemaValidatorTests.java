@@ -35,9 +35,9 @@ public class XsdSchemaValidatorTests {
 	@Parameterized.Parameters(name = "{index}: {0}")
 	public static Collection<Object[]> data() {
 		Object[][] data = new Object[][]{
-				{"Testcases/rules/SA00024/OnEvent-containing-dot.bpel"},
+				{"Testcases/rules/SA00024/OnEvent-containing-dot_IGNORE_ME.bpel"},
 				{"Testcases/rules/SA00024/Variable-containing-dot.bpel"},
-				{"Testcases/rules/SA00024/CatchContainingDot.bpel"},
+				{"Testcases/rules/SA00024/CatchContainingDot_IGNORE_ME.bpel"},
 		};
 		return Arrays.asList(data);
 	}
