@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <process
-        name="Scope-EventHandlers-InitSync"
-        targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeEventHandlers-sync"
+        name="Scope-EventHandlers-Element-InitSync"
+        targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeEventHandlersElementInitSync"
         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
         xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
         >
     <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"
-            location="../TestInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+            location="TestInterface-MessageWithoutParts.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <partnerLinks>
         <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
     </partnerLinks>
@@ -36,17 +36,13 @@
                portType="ti:TestInterfacePortType" variable="replyData"/>
         <scope name="OuterScope">
             <eventHandlers>
-                <onEvent partnerLink="MyRoleLink" operation="undefined" portType="ti:TestInterfacePortType"
-                         variable="InitDataSync" messageType="ti:executeProcessSyncRequest">
-                    <correlations>
-                        <correlation set="CorrelationSet" initiate="no"/>
-                    </correlations>
-
+                <onEvent partnerLink="MyRoleLink" operation="startProcessSyncWithEmptyMessage" portType="ti:TestInterfacePortType"
+                         variable="InitDataSync" element="ti:testElementSyncRequest">
                     <scope name="Scope">
                         <sequence name="Sequence">
                             <assign name="AssignReplyData">
                                 <copy>
-                                    <from>$InitDataSync.inputPart + $replyData.outputPart</from>
+                                    <from variable="InitDataSync"/>
                                     <to variable="replyData" part="outputPart"/>
                                 </copy>
                             </assign>
@@ -65,4 +61,6 @@
 
     </sequence>
 </process>
+
+
 

@@ -12,6 +12,7 @@ public class SA00087Validator extends Validator {
 	private static final int MESSAGE_TYPE_IS_NOT_OPERATION_MESSAGE_NAME = 1;
 	private static final int MESSAGE_HAS_TWO_OR_MORE_PARTS = 2;
 	private static final int ELEMENT_IS_NOT_OPERATION_MESSAGE_PART_ELEMENT = 3;
+	private static final int MESSAGE_HAS_NO_PART = 4;
 
 	public SA00087Validator(ProcessContainer files, ValidationCollector validationCollector) {
 		super(files, validationCollector);
@@ -31,8 +32,13 @@ public class SA00087Validator extends Validator {
 	private void checkTypeOfMessage(OnEventElement onEvent) throws NavigationException {
 		MessageElement message = onEvent.getOperation().getInput().getMessage();
 		if (onEvent.hasVariableElement()) {
-			if (message.getParts().size() > 1) {
-				addViolation(onEvent, MESSAGE_HAS_TWO_OR_MORE_PARTS);
+			try {
+				if (message.getParts().size() > 1) {
+					addViolation(onEvent, MESSAGE_HAS_TWO_OR_MORE_PARTS);
+					return;
+				}
+			} catch (NavigationException e) {
+				addViolation(onEvent, MESSAGE_HAS_NO_PART);
 				return;
 			}
 			if (!isOfSameType(onEvent.getVariableElement(), message.getSinglePart().getElement())) {
