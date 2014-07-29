@@ -485,7 +485,7 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00022/Duplicate-propertyAliasElement.bpel", "22"},
                 {"Testcases/rules/SA00022/Duplicate-propertyAliasMessageType.bpel", "22"},
                 {"Testcases/rules/SA00022/Duplicate-propertyAliasType.bpel", "22"},
-                {"Testcases/rules/SA00022/DoubleImportedPropertyAlias.bpel", "22"},
+                {"Testcases/rules/SA00022/DoubleImportedPropertyAlias_IGNORE_ME.bpel", "22"},
 
                 {"Testcases/rules/SA00023/Process-Duplicated-Variables.bpel", "23"},
                 {"Testcases/rules/SA00023/Scope-Duplicated-Variables.bpel", "23"},
