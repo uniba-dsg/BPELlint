@@ -17,7 +17,7 @@
         <assign name="AssignReplyData">
             <copy>
                 <from variable="InitData" part="inputPart"/>
-                <to variable="ReplyData">
+                <to variable="ReplyData" part="outputPart">
 					<query>.</query>
                     $ReplyData.outputPart
                 </to>

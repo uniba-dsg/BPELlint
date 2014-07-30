@@ -18,9 +18,8 @@
                  portType="ti:TestInterfacePortType" variable="InitData"/>
         <assign name="AssignReplyData">
             <copy>
-                <from variable="InitData">
+                <from variable="InitData" part="inputPart" endpointReference="partnerRole">
                     <query>.</query>
-                    $InitData.inputPart
                 </from>
                 <to variable="ReplyData" part="outputPart"/>
             </copy>
