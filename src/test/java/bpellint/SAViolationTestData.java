@@ -548,6 +548,11 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00032/ToPropertyExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/ToPropertyExpressionLanguage.bpel", "32"},
                 {"Testcases/rules/SA00032/ToPropertyPartnerLink.bpel", "32"},
+                {"Testcases/rules/SA00032/FromPartEndpointReference.bpel", "32"},
+                {"Testcases/rules/SA00032/FromPartExpression.bpel", "32"},
+                {"Testcases/rules/SA00032/FromPartPartnerLink.bpel", "32"},
+                {"Testcases/rules/SA00032/ToPartExpression.bpel", "32"},
+                {"Testcases/rules/SA00032/ToPartPartnerLink.bpel", "32"},
 //                {"Testcases/rules/SA00032/.bpel", "32"},
 
                 {"Testcases/rules/SA00034/FromElementVariablePartAttribute.bpel", "34"},
