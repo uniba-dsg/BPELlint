@@ -537,6 +537,9 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00032/FromQueryExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/FromQueryExpressionLanguage.bpel", "32"},
                 {"Testcases/rules/SA00032/FromQueryPartnerLink.bpel", "32"},
+                {"Testcases/rules/SA00032/ToQueryExpression.bpel", "32"},
+                {"Testcases/rules/SA00032/ToQueryExpressionLanguage.bpel", "32"},
+                {"Testcases/rules/SA00032/ToQueryPartnerLink.bpel", "32"},
 //                {"Testcases/rules/SA00032/.bpel", "32"},
 
                 {"Testcases/rules/SA00034/FromElementVariablePartAttribute.bpel", "34"},
