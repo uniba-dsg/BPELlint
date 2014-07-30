@@ -533,6 +533,11 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00032/FromLiteralSuperfliciousAttribute.bpel", "32"},
                 {"Testcases/rules/SA00032/ToVariablePropertySuperfliciousAttribute.bpel", "32"},
                 {"Testcases/rules/SA00032/ToVariablePropertySuperfliciousChild.bpel", "32"},
+                {"Testcases/rules/SA00032/FromQueryEndpointReference.bpel", "32"},
+                {"Testcases/rules/SA00032/FromQueryExpression.bpel", "32"},
+                {"Testcases/rules/SA00032/FromQueryExpressionLanguage.bpel", "32"},
+                {"Testcases/rules/SA00032/FromQueryPartnerLink.bpel", "32"},
+//                {"Testcases/rules/SA00032/.bpel", "32"},
 
                 {"Testcases/rules/SA00034/FromElementVariablePartAttribute.bpel", "34"},
                 {"Testcases/rules/SA00034/FromOnEventElementVariablePartAttribute.bpel", "34"},
