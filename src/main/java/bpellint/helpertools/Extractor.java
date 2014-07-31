@@ -2,35 +2,30 @@ package bpellint.helpertools;
 
 import nu.xom.Builder;
 import nu.xom.Document;
-import nu.xom.ParsingException;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class Extractor {
     private static final Builder builder = new Builder();
-    private static final Set<String> results = new HashSet<>();
     private static final List<String> coupling = new LinkedList<>();
+    public static final Path PATH = Paths.get("Testcases/rules");
 
     public static void main(String[] args) throws Exception {
-        Path path = Paths.get("Testcases/rules");
 
-        if (!Files.isDirectory(path)) {
-            System.err.println("This path " + path + "is not a directory.");
+        if (!Files.isDirectory(PATH)) {
+            System.err.println("This path " + PATH + "is not a directory.");
         } else {
-            traverse(path);
+            traverse(PATH);
             print();
         }
     }
 
-    private static void traverse(Path path) throws ParsingException, IOException {
+    private static void traverse(Path path) throws Exception {
         if (Files.isDirectory(path)) {
             for (File file : path.toFile().listFiles()) {
                 traverse(file.toPath());
@@ -40,18 +35,18 @@ public class Extractor {
             Document document = builder.build(path.toFile());
             String betsyTestName = document.getRootElement().getAttribute("name")
                     .getValue();
-            results.add(betsyTestName);
-            coupling.add(path.toString() + "," + betsyTestName);
+            String faultTestName = PATH.relativize(path).toString().replaceAll("\\.bpel", "").replaceAll("\\\\", "-");
+
+            if (!faultTestName.contains("IGNORE_ME")) {
+                coupling.add(faultTestName + ";" + betsyTestName);
+            }
         }
     }
 
     private static void print() {
+        System.out.println("fault-test;correct-test"); // legend
         for (String saTestCase : coupling) {
             System.out.println(saTestCase);
         }
-        for (String betsyTestName : results) {
-            System.out.println(betsyTestName);
-        }
-
     }
 }
