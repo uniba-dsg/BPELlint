@@ -44,7 +44,7 @@
                 </xsd:sequence>
             </xsd:complexType>
 
-            <xsd:element name="calculationInputX" type="tns:calculationInputType"/>
+            <xsd:element name="calculationInputX" type="calc:calculationInputType"/>
             <xsd:element name="calculationResultX" type="xsd:int"/>
 
             <xsd:simpleType name="myCustomSimpleTypeX">
