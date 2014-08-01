@@ -4,6 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SAViolationTestData {
+
+    public static void main(String[] args) {
+        System.out.println("ALL=" + saViolationTests().stream().count());
+        System.out.println("IGNORE_ME=" +saViolationTests().stream().filter(o -> o[0].toString().contains("IGNORE_ME")).count());
+        System.out.println("ALL without IGNORE_ME=" +saViolationTests().stream().filter(o -> !o[0].toString().contains("IGNORE_ME")).count());
+        System.out.println("ALL without IGNORE_ME more than one SA rule="+saViolationTests().stream().filter(o -> !o[0].toString().contains("IGNORE_ME")).filter(o -> o[1].toString().contains(",")).count());
+    }
+
     public static List<Object[]> saViolationTests() {
         Object[][] data = new Object[][]{
 
