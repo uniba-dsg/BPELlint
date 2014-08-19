@@ -39,6 +39,14 @@ public class SA00014Validator extends Validator {
 				compareTypes(wsdl, peerWsdl);
 			}
 			compareTypesToXsds(wsdl);
+			detectRedefines(wsdl);
+		}
+	}
+
+	private void detectRedefines(XmlFile wsdl) {
+		Nodes redefine = wsdl.getDocument().query("//xsd:redefine", Standards.CONTEXT);
+		if (redefine.hasAny()) {
+			addViolation(redefine.get(0));
 		}
 	}
 
@@ -96,10 +104,7 @@ public class SA00014Validator extends Validator {
 
 	private void validateXsds() {
 		for (XmlFile xsd : processContainer.getXsds()) {
-			Nodes redefine = xsd.getDocument().query("//xsd:redefine", Standards.CONTEXT);
-			if (redefine.hasAny()) {
-				addViolation(redefine.get(0));
-			}
+			detectRedefines(xsd);
 			for (XmlFile peerXsd : processContainer.getXsds()) {
 				if (xsd.equals(peerXsd)) {
 					continue;
