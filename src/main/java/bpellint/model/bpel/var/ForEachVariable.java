@@ -11,12 +11,10 @@ import nu.xom.Node;
 
 public class ForEachVariable extends ContainerAwareReferable implements VariableLike {
     private final NodeHelper forEach;
-    private final ProcessContainer processContainer;
 
     public ForEachVariable(Node node, ProcessContainer processContainer) {
         super(node, processContainer);
         this.forEach = new NodeHelper(node, "forEach");
-        this.processContainer = processContainer;
     }
 
     @Override
