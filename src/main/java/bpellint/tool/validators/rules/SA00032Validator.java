@@ -12,13 +12,15 @@ public class SA00032Validator extends Validator {
 
     @Override
     public void validate() {
-        for (CopyEntity fromTo : processContainer.getAllCopyEntities()) {
-		    if (!(fromTo.isEmpty() || fromTo.isMessageVariableAssignment()
-		            || fromTo.isPartnerLinkAssignment() || fromTo.isVariableAssignment()
-		            || fromTo.isQueryResultAssignment() || fromTo.isLiteralAssignment())) {
-		        addViolation(fromTo);
-		    }
-		}
+        processContainer.getAllCopyEntities().forEach(fromTo -> validate(fromTo));
+    }
+
+    private void validate(CopyEntity fromTo) {
+        if (!(fromTo.isEmpty() || fromTo.isMessageVariableAssignment()
+                || fromTo.isPartnerLinkAssignment() || fromTo.isVariableAssignment()
+                || fromTo.isQueryResultAssignment() || fromTo.isLiteralAssignment())) {
+            addViolation(fromTo);
+        }
     }
 
     @Override
