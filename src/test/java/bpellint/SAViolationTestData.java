@@ -560,14 +560,14 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00032/FromLiteralSuperfliciousAttribute.bpel", "32"},
                 {"Testcases/rules/SA00032/ToVariablePropertySuperfliciousAttribute.bpel", "32"},
                 {"Testcases/rules/SA00032/ToVariablePropertySuperfliciousChild.bpel", "32"},
-                {"Testcases/rules/SA00032/FromQueryEndpointReference.bpel", "32"},
+                {"Testcases/rules/SA00032/FromQueryEndpointReference.bpel", "32, 36"}, // partnerLink attribute name is empty, thus, cannot be resolved
                 {"Testcases/rules/SA00032/FromQueryExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/FromQueryExpressionLanguage.bpel", "32"},
                 {"Testcases/rules/SA00032/FromQueryPartnerLink.bpel", "32"},
                 {"Testcases/rules/SA00032/ToQueryExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/ToQueryExpressionLanguage.bpel", "32"},
                 {"Testcases/rules/SA00032/ToQueryPartnerLink.bpel", "32"},
-                {"Testcases/rules/SA00032/FromPropertyEndpointReference.bpel", "32"},
+                {"Testcases/rules/SA00032/FromPropertyEndpointReference.bpel", "32, 36"}, // partnerLink attribute name is empty, thus, cannot be resolved
                 {"Testcases/rules/SA00032/FromPropertyExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/FromPropertyExpressionLanguage.bpel", "32"},
                 {"Testcases/rules/SA00032/FromPropertyLiteral.bpel", "32"},
@@ -575,12 +575,12 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00032/ToPropertyExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/ToPropertyExpressionLanguage.bpel", "32"},
                 {"Testcases/rules/SA00032/ToPropertyPartnerLink.bpel", "32"},
-                {"Testcases/rules/SA00032/FromPartEndpointReference.bpel", "32"},
+                {"Testcases/rules/SA00032/FromPartEndpointReference.bpel", "32, 36"}, // partnerLink attribute name is empty, thus, cannot be resolved
                 {"Testcases/rules/SA00032/FromPartExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/FromPartPartnerLink.bpel", "32"},
                 {"Testcases/rules/SA00032/ToPartExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/ToPartPartnerLink.bpel", "32"},
-                {"Testcases/rules/SA00032/FromQueryPartEndpointReference.bpel", "32"},
+                {"Testcases/rules/SA00032/FromQueryPartEndpointReference.bpel", "32, 36"}, // partnerLink attribute name is empty, thus, cannot be resolved
                 {"Testcases/rules/SA00032/FromQueryPartExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/FromQueryPartExpressionLanguage.bpel", "32"},
                 {"Testcases/rules/SA00032/FromQueryPartPartnerLink.bpel", "32"},
@@ -590,39 +590,39 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00032/FromPartnerLinkExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/FromPartnerLinkExpressionLanguage.bpel", "32"},
                 {"Testcases/rules/SA00032/FromPartnerLinkLiteral.bpel", "32"},
-                {"Testcases/rules/SA00032/FromPartnerLinkProperty.bpel", "32"},
+                {"Testcases/rules/SA00032/FromPartnerLinkProperty.bpel", "32, 21"}, // There is nothing that can alias a property
                 {"Testcases/rules/SA00032/FromPartnerLinkVariable.bpel", "32"},
                 {"Testcases/rules/SA00032/ToPartnerLinkExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/ToPartnerLinkExpressionLanguage.bpel", "32"},
-                {"Testcases/rules/SA00032/ToPartnerLinkProperty.bpel", "32"},
+                {"Testcases/rules/SA00032/ToPartnerLinkProperty.bpel", "32, 21"}, // There is nothing that can alias a property
                 {"Testcases/rules/SA00032/ToPartnerLinkVariable.bpel", "32"},
-                {"Testcases/rules/SA00032/FromExpressionEndpointReference.bpel", "32"},
+                {"Testcases/rules/SA00032/FromExpressionEndpointReference.bpel", "32, 36"}, // partnerLink attribute name is empty, thus, cannot be resolved
                 {"Testcases/rules/SA00032/FromExpressionLiteral.bpel", "32"},
                 {"Testcases/rules/SA00032/FromExpressionPart.bpel", "32"},
                 {"Testcases/rules/SA00032/FromExpressionPartnerLink.bpel", "32"},
-                {"Testcases/rules/SA00032/FromExpressionProperty.bpel", "32"},
+                {"Testcases/rules/SA00032/FromExpressionProperty.bpel", "32, 21"}, // There is nothing that can alias a property
                 {"Testcases/rules/SA00032/FromExpressionQuery.bpel", "32"},
                 {"Testcases/rules/SA00032/FromExpressionVariable.bpel", "32"},
                 {"Testcases/rules/SA00032/ToExpressionPart.bpel", "32"},
                 {"Testcases/rules/SA00032/ToExpressionPartnerLink.bpel", "32"},
-                {"Testcases/rules/SA00032/ToExpressionProperty.bpel", "32"},
+                {"Testcases/rules/SA00032/ToExpressionProperty.bpel", "32, 21"}, // There is nothing that can alias a property
                 {"Testcases/rules/SA00032/ToExpressionQuery.bpel", "32"},
                 {"Testcases/rules/SA00032/ToExpressionVariable.bpel", "32"},
-                {"Testcases/rules/SA00032/FromExpressionWithLanguageEndpointReference.bpel", "32"},
+                {"Testcases/rules/SA00032/FromExpressionWithLanguageEndpointReference.bpel", "32, 36"}, // partnerLink attribute name is empty, thus, cannot be resolved
                 {"Testcases/rules/SA00032/FromExpressionWithLanguageLiteral.bpel", "32"},
                 {"Testcases/rules/SA00032/FromExpressionWithLanguagePartnerLink.bpel", "32"},
-                {"Testcases/rules/SA00032/FromExpressionWithLanguageProperty.bpel", "32"},
+                {"Testcases/rules/SA00032/FromExpressionWithLanguageProperty.bpel", "32, 21"}, // There is nothing that can alias a property
                 {"Testcases/rules/SA00032/FromExpressionWithLanguageVariable.bpel", "32"},
                 {"Testcases/rules/SA00032/ToExpressionWithLanguagePartnerLink.bpel", "32"},
-                {"Testcases/rules/SA00032/ToExpressionWithLanguageProperty.bpel", "32"},
+                {"Testcases/rules/SA00032/ToExpressionWithLanguageProperty.bpel", "32, 21"}, // There is nothing that can alias a property
                 {"Testcases/rules/SA00032/ToExpressionWithLanguageVariable.bpel", "32"},
                 {"Testcases/rules/SA00032/ToExpressionLanguageOnly.bpel", "32"},
                 {"Testcases/rules/SA00032/FromExpressionLanguageOnly.bpel", "32"},
-                {"Testcases/rules/SA00032/FromLiteralEndpointReference.bpel", "32"},
+                {"Testcases/rules/SA00032/FromLiteralEndpointReference.bpel", "32, 36"}, // partnerLink attribute name is empty, thus, cannot be resolved
                 {"Testcases/rules/SA00032/FromLiteralExpression.bpel", "32"},
                 {"Testcases/rules/SA00032/FromLiteralExpressionLanguage.bpel", "32"},
                 {"Testcases/rules/SA00032/FromLiteralpartnerLink.bpel", "32"},
-                {"Testcases/rules/SA00032/FromLiteralProperty.bpel", "32"},
+                {"Testcases/rules/SA00032/FromLiteralProperty.bpel", "32, 21"}, // There is nothing that can alias a property
                 {"Testcases/rules/SA00032/FromLiteralVariable.bpel", "32"},
 
                 {"Testcases/rules/SA00034/FromElementVariablePartAttribute.bpel", "34"},

@@ -6,7 +6,7 @@
     xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface">
     <import namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" location="../TestInterface.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <partnerLinks>
-        <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole"/>
+        <partnerLink name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType" myRole="testInterfaceRole" partnerRole="testInterfaceRole"/>
     </partnerLinks>
     <variables>
         <variable name="ReplyData" messageType="ti:executeProcessSyncResponse"/>
@@ -17,7 +17,7 @@
         <assign name="AssignReplyData">
             <copy>
                 <from variable="InitData" part="inputPart"/>
-                <to variable="ReplyData" part="outputPart" partnerLink="TestPartnerLink">
+                <to variable="ReplyData" part="outputPart" partnerLink="MyRoleLink">
 					<query>.</query>
                 </to>
             </copy>
