@@ -108,8 +108,7 @@ public class CopyEntityImpl extends ContainerAwareReferable implements CopyEntit
         if (amountOfRealChildren > 0) {
             return false;
         }
-        return amountOfAttributes == 0
-                || fromTo.hasAttribute("expressionLanguage");
+        return fromTo.hasContent() && (amountOfAttributes == 0 || fromTo.hasAttribute("expressionLanguage"));
     }
 
     @Override
