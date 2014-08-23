@@ -5,6 +5,8 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class NodeHelper implements Referable {
@@ -173,8 +175,26 @@ public class NodeHelper implements Referable {
         return getAmountOfChildren() == 0;
     }
 
-    public boolean hasNoContent() {
-        return asElement().getValue().trim().isEmpty();
+    public boolean hasContent() {
+        List<String> valueList = getValueLines(asElement());
+
+        Nodes children = asElement().query("./child::*");
+        for (Node child : children) {
+            valueList.removeAll(getValueLines((Element) child));
+        }
+
+        return !valueList.isEmpty();
+    }
+
+    private List<String> getValueLines(Element element) {
+        String[] lines = element.getValue().split("\n");
+        List<String> valueList = new LinkedList<>();
+        for (String line : lines) {
+            if (!line.trim().isEmpty()){
+                valueList.add(line.trim());
+            }
+        }
+        return valueList;
     }
 
 }
