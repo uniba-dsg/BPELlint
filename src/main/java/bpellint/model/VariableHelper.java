@@ -1,10 +1,9 @@
 package bpellint.model;
 
 import static bpellint.model.Standards.CONTEXT;
-import bpellint.model.bpel.var.VariableElement;
+
 import bpellint.model.bpel.var.VariableLike;
 import bpellint.model.wsdl.MessageElement;
-import bpellint.model.wsdl.PartElement;
 
 import nu.xom.Node;
 import nu.xom.Nodes;
@@ -28,52 +27,32 @@ public class VariableHelper {
 			if (message.equals(variableMessage)) {
 				return true;
 			}
-		} else if (variable instanceof VariableElement) {
-			VariableElement variableElement = (VariableElement) variable;
-			if (!variableElement.getType().isEmpty()) {
+		} else {
+			if (!variable.getVariableElement().isEmpty()) {
 				if (message.hasOnlyOnePart()) {
-					Node messagePartXsdType = findMessageXsdElement(message);
-					Node variableXsdType = findXsdType(variableElement.getType(), variableElement.toXOM());
-					if (hasSameNameAttribute(variableXsdType, messagePartXsdType)) {
-						return true;
-					}
+                    Node messagePartXsdType = findElementDefinition(message.getSinglePart().getElement(), message);
+					Node variableXsdType = findElementDefinition(variable.getVariableElement(), variable);
+                    return areEqual(variableXsdType, messagePartXsdType);
 				}
 			}
 		}
 		return false;
 	}
 
-    private Node findMessageXsdElement(MessageElement message) {
-        PartElement partElement = message.getSinglePart();
-        Node xsdElement = findXsdType(partElement.getElement(), partElement.toXOM());
-        String elementTypeQName = new NodeHelper(xsdElement)
-                .getAttribute("type");
-        return findXsdType(elementTypeQName, partElement.toXOM());
-    }
-
-    private boolean hasSameNameAttribute(Node xsdType, Node xsdSecType) {
-        return new NodeHelper(xsdType).getAttribute("name").equals(
-                new NodeHelper(xsdSecType).getAttribute("name"));
-    }
-
-    private Node findXsdType(String typeQName, Node variable) {
-        String variableTypeNamespaceURI = variable.getDocument()
-                .getRootElement()
-                .getNamespaceURI(PrefixHelper.getPrefix(typeQName));
-        String xsdTypeName = PrefixHelper.removePrefix(typeQName);
-        Node xsdType = null;
-
-        for (Node node : processContainer.getSchemas()) {
-            if (new NodeHelper(node)
-                    .hasTargetNamespace(variableTypeNamespaceURI)) {
-                Nodes xsdTypes = node.getDocument().query("//*[@name='" + xsdTypeName + "']", CONTEXT);
-                if (xsdTypes.hasAny()) {
-                    xsdType = xsdTypes.get(0);
-                    break;
+    private Node findElementDefinition(String element, Referable referable) throws NavigationException {
+        for (XmlFile wsdl : processContainer.getWsdlsAndXsds()) {
+            if (wsdl.getTargetNamespace().equals(PrefixHelper.getPrefixNamespaceURI(referable.toXOM(), PrefixHelper.getPrefix(element)))){
+                Nodes elementDefinition = wsdl.getDocument().query("//*[@name='" + PrefixHelper.removePrefix(element) + "']", Standards.CONTEXT);
+                if (elementDefinition.hasAny()){
+                    return elementDefinition.get(0);
                 }
             }
         }
-        return xsdType;
+        throw new NavigationException("element definition of @element=\""+element +"\" is not found in any WSDL or XSD");
+    }
+
+    private boolean areEqual(Node xsdType, Node xsdSecType) {
+        return new ComparableNode(xsdType).equals(new ComparableNode(xsdSecType));
     }
 
     private MessageElement getVariableMessage() throws NavigationException {
