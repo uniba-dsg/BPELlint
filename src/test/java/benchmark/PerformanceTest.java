@@ -46,14 +46,14 @@ public class PerformanceTest {
 
     @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 10)
     @Test
-    public void measureSimpleErroneousProcess() throws Exception {
-        new BpelLint().validate(Paths.get("Testcases/rules/SA00001/Notification.bpel"));
+    public void measureMediumHardProcess() throws Exception {
+        new BpelLint().validate(Paths.get("Testcases/complex/requestor/prototype-ebBP-BT-Requestor.bpel"));
     }
 
     @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 10)
     @Test
     public void measureComplexProcess() throws Exception {
-        new BpelLint().validate(Paths.get("Testcases/complex/bpel_req/Transaction-rev1-btaRAandAAandTTPv1-role-1.bpel"));
+        new BpelLint().validate(Paths.get("Testcases/complex/bpel_resp/Transaction-rev1-btaRAandAAandTTPv1-role-2.bpel"));
     }
 
 }
