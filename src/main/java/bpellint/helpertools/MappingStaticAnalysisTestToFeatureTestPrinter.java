@@ -10,7 +10,11 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Extractor {
+/**
+ * Mapping static-analysis-test to feature-test
+ */
+public class MappingStaticAnalysisTestToFeatureTestPrinter {
+
     private static final Builder builder = new Builder();
     private static final List<String> coupling = new LinkedList<>();
     public static final Path PATH = Paths.get("Testcases/rules");
@@ -44,6 +48,8 @@ public class Extractor {
     }
 
     private static void print() {
+        System.out.println("Count: " + coupling.size());
+
         System.out.println("fault-test;correct-test"); // legend
         for (String saTestCase : coupling) {
             System.out.println(saTestCase);

@@ -1,35 +1,11 @@
 package bpellint;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class SAViolationTestData {
-
-    public static void main(String[] args) {
-        System.out.println("ALL=" + saViolationTests().stream().count());
-        System.out.println("IGNORE_ME=" +saViolationTests().stream().filter(o -> o[0].toString().contains("IGNORE_ME")).count());
-        System.out.println("ALL without IGNORE_ME=" +saViolationTests().stream().filter(noIgnoredTests()).count());
-        System.out.println("ALL without IGNORE_ME more than one SA rule="+saViolationTests().stream().filter(noIgnoredTests()).filter(o -> o[1].toString().contains(",")).count());
-        saViolationTests().stream().filter(noIgnoredTests()).filter(o -> o[1].toString().contains(",")).forEach((s) -> System.out.println(s[0] + " " + s[1]));
-
-        System.out.println("NO_EXPERIMENTALS!!!!");
-        System.out.println("ALL=" + saViolationTests().stream().filter(noExperimentals()).count());
-        System.out.println("IGNORE_ME=" +saViolationTests().stream().filter(noExperimentals()).filter(o -> o[0].toString().contains("IGNORE_ME")).count());
-        System.out.println("ALL without IGNORE_ME=" +saViolationTests().stream().filter(noExperimentals()).filter(noIgnoredTests()).count());
-        System.out.println("ALL without IGNORE_ME more than one SA rule="+saViolationTests().stream().filter(noExperimentals()).filter(noIgnoredTests()).filter(o -> o[1].toString().contains(",")).count());
-        saViolationTests().stream().filter(noExperimentals()).filter(noIgnoredTests()).filter(o -> o[1].toString().contains(",")).forEach((s) -> System.out.println(s[0] + " " + s[1]));
-
-        //TODO remove these experimental rules automatically from the tests
-    }
-
-    private static Predicate<Object[]> noIgnoredTests() {
-        return o -> !o[0].toString().contains("IGNORE_ME");
-    }
-
-    private static Predicate<Object[]> noExperimentals() {
-        return o -> !(o[0].toString().contains("SA00021") || o[0].toString().contains("SA00060") || o[0].toString().contains("SA00056") || o[0].toString().contains("SA00077"));
-    }
 
     public static List<Object[]> saViolationTests() {
         Object[][] data = new Object[][]{
@@ -938,6 +914,7 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00087/OnEventDifferentMessageTypeNoPart.bpel", "87"},
                 {"Testcases/rules/SA00087/OnEventDifferentMessageTypeOnePart.bpel", "87"},
                 {"Testcases/rules/SA00087/OnEventDifferentMessageTypeTwoPart.bpel", "87"},
+                {"Testcases/rules/SA00087/OnEventDifferentElementOnePart.bpel", "87"},
 
                 {"Testcases/rules/SA00088/OnEventCorrelationWrongType.bpel", "88"},
                 {"Testcases/rules/SA00088/OnEventCorrelationNoSet_IGNORE_ME.bpel", "88"},
