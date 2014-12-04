@@ -3,7 +3,7 @@ package bpellint.tool.validators.xsd;
 
 import java.nio.file.Path;
 
-import bpellint.tool.validators.ValidationException;
+import validator.ValidationException;
 
 public class SchemaValidator implements SchemaValidatorFacade {
 

@@ -1,14 +1,12 @@
 package bpellint;
 
 
+import validator.printer.SeparateLineValidationResultPrinter;
+import bpellint.tool.BpelLint;
+import bpellint.tool.validators.result.SimpleValidationResult;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
-
-import bpellint.io.ValidationResultPrinter;
-import bpellint.io.VerbosityLevel;
-import bpellint.tool.BpelLint;
-import bpellint.tool.validators.result.ValidationResult;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,7 +20,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 
-public class BPEL2oWFNTests extends FunctionalValidatorTests{
+public class BPEL2oWFNTests extends FunctionalValidatorTests {
 
     public BPEL2oWFNTests(String bpel, String violatedRules) {
         super(bpel, violatedRules);
@@ -102,18 +100,17 @@ public class BPEL2oWFNTests extends FunctionalValidatorTests{
     }
 
     @Override
-	@Test @Ignore
+    @Test
+    @Ignore
     public void testValidators() throws Exception {
-        ValidationResult validationResult = BpelLint.buildWithoutSchemaValidation().validate(Paths.get(bpel));
+        SimpleValidationResult validationResult = (SimpleValidationResult) BpelLint.buildWithoutSchemaValidation().validate(Paths.get(bpel));
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
-        new ValidationResultPrinter(ps).printResults(VerbosityLevel.NORMAL,
-                validationResult);
+        new SeparateLineValidationResultPrinter(ps).print(validationResult);
         String data = "\n" + baos.toString() + "\n";
 
-        assertEquals("BPEL: " + bpel + data, violatedRules,
-                validationResult.getViolatedRules());
+        assertEquals("BPEL: " + bpel + data, violatedRules, validationResult.getViolatedRules());
     }
 
 }

@@ -4,11 +4,11 @@ import org.pmw.tinylog.Logger;
 
 import bpellint.io.CLIOptions;
 import bpellint.io.CommandLineInterpreter;
-import bpellint.io.ValidationResultPrinter;
-import bpellint.io.VerbosityLevel;
+import validator.printer.SeparateLineValidationResultPrinter;
 import bpellint.tool.BpelLint;
-import bpellint.tool.validators.ValidationException;
-import bpellint.tool.validators.result.ValidationResult;
+import validator.ValidationException;
+import validator.ValidationResult;
+import validator.Validator;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -19,23 +19,16 @@ import java.util.Arrays;
 
 public class BpelLintTool {
 
-    private static final ValidationResultPrinter validationResultPrinter = new ValidationResultPrinter();
-    private static boolean pathContainsBPELfiles = false;
-
     public static void main(String[] args) {
         try {
             CommandLineInterpreter input = new CommandLineInterpreter();
             CLIOptions options = input.parse(args);
 
-            BpelLint bpelLint = buildValidator(options);
+            Validator bpelLint = buildValidator(options);
 
             for(String path : options.paths) {
-                validate(Paths.get(path), options.verbosityLevel, bpelLint);
+                validate(Paths.get(path), bpelLint);
             }
-
-            if (!pathContainsBPELfiles) {
-            	throw new IOException("could not find file under " + Arrays.toString(options.paths));
-			}
 
         } catch (Exception e) {
             Logger.info(e);
@@ -43,7 +36,7 @@ public class BpelLintTool {
         }
     }
 
-    private static BpelLint buildValidator(CLIOptions options) throws ValidationException {
+    private static Validator buildValidator(CLIOptions options) throws ValidationException {
         if(options.schemaValidation) {
             return new BpelLint();
         } else {
@@ -51,25 +44,17 @@ public class BpelLintTool {
         }
     }
 
-    private static void validate(Path path, VerbosityLevel verbosityLevel, BpelLint bpelLint)
+    private static void validate(Path path, Validator bpelLint)
             throws IOException {
-        if (isBpelFile(path)) {
+        Files.walk(path).filter(BpelLintTool::isBpelFile).forEach(p -> {
             try {
-            	pathContainsBPELfiles = true;
                 ValidationResult validationResult = bpelLint.validate(path);
-                validationResultPrinter.printResults(verbosityLevel, validationResult);
+                new SeparateLineValidationResultPrinter().print(validationResult);
             } catch (Exception e) {
                 Logger.info(e);
                 System.out.println("Error: " + e.getMessage());
             }
-        } else if (Files.isDirectory(path)) {
-            // file tree iteration
-            try (DirectoryStream<Path> directoryPaths = Files.newDirectoryStream(path)) {
-                for (Path directoryPath : directoryPaths) {
-                    validate(directoryPath, verbosityLevel, bpelLint);
-                }
-            }
-        }
+        });
     }
 
     private static boolean isBpelFile(Path path) {

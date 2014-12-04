@@ -9,17 +9,18 @@ import bpellint.model.ProcessContainer;
 import bpellint.model.XmlFile;
 import bpellint.tool.imports.ImportException;
 import bpellint.tool.imports.ProcessContainerLoader;
-import bpellint.tool.validators.ValidationException;
+import validator.ValidationException;
 import bpellint.tool.validators.ValidatorsHandler;
-import bpellint.tool.validators.result.ValidationResult;
+import validator.ValidationResult;
 import bpellint.tool.validators.xsd.SchemaValidator;
 import bpellint.tool.validators.xsd.SchemaValidatorFacade;
 import bpellint.tool.validators.xsd.XMLValidator;
+import validator.Validator;
 
 /**
  * BpelLint, a static analyzer for BPEL processes
  */
-public class BpelLint {
+public class BpelLint implements Validator{
 
     private SchemaValidatorFacade schemaValidatorFacade;
 

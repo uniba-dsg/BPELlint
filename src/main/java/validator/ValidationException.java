@@ -1,4 +1,4 @@
-package bpellint.tool.validators;
+package validator;
 
 public class ValidationException extends Exception {
 

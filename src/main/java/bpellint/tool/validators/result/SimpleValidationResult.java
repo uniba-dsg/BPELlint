@@ -1,56 +1,68 @@
 package bpellint.tool.validators.result;
 
 
+import validator.ValidationResult;
+import validator.Violation;
+import validator.Warning;
 
+import java.nio.file.Path;
 import java.util.*;
 
 public class SimpleValidationResult implements ValidationCollector,
-		ValidationResult {
+        ValidationResult {
 
-	private final List<Violation> violations = new ArrayList<>();
-	private final List<Warning> warnings = new ArrayList<>();
+    private final List<Violation> violations = new ArrayList<>();
+    private final List<Warning> warnings = new ArrayList<>();
+    private final List<Path> files = new ArrayList<>();
 
-	@Override
-	public void add(Indicator indicator) {
-		if (indicator instanceof Violation) {
-			violations.add((Violation) indicator);
-		}
-		if (indicator instanceof Warning) {
-			warnings.add((Warning) indicator);
-		}
-	}
+    @Override
+    public void addWarning(Warning warning) {
+        warnings.add(warning);
+        Collections.sort(warnings);
+    }
 
-	@Override
-	public List<Violation> getViolations() {
-		Collections.sort(violations);
-		return new ArrayList<>(violations);
-	}
+    @Override
+    public void addViolation(Violation violation) {
+        violations.add(violation);
+        Collections.sort(violations);
+    }
 
-	@Override
-	public List<Warning> getWarnings() {
-		Collections.sort(warnings);
-		return new ArrayList<>(warnings);
-	}
+    @Override
+    public void addFile(Path s) {
+        files.add(s);
+    }
 
-	private boolean isValid() {
-		return violations.isEmpty();
-	}
+    @Override
+    public List<Violation> getViolations() {
+        return new ArrayList<>(violations);
+    }
 
-	@Override
-	public Set<Integer> getViolatedRules() {
-		if (isValid()) {
-			return Collections.emptySet();
-		} else {
-			Set<Integer> actualViolatedRules = new HashSet<>();
-			for (Violation violation : getViolations()) {
-				actualViolatedRules.add(violation.ruleNumber);
-			}
-			return actualViolatedRules;
-		}
-	}
+    @Override
+    public List<Warning> getWarnings() {
+        return new ArrayList<>(warnings);
+    }
 
-	@Override
-	public String toString() {
-		return "Violated Rules " + getViolatedRules();
-	}
+    public Set<Integer> getViolatedRules() {
+        if (isValid()) {
+            return Collections.emptySet();
+        } else {
+            Set<Integer> actualViolatedRules = new HashSet<>();
+            for (Violation violation : getViolations()) {
+                String withoutSA = violation.getConstraint().substring(2);
+                actualViolatedRules.add(Integer.parseInt(withoutSA));
+            }
+            return actualViolatedRules;
+        }
+    }
+
+    @Override
+    public List<Path> getFiles() {
+        Collections.sort(files);
+        return new ArrayList<>(files);
+    }
+
+    @Override
+    public String toString() {
+        return "Violated Rules " + getViolatedRules();
+    }
 }

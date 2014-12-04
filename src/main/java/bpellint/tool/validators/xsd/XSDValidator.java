@@ -4,7 +4,7 @@ package bpellint.tool.validators.xsd;
 import org.pmw.tinylog.Logger;
 import org.xml.sax.SAXException;
 
-import bpellint.tool.validators.ValidationException;
+import validator.ValidationException;
 
 import javax.xml.XMLConstants;
 import javax.xml.validation.SchemaFactory;

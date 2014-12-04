@@ -3,7 +3,7 @@ package bpellint.tool.validators.xsd;
 
 import org.pmw.tinylog.Logger;
 
-import bpellint.tool.validators.ValidationException;
+import validator.ValidationException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

@@ -5,7 +5,6 @@ import org.apache.commons.cli.*;
 public class CommandLineInterpreter {
 
     public static final String NO_SCHEMA_VALIDATION = "no-schema-validation";
-    public static final String FULL_DETAILS = "full";
     public static final String HELP = "help";
 
     public CLIOptions parse(String[] args) throws ParseException {
@@ -18,16 +17,9 @@ public class CommandLineInterpreter {
                 System.exit(-1);
             }
 
-
             CLIOptions result = new CLIOptions();
 
             result.schemaValidation = !cmd.hasOption(NO_SCHEMA_VALIDATION);
-
-            if (cmd.hasOption(FULL_DETAILS)) {
-                result.verbosityLevel = VerbosityLevel.FULL;
-            } else {
-                result.verbosityLevel = VerbosityLevel.NORMAL;
-            }
 
             result.paths = cmd.getArgs();
 
@@ -40,7 +32,6 @@ public class CommandLineInterpreter {
 
     private Options getOptions() {
         Options options = new Options();
-        options.addOption("f", FULL_DETAILS, false, "Prints out the definitions of the violated rules as well.");
         options.addOption("s", NO_SCHEMA_VALIDATION, false, "Disables xsd schema validations.");
         options.addOption("h", HELP, false, "Print usage information.");
         return options;

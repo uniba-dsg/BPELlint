@@ -1,13 +1,12 @@
 package bpellint;
 
 
+import bpellint.tool.validators.result.SimpleValidationResult;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
 
-import bpellint.io.ValidationResultPrinter;
-import bpellint.io.VerbosityLevel;
+import validator.printer.SeparateLineValidationResultPrinter;
 import bpellint.tool.BpelLint;
-import bpellint.tool.validators.result.ValidationResult;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,7 +17,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-
 
 public class OrchestraStaticAnalysisTests extends FunctionalValidatorTests{
 
@@ -37,16 +35,14 @@ public class OrchestraStaticAnalysisTests extends FunctionalValidatorTests{
     @Override
 	@Test
     public void testValidators() throws Exception {
-        ValidationResult validationResult = BpelLint.buildWithoutSchemaValidation().validate(Paths.get(bpel));
+        SimpleValidationResult validationResult = (SimpleValidationResult) BpelLint.buildWithoutSchemaValidation().validate(Paths.get(bpel));
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
-        new ValidationResultPrinter(ps).printResults(VerbosityLevel.NORMAL,
-                validationResult);
+        new SeparateLineValidationResultPrinter(ps).print(validationResult);
         String data = "\n" + baos.toString() + "\n";
 
-        assertEquals("BPEL: " + bpel + data, violatedRules,
-                validationResult.getViolatedRules());
+        assertEquals("BPEL: " + bpel + data, violatedRules, validationResult.getViolatedRules());
     }
 
 }

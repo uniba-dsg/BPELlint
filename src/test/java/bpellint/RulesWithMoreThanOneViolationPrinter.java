@@ -22,7 +22,7 @@ public class RulesWithMoreThanOneViolationPrinter {
     }
 
     private static Predicate<Object[]> moreThanOneSAviolation() {
-        return o -> (o.length > 1 ? o[1].toString().contains(",") : false);
+        return o -> (o.length > 1 && o[1].toString().contains(","));
     }
 
     private static Predicate<Object[]> noIgnoredTests() {

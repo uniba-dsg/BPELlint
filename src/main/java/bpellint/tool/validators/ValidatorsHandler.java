@@ -7,9 +7,10 @@ import java.util.Objects;
 
 import bpellint.io.EnvironmentVariableInterpreter;
 import bpellint.model.ProcessContainer;
+import bpellint.model.XmlFile;
 import bpellint.tool.validators.result.SimpleValidationResult;
 import bpellint.tool.validators.result.ValidationCollector;
-import bpellint.tool.validators.result.ValidationResult;
+import validator.ValidationResult;
 import bpellint.tool.validators.rules.SA00001Validator;
 import bpellint.tool.validators.rules.SA00002Validator;
 import bpellint.tool.validators.rules.SA00003Validator;
@@ -90,7 +91,6 @@ import bpellint.tool.validators.rules.Validator;
 public class ValidatorsHandler {
 
 	private final ProcessContainer processContainer;
-	private final ValidationCollector violationCollector = new SimpleValidationResult();
 
 	public ValidatorsHandler(ProcessContainer processContainer) {
 		Objects.requireNonNull(processContainer, "ValidationCollector must not be null");
@@ -98,16 +98,31 @@ public class ValidatorsHandler {
 	}
 
 	public ValidationResult validate() {
+		SimpleValidationResult violationCollector = new SimpleValidationResult();
+
+		addFiles(violationCollector);
+		addViolations(violationCollector);
+
+		return violationCollector;
+	}
+
+	private void addViolations(ValidationCollector violationCollector) {
 		List<Integer> rulesToValidate = new EnvironmentVariableInterpreter().getRulesToValidate();
-		for (Validator validator : createValidators()) {
+		for (Validator validator : createValidators(violationCollector)) {
 			if (rulesToValidate.contains(validator.getSaNumber())) {
 				validator.validate();
 			}
 		}
-		return (ValidationResult) violationCollector;
 	}
 
-	private List<Validator> createValidators() {
+	private void addFiles(ValidationCollector violationCollector) {
+		violationCollector.addFile(processContainer.getBpel().getFilePath());
+		for(XmlFile file : processContainer.getWsdlsAndXsds()) {
+			violationCollector.addFile(file.getFilePath());
+		}
+	}
+
+	private List<Validator> createValidators(ValidationCollector violationCollector) {
 
 		List<Validator> validators = new ArrayList<>();
 

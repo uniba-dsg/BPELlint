@@ -2,24 +2,20 @@ package bpellint;
 
 
 import bpellint.io.EnvironmentVariableInterpreter;
-import org.junit.*;
+import validator.printer.SeparateLineValidationResultPrinter;
+import bpellint.tool.BpelLint;
+import bpellint.tool.validators.result.SimpleValidationResult;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import bpellint.io.ValidationResultPrinter;
-import bpellint.io.VerbosityLevel;
-import bpellint.tool.BpelLint;
-import bpellint.tool.validators.result.ValidationResult;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,36 +25,36 @@ import static org.junit.Assert.assertEquals;
 @RunWith(value = Parameterized.class)
 public class FunctionalValidatorTests {
 
-	protected final Set<Integer> violatedRules;
+    protected final Set<Integer> violatedRules;
     protected final String bpel;
 
-	public FunctionalValidatorTests(String bpel, String violatedRules) {
-		this.violatedRules = parseString(violatedRules);
-		this.bpel = bpel;
-	}
+    public FunctionalValidatorTests(String bpel, String violatedRules) {
+        this.violatedRules = parseString(violatedRules);
+        this.bpel = bpel;
+    }
 
-	private Set<Integer> parseString(String violatedRules) {
-		String[] elements = violatedRules.split(",");
-		Set<Integer> parsedElements = new HashSet<>();
-		for (String element : elements) {
-			if (element == null || element.isEmpty()) {
-				continue;
-			}
-			parsedElements.add(Integer.parseInt(element.trim()));
-		}
-		return parsedElements;
-	}
+    private Set<Integer> parseString(String violatedRules) {
+        String[] elements = violatedRules.split(",");
+        Set<Integer> parsedElements = new HashSet<>();
+        for (String element : elements) {
+            if (element == null || element.isEmpty()) {
+                continue;
+            }
+            parsedElements.add(Integer.parseInt(element.trim()));
+        }
+        return parsedElements;
+    }
 
-	@Parameterized.Parameters(name = "{index}: {0} violates {1}")
-	public static Collection<Object[]> data() throws IOException {
-		List<Object[]> bpelFiles = new LinkedList<>();
-		bpelFiles.addAll(SAViolationTestData.saViolationTests());
-		bpelFiles.addAll(new HappyPathTestCreator(Paths.get("Testcases/betsy")).list());
+    @Parameterized.Parameters(name = "{index}: {0} violates {1}")
+    public static Collection<Object[]> data() throws IOException {
+        List<Object[]> bpelFiles = new LinkedList<>();
+        bpelFiles.addAll(SAViolationTestData.saViolationTests());
+        bpelFiles.addAll(new HappyPathTestCreator(Paths.get("Testcases/betsy")).list());
         bpelFiles.addAll(new HappyPathTestCreator(Paths.get("Testcases/calculator")).list());
         bpelFiles.addAll(new HappyPathTestCreator(Paths.get("Testcases/complex")).list());
 
-		return bpelFiles;
-	}
+        return bpelFiles;
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -71,17 +67,15 @@ public class FunctionalValidatorTests {
     }
 
     @Test
-	public void testValidators() throws Exception {
-		ValidationResult validationResult = new BpelLint().validate(Paths.get(bpel));
+    public void testValidators() throws Exception {
+        SimpleValidationResult validationResult = (SimpleValidationResult) new BpelLint().validate(Paths.get(bpel));
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		PrintStream ps = new PrintStream(baos);
-		new ValidationResultPrinter(ps).printResults(VerbosityLevel.NORMAL,
-				validationResult);
-		String data = "\n" + baos.toString() + "\n";
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        new SeparateLineValidationResultPrinter(ps).print(validationResult);
+        String data = "\n" + baos.toString() + "\n";
 
-		assertEquals("BPEL: " + bpel + data, violatedRules,
-				validationResult.getViolatedRules());
-	}
+        assertEquals("BPEL: " + bpel + data, violatedRules, validationResult.getViolatedRules());
+    }
 
 }
