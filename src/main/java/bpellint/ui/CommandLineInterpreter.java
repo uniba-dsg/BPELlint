@@ -40,7 +40,7 @@ public class CommandLineInterpreter {
     private void printUsage() {
         String firstLine = "BPELlint [OPTIONS] PATH";
         String header = "PATH can be either a FILE or a DIRECTORY.\n\n";
-        String footer = "\nPlease report issues at https://github.com/BPELtools/BPELlint/issues";
+        String footer = "\nPlease report issues at https://github.com/uniba-dsg/BPELlint/issues";
         new HelpFormatter().printHelp(firstLine,
                 header,
                 getOptions(),
