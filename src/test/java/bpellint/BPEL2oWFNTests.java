@@ -1,9 +1,9 @@
 package bpellint;
 
 
-import validator.printer.SeparateLineValidationResultPrinter;
-import bpellint.tool.BpelLint;
-import bpellint.tool.validators.result.SimpleValidationResult;
+import bpellint.ui.SeparateLineValidationResultPrinter;
+import bpellint.core.BpelLint;
+import api.SimpleValidationResult;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.Parameterized;

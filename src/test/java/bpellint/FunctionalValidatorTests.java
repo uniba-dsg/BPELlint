@@ -1,10 +1,10 @@
 package bpellint;
 
 
-import bpellint.io.EnvironmentVariableInterpreter;
-import validator.printer.SeparateLineValidationResultPrinter;
-import bpellint.tool.BpelLint;
-import bpellint.tool.validators.result.SimpleValidationResult;
+import bpellint.core.validators.rules.infos.EnvironmentVariableInterpreter;
+import bpellint.ui.SeparateLineValidationResultPrinter;
+import bpellint.core.BpelLint;
+import api.SimpleValidationResult;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

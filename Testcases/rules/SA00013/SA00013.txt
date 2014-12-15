@@ -11,7 +11,7 @@ TestInterface.wsdl \texttt{<import>} has \texttt{importType='wrongImportType'} d
 @@@
 We were not able to get the type of an \texttt{<import>}, for each document, the same way.
 Only files with default \texttt{namespace} as type definition can pass validation.
-Apart from this the validator is more abstract, than required.
+Apart from this the api is more abstract, than required.
 
 It compares the \texttt{importType} with the default \texttt{namespace} of the root element, for each \texttt{<import>}.
 The requirement for XML Schema 1.0 and WSDL 1.1 Documents are complied, because the algorithm includes them.

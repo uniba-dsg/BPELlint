@@ -1,12 +1,12 @@
 package bpellint;
 
 
-import bpellint.tool.validators.result.SimpleValidationResult;
+import api.SimpleValidationResult;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
 
-import validator.printer.SeparateLineValidationResultPrinter;
-import bpellint.tool.BpelLint;
+import bpellint.ui.SeparateLineValidationResultPrinter;
+import bpellint.core.BpelLint;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

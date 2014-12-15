@@ -1,6 +1,6 @@
 package bpellint;
 
-import bpellint.tool.validators.rules.Validator;
+import bpellint.core.validators.rules.Validator;
 import org.junit.Assert;
 import org.junit.Test;
 

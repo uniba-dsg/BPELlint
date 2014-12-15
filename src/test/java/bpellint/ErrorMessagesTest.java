@@ -3,7 +3,7 @@ package bpellint;
 import org.junit.Before;
 import org.junit.Test;
 
-import bpellint.io.ErrorMessageRepository;
+import bpellint.core.validators.rules.infos.ErrorMessageRepository;
 
 import static org.junit.Assert.assertEquals;
 

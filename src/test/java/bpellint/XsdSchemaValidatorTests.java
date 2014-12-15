@@ -1,13 +1,13 @@
 package bpellint;
 
 
-import validator.printer.SeparateLineValidationResultPrinter;
-import bpellint.tool.BpelLint;
+import bpellint.ui.SeparateLineValidationResultPrinter;
+import bpellint.core.BpelLint;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import validator.ValidationException;
-import validator.ValidationResult;
+import api.ValidationException;
+import api.ValidationResult;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

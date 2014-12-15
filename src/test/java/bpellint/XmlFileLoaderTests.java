@@ -4,8 +4,8 @@ package bpellint;
 import org.junit.Before;
 import org.junit.Test;
 
-import bpellint.tool.imports.ImportException;
-import bpellint.tool.imports.ProcessContainerLoader;
+import bpellint.core.imports.ImportException;
+import bpellint.core.imports.ProcessContainerLoader;
 
 import java.nio.file.Paths;
 

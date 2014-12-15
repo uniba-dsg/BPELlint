@@ -3,7 +3,7 @@ apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "application"
 
-mainClassName = "bpellint.BpelLintTool"
+mainClassName = "bpellint.ui.BpelLintTool"
 
 repositories {
     mavenCentral()

@@ -1,7 +1,7 @@
 package benchmark;
 
-import bpellint.io.EnvironmentVariableInterpreter;
-import bpellint.tool.BpelLint;
+import bpellint.core.validators.rules.infos.EnvironmentVariableInterpreter;
+import bpellint.core.BpelLint;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import org.junit.*;
