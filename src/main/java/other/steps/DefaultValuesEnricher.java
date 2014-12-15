@@ -1,4 +1,4 @@
-package bpellint.other.steps;
+package other.steps;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;

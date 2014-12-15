@@ -1,4 +1,4 @@
-package bpellint.other.steps;
+package other.steps;
 
 import com.google.common.base.Joiner;
 import nu.xom.*;

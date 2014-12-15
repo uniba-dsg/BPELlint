@@ -1,4 +1,4 @@
-package bpellint.other.helpertools;
+package other.helpertools;
 
 import nu.xom.Builder;
 import nu.xom.Document;
