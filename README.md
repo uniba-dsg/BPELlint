@@ -1,11 +1,13 @@
-# BPELlint
+# BPELlint <img align="right" src="logos/BPELlint-logo.png" height="80" width="80"/>
 
-The tool BPELlint validates BPEL files according to 75 static analysis rules from the BPEL 2.0 specification.
+[![Build Status](https://travis-ci.org/uniba-dsg/BPELlint.png?branch=master)](https://travis-ci.org/uniba-dsg/BPELlint)
+
+The tool BPELlint validates BPEL files according to 71 static analysis rules from the BPEL 2.0 specification.
 
 This software is licensed under the LGPL Version 3 Open Source License.
 
 ## Software Requirements
-- JDK 1.7.0_03 (64 Bit) or higher
+- JDK 1.8.0 (64 Bit) or higher
   - `JAVA_HOME` should point to the jdk directory
   - `PATH` should include `JAVA_HOME/bin`
 
@@ -25,7 +27,7 @@ PATH can be either a FILE or a DIRECTORY.
  -h,--help                   Print usage information.
  -s,--no-schema-validation   Disables xsd schema validations.
 
-Please report issues at https://github.com/BPELtools/BPELlint/issues
+Please report issues at https://github.com/uniba-dsg/BPELlint/issues
 
 Examples:
 $ BPELlint empty.bpel # Validates the <empty.bpel> file.
@@ -55,9 +57,7 @@ When `BPEL_LINT_SA_RULES` is not set or set to `all` then all SA rules are valid
 
 # Authors (in alphabetical order)
 
-David Bimamisa, Christian Preissinger, Stephan Schuberth
-
-Supervisor: [Simon Harrer](http://www.uni-bamberg.de/pi/team/harrer/)
+David Bimamisa, [Simon Harrer](http://www.uni-bamberg.de/pi/team/harrer/), Christian Preissinger, Stephan Schuberth
 
 # Contribution Guide
 
