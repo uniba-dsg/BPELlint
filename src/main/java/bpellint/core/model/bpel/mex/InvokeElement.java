@@ -6,11 +6,9 @@ import bpellint.core.model.ContainerAwareReferable;
 import bpellint.core.model.NavigationException;
 import bpellint.core.model.NodeHelper;
 import bpellint.core.model.ProcessContainer;
-import bpellint.core.model.Referable;
 import bpellint.core.model.bpel.CorrelationElement;
 import bpellint.core.model.bpel.PartnerLinkElement;
 import bpellint.core.model.bpel.fct.CompensateTargetable;
-import bpellint.core.model.bpel.fct.CompensateTargetableImpl;
 import bpellint.core.model.wsdl.OperationElement;
 import bpellint.core.model.wsdl.PortTypeElement;
 
@@ -22,13 +20,11 @@ public class InvokeElement extends ContainerAwareReferable implements MessageAct
 
 	private final NodeHelper invoke;
 	private final MessageActivity messageActivityDelegate;
-	private final CompensateTargetableImpl compensateTargetDelegate;
 
 	public InvokeElement(Node invoke, ProcessContainer processContainer) {
 		super(invoke, processContainer);
 		this.invoke = new NodeHelper(invoke, "invoke");
 		this.messageActivityDelegate = new MessageActivityImpl(this, processContainer);
-		this.compensateTargetDelegate = new CompensateTargetableImpl(invoke, processContainer);
 	}
 
 	@Override
@@ -104,21 +100,6 @@ public class InvokeElement extends ContainerAwareReferable implements MessageAct
 
 	public boolean hasOutputVariable() {
 		return !getOutputVariableAttribute().isEmpty();
-	}
-
-	@Override
-	public boolean hasCompensationHandler() {
-		return compensateTargetDelegate.hasCompensationHandler();
-	}
-
-	@Override
-	public boolean hasFaultHandler() {
-		return compensateTargetDelegate.hasFaultHandler();
-	}
-
-	@Override
-	public Referable getEnclosingFctBarrier() {
-		return compensateTargetDelegate.getEnclosingFctBarrier();
 	}
 
 }

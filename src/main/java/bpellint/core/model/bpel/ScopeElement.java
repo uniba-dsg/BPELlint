@@ -13,7 +13,6 @@ import bpellint.core.model.ProcessContainer;
 import bpellint.core.model.Referable;
 import bpellint.core.model.Standards;
 import bpellint.core.model.bpel.fct.CompensateTargetable;
-import bpellint.core.model.bpel.fct.CompensateTargetableImpl;
 import bpellint.core.model.bpel.flow.SourceElement;
 import bpellint.core.model.bpel.flow.TargetElement;
 import bpellint.core.model.bpel.var.VariableElement;
@@ -24,7 +23,6 @@ import nu.xom.Nodes;
 
 public class ScopeElement extends ContainerAwareReferable implements CompensateTargetable {
 
-	private final CompensateTargetable compensateTargetDelegate;
 	private NodeHelper scope;
 
 	public ScopeElement(Node node, ProcessContainer processContainer) {
@@ -34,21 +32,10 @@ public class ScopeElement extends ContainerAwareReferable implements CompensateT
 		} catch (IllegalArgumentException e) {
 			scope = new NodeHelper(node, "process");
 		}
-		compensateTargetDelegate = new CompensateTargetableImpl(node, processContainer);
 	}
 
 	public ScopeElement(Referable scope, ProcessContainer processContainer) {
 		this(scope.toXOM(), processContainer);
-	}
-
-	@Override
-	public boolean hasCompensationHandler() {
-		return compensateTargetDelegate.hasCompensationHandler();
-	}
-
-	@Override
-	public boolean hasFaultHandler() {
-		return compensateTargetDelegate.hasFaultHandler();
 	}
 
 	public List<ScopeElement> getPeerScopes() {
@@ -87,11 +74,6 @@ public class ScopeElement extends ContainerAwareReferable implements CompensateT
 			targets.add(new TargetElement(node, getProcessContainer()).getLinkName());
 		}
 		return targets;
-	}
-
-	@Override
-	public Referable getEnclosingFctBarrier() {
-		return compensateTargetDelegate.getEnclosingFctBarrier();
 	}
 
 	public List<VariableElement> getAllVariables() throws NavigationException {
