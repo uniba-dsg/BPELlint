@@ -2,6 +2,8 @@ package bpellint.core.model.bpel.mex;
 
 import java.util.List;
 
+import nu.xom.Node;
+import nu.xom.Nodes;
 import bpellint.core.model.ContainerAwareReferable;
 import bpellint.core.model.NavigationException;
 import bpellint.core.model.NodeHelper;
@@ -14,27 +16,19 @@ import bpellint.core.model.bpel.ScopeElement;
 import bpellint.core.model.bpel.var.FromPartElement;
 import bpellint.core.model.bpel.var.FromPartsElement;
 import bpellint.core.model.bpel.var.VariableLike;
-import bpellint.core.model.bpel.var.VariableLikeImpl;
 import bpellint.core.model.wsdl.OperationElement;
 import bpellint.core.model.wsdl.PortTypeElement;
-import bpellint.core.model.wsdl.PropertyAliasElement;
-import bpellint.core.model.wsdl.PropertyElement;
-
-import nu.xom.Node;
-import nu.xom.Nodes;
 
 public class OnEventElement extends ContainerAwareReferable implements
 		MessageActivity, VariableLike {
 
 	private final NodeHelper onEvent;
 	private final MessageActivity delegate;
-	private final VariableLikeImpl variableDelegate;
 
 	public OnEventElement(Node onEvent, ProcessContainer processContainer) {
 		super(onEvent, processContainer);
 		this.onEvent = new NodeHelper(onEvent, "onEvent");
 		this.delegate = new MessageActivityImpl(this, processContainer);
-		this.variableDelegate = new VariableLikeImpl(onEvent, processContainer);
 	}
 
 	@Override
@@ -87,26 +81,6 @@ public class OnEventElement extends ContainerAwareReferable implements
 	public String getMessageExchangeAttribute() {
 		return delegate.getMessageExchangeAttribute();
 	}
-	
-	@Override
-    public boolean hasVariableMessageType() {
-        return variableDelegate.hasVariableMessageType();
-    }
-	
-    @Override
-    public boolean hasVariableElement() {
-        return variableDelegate.hasVariableElement();
-    }
-
-	@Override
-	public String getVariableElement() {
-		return variableDelegate.getVariableElement();
-	}
-    
-    @Override
-    public String getVariableMessageType() {
-        return variableDelegate.getVariableMessageType();
-    }
 
 	@Override
 	public String getVariableName() {
@@ -153,12 +127,6 @@ public class OnEventElement extends ContainerAwareReferable implements
 			}
 		}
 		return new MessageExchangeElement(messageExchange.get(0), getProcessContainer());
-	}
-
-	@Override
-	public PropertyAliasElement resolvePropertyAlias(PropertyElement property)
-			throws NavigationException {
-		return variableDelegate.resolvePropertyAlias(property);
 	}
 
 }
