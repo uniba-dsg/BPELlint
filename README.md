@@ -1,4 +1,4 @@
-# BPELlint <img align="right" src="logos/BPELlint-logo.png" height="80" width="80"/>
+# BPELlint <img align="right" src="logos/BPELlint-logo.png" height="80" width="103"/>
 
 [![Build Status](https://travis-ci.org/uniba-dsg/BPELlint.png?branch=master)](https://travis-ci.org/uniba-dsg/BPELlint)
 
