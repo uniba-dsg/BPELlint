@@ -20,14 +20,18 @@ public class XmlFileLoader {
 
 	private final Builder builder = new Builder(new LocationAwareNodeFactory());
 
-	public XmlFile load(Path path) throws ParsingException, IOException {
+	public XmlFile load(Path path) throws IOException {
 		Objects.requireNonNull(path, "file must not be null");
 
 		Logger.info("Loading XML document from {0}", path);
-		return new XmlFile(builder.build(path.toFile()));
+		try {
+			return new XmlFile(builder.build(path.toFile()));
+		} catch (ParsingException e) {
+			throw new RuntimeException("Could not parse " + path, e);
+		}
 	}
 
-	public XmlFile loadImportNode(Node importNode) throws ParsingException, IOException {
+	public XmlFile loadImportNode(Node importNode) throws IOException {
 		// remove relative path elements like .. and .
 		Path nodeDirectory = getNodeDirectory(importNode);
 		String importPath = getImportPath(importNode);
