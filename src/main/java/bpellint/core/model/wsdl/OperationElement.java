@@ -63,8 +63,7 @@ public class OperationElement extends ContainerAwareReferable {
 	public PortTypeElement getPortType() throws NavigationException {
 		Nodes portType = toXOM().query("./..", CONTEXT);
 		try {
-			PortTypeElement portTypeElement = new PortTypeElement(portType.get(0), getProcessContainer());
-			return portTypeElement;
+			return new PortTypeElement(portType.get(0), getProcessContainer());
 		} catch (IllegalArgumentException e) {
 			throw new NavigationException("<portType> can not be found");
 		}
