@@ -61,10 +61,12 @@ public class PartnerLinkElement extends ContainerAwareReferable {
         		String partnerLinkTypeName = PrefixHelper
         				.removePrefix(partnerLinkTypeAttribute);
 
-        		Nodes partnerRolePortType = correspondingWsdlDom.query(
-        				"//plink:partnerLinkType[@name='" + partnerLinkTypeName
-        				+ "']/" + "plink:role[@name='" + getPartnerRole()
-        				+ "']/@portType", CONTEXT);
+                String role = getRoleByMessageActivityType(messageActivity);
+                String query = "//plink:partnerLinkType[@name='" + partnerLinkTypeName
+                        + "']/" + "plink:role[@name='" + role
+                        + "']/@portType";
+                Nodes partnerRolePortType = correspondingWsdlDom.query(
+                        query, CONTEXT);
 
         		if (partnerRolePortType.hasAny()) {
         			String portTypeQName = partnerRolePortType.get(0).getValue();
@@ -85,6 +87,14 @@ public class PartnerLinkElement extends ContainerAwareReferable {
 		}
 
         throw new NavigationException("PortType not defined in any WSDL.");
+    }
+
+    private String getRoleByMessageActivityType(MessageActivityImpl messageActivity) {
+        if(messageActivity.isReceiving()) {
+            return getMyRole();
+        } else {
+            return getPartnerRole();
+        }
     }
 
     public boolean hasNeitherMyRoleNorPartnerRole() {

@@ -893,7 +893,7 @@ public class SAViolationTestData {
                 {"Testcases/rules/SA00083/EmptyEventHandlersInScope.bpel", "83"},
 
                 {"Testcases/rules/SA00084/OnEventScopeDifferingPartnerLinkOperation_IGNORE_ME.bpel", "84, 10"},
-                {"Testcases/rules/SA00084/OnEventScopeDifferingPartnerLinkRole.bpel", "84"},
+                {"Testcases/rules/SA00084/OnEventScopeDifferingPartnerLinkRole.bpel", "84, 10"},
                 {"Testcases/rules/SA00084/OnEventScopeNoPartnerLink_IGNORE_ME.bpel", "84, 10"},
 
                 {"Testcases/rules/SA00085/OnEventFormPartsVariableElement.bpel", "85"},
