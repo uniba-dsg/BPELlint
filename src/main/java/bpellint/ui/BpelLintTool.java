@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 
 public class BpelLintTool {
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         try {
             CommandLineInterpreter input = new CommandLineInterpreter();
             CLIOptions options = input.parse(args);
