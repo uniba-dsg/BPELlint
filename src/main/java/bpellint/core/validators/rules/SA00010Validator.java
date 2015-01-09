@@ -78,7 +78,7 @@ public class SA00010Validator extends Validator {
 			boolean onEventValid = true;
 			String onEventVariableType = getType(nodeHelper, "messageType");
 			if (!"".equals(onEventVariableType)) {
-				onEventValid = onEventValid && isInAnyWsdl("message", onEventVariableType);
+				onEventValid = isInAnyWsdl("message", onEventVariableType);
 			}
 
 			onEventVariableType = getType(nodeHelper, "element");
@@ -86,9 +86,10 @@ public class SA00010Validator extends Validator {
 				onEventValid = onEventValid && isInAnyXsd("element", onEventVariableType);
 			}
 
-			if (!onEventValid) {
+			if(!onEventValid){
 				return false;
 			}
+			// fall through as onEvent is also a message activitiy
 		case "reply":
 		case "receive":
 		case "invoke":
@@ -136,8 +137,9 @@ public class SA00010Validator extends Validator {
 	private boolean inAnyFile(String definitionType, String type,
 			List<XmlFile> files) {
 		for (XmlFile domEntry : files) {
+			String query = "//*[@name='" + type + "']";
 			Nodes rightNamedElements = domEntry.getDocument().query(
-					"//*[@name='" + type + "']", CONTEXT);
+					query, CONTEXT);
 
 			if (isContained(definitionType, rightNamedElements)) {
 				return true;
