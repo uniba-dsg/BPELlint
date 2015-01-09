@@ -52,6 +52,7 @@ public class FunctionalValidatorTests {
         bpelFiles.addAll(new HappyPathTestCreator(Paths.get("Testcases/betsy")).list());
         bpelFiles.addAll(new HappyPathTestCreator(Paths.get("Testcases/calculator")).list());
         bpelFiles.addAll(new HappyPathTestCreator(Paths.get("Testcases/complex")).list());
+        bpelFiles.addAll(new HappyPathTestCreator(Paths.get("Testcases/openesb")).list());
 
         return bpelFiles;
     }
