@@ -21,8 +21,9 @@ public class SA00005Validator extends Validator {
                 PortTypeElement portType = messageActivity.getPortType();
 
                 String localPortTypeDefinition = PrefixHelper.removePrefix(messageActivity.getPortTypeAttribute());
+                String portTypeName = portType.getName();
 
-                if (!localPortTypeDefinition.isEmpty() && !portType.getName().equals(localPortTypeDefinition)) {
+                if (!localPortTypeDefinition.isEmpty() && !portTypeName.equals(localPortTypeDefinition)) {
                     addViolation(messageActivity);
                 }
             } catch (NavigationException e) {
