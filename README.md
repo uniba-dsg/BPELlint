@@ -1,8 +1,4 @@
-# BPELlint <img align="right" src="logos/BPELlint-logo.png" height="80" width="103"/>
-
-[![Build Status](https://travis-ci.org/uniba-dsg/BPELlint.png?branch=master)](https://travis-ci.org/uniba-dsg/BPELlint)
-
-[![Dependency Status](https://www.versioneye.com/user/projects/54c65c941a0071823a000284#tab-dependencies/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54c65c941a0071823a000284#tab-dependencies)
+# BPELlint [![Build Status](https://travis-ci.org/uniba-dsg/BPELlint.png?branch=master)](https://travis-ci.org/uniba-dsg/BPELlint) [![Dependency Status](https://www.versioneye.com/user/projects/54c65c941a0071823a000284#tab-dependencies/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54c65c941a0071823a000284#tab-dependencies) <img align="right" src="logos/BPELlint-logo.png" height="80" width="103"/>
 
 The tool **BPELlint** validates BPEL files according to 71 static analysis rules from the BPEL 2.0 specification.
 
