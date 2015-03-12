@@ -1,9 +1,13 @@
 package bpellint.core.validators.rules.infos;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class ErrorMessageRepository {
 
@@ -29,12 +33,21 @@ public class ErrorMessageRepository {
         }
     }
 
-    private String getDescriptionFileContent(String saNumber) throws IOException {
-        return new String(Files.readAllBytes(getFilePath(saNumber)));
-    }
+    private String getDescriptionFileContent(String saNumber) throws IOException, DescriptionNotFoundException {
+        InputStream stream = getClass().getResourceAsStream("/ruleDescriptions/" + saNumber + ".txt");
+        if(stream == null) {
+            throw new DescriptionNotFoundException("Could not find txt file");
+        }
 
-    private Path getFilePath(String saNumber) {
-        return Paths.get("Testcases").resolve("rules").resolve(saNumber).resolve(saNumber + ".txt");
+        StringBuilder result = new StringBuilder();
+        try(Scanner reader = new Scanner(stream)) {
+            while(reader.hasNextLine()) {
+                result.append(reader.nextLine());
+                result.append("\n");
+            }
+        }
+
+        return result.toString();
     }
 
 }

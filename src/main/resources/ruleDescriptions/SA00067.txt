@@ -1,0 +1,24 @@
+connected by more than one link
+@@@
+Two different links MUST NOT share the same source and target activities; that is, at most one link may be used to connect two activities.
+@@@
+FOREACH <sources>
+	FAIL UNLESS areAllSingleLinked(<sources>)
+
+areAllSingleLinked: <sources> -> boolean
+	SET $linkNames TO EMPTY_LIST
+	ADD ANY <sources><source>@linkName TO $linkNames
+	SET $flow TO PARENT PARENT PARENT <sources>
+	FOREACH $flow<targets>
+		SET $targetLinks TO EMPTY_LIST
+		ADD ANY <targets><target>@linkName TO $targetLinks
+		FOREACH $link IN $targetLinks
+			IF $link EQUALS ANY $linkNames
+				REMOVE $link FROM $targetLinks
+		ADD ANY <targets><target>@linkName TO $compare
+		FOREACH $link IN $targetLinks
+			REMOVE $link IN $compare
+		RETURN COUNT $compare LESS_THAN '2'
+@@@
+DoubleLink.bpel
+@@@

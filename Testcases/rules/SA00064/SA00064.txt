@@ -1,9 +1,0 @@
-<link>@name duplicated within <links>
-@@@
-For <flow>, a declared link’s name MUST be unique among all <link> names defined within the same immediately enclosing <flow>.
-@@@
-FOREACH <links>
-	FAIL IF DUPLICATE <links><link>@name
-@@@
-LinkNameDuplicate.bpel
-@@@

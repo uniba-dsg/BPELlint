@@ -4,7 +4,9 @@ import nu.xom.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class NodeHelper implements Referable {
 
@@ -195,23 +197,7 @@ public class NodeHelper implements Referable {
     }
 
     public String getXpath() {
-        return getXpath(node, "");
-    }
-
-    public static String getXpath(Node node, String xpath) {
-        if (node == null) {
-            return "";
-        }
-        String elementName = "";
-        if (node instanceof Element) {
-            elementName = ((Element) node).getLocalName();
-        }
-        Node parent = node.getParent();
-        if (parent == null) {
-            return xpath;
-        }
-        int index = ((ParentNode) parent).indexOf(node);
-        return getXpath(parent, String.format("/%s[%d]%s", elementName, index, xpath));
+        return Node2Xpath.getXpath(node);
     }
 
 }

@@ -1,9 +1,0 @@
-<source>@linkName duplicated within <sources>
-@@@
-An activity MAY declare itself to be the source of one or more links by including one or more <source> elements. Each <source> element MUST use a distinct link name.
-@@@
-FOREACH <sources>
-	FAIL IF DUPLICATE <sources><source>@linkName
-@@@
-LinkSourceDuplicate.bpel
-@@@

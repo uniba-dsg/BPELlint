@@ -4,7 +4,7 @@ import nu.xom.Element;
 import nu.xom.NodeFactory;
 import org.xml.sax.Locator;
 
-final class LocationAwareNodeFactory extends NodeFactory {
+final public class LocationAwareNodeFactory extends NodeFactory {
 
 	@Override
 	public Element startMakingElement(String arg0, String arg1, Locator locator) {

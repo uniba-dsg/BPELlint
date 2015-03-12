@@ -1,0 +1,24 @@
+no <link> with that link name in any parent <flow>
+@@@
+The value of the linkName attribute of <source> or <target> MUST be the name of a <link> declared in an enclosing <flow> activity.
+@@@
+$linkEntity = <source> | <target>
+
+FOREACH $linkEntity
+	FAIL UNLESS correspondingLinkExists($linkEntity, $linkEntity@linkName)
+
+correspondingLinkExists: $node, $linkEntity@linkName -> boolean
+	IF $node EQUALS <process>
+		RETURN 'false'
+	UNLESS $node EQUALS <flow>
+		correspondingLinkExists(PARENT $node, $linkEntity@linkName)
+	UNLESS $linkEntity@linkName EQUALS ANY $node<flows><flow>@name
+		correspondingLinkExists(PARENT $node, $linkEntity@linkName)
+	RETURN 'true'
+@@@
+TargetLinkIsMissing.bpel
+SourceLinkIsMissing.bpel
+NoLink.bpel
+TargetLinkOutOfFlow.bpel
+SourceLinkOutOfFlow.bpel
+@@@
