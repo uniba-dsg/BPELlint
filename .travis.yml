@@ -5,5 +5,5 @@ jdk:
 before_install:
  - chmod +x gradlew
 
- after_success:
-   - ./gradlew jacocoTestReport coveralls
+after_success:
+ - ./gradlew jacocoTestReport coveralls
