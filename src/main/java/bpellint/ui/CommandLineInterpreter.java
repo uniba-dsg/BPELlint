@@ -8,7 +8,7 @@ public class CommandLineInterpreter {
     public static final String HELP = "help";
 
     public CLIOptions parse(String[] args) throws ParseException {
-        CommandLineParser parser = new BasicParser();
+        CommandLineParser parser = new DefaultParser();
         try {
             CommandLine cmd = parser.parse(getOptions(), args);
 
