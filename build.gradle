@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     compile files(fileTree(dir: 'lib', include: '**/*.jar'))
+    compile 'org.tinylog:tinylog:1.0'
     compile 'com.google.guava:guava:18.0'
     compile "junit:junit:4.12"
     compile 'commons-cli:commons-cli:1.2'

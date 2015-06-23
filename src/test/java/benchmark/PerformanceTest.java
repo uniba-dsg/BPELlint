@@ -7,8 +7,8 @@ import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import org.junit.*;
 import org.junit.rules.TestRule;
 import org.junit.runners.MethodSorters;
+import org.pmw.tinylog.Level;
 import org.pmw.tinylog.Logger;
-import org.pmw.tinylog.LoggingLevel;
 
 import java.nio.file.Paths;
 
@@ -24,7 +24,7 @@ public class PerformanceTest {
 
     @Before
     public void setUp() throws Exception {
-        Logger.setLoggingLevel(LoggingLevel.OFF);
+        Logger.getConfiguration().level(Level.OFF);
         System.setProperty(EnvironmentVariableInterpreter.BPEL_LINT_SA_RULES_ENVIRONMENT_VARIABLE, "ALL");
     }
 
