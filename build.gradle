@@ -1,7 +1,12 @@
+plugins {
+  id "com.github.kt3k.coveralls" version "2.4.0"
+}
+
 apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "application"
+apply plugin: "jacoco"
 
 mainClassName = "bpellint.ui.BpelLintTool"
 
@@ -28,4 +33,11 @@ run {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.4'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
 }
