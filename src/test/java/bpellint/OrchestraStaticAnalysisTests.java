@@ -42,7 +42,7 @@ public class OrchestraStaticAnalysisTests extends FunctionalValidatorTests{
         new SeparateLineValidationResultPrinter(ps).print(validationResult);
         String data = "\n" + baos.toString() + "\n";
 
-        assertEquals("BPEL: " + bpel + data, violatedRules, validationResult.getViolatedRules());
+        assertEquals("BPEL: " + bpel + data, violatedRules, getViolatedRules(validationResult));
     }
 
 }
