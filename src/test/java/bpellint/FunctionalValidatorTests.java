@@ -1,6 +1,8 @@
 package bpellint;
 
 
+import api.ValidationResult;
+import api.Violation;
 import bpellint.core.validators.rules.infos.EnvironmentVariableInterpreter;
 import bpellint.ui.SeparateLineValidationResultPrinter;
 import bpellint.core.BpelLint;
@@ -45,6 +47,19 @@ public class FunctionalValidatorTests {
         return parsedElements;
     }
 
+    public static Set<Integer> getViolatedRules(ValidationResult result) {
+        if (result.isValid()) {
+            return Collections.emptySet();
+        } else {
+            Set<Integer> actualViolatedRules = new HashSet<>();
+            for (Violation violation : result.getViolations()) {
+                String withoutSA = violation.getConstraint().substring(2);
+                actualViolatedRules.add(Integer.parseInt(withoutSA));
+            }
+            return actualViolatedRules;
+        }
+    }
+
     @Parameterized.Parameters(name = "{index}: {0} violates {1}")
     public static Collection<Object[]> data() throws IOException {
         List<Object[]> bpelFiles = new LinkedList<>();
@@ -76,7 +91,7 @@ public class FunctionalValidatorTests {
         new SeparateLineValidationResultPrinter(ps).print(validationResult);
         String data = "\n" + baos.toString() + "\n";
 
-        assertEquals("BPEL: " + bpel + data, violatedRules, validationResult.getViolatedRules());
+        assertEquals("BPEL: " + bpel + data, violatedRules, getViolatedRules(validationResult));
     }
 
 }
